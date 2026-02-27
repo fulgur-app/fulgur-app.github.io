@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["require_api_auth"],"struct":["AuthenticatedApiUser","AuthenticatedUser"]};

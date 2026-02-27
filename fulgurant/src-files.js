@@ -1,0 +1,2 @@
+createSrcSidebar('[["Fulgurant",["",[],["main.rs"]]],["fulgurant",["",[["admin",[],["handlers.rs","middleware.rs"]],["api",[],["handlers.rs","middleware.rs","sse.rs"]],["auth",[],["handlers.rs","middleware.rs"]],["setup",[],["handlers.rs","middleware.rs"]]],["access_token.rs","api_key.rs","database_backup.rs","devices.rs","errors.rs","handlers.rs","lib.rs","logging.rs","mail.rs","session.rs","shares.rs","templates.rs","users.rs","utils.rs","verification_code.rs"]]]]');
+//{"start":19,"fragment_lengths":[33,417]}

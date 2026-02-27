@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["get_backup_folder","is_daily_backup_enabled","make_daily_backup_task","perform_backup"]};

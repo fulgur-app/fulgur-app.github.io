@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["cancel_edit_device","create_device","delete_device","delete_share","get_device_edit_form","get_device_renew_form","get_settings","index","not_found","renew_device","update_device","update_email_step_1","update_email_step_2","update_name"],"struct":["AppState","UpdateEmailRequest","UpdateNameRequest","VerifyEmailChangeRequest"]};

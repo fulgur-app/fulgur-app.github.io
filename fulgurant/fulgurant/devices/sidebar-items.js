@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["MAX_DEVICES_PER_USER","MAX_DEVICE_NAME_LEN","MAX_DEVICE_TYPE_LEN"],"fn":["get_max_devices_per_user"],"struct":["CreateDevice","Device","DeviceRepository","RenewDevice","UpdateDevice"]};

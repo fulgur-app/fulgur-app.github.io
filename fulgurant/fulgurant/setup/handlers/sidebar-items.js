@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["create_admin","get_setup_page"],"struct":["SetupRequest"]};

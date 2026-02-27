@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["get_log_folder","init_logging","sanitize_for_log"]};

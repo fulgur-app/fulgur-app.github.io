@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["MAX_FILE_SIZE","SHARE_VALIDITY_DAYS"],"fn":["calculate_file_hash","get_share_validity_days"],"struct":["CreateShare","DisplayShare","Share","ShareRepository"]};

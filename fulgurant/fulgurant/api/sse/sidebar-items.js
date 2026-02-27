@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ChannelTag"],"fn":["handle_sse_connection"],"struct":["ShareNotification"],"type":["SseChannelManager"]};

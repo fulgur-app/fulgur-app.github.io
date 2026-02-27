@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["VERIFICATION_CODE_MAX_ATTEMPTS"],"enum":["VerificationResult"],"fn":["generate_code","hash_code","verify_code"],"struct":["VerificationCode","VerificationCodeRepository"]};

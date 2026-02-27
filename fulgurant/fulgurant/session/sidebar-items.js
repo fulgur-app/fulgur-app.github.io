@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["SESSION_FORCE_PASSWORD_UPDATE","SESSION_USER_ID"],"fn":["get_session_user_id"]};
