@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["SupportedLanguage"],"fn":["from_language","language_from_filename","language_registry_name","pretty_name","register_external_languages","to_language"]};

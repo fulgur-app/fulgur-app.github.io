@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["files","languages","settings","shared_state","state_operations","state_persistence","sync","utils","window_manager"],"struct":["Fulgur","SearchState"]};

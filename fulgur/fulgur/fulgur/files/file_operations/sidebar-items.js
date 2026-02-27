@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["detect_encoding_and_decode"]};

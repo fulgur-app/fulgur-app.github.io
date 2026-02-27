@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["file_operations","file_watcher"]};

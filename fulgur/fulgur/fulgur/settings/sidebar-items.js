@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["AppSettings","EditorSettings","MarkdownSettings","RecentFiles","Settings","SynchronizationSettings","ThemeFile","ThemeInfo","Themes"]};

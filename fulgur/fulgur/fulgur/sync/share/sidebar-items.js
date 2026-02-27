@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["MAX_SYNC_SHARE_PAYLOAD_BYTES"],"fn":["decompress_content","get_devices","get_icon","share_file"],"struct":["ShareFileRequest","ShareResult"],"type":["Device"]};

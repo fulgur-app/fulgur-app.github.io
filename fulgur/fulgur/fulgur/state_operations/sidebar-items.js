@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["TabRestoreDecision"],"fn":["determine_tab_restore_strategy"]};

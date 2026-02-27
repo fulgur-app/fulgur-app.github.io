@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["create_window","main","url_to_path"],"static":["GLOBAL"],"struct":["Assets"]};
