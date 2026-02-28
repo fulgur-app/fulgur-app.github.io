@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["build_app"],"mod":["access_token","admin","api","api_key","auth","database_backup","devices","errors","handlers","logging","mail","session","setup","shares","templates","users","utils","verification_code"]};
+window.SIDEBAR_ITEMS = {"fn":["build_app"],"mod":["access_token","admin","api","api_key","auth","csp","database_backup","devices","errors","handlers","logging","mail","session","setup","shares","templates","users","utils","verification_code"]};
