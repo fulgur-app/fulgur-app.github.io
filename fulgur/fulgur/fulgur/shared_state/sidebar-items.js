@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["SharedAppState","SyncState"]};
+window.SIDEBAR_ITEMS = {"struct":["SharedAppState","SyncState"],"type":["PendingDevicesResult"]};

@@ -545,229 +545,245 @@
 <a href=#545 id=545 data-nosnippet>545</a>                    ));
 <a href=#546 id=546 data-nosnippet>546</a>                    sync_items.push(SettingItem::render({
 <a href=#547 id=547 data-nosnippet>547</a>                        <span class="kw">let </span>entity = entity.clone();
-<a href=#548 id=548 data-nosnippet>548</a>                        <span class="kw">move </span>|_options, _window, _cx| {
-<a href=#549 id=549 data-nosnippet>549</a>                            h_flex()
-<a href=#550 id=550 data-nosnippet>550</a>                                .w_full()
-<a href=#551 id=551 data-nosnippet>551</a>                                .justify_end()
-<a href=#552 id=552 data-nosnippet>552</a>                                .mt_2()
-<a href=#553 id=553 data-nosnippet>553</a>                                .child(
-<a href=#554 id=554 data-nosnippet>554</a>                                    Button::new(<span class="string">"begin-synchronization-button"</span>)
-<a href=#555 id=555 data-nosnippet>555</a>                                        .label(<span class="string">"Begin Synchronization"</span>)
-<a href=#556 id=556 data-nosnippet>556</a>                                        .primary()
-<a href=#557 id=557 data-nosnippet>557</a>                                        .small()
-<a href=#558 id=558 data-nosnippet>558</a>                                        .cursor_pointer()
-<a href=#559 id=559 data-nosnippet>559</a>                                        .on_click({
-<a href=#560 id=560 data-nosnippet>560</a>                                            <span class="kw">let </span>entity = entity.clone();
-<a href=#561 id=561 data-nosnippet>561</a>                                            <span class="kw">move </span>|<span class="kw">_</span>, _window, cx| {
-<a href=#562 id=562 data-nosnippet>562</a>                                                <span class="kw">let </span>shared = cx.global::&lt;<span class="kw">crate</span>::fulgur::shared_state::SharedAppState&gt;();
-<a href=#563 id=563 data-nosnippet>563</a>                                                <span class="comment">// Clear cached token to force fresh authentication
-<a href=#564 id=564 data-nosnippet>564</a>                                                </span>shared.sync_state.token_state.clear_token();
-<a href=#565 id=565 data-nosnippet>565</a>                                                perform_initial_synchronization(entity.clone(), cx);
-<a href=#566 id=566 data-nosnippet>566</a>                                            }
-<a href=#567 id=567 data-nosnippet>567</a>                                        }),
-<a href=#568 id=568 data-nosnippet>568</a>                                )
-<a href=#569 id=569 data-nosnippet>569</a>                                .into_any_element()
-<a href=#570 id=570 data-nosnippet>570</a>                        }
-<a href=#571 id=571 data-nosnippet>571</a>                    }));
-<a href=#572 id=572 data-nosnippet>572</a>                    sync_items
-<a href=#573 id=573 data-nosnippet>573</a>                }),
-<a href=#574 id=574 data-nosnippet>574</a>            ])
-<a href=#575 id=575 data-nosnippet>575</a>    }
-<a href=#576 id=576 data-nosnippet>576</a>
-<a href=#577 id=577 data-nosnippet>577</a>    <span class="doccomment">/// Create the Themes settings page
-<a href=#578 id=578 data-nosnippet>578</a>    ///
-<a href=#579 id=579 data-nosnippet>579</a>    /// ### Arguments
-<a href=#580 id=580 data-nosnippet>580</a>    /// - `entity`: The Fulgur entity
-<a href=#581 id=581 data-nosnippet>581</a>    /// - `themes`: The themes to display
-<a href=#582 id=582 data-nosnippet>582</a>    ///
-<a href=#583 id=583 data-nosnippet>583</a>    /// ### Returns
-<a href=#584 id=584 data-nosnippet>584</a>    /// - `SettingPage`: The Themes settings page
-<a href=#585 id=585 data-nosnippet>585</a>    </span><span class="kw">fn </span>create_themes_page(entity: Entity&lt;<span class="self">Self</span>&gt;, themes: <span class="kw-2">&amp;</span>Themes) -&gt; SettingPage {
-<a href=#586 id=586 data-nosnippet>586</a>        <span class="kw">let </span><span class="kw-2">mut </span>user_theme_items = Vec::new();
-<a href=#587 id=587 data-nosnippet>587</a>        <span class="kw">let </span><span class="kw-2">mut </span>default_theme_items = Vec::new();
-<a href=#588 id=588 data-nosnippet>588</a>        <span class="kw">for </span>theme <span class="kw">in </span><span class="kw-2">&amp;</span>themes.user_themes {
-<a href=#589 id=589 data-nosnippet>589</a>            <span class="kw">let </span>theme_name = theme.name.clone();
-<a href=#590 id=590 data-nosnippet>590</a>            <span class="kw">let </span>theme_author = theme.author.clone();
-<a href=#591 id=591 data-nosnippet>591</a>            <span class="kw">let </span>theme_path = theme.path.clone();
-<a href=#592 id=592 data-nosnippet>592</a>            <span class="kw">let </span>themes_info = theme
-<a href=#593 id=593 data-nosnippet>593</a>                .themes
-<a href=#594 id=594 data-nosnippet>594</a>                .iter()
-<a href=#595 id=595 data-nosnippet>595</a>                .map(|t| <span class="macro">format!</span>(<span class="string">"{} ({})"</span>, t.name, t.mode))
-<a href=#596 id=596 data-nosnippet>596</a>                .collect::&lt;Vec&lt;String&gt;&gt;()
-<a href=#597 id=597 data-nosnippet>597</a>                .join(<span class="string">", "</span>);
-<a href=#598 id=598 data-nosnippet>598</a>            <span class="kw">let </span>button_id = SharedString::from(<span class="macro">format!</span>(<span class="string">"delete-theme-{}"</span>, theme_name));
-<a href=#599 id=599 data-nosnippet>599</a>            user_theme_items.push(SettingItem::render({
-<a href=#600 id=600 data-nosnippet>600</a>                <span class="kw">let </span>entity = entity.clone();
-<a href=#601 id=601 data-nosnippet>601</a>                <span class="kw">move </span>|_options, _window, cx| {
-<a href=#602 id=602 data-nosnippet>602</a>                    <span class="kw">let </span>theme_path = theme_path.clone();
-<a href=#603 id=603 data-nosnippet>603</a>                    <span class="kw">let </span>entity_clone = entity.clone();
-<a href=#604 id=604 data-nosnippet>604</a>                    h_flex()
-<a href=#605 id=605 data-nosnippet>605</a>                        .w_full()
-<a href=#606 id=606 data-nosnippet>606</a>                        .justify_between()
-<a href=#607 id=607 data-nosnippet>607</a>                        .gap_3()
-<a href=#608 id=608 data-nosnippet>608</a>                        .child(
-<a href=#609 id=609 data-nosnippet>609</a>                            v_flex()
-<a href=#610 id=610 data-nosnippet>610</a>                                .gap_1()
-<a href=#611 id=611 data-nosnippet>611</a>                                .child(
-<a href=#612 id=612 data-nosnippet>612</a>                                    div()
-<a href=#613 id=613 data-nosnippet>613</a>                                        .font_semibold()
-<a href=#614 id=614 data-nosnippet>614</a>                                        .child(<span class="macro">format!</span>(<span class="string">"{} by {}"</span>, theme_name, theme_author)),
-<a href=#615 id=615 data-nosnippet>615</a>                                )
-<a href=#616 id=616 data-nosnippet>616</a>                                .child(
-<a href=#617 id=617 data-nosnippet>617</a>                                    div()
-<a href=#618 id=618 data-nosnippet>618</a>                                        .text_xs()
-<a href=#619 id=619 data-nosnippet>619</a>                                        .text_color(cx.theme().muted_foreground)
-<a href=#620 id=620 data-nosnippet>620</a>                                        .child(themes_info.clone()),
-<a href=#621 id=621 data-nosnippet>621</a>                                ),
-<a href=#622 id=622 data-nosnippet>622</a>                        )
-<a href=#623 id=623 data-nosnippet>623</a>                        .child(
-<a href=#624 id=624 data-nosnippet>624</a>                            Button::new(button_id.clone())
-<a href=#625 id=625 data-nosnippet>625</a>                                .icon(CustomIcon::Close)
-<a href=#626 id=626 data-nosnippet>626</a>                                .small()
-<a href=#627 id=627 data-nosnippet>627</a>                                .cursor_pointer()
-<a href=#628 id=628 data-nosnippet>628</a>                                .on_click(<span class="kw">move </span>|<span class="kw">_</span>, _window, cx| {
-<a href=#629 id=629 data-nosnippet>629</a>                                    <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = fs::remove_file(<span class="kw-2">&amp;</span>theme_path) {
-<a href=#630 id=630 data-nosnippet>630</a>                                        <span class="macro">log::error!</span>(
-<a href=#631 id=631 data-nosnippet>631</a>                                            <span class="string">"Failed to delete theme file {}: {}"</span>,
-<a href=#632 id=632 data-nosnippet>632</a>                                            theme_path.display(),
-<a href=#633 id=633 data-nosnippet>633</a>                                            e
-<a href=#634 id=634 data-nosnippet>634</a>                                        );
-<a href=#635 id=635 data-nosnippet>635</a>                                    } <span class="kw">else </span>{
-<a href=#636 id=636 data-nosnippet>636</a>                                        <span class="macro">log::info!</span>(<span class="string">"Deleted theme file: {:?}"</span>, theme_path);
-<a href=#637 id=637 data-nosnippet>637</a>                                    }
-<a href=#638 id=638 data-nosnippet>638</a>                                    <span class="kw">let </span>entity_for_update = entity_clone.clone();
-<a href=#639 id=639 data-nosnippet>639</a>                                    entity_clone.update(cx, |this, cx| {
-<a href=#640 id=640 data-nosnippet>640</a>                                        themes::reload_themes_and_update(
-<a href=#641 id=641 data-nosnippet>641</a>                                            <span class="kw-2">&amp;</span>this.settings,
-<a href=#642 id=642 data-nosnippet>642</a>                                            entity_for_update,
-<a href=#643 id=643 data-nosnippet>643</a>                                            cx,
-<a href=#644 id=644 data-nosnippet>644</a>                                        );
-<a href=#645 id=645 data-nosnippet>645</a>                                    });
-<a href=#646 id=646 data-nosnippet>646</a>                                }),
-<a href=#647 id=647 data-nosnippet>647</a>                        )
-<a href=#648 id=648 data-nosnippet>648</a>                        .into_any_element()
-<a href=#649 id=649 data-nosnippet>649</a>                }
-<a href=#650 id=650 data-nosnippet>650</a>            }));
-<a href=#651 id=651 data-nosnippet>651</a>        }
-<a href=#652 id=652 data-nosnippet>652</a>        <span class="kw">for </span>theme <span class="kw">in </span><span class="kw-2">&amp;</span>themes.default_themes {
-<a href=#653 id=653 data-nosnippet>653</a>            <span class="kw">let </span>theme_name = theme.name.clone();
-<a href=#654 id=654 data-nosnippet>654</a>            <span class="kw">let </span>theme_author = theme.author.clone();
-<a href=#655 id=655 data-nosnippet>655</a>            <span class="kw">let </span>themes_info = theme
-<a href=#656 id=656 data-nosnippet>656</a>                .themes
-<a href=#657 id=657 data-nosnippet>657</a>                .iter()
-<a href=#658 id=658 data-nosnippet>658</a>                .map(|t| <span class="macro">format!</span>(<span class="string">"{} ({})"</span>, t.name, t.mode))
-<a href=#659 id=659 data-nosnippet>659</a>                .collect::&lt;Vec&lt;String&gt;&gt;()
-<a href=#660 id=660 data-nosnippet>660</a>                .join(<span class="string">", "</span>);
-<a href=#661 id=661 data-nosnippet>661</a>            default_theme_items.push(SettingItem::render(<span class="kw">move </span>|_options, _window, cx| {
-<a href=#662 id=662 data-nosnippet>662</a>                v_flex()
-<a href=#663 id=663 data-nosnippet>663</a>                    .w_full()
-<a href=#664 id=664 data-nosnippet>664</a>                    .gap_1()
-<a href=#665 id=665 data-nosnippet>665</a>                    .child(
-<a href=#666 id=666 data-nosnippet>666</a>                        div()
-<a href=#667 id=667 data-nosnippet>667</a>                            .font_semibold()
-<a href=#668 id=668 data-nosnippet>668</a>                            .child(<span class="macro">format!</span>(<span class="string">"{} by {} (Default)"</span>, theme_name, theme_author)),
-<a href=#669 id=669 data-nosnippet>669</a>                    )
-<a href=#670 id=670 data-nosnippet>670</a>                    .child(
-<a href=#671 id=671 data-nosnippet>671</a>                        div()
-<a href=#672 id=672 data-nosnippet>672</a>                            .text_xs()
-<a href=#673 id=673 data-nosnippet>673</a>                            .text_color(cx.theme().muted_foreground)
-<a href=#674 id=674 data-nosnippet>674</a>                            .child(themes_info.clone()),
-<a href=#675 id=675 data-nosnippet>675</a>                    )
-<a href=#676 id=676 data-nosnippet>676</a>                    .into_any_element()
-<a href=#677 id=677 data-nosnippet>677</a>            }));
-<a href=#678 id=678 data-nosnippet>678</a>        }
-<a href=#679 id=679 data-nosnippet>679</a>        <span class="kw">let </span><span class="kw-2">mut </span>groups = Vec::new();
-<a href=#680 id=680 data-nosnippet>680</a>        <span class="kw">if </span>!user_theme_items.is_empty() {
-<a href=#681 id=681 data-nosnippet>681</a>            groups.push(
-<a href=#682 id=682 data-nosnippet>682</a>                SettingGroup::new()
-<a href=#683 id=683 data-nosnippet>683</a>                    .title(<span class="string">"User Themes"</span>)
-<a href=#684 id=684 data-nosnippet>684</a>                    .items(user_theme_items),
-<a href=#685 id=685 data-nosnippet>685</a>            );
-<a href=#686 id=686 data-nosnippet>686</a>        }
-<a href=#687 id=687 data-nosnippet>687</a>        <span class="kw">if </span>!default_theme_items.is_empty() {
-<a href=#688 id=688 data-nosnippet>688</a>            groups.push(
-<a href=#689 id=689 data-nosnippet>689</a>                SettingGroup::new()
-<a href=#690 id=690 data-nosnippet>690</a>                    .title(<span class="string">"Default Themes"</span>)
-<a href=#691 id=691 data-nosnippet>691</a>                    .items(default_theme_items),
-<a href=#692 id=692 data-nosnippet>692</a>            );
-<a href=#693 id=693 data-nosnippet>693</a>        }
-<a href=#694 id=694 data-nosnippet>694</a>        SettingPage::new(<span class="string">"Themes"</span>).groups(groups)
-<a href=#695 id=695 data-nosnippet>695</a>    }
-<a href=#696 id=696 data-nosnippet>696</a>
-<a href=#697 id=697 data-nosnippet>697</a>    <span class="doccomment">/// Create settings pages using the Settings component
-<a href=#698 id=698 data-nosnippet>698</a>    ///
-<a href=#699 id=699 data-nosnippet>699</a>    /// ### Arguments
-<a href=#700 id=700 data-nosnippet>700</a>    /// - `window`: The window
-<a href=#701 id=701 data-nosnippet>701</a>    /// - `cx`: The context
-<a href=#702 id=702 data-nosnippet>702</a>    ///
-<a href=#703 id=703 data-nosnippet>703</a>    /// ### Returns
-<a href=#704 id=704 data-nosnippet>704</a>    /// - `Vec&lt;SettingPage&gt;`: The settings pages
-<a href=#705 id=705 data-nosnippet>705</a>    </span><span class="kw">fn </span>create_settings_pages(
-<a href=#706 id=706 data-nosnippet>706</a>        <span class="kw-2">&amp;</span><span class="self">self</span>,
-<a href=#707 id=707 data-nosnippet>707</a>        _window: <span class="kw-2">&amp;mut </span>Window,
-<a href=#708 id=708 data-nosnippet>708</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
-<a href=#709 id=709 data-nosnippet>709</a>    ) -&gt; Vec&lt;SettingPage&gt; {
-<a href=#710 id=710 data-nosnippet>710</a>        <span class="kw">let </span>entity = cx.entity();
-<a href=#711 id=711 data-nosnippet>711</a>        <span class="kw">let </span><span class="kw-2">mut </span>pages = <span class="macro">vec!</span>[
-<a href=#712 id=712 data-nosnippet>712</a>            <span class="self">Self</span>::create_editor_page(entity.clone()),
-<a href=#713 id=713 data-nosnippet>713</a>            <span class="self">Self</span>::create_application_page(entity.clone()),
-<a href=#714 id=714 data-nosnippet>714</a>        ];
-<a href=#715 id=715 data-nosnippet>715</a>        <span class="kw">let </span>themes = <span class="self">self</span>.shared_state(cx).themes.lock().clone();
-<a href=#716 id=716 data-nosnippet>716</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>themes) = themes {
-<a href=#717 id=717 data-nosnippet>717</a>            pages.push(<span class="self">Self</span>::create_themes_page(entity, themes));
-<a href=#718 id=718 data-nosnippet>718</a>        }
-<a href=#719 id=719 data-nosnippet>719</a>        pages
-<a href=#720 id=720 data-nosnippet>720</a>    }
-<a href=#721 id=721 data-nosnippet>721</a>
-<a href=#722 id=722 data-nosnippet>722</a>    <span class="doccomment">/// Render the settings
-<a href=#723 id=723 data-nosnippet>723</a>    ///
-<a href=#724 id=724 data-nosnippet>724</a>    /// ### Arguments
-<a href=#725 id=725 data-nosnippet>725</a>    /// - `window`: The window
-<a href=#726 id=726 data-nosnippet>726</a>    /// - `cx`: The context
-<a href=#727 id=727 data-nosnippet>727</a>    ///
-<a href=#728 id=728 data-nosnippet>728</a>    /// ### Returns
-<a href=#729 id=729 data-nosnippet>729</a>    /// - `impl IntoElement`: The settings UI
-<a href=#730 id=730 data-nosnippet>730</a>    </span><span class="kw">pub fn </span>render_settings(<span class="kw-2">&amp;</span><span class="self">self</span>, window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) -&gt; <span class="kw">impl </span>IntoElement {
-<a href=#731 id=731 data-nosnippet>731</a>        div()
-<a href=#732 id=732 data-nosnippet>732</a>            .id(<span class="string">"settings-scroll-container"</span>)
-<a href=#733 id=733 data-nosnippet>733</a>            .size_full()
-<a href=#734 id=734 data-nosnippet>734</a>            .overflow_x_scroll()
-<a href=#735 id=735 data-nosnippet>735</a>            .child(
-<a href=#736 id=736 data-nosnippet>736</a>                v_flex()
-<a href=#737 id=737 data-nosnippet>737</a>                    .w(px(<span class="number">980.0</span>))
-<a href=#738 id=738 data-nosnippet>738</a>                    .h_full()
-<a href=#739 id=739 data-nosnippet>739</a>                    .mx_auto()
-<a href=#740 id=740 data-nosnippet>740</a>                    .text_color(cx.theme().foreground)
-<a href=#741 id=741 data-nosnippet>741</a>                    .text_size(px(<span class="number">12.0</span>))
-<a href=#742 id=742 data-nosnippet>742</a>                    .border_r_1()
-<a href=#743 id=743 data-nosnippet>743</a>                    .border_color(cx.theme().border)
-<a href=#744 id=744 data-nosnippet>744</a>                    .child(
-<a href=#745 id=745 data-nosnippet>745</a>                        SettingsComponent::new(<span class="string">"fulgur-settings"</span>)
-<a href=#746 id=746 data-nosnippet>746</a>                            .with_size(Size::Medium)
-<a href=#747 id=747 data-nosnippet>747</a>                            .with_group_variant(GroupBoxVariant::Outline)
-<a href=#748 id=748 data-nosnippet>748</a>                            .pages(<span class="self">self</span>.create_settings_pages(window, cx)),
-<a href=#749 id=749 data-nosnippet>749</a>                    ),
-<a href=#750 id=750 data-nosnippet>750</a>            )
-<a href=#751 id=751 data-nosnippet>751</a>    }
-<a href=#752 id=752 data-nosnippet>752</a>
-<a href=#753 id=753 data-nosnippet>753</a>    <span class="doccomment">/// Clear the recent files
-<a href=#754 id=754 data-nosnippet>754</a>    ///
-<a href=#755 id=755 data-nosnippet>755</a>    /// ### Arguments
-<a href=#756 id=756 data-nosnippet>756</a>    /// - `cx`: The context
-<a href=#757 id=757 data-nosnippet>757</a>    </span><span class="kw">pub fn </span>clear_recent_files(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
-<a href=#758 id=758 data-nosnippet>758</a>        <span class="self">self</span>.settings.recent_files.clear();
-<a href=#759 id=759 data-nosnippet>759</a>        <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = <span class="self">self</span>.update_and_propagate_settings(cx) {
-<a href=#760 id=760 data-nosnippet>760</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to save settings: {}"</span>, e);
-<a href=#761 id=761 data-nosnippet>761</a>        }
-<a href=#762 id=762 data-nosnippet>762</a>        <span class="kw">let </span>menus = build_menus(
-<a href=#763 id=763 data-nosnippet>763</a>            <span class="self">self</span>.settings.recent_files.get_files(),
-<a href=#764 id=764 data-nosnippet>764</a>            <span class="kw">if let </span><span class="prelude-val">Some</span>(info) = <span class="self">self</span>.shared_state(cx).update_info.lock().clone() {
-<a href=#765 id=765 data-nosnippet>765</a>                <span class="prelude-val">Some</span>(info.download_url)
-<a href=#766 id=766 data-nosnippet>766</a>            } <span class="kw">else </span>{
-<a href=#767 id=767 data-nosnippet>767</a>                <span class="prelude-val">None
-<a href=#768 id=768 data-nosnippet>768</a>            </span>},
-<a href=#769 id=769 data-nosnippet>769</a>        );
-<a href=#770 id=770 data-nosnippet>770</a>        cx.set_menus(menus);
-<a href=#771 id=771 data-nosnippet>771</a>    }
-<a href=#772 id=772 data-nosnippet>772</a>}
+<a href=#548 id=548 data-nosnippet>548</a>                        <span class="kw">move </span>|_options, _window, cx| {
+<a href=#549 id=549 data-nosnippet>549</a>                            <span class="kw">let </span>is_connecting = cx
+<a href=#550 id=550 data-nosnippet>550</a>                                .global::&lt;<span class="kw">crate</span>::fulgur::shared_state::SharedAppState&gt;()
+<a href=#551 id=551 data-nosnippet>551</a>                                .sync_state
+<a href=#552 id=552 data-nosnippet>552</a>                                .connection_status
+<a href=#553 id=553 data-nosnippet>553</a>                                .lock()
+<a href=#554 id=554 data-nosnippet>554</a>                                .is_connecting();
+<a href=#555 id=555 data-nosnippet>555</a>                            <span class="kw">let </span>label = <span class="kw">if </span>is_connecting {
+<a href=#556 id=556 data-nosnippet>556</a>                                <span class="string">"Connecting..."
+<a href=#557 id=557 data-nosnippet>557</a>                            </span>} <span class="kw">else </span>{
+<a href=#558 id=558 data-nosnippet>558</a>                                <span class="string">"Begin Synchronization"
+<a href=#559 id=559 data-nosnippet>559</a>                            </span>};
+<a href=#560 id=560 data-nosnippet>560</a>                            h_flex()
+<a href=#561 id=561 data-nosnippet>561</a>                                .w_full()
+<a href=#562 id=562 data-nosnippet>562</a>                                .justify_end()
+<a href=#563 id=563 data-nosnippet>563</a>                                .mt_2()
+<a href=#564 id=564 data-nosnippet>564</a>                                .child({
+<a href=#565 id=565 data-nosnippet>565</a>                                    <span class="kw">let </span><span class="kw-2">mut </span>btn = Button::new(<span class="string">"begin-synchronization-button"</span>)
+<a href=#566 id=566 data-nosnippet>566</a>                                        .label(label)
+<a href=#567 id=567 data-nosnippet>567</a>                                        .primary()
+<a href=#568 id=568 data-nosnippet>568</a>                                        .small()
+<a href=#569 id=569 data-nosnippet>569</a>                                        .loading(is_connecting);
+<a href=#570 id=570 data-nosnippet>570</a>                                    <span class="kw">if </span>!is_connecting {
+<a href=#571 id=571 data-nosnippet>571</a>                                        btn = btn.cursor_pointer().on_click({
+<a href=#572 id=572 data-nosnippet>572</a>                                            <span class="kw">let </span>entity = entity.clone();
+<a href=#573 id=573 data-nosnippet>573</a>                                            <span class="kw">move </span>|<span class="kw">_</span>, _window, cx| {
+<a href=#574 id=574 data-nosnippet>574</a>                                                <span class="kw">let </span>shared = cx.global::&lt;<span class="kw">crate</span>::fulgur::shared_state::SharedAppState&gt;();
+<a href=#575 id=575 data-nosnippet>575</a>                                                shared.sync_state.token_state.clear_token();
+<a href=#576 id=576 data-nosnippet>576</a>                                                perform_initial_synchronization(
+<a href=#577 id=577 data-nosnippet>577</a>                                                    entity.clone(),
+<a href=#578 id=578 data-nosnippet>578</a>                                                    cx,
+<a href=#579 id=579 data-nosnippet>579</a>                                                );
+<a href=#580 id=580 data-nosnippet>580</a>                                            }
+<a href=#581 id=581 data-nosnippet>581</a>                                        });
+<a href=#582 id=582 data-nosnippet>582</a>                                    }
+<a href=#583 id=583 data-nosnippet>583</a>                                    btn
+<a href=#584 id=584 data-nosnippet>584</a>                                })
+<a href=#585 id=585 data-nosnippet>585</a>                                .into_any_element()
+<a href=#586 id=586 data-nosnippet>586</a>                        }
+<a href=#587 id=587 data-nosnippet>587</a>                    }));
+<a href=#588 id=588 data-nosnippet>588</a>                    sync_items
+<a href=#589 id=589 data-nosnippet>589</a>                }),
+<a href=#590 id=590 data-nosnippet>590</a>            ])
+<a href=#591 id=591 data-nosnippet>591</a>    }
+<a href=#592 id=592 data-nosnippet>592</a>
+<a href=#593 id=593 data-nosnippet>593</a>    <span class="doccomment">/// Create the Themes settings page
+<a href=#594 id=594 data-nosnippet>594</a>    ///
+<a href=#595 id=595 data-nosnippet>595</a>    /// ### Arguments
+<a href=#596 id=596 data-nosnippet>596</a>    /// - `entity`: The Fulgur entity
+<a href=#597 id=597 data-nosnippet>597</a>    /// - `themes`: The themes to display
+<a href=#598 id=598 data-nosnippet>598</a>    ///
+<a href=#599 id=599 data-nosnippet>599</a>    /// ### Returns
+<a href=#600 id=600 data-nosnippet>600</a>    /// - `SettingPage`: The Themes settings page
+<a href=#601 id=601 data-nosnippet>601</a>    </span><span class="kw">fn </span>create_themes_page(entity: Entity&lt;<span class="self">Self</span>&gt;, themes: <span class="kw-2">&amp;</span>Themes) -&gt; SettingPage {
+<a href=#602 id=602 data-nosnippet>602</a>        <span class="kw">let </span><span class="kw-2">mut </span>user_theme_items = Vec::new();
+<a href=#603 id=603 data-nosnippet>603</a>        <span class="kw">let </span><span class="kw-2">mut </span>default_theme_items = Vec::new();
+<a href=#604 id=604 data-nosnippet>604</a>        <span class="kw">for </span>theme <span class="kw">in </span><span class="kw-2">&amp;</span>themes.user_themes {
+<a href=#605 id=605 data-nosnippet>605</a>            <span class="kw">let </span>theme_name = theme.name.clone();
+<a href=#606 id=606 data-nosnippet>606</a>            <span class="kw">let </span>theme_author = theme.author.clone();
+<a href=#607 id=607 data-nosnippet>607</a>            <span class="kw">let </span>theme_path = theme.path.clone();
+<a href=#608 id=608 data-nosnippet>608</a>            <span class="kw">let </span>themes_info = theme
+<a href=#609 id=609 data-nosnippet>609</a>                .themes
+<a href=#610 id=610 data-nosnippet>610</a>                .iter()
+<a href=#611 id=611 data-nosnippet>611</a>                .map(|t| <span class="macro">format!</span>(<span class="string">"{} ({})"</span>, t.name, t.mode))
+<a href=#612 id=612 data-nosnippet>612</a>                .collect::&lt;Vec&lt;String&gt;&gt;()
+<a href=#613 id=613 data-nosnippet>613</a>                .join(<span class="string">", "</span>);
+<a href=#614 id=614 data-nosnippet>614</a>            <span class="kw">let </span>button_id = SharedString::from(<span class="macro">format!</span>(<span class="string">"delete-theme-{}"</span>, theme_name));
+<a href=#615 id=615 data-nosnippet>615</a>            user_theme_items.push(SettingItem::render({
+<a href=#616 id=616 data-nosnippet>616</a>                <span class="kw">let </span>entity = entity.clone();
+<a href=#617 id=617 data-nosnippet>617</a>                <span class="kw">move </span>|_options, _window, cx| {
+<a href=#618 id=618 data-nosnippet>618</a>                    <span class="kw">let </span>theme_path = theme_path.clone();
+<a href=#619 id=619 data-nosnippet>619</a>                    <span class="kw">let </span>entity_clone = entity.clone();
+<a href=#620 id=620 data-nosnippet>620</a>                    h_flex()
+<a href=#621 id=621 data-nosnippet>621</a>                        .w_full()
+<a href=#622 id=622 data-nosnippet>622</a>                        .justify_between()
+<a href=#623 id=623 data-nosnippet>623</a>                        .gap_3()
+<a href=#624 id=624 data-nosnippet>624</a>                        .child(
+<a href=#625 id=625 data-nosnippet>625</a>                            v_flex()
+<a href=#626 id=626 data-nosnippet>626</a>                                .gap_1()
+<a href=#627 id=627 data-nosnippet>627</a>                                .child(
+<a href=#628 id=628 data-nosnippet>628</a>                                    div()
+<a href=#629 id=629 data-nosnippet>629</a>                                        .font_semibold()
+<a href=#630 id=630 data-nosnippet>630</a>                                        .child(<span class="macro">format!</span>(<span class="string">"{} by {}"</span>, theme_name, theme_author)),
+<a href=#631 id=631 data-nosnippet>631</a>                                )
+<a href=#632 id=632 data-nosnippet>632</a>                                .child(
+<a href=#633 id=633 data-nosnippet>633</a>                                    div()
+<a href=#634 id=634 data-nosnippet>634</a>                                        .text_xs()
+<a href=#635 id=635 data-nosnippet>635</a>                                        .text_color(cx.theme().muted_foreground)
+<a href=#636 id=636 data-nosnippet>636</a>                                        .child(themes_info.clone()),
+<a href=#637 id=637 data-nosnippet>637</a>                                ),
+<a href=#638 id=638 data-nosnippet>638</a>                        )
+<a href=#639 id=639 data-nosnippet>639</a>                        .child(
+<a href=#640 id=640 data-nosnippet>640</a>                            Button::new(button_id.clone())
+<a href=#641 id=641 data-nosnippet>641</a>                                .icon(CustomIcon::Close)
+<a href=#642 id=642 data-nosnippet>642</a>                                .small()
+<a href=#643 id=643 data-nosnippet>643</a>                                .cursor_pointer()
+<a href=#644 id=644 data-nosnippet>644</a>                                .on_click(<span class="kw">move </span>|<span class="kw">_</span>, _window, cx| {
+<a href=#645 id=645 data-nosnippet>645</a>                                    <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = fs::remove_file(<span class="kw-2">&amp;</span>theme_path) {
+<a href=#646 id=646 data-nosnippet>646</a>                                        <span class="macro">log::error!</span>(
+<a href=#647 id=647 data-nosnippet>647</a>                                            <span class="string">"Failed to delete theme file {}: {}"</span>,
+<a href=#648 id=648 data-nosnippet>648</a>                                            theme_path.display(),
+<a href=#649 id=649 data-nosnippet>649</a>                                            e
+<a href=#650 id=650 data-nosnippet>650</a>                                        );
+<a href=#651 id=651 data-nosnippet>651</a>                                    } <span class="kw">else </span>{
+<a href=#652 id=652 data-nosnippet>652</a>                                        <span class="macro">log::info!</span>(<span class="string">"Deleted theme file: {:?}"</span>, theme_path);
+<a href=#653 id=653 data-nosnippet>653</a>                                    }
+<a href=#654 id=654 data-nosnippet>654</a>                                    <span class="kw">let </span>entity_for_update = entity_clone.clone();
+<a href=#655 id=655 data-nosnippet>655</a>                                    entity_clone.update(cx, |this, cx| {
+<a href=#656 id=656 data-nosnippet>656</a>                                        themes::reload_themes_and_update(
+<a href=#657 id=657 data-nosnippet>657</a>                                            <span class="kw-2">&amp;</span>this.settings,
+<a href=#658 id=658 data-nosnippet>658</a>                                            entity_for_update,
+<a href=#659 id=659 data-nosnippet>659</a>                                            cx,
+<a href=#660 id=660 data-nosnippet>660</a>                                        );
+<a href=#661 id=661 data-nosnippet>661</a>                                    });
+<a href=#662 id=662 data-nosnippet>662</a>                                }),
+<a href=#663 id=663 data-nosnippet>663</a>                        )
+<a href=#664 id=664 data-nosnippet>664</a>                        .into_any_element()
+<a href=#665 id=665 data-nosnippet>665</a>                }
+<a href=#666 id=666 data-nosnippet>666</a>            }));
+<a href=#667 id=667 data-nosnippet>667</a>        }
+<a href=#668 id=668 data-nosnippet>668</a>        <span class="kw">for </span>theme <span class="kw">in </span><span class="kw-2">&amp;</span>themes.default_themes {
+<a href=#669 id=669 data-nosnippet>669</a>            <span class="kw">let </span>theme_name = theme.name.clone();
+<a href=#670 id=670 data-nosnippet>670</a>            <span class="kw">let </span>theme_author = theme.author.clone();
+<a href=#671 id=671 data-nosnippet>671</a>            <span class="kw">let </span>themes_info = theme
+<a href=#672 id=672 data-nosnippet>672</a>                .themes
+<a href=#673 id=673 data-nosnippet>673</a>                .iter()
+<a href=#674 id=674 data-nosnippet>674</a>                .map(|t| <span class="macro">format!</span>(<span class="string">"{} ({})"</span>, t.name, t.mode))
+<a href=#675 id=675 data-nosnippet>675</a>                .collect::&lt;Vec&lt;String&gt;&gt;()
+<a href=#676 id=676 data-nosnippet>676</a>                .join(<span class="string">", "</span>);
+<a href=#677 id=677 data-nosnippet>677</a>            default_theme_items.push(SettingItem::render(<span class="kw">move </span>|_options, _window, cx| {
+<a href=#678 id=678 data-nosnippet>678</a>                v_flex()
+<a href=#679 id=679 data-nosnippet>679</a>                    .w_full()
+<a href=#680 id=680 data-nosnippet>680</a>                    .gap_1()
+<a href=#681 id=681 data-nosnippet>681</a>                    .child(
+<a href=#682 id=682 data-nosnippet>682</a>                        div()
+<a href=#683 id=683 data-nosnippet>683</a>                            .font_semibold()
+<a href=#684 id=684 data-nosnippet>684</a>                            .child(<span class="macro">format!</span>(<span class="string">"{} by {} (Default)"</span>, theme_name, theme_author)),
+<a href=#685 id=685 data-nosnippet>685</a>                    )
+<a href=#686 id=686 data-nosnippet>686</a>                    .child(
+<a href=#687 id=687 data-nosnippet>687</a>                        div()
+<a href=#688 id=688 data-nosnippet>688</a>                            .text_xs()
+<a href=#689 id=689 data-nosnippet>689</a>                            .text_color(cx.theme().muted_foreground)
+<a href=#690 id=690 data-nosnippet>690</a>                            .child(themes_info.clone()),
+<a href=#691 id=691 data-nosnippet>691</a>                    )
+<a href=#692 id=692 data-nosnippet>692</a>                    .into_any_element()
+<a href=#693 id=693 data-nosnippet>693</a>            }));
+<a href=#694 id=694 data-nosnippet>694</a>        }
+<a href=#695 id=695 data-nosnippet>695</a>        <span class="kw">let </span><span class="kw-2">mut </span>groups = Vec::new();
+<a href=#696 id=696 data-nosnippet>696</a>        <span class="kw">if </span>!user_theme_items.is_empty() {
+<a href=#697 id=697 data-nosnippet>697</a>            groups.push(
+<a href=#698 id=698 data-nosnippet>698</a>                SettingGroup::new()
+<a href=#699 id=699 data-nosnippet>699</a>                    .title(<span class="string">"User Themes"</span>)
+<a href=#700 id=700 data-nosnippet>700</a>                    .items(user_theme_items),
+<a href=#701 id=701 data-nosnippet>701</a>            );
+<a href=#702 id=702 data-nosnippet>702</a>        }
+<a href=#703 id=703 data-nosnippet>703</a>        <span class="kw">if </span>!default_theme_items.is_empty() {
+<a href=#704 id=704 data-nosnippet>704</a>            groups.push(
+<a href=#705 id=705 data-nosnippet>705</a>                SettingGroup::new()
+<a href=#706 id=706 data-nosnippet>706</a>                    .title(<span class="string">"Default Themes"</span>)
+<a href=#707 id=707 data-nosnippet>707</a>                    .items(default_theme_items),
+<a href=#708 id=708 data-nosnippet>708</a>            );
+<a href=#709 id=709 data-nosnippet>709</a>        }
+<a href=#710 id=710 data-nosnippet>710</a>        SettingPage::new(<span class="string">"Themes"</span>).groups(groups)
+<a href=#711 id=711 data-nosnippet>711</a>    }
+<a href=#712 id=712 data-nosnippet>712</a>
+<a href=#713 id=713 data-nosnippet>713</a>    <span class="doccomment">/// Create settings pages using the Settings component
+<a href=#714 id=714 data-nosnippet>714</a>    ///
+<a href=#715 id=715 data-nosnippet>715</a>    /// ### Arguments
+<a href=#716 id=716 data-nosnippet>716</a>    /// - `window`: The window
+<a href=#717 id=717 data-nosnippet>717</a>    /// - `cx`: The context
+<a href=#718 id=718 data-nosnippet>718</a>    ///
+<a href=#719 id=719 data-nosnippet>719</a>    /// ### Returns
+<a href=#720 id=720 data-nosnippet>720</a>    /// - `Vec&lt;SettingPage&gt;`: The settings pages
+<a href=#721 id=721 data-nosnippet>721</a>    </span><span class="kw">fn </span>create_settings_pages(
+<a href=#722 id=722 data-nosnippet>722</a>        <span class="kw-2">&amp;</span><span class="self">self</span>,
+<a href=#723 id=723 data-nosnippet>723</a>        _window: <span class="kw-2">&amp;mut </span>Window,
+<a href=#724 id=724 data-nosnippet>724</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
+<a href=#725 id=725 data-nosnippet>725</a>    ) -&gt; Vec&lt;SettingPage&gt; {
+<a href=#726 id=726 data-nosnippet>726</a>        <span class="kw">let </span>entity = cx.entity();
+<a href=#727 id=727 data-nosnippet>727</a>        <span class="kw">let </span><span class="kw-2">mut </span>pages = <span class="macro">vec!</span>[
+<a href=#728 id=728 data-nosnippet>728</a>            <span class="self">Self</span>::create_editor_page(entity.clone()),
+<a href=#729 id=729 data-nosnippet>729</a>            <span class="self">Self</span>::create_application_page(entity.clone()),
+<a href=#730 id=730 data-nosnippet>730</a>        ];
+<a href=#731 id=731 data-nosnippet>731</a>        <span class="kw">let </span>themes = <span class="self">self</span>.shared_state(cx).themes.lock().clone();
+<a href=#732 id=732 data-nosnippet>732</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>themes) = themes {
+<a href=#733 id=733 data-nosnippet>733</a>            pages.push(<span class="self">Self</span>::create_themes_page(entity, themes));
+<a href=#734 id=734 data-nosnippet>734</a>        }
+<a href=#735 id=735 data-nosnippet>735</a>        pages
+<a href=#736 id=736 data-nosnippet>736</a>    }
+<a href=#737 id=737 data-nosnippet>737</a>
+<a href=#738 id=738 data-nosnippet>738</a>    <span class="doccomment">/// Render the settings
+<a href=#739 id=739 data-nosnippet>739</a>    ///
+<a href=#740 id=740 data-nosnippet>740</a>    /// ### Arguments
+<a href=#741 id=741 data-nosnippet>741</a>    /// - `window`: The window
+<a href=#742 id=742 data-nosnippet>742</a>    /// - `cx`: The context
+<a href=#743 id=743 data-nosnippet>743</a>    ///
+<a href=#744 id=744 data-nosnippet>744</a>    /// ### Returns
+<a href=#745 id=745 data-nosnippet>745</a>    /// - `impl IntoElement`: The settings UI
+<a href=#746 id=746 data-nosnippet>746</a>    </span><span class="kw">pub fn </span>render_settings(<span class="kw-2">&amp;</span><span class="self">self</span>, window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) -&gt; <span class="kw">impl </span>IntoElement {
+<a href=#747 id=747 data-nosnippet>747</a>        div()
+<a href=#748 id=748 data-nosnippet>748</a>            .id(<span class="string">"settings-scroll-container"</span>)
+<a href=#749 id=749 data-nosnippet>749</a>            .size_full()
+<a href=#750 id=750 data-nosnippet>750</a>            .overflow_x_scroll()
+<a href=#751 id=751 data-nosnippet>751</a>            .child(
+<a href=#752 id=752 data-nosnippet>752</a>                v_flex()
+<a href=#753 id=753 data-nosnippet>753</a>                    .w(px(<span class="number">980.0</span>))
+<a href=#754 id=754 data-nosnippet>754</a>                    .h_full()
+<a href=#755 id=755 data-nosnippet>755</a>                    .mx_auto()
+<a href=#756 id=756 data-nosnippet>756</a>                    .text_color(cx.theme().foreground)
+<a href=#757 id=757 data-nosnippet>757</a>                    .text_size(px(<span class="number">12.0</span>))
+<a href=#758 id=758 data-nosnippet>758</a>                    .border_r_1()
+<a href=#759 id=759 data-nosnippet>759</a>                    .border_color(cx.theme().border)
+<a href=#760 id=760 data-nosnippet>760</a>                    .child(
+<a href=#761 id=761 data-nosnippet>761</a>                        SettingsComponent::new(<span class="string">"fulgur-settings"</span>)
+<a href=#762 id=762 data-nosnippet>762</a>                            .with_size(Size::Medium)
+<a href=#763 id=763 data-nosnippet>763</a>                            .with_group_variant(GroupBoxVariant::Outline)
+<a href=#764 id=764 data-nosnippet>764</a>                            .pages(<span class="self">self</span>.create_settings_pages(window, cx)),
+<a href=#765 id=765 data-nosnippet>765</a>                    ),
+<a href=#766 id=766 data-nosnippet>766</a>            )
+<a href=#767 id=767 data-nosnippet>767</a>    }
+<a href=#768 id=768 data-nosnippet>768</a>
+<a href=#769 id=769 data-nosnippet>769</a>    <span class="doccomment">/// Clear the recent files
+<a href=#770 id=770 data-nosnippet>770</a>    ///
+<a href=#771 id=771 data-nosnippet>771</a>    /// ### Arguments
+<a href=#772 id=772 data-nosnippet>772</a>    /// - `cx`: The context
+<a href=#773 id=773 data-nosnippet>773</a>    </span><span class="kw">pub fn </span>clear_recent_files(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
+<a href=#774 id=774 data-nosnippet>774</a>        <span class="self">self</span>.settings.recent_files.clear();
+<a href=#775 id=775 data-nosnippet>775</a>        <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = <span class="self">self</span>.update_and_propagate_settings(cx) {
+<a href=#776 id=776 data-nosnippet>776</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to save settings: {}"</span>, e);
+<a href=#777 id=777 data-nosnippet>777</a>        }
+<a href=#778 id=778 data-nosnippet>778</a>        <span class="kw">let </span>menus = build_menus(
+<a href=#779 id=779 data-nosnippet>779</a>            <span class="self">self</span>.settings.recent_files.get_files(),
+<a href=#780 id=780 data-nosnippet>780</a>            <span class="kw">if let </span><span class="prelude-val">Some</span>(info) = <span class="self">self</span>.shared_state(cx).update_info.lock().clone() {
+<a href=#781 id=781 data-nosnippet>781</a>                <span class="prelude-val">Some</span>(info.download_url)
+<a href=#782 id=782 data-nosnippet>782</a>            } <span class="kw">else </span>{
+<a href=#783 id=783 data-nosnippet>783</a>                <span class="prelude-val">None
+<a href=#784 id=784 data-nosnippet>784</a>            </span>},
+<a href=#785 id=785 data-nosnippet>785</a>        );
+<a href=#786 id=786 data-nosnippet>786</a>        cx.set_menus(menus);
+<a href=#787 id=787 data-nosnippet>787</a>    }
+<a href=#788 id=788 data-nosnippet>788</a>}
 </code></pre></div></section></main></body></html>
