@@ -1,9 +1,9 @@
 (function() {
-    var implementors = Object.fromEntries([["fulgur",[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.93.1/core/ops/drop/trait.Drop.html\" title=\"trait core::ops::drop::Drop\">Drop</a> for <a class=\"struct\" href=\"fulgur/fulgur/files/file_watcher/struct.FileWatcher.html\" title=\"struct fulgur::fulgur::files::file_watcher::FileWatcher\">FileWatcher</a>"]]]]);
+    const implementors = Object.fromEntries([["fulgur",[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.94.0/core/ops/drop/trait.Drop.html\" title=\"trait core::ops::drop::Drop\">Drop</a> for <a class=\"struct\" href=\"fulgur/fulgur/files/file_watcher/struct.FileWatcher.html\" title=\"struct fulgur::fulgur::files::file_watcher::FileWatcher\">FileWatcher</a>",0]]]]);
     if (window.register_implementors) {
         window.register_implementors(implementors);
     } else {
         window.pending_implementors = implementors;
     }
 })()
-//{"start":57,"fragment_lengths":[331]}
+//{"start":59,"fragment_lengths":[333]}

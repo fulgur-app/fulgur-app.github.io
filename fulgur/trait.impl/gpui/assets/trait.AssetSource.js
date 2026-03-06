@@ -1,9 +1,9 @@
 (function() {
-    var implementors = Object.fromEntries([["Fulgur",[["impl AssetSource for <a class=\"struct\" href=\"Fulgur/struct.Assets.html\" title=\"struct Fulgur::Assets\">Assets</a>"]]]]);
+    const implementors = Object.fromEntries([["Fulgur",[["impl AssetSource for <a class=\"struct\" href=\"Fulgur/struct.Assets.html\" title=\"struct Fulgur::Assets\">Assets</a>",0]]]]);
     if (window.register_implementors) {
         window.register_implementors(implementors);
     } else {
         window.pending_implementors = implementors;
     }
 })()
-//{"start":57,"fragment_lengths":[135]}
+//{"start":59,"fragment_lengths":[137]}
