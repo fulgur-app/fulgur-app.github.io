@@ -561,7 +561,7 @@
 <a href=#561 id=561 data-nosnippet>561</a>                <span class="self">self</span>.perform_search(window, cx);
 <a href=#562 id=562 data-nosnippet>562</a>                <span class="comment">// Restore focus to the search input after perform_search
 <a href=#563 id=563 data-nosnippet>563</a>                </span><span class="kw">let </span>search_focus = <span class="self">self</span>.search_state.search_input.read(cx).focus_handle(cx);
-<a href=#564 id=564 data-nosnippet>564</a>                window.focus(<span class="kw-2">&amp;</span>search_focus);
+<a href=#564 id=564 data-nosnippet>564</a>                window.focus(<span class="kw-2">&amp;</span>search_focus, cx);
 <a href=#565 id=565 data-nosnippet>565</a>            }
 <a href=#566 id=566 data-nosnippet>566</a>        }
 <a href=#567 id=567 data-nosnippet>567</a>    }

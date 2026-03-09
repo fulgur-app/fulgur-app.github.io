@@ -17,25 +17,25 @@
 <a href=#17 id=17 data-nosnippet>17</a>        <span class="kw">let </span>input_clone = input.clone();
 <a href=#18 id=18 data-nosnippet>18</a>        window.open_dialog(cx.deref_mut(), <span class="kw">move </span>|modal, window, cx| {
 <a href=#19 id=19 data-nosnippet>19</a>            <span class="kw">let </span>focus_handle = input.read(cx).focus_handle(cx);
-<a href=#20 id=20 data-nosnippet>20</a>            window.focus(<span class="kw-2">&amp;</span>focus_handle);
+<a href=#20 id=20 data-nosnippet>20</a>            window.focus(<span class="kw-2">&amp;</span>focus_handle, cx);
 <a href=#21 id=21 data-nosnippet>21</a>            <span class="kw">let </span>entity_ok = entity.clone();
 <a href=#22 id=22 data-nosnippet>22</a>            <span class="kw">let </span>input_ok = input_clone.clone();
 <a href=#23 id=23 data-nosnippet>23</a>            <span class="kw">let </span>path_browser = path_browser.clone();
 <a href=#24 id=24 data-nosnippet>24</a>            modal
 <a href=#25 id=25 data-nosnippet>25</a>                .title(div().text_size(px(<span class="number">16.</span>)).child(<span class="string">"Open file from path..."</span>))
 <a href=#26 id=26 data-nosnippet>26</a>                .keyboard(<span class="bool-val">true</span>)
-<a href=#27 id=27 data-nosnippet>27</a>                .confirm()
-<a href=#28 id=28 data-nosnippet>28</a>                .overlay_closable(<span class="bool-val">false</span>)
-<a href=#29 id=29 data-nosnippet>29</a>                .close_button(<span class="bool-val">false</span>)
-<a href=#30 id=30 data-nosnippet>30</a>                .button_props(
-<a href=#31 id=31 data-nosnippet>31</a>                    DialogButtonProps::default()
-<a href=#32 id=32 data-nosnippet>32</a>                        .cancel_text(<span class="string">"Cancel"</span>)
-<a href=#33 id=33 data-nosnippet>33</a>                        .cancel_variant(ButtonVariant::Secondary)
-<a href=#34 id=34 data-nosnippet>34</a>                        .ok_text(<span class="string">"Open"</span>)
-<a href=#35 id=35 data-nosnippet>35</a>                        .ok_variant(ButtonVariant::Primary),
-<a href=#36 id=36 data-nosnippet>36</a>                )
+<a href=#27 id=27 data-nosnippet>27</a>                .button_props(
+<a href=#28 id=28 data-nosnippet>28</a>                    DialogButtonProps::default()
+<a href=#29 id=29 data-nosnippet>29</a>                        .show_cancel(<span class="bool-val">true</span>)
+<a href=#30 id=30 data-nosnippet>30</a>                        .cancel_text(<span class="string">"Cancel"</span>)
+<a href=#31 id=31 data-nosnippet>31</a>                        .cancel_variant(ButtonVariant::Secondary)
+<a href=#32 id=32 data-nosnippet>32</a>                        .ok_text(<span class="string">"Open"</span>)
+<a href=#33 id=33 data-nosnippet>33</a>                        .ok_variant(ButtonVariant::Primary),
+<a href=#34 id=34 data-nosnippet>34</a>                )
+<a href=#35 id=35 data-nosnippet>35</a>                .overlay_closable(<span class="bool-val">false</span>)
+<a href=#36 id=36 data-nosnippet>36</a>                .close_button(<span class="bool-val">false</span>)
 <a href=#37 id=37 data-nosnippet>37</a>                .child(path_browser)
-<a href=#38 id=38 data-nosnippet>38</a>                .on_ok(<span class="kw">move </span>|<span class="kw">_</span>, window, cx| {
+<a href=#38 id=38 data-nosnippet>38</a>                .on_ok(<span class="kw">move </span>|<span class="kw">_</span>, window: <span class="kw-2">&amp;mut </span>Window, cx| {
 <a href=#39 id=39 data-nosnippet>39</a>                    <span class="kw">let </span>path_str = input_ok.read(cx).value().trim().to_string();
 <a href=#40 id=40 data-nosnippet>40</a>                    <span class="kw">if </span>path_str.is_empty() {
 <a href=#41 id=41 data-nosnippet>41</a>                        window.push_notification(

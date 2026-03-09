@@ -7,7 +7,7 @@
 <a href=#7 id=7 data-nosnippet>7</a>    },
 <a href=#8 id=8 data-nosnippet>8</a>};
 <a href=#9 id=9 data-nosnippet>9</a><span class="kw">use </span>gpui::<span class="kw-2">*</span>;
-<a href=#10 id=10 data-nosnippet>10</a><span class="kw">use </span>gpui_component::WindowExt;
+<a href=#10 id=10 data-nosnippet>10</a><span class="kw">use </span>gpui_component::{WindowExt, dialog::DialogButtonProps};
 <a href=#11 id=11 data-nosnippet>11</a><span class="kw">use </span>std::{ops::DerefMut, path::PathBuf};
 <a href=#12 id=12 data-nosnippet>12</a>
 <a href=#13 id=13 data-nosnippet>13</a><span class="kw">impl </span>Fulgur {
@@ -182,14 +182,14 @@
 <a href=#182 id=182 data-nosnippet>182</a>    /// ### Arguments
 <a href=#183 id=183 data-nosnippet>183</a>    /// - `window`: The window to focus the tab in
 <a href=#184 id=184 data-nosnippet>184</a>    /// - `cx`: The application context
-<a href=#185 id=185 data-nosnippet>185</a>    </span><span class="kw">pub fn </span>focus_active_tab(<span class="kw-2">&amp;</span><span class="self">self</span>, window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;</span>App) {
+<a href=#185 id=185 data-nosnippet>185</a>    </span><span class="kw">pub fn </span>focus_active_tab(<span class="kw-2">&amp;</span><span class="self">self</span>, window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>App) {
 <a href=#186 id=186 data-nosnippet>186</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(active_tab_index) = <span class="self">self</span>.active_tab_index
 <a href=#187 id=187 data-nosnippet>187</a>            &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(active_tab) = <span class="self">self</span>.tabs.get(active_tab_index)
 <a href=#188 id=188 data-nosnippet>188</a>        {
 <a href=#189 id=189 data-nosnippet>189</a>            <span class="kw">match </span>active_tab {
 <a href=#190 id=190 data-nosnippet>190</a>                Tab::Editor(editor_tab) =&gt; {
 <a href=#191 id=191 data-nosnippet>191</a>                    <span class="kw">let </span>focus_handle = editor_tab.content.read(cx).focus_handle(cx);
-<a href=#192 id=192 data-nosnippet>192</a>                    window.focus(<span class="kw-2">&amp;</span>focus_handle);
+<a href=#192 id=192 data-nosnippet>192</a>                    window.focus(<span class="kw-2">&amp;</span>focus_handle, cx);
 <a href=#193 id=193 data-nosnippet>193</a>                }
 <a href=#194 id=194 data-nosnippet>194</a>                Tab::Settings(<span class="kw">_</span>) =&gt; {
 <a href=#195 id=195 data-nosnippet>195</a>                    <span class="comment">// Settings don't have focusable content, just keep window focus
@@ -492,7 +492,7 @@
 <a href=#492 id=492 data-nosnippet>492</a>            modal
 <a href=#493 id=493 data-nosnippet>493</a>                .title(div().text_size(px(<span class="number">16.</span>)).child(<span class="string">"Unsaved changed"</span>))
 <a href=#494 id=494 data-nosnippet>494</a>                .keyboard(<span class="bool-val">true</span>)
-<a href=#495 id=495 data-nosnippet>495</a>                .confirm()
+<a href=#495 id=495 data-nosnippet>495</a>                .button_props(DialogButtonProps::default().show_cancel(<span class="bool-val">true</span>))
 <a href=#496 id=496 data-nosnippet>496</a>                .on_ok(<span class="kw">move </span>|<span class="kw">_</span>, window, cx| {
 <a href=#497 id=497 data-nosnippet>497</a>                    <span class="kw">let </span>entity_ok_footer = entity_ok.clone();
 <a href=#498 id=498 data-nosnippet>498</a>                    <span class="kw">let </span>on_confirm_inner = on_confirm_clone.clone();
@@ -530,8 +530,8 @@
 <a href=#530 id=530 data-nosnippet>530</a>                modal
 <a href=#531 id=531 data-nosnippet>531</a>                    .title(div().text_size(px(<span class="number">16.</span>)).child(<span class="string">"Quit Fulgur"</span>))
 <a href=#532 id=532 data-nosnippet>532</a>                    .keyboard(<span class="bool-val">true</span>)
-<a href=#533 id=533 data-nosnippet>533</a>                    .confirm()
-<a href=#534 id=534 data-nosnippet>534</a>                    .on_ok(<span class="kw">move </span>|<span class="kw">_</span>, window, cx| {
+<a href=#533 id=533 data-nosnippet>533</a>                    .button_props(DialogButtonProps::default().show_cancel(<span class="bool-val">true</span>))
+<a href=#534 id=534 data-nosnippet>534</a>                    .on_ok(<span class="kw">move </span>|<span class="kw">_</span>, window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>App| {
 <a href=#535 id=535 data-nosnippet>535</a>                        <span class="kw">let </span>entity_ok_footer = entity_ok.clone();
 <a href=#536 id=536 data-nosnippet>536</a>                        <span class="kw">let </span>save_result =
 <a href=#537 id=537 data-nosnippet>537</a>                            entity_ok_footer.update(cx, |this, cx| this.save_state(cx, window));

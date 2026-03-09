@@ -122,10 +122,10 @@
 <a href=#122 id=122 data-nosnippet>122</a>        })
 <a href=#123 id=123 data-nosnippet>123</a>        .collect();
 <a href=#124 id=124 data-nosnippet>124</a>
-<a href=#125 id=125 data-nosnippet>125</a>    <span class="kw">let </span>app = Application::new().with_assets(Assets);
+<a href=#125 id=125 data-nosnippet>125</a>    <span class="kw">let </span>app = gpui_platform::application().with_assets(Assets);
 <a href=#126 id=126 data-nosnippet>126</a>    <span class="kw">let </span>pending_files: Arc&lt;Mutex&lt;Vec&lt;PathBuf&gt;&gt;&gt; = Arc::new(Mutex::new(Vec::new()));
 <a href=#127 id=127 data-nosnippet>127</a>    <span class="kw">let </span>pending_files_clone = pending_files.clone();
-<a href=#128 id=128 data-nosnippet>128</a>    app.on_open_urls(<span class="kw">move </span>|urls| {
+<a href=#128 id=128 data-nosnippet>128</a>    app.on_open_urls(<span class="kw">move </span>|urls: Vec&lt;String&gt;| {
 <a href=#129 id=129 data-nosnippet>129</a>        <span class="macro">log::debug!</span>(<span class="string">"Received {} file URL(s) from macOS open event"</span>, urls.len());
 <a href=#130 id=130 data-nosnippet>130</a>        <span class="kw">let </span>file_paths: Vec&lt;PathBuf&gt; = urls.iter().filter_map(|url| url_to_path(url)).collect();
 <a href=#131 id=131 data-nosnippet>131</a>
@@ -215,8 +215,8 @@
 <a href=#215 id=215 data-nosnippet>215</a>                    display_id_u32 == saved_id
 <a href=#216 id=216 data-nosnippet>216</a>                })
 <a href=#217 id=217 data-nosnippet>217</a>                .map(|display| display.id())
-<a href=#218 id=218 data-nosnippet>218</a>        })<span class="question-mark">?
-<a href=#219 id=219 data-nosnippet>219</a>    </span>} <span class="kw">else </span>{
+<a href=#218 id=218 data-nosnippet>218</a>        })
+<a href=#219 id=219 data-nosnippet>219</a>    } <span class="kw">else </span>{
 <a href=#220 id=220 data-nosnippet>220</a>        <span class="prelude-val">None
 <a href=#221 id=221 data-nosnippet>221</a>    </span>};
 <a href=#222 id=222 data-nosnippet>222</a>    <span class="kw">let </span>window_options = gpui::WindowOptions {
@@ -255,7 +255,7 @@
 <a href=#255 id=255 data-nosnippet>255</a>                });
 <a href=#256 id=256 data-nosnippet>256</a>            }
 <a href=#257 id=257 data-nosnippet>257</a>        } <span class="kw">else </span>{
-<a href=#258 id=258 data-nosnippet>258</a>            view.read(cx).focus_active_tab(window, cx);
+<a href=#258 id=258 data-nosnippet>258</a>            view.update(cx, |fulgur, cx| fulgur.focus_active_tab(window, cx));
 <a href=#259 id=259 data-nosnippet>259</a>        }
 <a href=#260 id=260 data-nosnippet>260</a>        cx.new(|cx| gpui_component::Root::new(view, window, cx))
 <a href=#261 id=261 data-nosnippet>261</a>    })<span class="question-mark">?</span>;
@@ -269,7 +269,7 @@
 <a href=#269 id=269 data-nosnippet>269</a>            cx.global::&lt;fulgur::shared_state::SharedAppState&gt;()
 <a href=#270 id=270 data-nosnippet>270</a>                .update_info
 <a href=#271 id=271 data-nosnippet>271</a>                .clone()
-<a href=#272 id=272 data-nosnippet>272</a>        })<span class="question-mark">?</span>;
+<a href=#272 id=272 data-nosnippet>272</a>        });
 <a href=#273 id=273 data-nosnippet>273</a>        <span class="kw">let </span>current_version = <span class="macro">env!</span>(<span class="string">"CARGO_PKG_VERSION"</span>).to_string();
 <a href=#274 id=274 data-nosnippet>274</a>        std::thread::spawn(<span class="kw">move </span>|| {
 <a href=#275 id=275 data-nosnippet>275</a>            std::thread::sleep(std::time::Duration::from_secs(<span class="number">5</span>));

@@ -23,7 +23,7 @@
 <a href=#23 id=23 data-nosnippet>23</a>    /// - `Entity&lt;CustomTitleBar&gt;`: The new custom title bar
 <a href=#24 id=24 data-nosnippet>24</a>    </span><span class="kw">pub fn </span>new(_window: <span class="kw-2">&amp;mut </span>Window, _cx: <span class="kw-2">&amp;mut </span>App) -&gt; Entity&lt;<span class="self">Self</span>&gt; {
 <a href=#25 id=25 data-nosnippet>25</a>        <span class="attr">#[cfg(not(target_os = <span class="string">"macos"</span>))]
-<a href=#26 id=26 data-nosnippet>26</a>        </span><span class="kw">let </span>app_menu_bar = AppMenuBar::new(_window, _cx);
+<a href=#26 id=26 data-nosnippet>26</a>        </span><span class="kw">let </span>app_menu_bar = AppMenuBar::new(_cx);
 <a href=#27 id=27 data-nosnippet>27</a>
 <a href=#28 id=28 data-nosnippet>28</a>        _cx.new(|_cx| <span class="self">Self </span>{
 <a href=#29 id=29 data-nosnippet>29</a>            <span class="attr">#[cfg(not(target_os = <span class="string">"macos"</span>))]
