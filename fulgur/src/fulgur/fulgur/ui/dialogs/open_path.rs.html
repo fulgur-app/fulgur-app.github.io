@@ -15,7 +15,7 @@
 <a href=#15 id=15 data-nosnippet>15</a>        <span class="kw">let </span>path_browser = cx.new(|cx| PathBrowser::new(window, cx));
 <a href=#16 id=16 data-nosnippet>16</a>        <span class="kw">let </span>input = path_browser.read(cx).input().clone();
 <a href=#17 id=17 data-nosnippet>17</a>        <span class="kw">let </span>input_clone = input.clone();
-<a href=#18 id=18 data-nosnippet>18</a>        window.open_dialog(cx.deref_mut(), <span class="kw">move </span>|modal, window, cx| {
+<a href=#18 id=18 data-nosnippet>18</a>        window.open_alert_dialog(cx.deref_mut(), <span class="kw">move </span>|modal, window, cx| {
 <a href=#19 id=19 data-nosnippet>19</a>            <span class="kw">let </span>focus_handle = input.read(cx).focus_handle(cx);
 <a href=#20 id=20 data-nosnippet>20</a>            window.focus(<span class="kw-2">&amp;</span>focus_handle, cx);
 <a href=#21 id=21 data-nosnippet>21</a>            <span class="kw">let </span>entity_ok = entity.clone();

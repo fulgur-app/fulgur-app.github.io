@@ -13,7 +13,7 @@
 <a href=#13 id=13 data-nosnippet>13</a>    },
 <a href=#14 id=14 data-nosnippet>14</a>};
 <a href=#15 id=15 data-nosnippet>15</a><span class="kw">use </span>gpui::<span class="kw-2">*</span>;
-<a href=#16 id=16 data-nosnippet>16</a><span class="kw">use </span>gpui_component::{WindowExt, dialog::DialogButtonProps};
+<a href=#16 id=16 data-nosnippet>16</a><span class="kw">use </span>gpui_component::WindowExt;
 <a href=#17 id=17 data-nosnippet>17</a><span class="kw">use </span>std::{ops::DerefMut, path::PathBuf};
 <a href=#18 id=18 data-nosnippet>18</a>
 <a href=#19 id=19 data-nosnippet>19</a><span class="kw">impl </span>Fulgur {
@@ -570,13 +570,13 @@
 <a href=#570 id=570 data-nosnippet>570</a>        </span>F: Fn(<span class="kw-2">&amp;mut </span>Fulgur, <span class="kw-2">&amp;mut </span>Window, <span class="kw-2">&amp;mut </span>Context&lt;Fulgur&gt;) + <span class="lifetime">'static </span>+ Clone,
 <a href=#571 id=571 data-nosnippet>571</a>    {
 <a href=#572 id=572 data-nosnippet>572</a>        <span class="kw">let </span>entity = cx.entity().clone();
-<a href=#573 id=573 data-nosnippet>573</a>        window.open_dialog(cx.deref_mut(), <span class="kw">move </span>|modal, <span class="kw">_</span>, <span class="kw">_</span>| {
+<a href=#573 id=573 data-nosnippet>573</a>        window.open_alert_dialog(cx.deref_mut(), <span class="kw">move </span>|modal, <span class="kw">_</span>, <span class="kw">_</span>| {
 <a href=#574 id=574 data-nosnippet>574</a>            <span class="kw">let </span>entity_ok = entity.clone();
 <a href=#575 id=575 data-nosnippet>575</a>            <span class="kw">let </span>on_confirm_clone = on_confirm.clone();
 <a href=#576 id=576 data-nosnippet>576</a>            modal
-<a href=#577 id=577 data-nosnippet>577</a>                .title(div().text_size(px(<span class="number">16.</span>)).child(<span class="string">"Unsaved changed"</span>))
+<a href=#577 id=577 data-nosnippet>577</a>                .title(div().text_size(px(<span class="number">16.</span>)).child(<span class="string">"Unsaved changes"</span>))
 <a href=#578 id=578 data-nosnippet>578</a>                .keyboard(<span class="bool-val">true</span>)
-<a href=#579 id=579 data-nosnippet>579</a>                .button_props(DialogButtonProps::default().show_cancel(<span class="bool-val">true</span>))
+<a href=#579 id=579 data-nosnippet>579</a>                .show_cancel(<span class="bool-val">true</span>)
 <a href=#580 id=580 data-nosnippet>580</a>                .on_ok(<span class="kw">move </span>|<span class="kw">_</span>, window, cx| {
 <a href=#581 id=581 data-nosnippet>581</a>                    <span class="kw">let </span>entity_ok_footer = entity_ok.clone();
 <a href=#582 id=582 data-nosnippet>582</a>                    <span class="kw">let </span>on_confirm_inner = on_confirm_clone.clone();
@@ -609,12 +609,12 @@
 <a href=#609 id=609 data-nosnippet>609</a>    </span><span class="kw">pub fn </span>quit(<span class="kw-2">&amp;mut </span><span class="self">self</span>, window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
 <a href=#610 id=610 data-nosnippet>610</a>        <span class="kw">if </span><span class="self">self</span>.settings.app_settings.confirm_exit {
 <a href=#611 id=611 data-nosnippet>611</a>            <span class="kw">let </span>entity = cx.entity().clone();
-<a href=#612 id=612 data-nosnippet>612</a>            window.open_dialog(cx.deref_mut(), <span class="kw">move </span>|modal, <span class="kw">_</span>, <span class="kw">_</span>| {
+<a href=#612 id=612 data-nosnippet>612</a>            window.open_alert_dialog(cx.deref_mut(), <span class="kw">move </span>|modal, <span class="kw">_</span>, <span class="kw">_</span>| {
 <a href=#613 id=613 data-nosnippet>613</a>                <span class="kw">let </span>entity_ok = entity.clone();
 <a href=#614 id=614 data-nosnippet>614</a>                modal
 <a href=#615 id=615 data-nosnippet>615</a>                    .title(div().text_size(px(<span class="number">16.</span>)).child(<span class="string">"Quit Fulgur"</span>))
 <a href=#616 id=616 data-nosnippet>616</a>                    .keyboard(<span class="bool-val">true</span>)
-<a href=#617 id=617 data-nosnippet>617</a>                    .button_props(DialogButtonProps::default().show_cancel(<span class="bool-val">true</span>))
+<a href=#617 id=617 data-nosnippet>617</a>                    .show_cancel(<span class="bool-val">true</span>)
 <a href=#618 id=618 data-nosnippet>618</a>                    .on_ok(<span class="kw">move </span>|<span class="kw">_</span>, window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>App| {
 <a href=#619 id=619 data-nosnippet>619</a>                        <span class="kw">let </span>entity_ok_footer = entity_ok.clone();
 <a href=#620 id=620 data-nosnippet>620</a>                        <span class="kw">let </span>save_result =
