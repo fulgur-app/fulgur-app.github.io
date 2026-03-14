@@ -6,460 +6,646 @@
 <a href=#6 id=6 data-nosnippet>6</a></span><span class="attr">#[derive(Debug, Clone, Copy, PartialEq)]
 <a href=#7 id=7 data-nosnippet>7</a></span><span class="kw">pub enum </span>SupportedLanguage {
 <a href=#8 id=8 data-nosnippet>8</a>    Ada,
-<a href=#9 id=9 data-nosnippet>9</a>    Astro,
-<a href=#10 id=10 data-nosnippet>10</a>    Bash,
-<a href=#11 id=11 data-nosnippet>11</a>    C,
-<a href=#12 id=12 data-nosnippet>12</a>    Clojure,
-<a href=#13 id=13 data-nosnippet>13</a>    CMake,
-<a href=#14 id=14 data-nosnippet>14</a>    CSharp,
-<a href=#15 id=15 data-nosnippet>15</a>    Cpp,
-<a href=#16 id=16 data-nosnippet>16</a>    Css,
-<a href=#17 id=17 data-nosnippet>17</a>    D,
-<a href=#18 id=18 data-nosnippet>18</a>    Dart,
-<a href=#19 id=19 data-nosnippet>19</a>    Diff,
-<a href=#20 id=20 data-nosnippet>20</a>    Dockerfile,
-<a href=#21 id=21 data-nosnippet>21</a>    Ejs,
-<a href=#22 id=22 data-nosnippet>22</a>    Elixir,
-<a href=#23 id=23 data-nosnippet>23</a>    Erb,
-<a href=#24 id=24 data-nosnippet>24</a>    Erlang,
-<a href=#25 id=25 data-nosnippet>25</a>    Go,
-<a href=#26 id=26 data-nosnippet>26</a>    GraphQl,
-<a href=#27 id=27 data-nosnippet>27</a>    Groovy,
-<a href=#28 id=28 data-nosnippet>28</a>    Haskell,
-<a href=#29 id=29 data-nosnippet>29</a>    Html,
-<a href=#30 id=30 data-nosnippet>30</a>    Ini,
-<a href=#31 id=31 data-nosnippet>31</a>    Java,
-<a href=#32 id=32 data-nosnippet>32</a>    JavaScript,
-<a href=#33 id=33 data-nosnippet>33</a>    JsDoc,
-<a href=#34 id=34 data-nosnippet>34</a>    Json,
-<a href=#35 id=35 data-nosnippet>35</a>    Kotlin,
-<a href=#36 id=36 data-nosnippet>36</a>    Lua,
-<a href=#37 id=37 data-nosnippet>37</a>    Make,
-<a href=#38 id=38 data-nosnippet>38</a>    Markdown,
-<a href=#39 id=39 data-nosnippet>39</a>    MarkdownInline,
-<a href=#40 id=40 data-nosnippet>40</a>    ObjectiveC,
-<a href=#41 id=41 data-nosnippet>41</a>    Ocaml,
-<a href=#42 id=42 data-nosnippet>42</a>    Pascal,
-<a href=#43 id=43 data-nosnippet>43</a>    Perl,
-<a href=#44 id=44 data-nosnippet>44</a>    Php,
-<a href=#45 id=45 data-nosnippet>45</a>    Plain,
-<a href=#46 id=46 data-nosnippet>46</a>    Powershell,
-<a href=#47 id=47 data-nosnippet>47</a>    Prolog,
-<a href=#48 id=48 data-nosnippet>48</a>    Proto,
-<a href=#49 id=49 data-nosnippet>49</a>    Python,
-<a href=#50 id=50 data-nosnippet>50</a>    R,
-<a href=#51 id=51 data-nosnippet>51</a>    React,
-<a href=#52 id=52 data-nosnippet>52</a>    Ruby,
-<a href=#53 id=53 data-nosnippet>53</a>    Rust,
-<a href=#54 id=54 data-nosnippet>54</a>    Scala,
-<a href=#55 id=55 data-nosnippet>55</a>    Scss,
-<a href=#56 id=56 data-nosnippet>56</a>    Sql,
-<a href=#57 id=57 data-nosnippet>57</a>    Svelte,
-<a href=#58 id=58 data-nosnippet>58</a>    Svg,
-<a href=#59 id=59 data-nosnippet>59</a>    Swift,
-<a href=#60 id=60 data-nosnippet>60</a>    Toml,
-<a href=#61 id=61 data-nosnippet>61</a>    TypeScript,
-<a href=#62 id=62 data-nosnippet>62</a>    Vue,
-<a href=#63 id=63 data-nosnippet>63</a>    Xml,
-<a href=#64 id=64 data-nosnippet>64</a>    Yaml,
-<a href=#65 id=65 data-nosnippet>65</a>    Zig,
-<a href=#66 id=66 data-nosnippet>66</a>}
-<a href=#67 id=67 data-nosnippet>67</a>
-<a href=#68 id=68 data-nosnippet>68</a><span class="doccomment">/// Convert a Language to a SupportedLanguage
-<a href=#69 id=69 data-nosnippet>69</a>///
-<a href=#70 id=70 data-nosnippet>70</a>/// ### Arguments
-<a href=#71 id=71 data-nosnippet>71</a>/// - `language`: The Language enum
-<a href=#72 id=72 data-nosnippet>72</a>///
-<a href=#73 id=73 data-nosnippet>73</a>/// ### Returns
-<a href=#74 id=74 data-nosnippet>74</a>/// - `SupportedLanguage`: The corresponding SupportedLanguage
-<a href=#75 id=75 data-nosnippet>75</a></span><span class="kw">pub fn </span>from_language(language: Language) -&gt; SupportedLanguage {
-<a href=#76 id=76 data-nosnippet>76</a>    <span class="kw">match </span>language {
-<a href=#77 id=77 data-nosnippet>77</a>        Language::Astro =&gt; SupportedLanguage::Astro,
-<a href=#78 id=78 data-nosnippet>78</a>        Language::Bash =&gt; SupportedLanguage::Bash,
-<a href=#79 id=79 data-nosnippet>79</a>        Language::C =&gt; SupportedLanguage::C,
-<a href=#80 id=80 data-nosnippet>80</a>        Language::CMake =&gt; SupportedLanguage::CMake,
-<a href=#81 id=81 data-nosnippet>81</a>        Language::CSharp =&gt; SupportedLanguage::CSharp,
-<a href=#82 id=82 data-nosnippet>82</a>        Language::Cpp =&gt; SupportedLanguage::Cpp,
-<a href=#83 id=83 data-nosnippet>83</a>        Language::Css =&gt; SupportedLanguage::Css,
-<a href=#84 id=84 data-nosnippet>84</a>        Language::Diff =&gt; SupportedLanguage::Diff,
-<a href=#85 id=85 data-nosnippet>85</a>        Language::Ejs =&gt; SupportedLanguage::Ejs,
-<a href=#86 id=86 data-nosnippet>86</a>        Language::Elixir =&gt; SupportedLanguage::Elixir,
-<a href=#87 id=87 data-nosnippet>87</a>        Language::Erb =&gt; SupportedLanguage::Erb,
-<a href=#88 id=88 data-nosnippet>88</a>        Language::Go =&gt; SupportedLanguage::Go,
-<a href=#89 id=89 data-nosnippet>89</a>        Language::GraphQL =&gt; SupportedLanguage::GraphQl,
-<a href=#90 id=90 data-nosnippet>90</a>        Language::Html =&gt; SupportedLanguage::Html,
-<a href=#91 id=91 data-nosnippet>91</a>        Language::Java =&gt; SupportedLanguage::Java,
-<a href=#92 id=92 data-nosnippet>92</a>        Language::JavaScript =&gt; SupportedLanguage::JavaScript,
-<a href=#93 id=93 data-nosnippet>93</a>        Language::JsDoc =&gt; SupportedLanguage::JsDoc,
-<a href=#94 id=94 data-nosnippet>94</a>        Language::Json =&gt; SupportedLanguage::Json,
-<a href=#95 id=95 data-nosnippet>95</a>        Language::Kotlin =&gt; SupportedLanguage::Kotlin,
-<a href=#96 id=96 data-nosnippet>96</a>        Language::Lua =&gt; SupportedLanguage::Lua,
-<a href=#97 id=97 data-nosnippet>97</a>        Language::Make =&gt; SupportedLanguage::Make,
-<a href=#98 id=98 data-nosnippet>98</a>        Language::Markdown =&gt; SupportedLanguage::Markdown,
-<a href=#99 id=99 data-nosnippet>99</a>        Language::MarkdownInline =&gt; SupportedLanguage::MarkdownInline,
-<a href=#100 id=100 data-nosnippet>100</a>        Language::Php =&gt; SupportedLanguage::Php,
-<a href=#101 id=101 data-nosnippet>101</a>        Language::Plain =&gt; SupportedLanguage::Plain,
-<a href=#102 id=102 data-nosnippet>102</a>        Language::Proto =&gt; SupportedLanguage::Proto,
-<a href=#103 id=103 data-nosnippet>103</a>        Language::Python =&gt; SupportedLanguage::Python,
-<a href=#104 id=104 data-nosnippet>104</a>        Language::Ruby =&gt; SupportedLanguage::Ruby,
-<a href=#105 id=105 data-nosnippet>105</a>        Language::Rust =&gt; SupportedLanguage::Rust,
-<a href=#106 id=106 data-nosnippet>106</a>        Language::Scala =&gt; SupportedLanguage::Scala,
-<a href=#107 id=107 data-nosnippet>107</a>        Language::Sql =&gt; SupportedLanguage::Sql,
-<a href=#108 id=108 data-nosnippet>108</a>        Language::Svelte =&gt; SupportedLanguage::Svelte,
-<a href=#109 id=109 data-nosnippet>109</a>        Language::Swift =&gt; SupportedLanguage::Swift,
-<a href=#110 id=110 data-nosnippet>110</a>        Language::Toml =&gt; SupportedLanguage::Toml,
-<a href=#111 id=111 data-nosnippet>111</a>        Language::Tsx =&gt; SupportedLanguage::React,
-<a href=#112 id=112 data-nosnippet>112</a>        Language::TypeScript =&gt; SupportedLanguage::TypeScript,
-<a href=#113 id=113 data-nosnippet>113</a>        Language::Yaml =&gt; SupportedLanguage::Yaml,
-<a href=#114 id=114 data-nosnippet>114</a>        Language::Zig =&gt; SupportedLanguage::Zig,
-<a href=#115 id=115 data-nosnippet>115</a>    }
-<a href=#116 id=116 data-nosnippet>116</a>}
-<a href=#117 id=117 data-nosnippet>117</a>
-<a href=#118 id=118 data-nosnippet>118</a><span class="doccomment">/// Convert a supported language to a language
-<a href=#119 id=119 data-nosnippet>119</a>///
-<a href=#120 id=120 data-nosnippet>120</a>/// ### Arguments
-<a href=#121 id=121 data-nosnippet>121</a>/// - `supported_language`: The supported language to convert
-<a href=#122 id=122 data-nosnippet>122</a>///
-<a href=#123 id=123 data-nosnippet>123</a>/// ### Returns
-<a href=#124 id=124 data-nosnippet>124</a>/// The corresponding language
-<a href=#125 id=125 data-nosnippet>125</a></span><span class="kw">pub fn </span>to_language(supported_language: <span class="kw-2">&amp;</span>SupportedLanguage) -&gt; Language {
-<a href=#126 id=126 data-nosnippet>126</a>    <span class="kw">match </span>supported_language {
-<a href=#127 id=127 data-nosnippet>127</a>        SupportedLanguage::Astro =&gt; Language::Astro,
-<a href=#128 id=128 data-nosnippet>128</a>        SupportedLanguage::Bash =&gt; Language::Bash,
-<a href=#129 id=129 data-nosnippet>129</a>        SupportedLanguage::C =&gt; Language::C,
-<a href=#130 id=130 data-nosnippet>130</a>        SupportedLanguage::CMake =&gt; Language::CMake,
-<a href=#131 id=131 data-nosnippet>131</a>        SupportedLanguage::CSharp =&gt; Language::CSharp,
-<a href=#132 id=132 data-nosnippet>132</a>        SupportedLanguage::Cpp =&gt; Language::Cpp,
-<a href=#133 id=133 data-nosnippet>133</a>        SupportedLanguage::Css =&gt; Language::Css,
-<a href=#134 id=134 data-nosnippet>134</a>        SupportedLanguage::Diff =&gt; Language::Diff,
-<a href=#135 id=135 data-nosnippet>135</a>        SupportedLanguage::Ejs =&gt; Language::Ejs,
-<a href=#136 id=136 data-nosnippet>136</a>        SupportedLanguage::Elixir =&gt; Language::Elixir,
-<a href=#137 id=137 data-nosnippet>137</a>        SupportedLanguage::Erb =&gt; Language::Erb,
-<a href=#138 id=138 data-nosnippet>138</a>        SupportedLanguage::Erlang =&gt; Language::Plain,
-<a href=#139 id=139 data-nosnippet>139</a>        SupportedLanguage::Go =&gt; Language::Go,
-<a href=#140 id=140 data-nosnippet>140</a>        SupportedLanguage::GraphQl =&gt; Language::GraphQL,
-<a href=#141 id=141 data-nosnippet>141</a>        SupportedLanguage::Html =&gt; Language::Html,
-<a href=#142 id=142 data-nosnippet>142</a>        SupportedLanguage::Ini =&gt; Language::Plain,
-<a href=#143 id=143 data-nosnippet>143</a>        SupportedLanguage::Java =&gt; Language::Java,
-<a href=#144 id=144 data-nosnippet>144</a>        SupportedLanguage::JavaScript =&gt; Language::JavaScript,
-<a href=#145 id=145 data-nosnippet>145</a>        SupportedLanguage::JsDoc =&gt; Language::JsDoc,
-<a href=#146 id=146 data-nosnippet>146</a>        SupportedLanguage::Json =&gt; Language::Json,
-<a href=#147 id=147 data-nosnippet>147</a>        SupportedLanguage::Kotlin =&gt; Language::Kotlin,
-<a href=#148 id=148 data-nosnippet>148</a>        SupportedLanguage::Lua =&gt; Language::Lua,
-<a href=#149 id=149 data-nosnippet>149</a>        SupportedLanguage::Make =&gt; Language::Make,
-<a href=#150 id=150 data-nosnippet>150</a>        SupportedLanguage::Markdown =&gt; Language::Markdown,
-<a href=#151 id=151 data-nosnippet>151</a>        SupportedLanguage::MarkdownInline =&gt; Language::MarkdownInline,
-<a href=#152 id=152 data-nosnippet>152</a>        SupportedLanguage::Php =&gt; Language::Php,
-<a href=#153 id=153 data-nosnippet>153</a>        SupportedLanguage::Plain =&gt; Language::Plain,
-<a href=#154 id=154 data-nosnippet>154</a>        SupportedLanguage::Proto =&gt; Language::Proto,
-<a href=#155 id=155 data-nosnippet>155</a>        SupportedLanguage::Python =&gt; Language::Python,
-<a href=#156 id=156 data-nosnippet>156</a>        SupportedLanguage::Ruby =&gt; Language::Ruby,
-<a href=#157 id=157 data-nosnippet>157</a>        SupportedLanguage::Rust =&gt; Language::Rust,
-<a href=#158 id=158 data-nosnippet>158</a>        SupportedLanguage::Scala =&gt; Language::Scala,
-<a href=#159 id=159 data-nosnippet>159</a>        SupportedLanguage::Sql =&gt; Language::Sql,
-<a href=#160 id=160 data-nosnippet>160</a>        SupportedLanguage::Svelte =&gt; Language::Svelte,
-<a href=#161 id=161 data-nosnippet>161</a>        SupportedLanguage::Svg =&gt; Language::Html,
-<a href=#162 id=162 data-nosnippet>162</a>        SupportedLanguage::Swift =&gt; Language::Swift,
-<a href=#163 id=163 data-nosnippet>163</a>        SupportedLanguage::Toml =&gt; Language::Toml,
-<a href=#164 id=164 data-nosnippet>164</a>        SupportedLanguage::TypeScript =&gt; Language::TypeScript,
-<a href=#165 id=165 data-nosnippet>165</a>        SupportedLanguage::Yaml =&gt; Language::Yaml,
-<a href=#166 id=166 data-nosnippet>166</a>        SupportedLanguage::Zig =&gt; Language::Zig,
-<a href=#167 id=167 data-nosnippet>167</a>        <span class="kw">_ </span>=&gt; Language::Plain,
-<a href=#168 id=168 data-nosnippet>168</a>    }
-<a href=#169 id=169 data-nosnippet>169</a>}
-<a href=#170 id=170 data-nosnippet>170</a>
-<a href=#171 id=171 data-nosnippet>171</a><span class="doccomment">/// Get the pretty name (human-readable) of a SupportedLanguage
-<a href=#172 id=172 data-nosnippet>172</a>///
-<a href=#173 id=173 data-nosnippet>173</a>/// ### Arguments
-<a href=#174 id=174 data-nosnippet>174</a>/// - `language`: The SupportedLanguage enum
-<a href=#175 id=175 data-nosnippet>175</a>///
-<a href=#176 id=176 data-nosnippet>176</a>/// ### Returns
-<a href=#177 id=177 data-nosnippet>177</a>/// - `String`: The human-readable name of the language
-<a href=#178 id=178 data-nosnippet>178</a></span><span class="kw">pub fn </span>pretty_name(language: <span class="kw-2">&amp;</span>SupportedLanguage) -&gt; String {
-<a href=#179 id=179 data-nosnippet>179</a>    <span class="kw">match </span>language {
-<a href=#180 id=180 data-nosnippet>180</a>        SupportedLanguage::Ada =&gt; <span class="string">"Ada"</span>.to_string(),
-<a href=#181 id=181 data-nosnippet>181</a>        SupportedLanguage::Astro =&gt; <span class="string">"Astro"</span>.to_string(),
-<a href=#182 id=182 data-nosnippet>182</a>        SupportedLanguage::Bash =&gt; <span class="string">"Bash"</span>.to_string(),
-<a href=#183 id=183 data-nosnippet>183</a>        SupportedLanguage::C =&gt; <span class="string">"C"</span>.to_string(),
-<a href=#184 id=184 data-nosnippet>184</a>        SupportedLanguage::Clojure =&gt; <span class="string">"Clojure"</span>.to_string(),
-<a href=#185 id=185 data-nosnippet>185</a>        SupportedLanguage::CMake =&gt; <span class="string">"CMake"</span>.to_string(),
-<a href=#186 id=186 data-nosnippet>186</a>        SupportedLanguage::CSharp =&gt; <span class="string">"C#"</span>.to_string(),
-<a href=#187 id=187 data-nosnippet>187</a>        SupportedLanguage::Cpp =&gt; <span class="string">"C++"</span>.to_string(),
-<a href=#188 id=188 data-nosnippet>188</a>        SupportedLanguage::Css =&gt; <span class="string">"CSS"</span>.to_string(),
-<a href=#189 id=189 data-nosnippet>189</a>        SupportedLanguage::D =&gt; <span class="string">"D"</span>.to_string(),
-<a href=#190 id=190 data-nosnippet>190</a>        SupportedLanguage::Dart =&gt; <span class="string">"Dart"</span>.to_string(),
-<a href=#191 id=191 data-nosnippet>191</a>        SupportedLanguage::Diff =&gt; <span class="string">"Diff"</span>.to_string(),
-<a href=#192 id=192 data-nosnippet>192</a>        SupportedLanguage::Dockerfile =&gt; <span class="string">"Dockerfile"</span>.to_string(),
-<a href=#193 id=193 data-nosnippet>193</a>        SupportedLanguage::Ejs =&gt; <span class="string">"EJS"</span>.to_string(),
-<a href=#194 id=194 data-nosnippet>194</a>        SupportedLanguage::Elixir =&gt; <span class="string">"Elixir"</span>.to_string(),
-<a href=#195 id=195 data-nosnippet>195</a>        SupportedLanguage::Erb =&gt; <span class="string">"ERB"</span>.to_string(),
-<a href=#196 id=196 data-nosnippet>196</a>        SupportedLanguage::Erlang =&gt; <span class="string">"Erlang"</span>.to_string(),
-<a href=#197 id=197 data-nosnippet>197</a>        SupportedLanguage::Go =&gt; <span class="string">"Go"</span>.to_string(),
-<a href=#198 id=198 data-nosnippet>198</a>        SupportedLanguage::GraphQl =&gt; <span class="string">"GraphQL"</span>.to_string(),
-<a href=#199 id=199 data-nosnippet>199</a>        SupportedLanguage::Groovy =&gt; <span class="string">"Groovy"</span>.to_string(),
-<a href=#200 id=200 data-nosnippet>200</a>        SupportedLanguage::Haskell =&gt; <span class="string">"Haskell"</span>.to_string(),
-<a href=#201 id=201 data-nosnippet>201</a>        SupportedLanguage::Html =&gt; <span class="string">"HTML"</span>.to_string(),
-<a href=#202 id=202 data-nosnippet>202</a>        SupportedLanguage::Ini =&gt; <span class="string">"INI"</span>.to_string(),
-<a href=#203 id=203 data-nosnippet>203</a>        SupportedLanguage::Java =&gt; <span class="string">"Java"</span>.to_string(),
-<a href=#204 id=204 data-nosnippet>204</a>        SupportedLanguage::JavaScript =&gt; <span class="string">"JavaScript"</span>.to_string(),
-<a href=#205 id=205 data-nosnippet>205</a>        SupportedLanguage::JsDoc =&gt; <span class="string">"JSDoc"</span>.to_string(),
-<a href=#206 id=206 data-nosnippet>206</a>        SupportedLanguage::Json =&gt; <span class="string">"JSON"</span>.to_string(),
-<a href=#207 id=207 data-nosnippet>207</a>        SupportedLanguage::Kotlin =&gt; <span class="string">"Kotlin"</span>.to_string(),
-<a href=#208 id=208 data-nosnippet>208</a>        SupportedLanguage::Lua =&gt; <span class="string">"Lua"</span>.to_string(),
-<a href=#209 id=209 data-nosnippet>209</a>        SupportedLanguage::Make =&gt; <span class="string">"Make"</span>.to_string(),
-<a href=#210 id=210 data-nosnippet>210</a>        SupportedLanguage::Markdown =&gt; <span class="string">"Markdown"</span>.to_string(),
-<a href=#211 id=211 data-nosnippet>211</a>        SupportedLanguage::MarkdownInline =&gt; <span class="string">"Markdown Inline"</span>.to_string(),
-<a href=#212 id=212 data-nosnippet>212</a>        SupportedLanguage::ObjectiveC =&gt; <span class="string">"Objective-C"</span>.to_string(),
-<a href=#213 id=213 data-nosnippet>213</a>        SupportedLanguage::Ocaml =&gt; <span class="string">"OCaml"</span>.to_string(),
-<a href=#214 id=214 data-nosnippet>214</a>        SupportedLanguage::Pascal =&gt; <span class="string">"Pascal"</span>.to_string(),
-<a href=#215 id=215 data-nosnippet>215</a>        SupportedLanguage::Perl =&gt; <span class="string">"Perl"</span>.to_string(),
-<a href=#216 id=216 data-nosnippet>216</a>        SupportedLanguage::Php =&gt; <span class="string">"PHP"</span>.to_string(),
-<a href=#217 id=217 data-nosnippet>217</a>        SupportedLanguage::Plain =&gt; <span class="string">"Plain Text"</span>.to_string(),
-<a href=#218 id=218 data-nosnippet>218</a>        SupportedLanguage::Powershell =&gt; <span class="string">"PowerShell"</span>.to_string(),
-<a href=#219 id=219 data-nosnippet>219</a>        SupportedLanguage::Prolog =&gt; <span class="string">"Prolog"</span>.to_string(),
-<a href=#220 id=220 data-nosnippet>220</a>        SupportedLanguage::Proto =&gt; <span class="string">"Protocol Buffers"</span>.to_string(),
-<a href=#221 id=221 data-nosnippet>221</a>        SupportedLanguage::Python =&gt; <span class="string">"Python"</span>.to_string(),
-<a href=#222 id=222 data-nosnippet>222</a>        SupportedLanguage::R =&gt; <span class="string">"R"</span>.to_string(),
-<a href=#223 id=223 data-nosnippet>223</a>        SupportedLanguage::React =&gt; <span class="string">"React"</span>.to_string(),
-<a href=#224 id=224 data-nosnippet>224</a>        SupportedLanguage::Ruby =&gt; <span class="string">"Ruby"</span>.to_string(),
-<a href=#225 id=225 data-nosnippet>225</a>        SupportedLanguage::Rust =&gt; <span class="string">"Rust"</span>.to_string(),
-<a href=#226 id=226 data-nosnippet>226</a>        SupportedLanguage::Scala =&gt; <span class="string">"Scala"</span>.to_string(),
-<a href=#227 id=227 data-nosnippet>227</a>        SupportedLanguage::Scss =&gt; <span class="string">"SCSS"</span>.to_string(),
-<a href=#228 id=228 data-nosnippet>228</a>        SupportedLanguage::Sql =&gt; <span class="string">"SQL"</span>.to_string(),
-<a href=#229 id=229 data-nosnippet>229</a>        SupportedLanguage::Svg =&gt; <span class="string">"SVG"</span>.to_string(),
-<a href=#230 id=230 data-nosnippet>230</a>        SupportedLanguage::Svelte =&gt; <span class="string">"Svelte"</span>.to_string(),
-<a href=#231 id=231 data-nosnippet>231</a>        SupportedLanguage::Swift =&gt; <span class="string">"Swift"</span>.to_string(),
-<a href=#232 id=232 data-nosnippet>232</a>        SupportedLanguage::Toml =&gt; <span class="string">"TOML"</span>.to_string(),
-<a href=#233 id=233 data-nosnippet>233</a>        SupportedLanguage::TypeScript =&gt; <span class="string">"TypeScript"</span>.to_string(),
-<a href=#234 id=234 data-nosnippet>234</a>        SupportedLanguage::Vue =&gt; <span class="string">"Vue"</span>.to_string(),
-<a href=#235 id=235 data-nosnippet>235</a>        SupportedLanguage::Xml =&gt; <span class="string">"XML"</span>.to_string(),
-<a href=#236 id=236 data-nosnippet>236</a>        SupportedLanguage::Yaml =&gt; <span class="string">"YAML"</span>.to_string(),
-<a href=#237 id=237 data-nosnippet>237</a>        SupportedLanguage::Zig =&gt; <span class="string">"Zig"</span>.to_string(),
-<a href=#238 id=238 data-nosnippet>238</a>    }
-<a href=#239 id=239 data-nosnippet>239</a>}
-<a href=#240 id=240 data-nosnippet>240</a>
-<a href=#241 id=241 data-nosnippet>241</a><span class="doccomment">/// Get the language registry name for a SupportedLanguage.
-<a href=#242 id=242 data-nosnippet>242</a>/// For languages built into gpui-component, this delegates to `to_language().name()`.
-<a href=#243 id=243 data-nosnippet>243</a>/// For custom-registered languages (e.g. Perl), this returns the registered name directly.
-<a href=#244 id=244 data-nosnippet>244</a>///
-<a href=#245 id=245 data-nosnippet>245</a>/// ### Arguments
-<a href=#246 id=246 data-nosnippet>246</a>/// - `supported_language`: The supported language to convert
-<a href=#247 id=247 data-nosnippet>247</a>///
-<a href=#248 id=248 data-nosnippet>248</a>/// ### Returns
-<a href=#249 id=249 data-nosnippet>249</a>/// - `&amp;'static str`: The language name as registered in the LanguageRegistry
-<a href=#250 id=250 data-nosnippet>250</a></span><span class="kw">pub fn </span>language_registry_name(supported_language: <span class="kw-2">&amp;</span>SupportedLanguage) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-<a href=#251 id=251 data-nosnippet>251</a>    <span class="kw">match </span>supported_language {
-<a href=#252 id=252 data-nosnippet>252</a>        SupportedLanguage::Ada =&gt; <span class="string">"ada"</span>,
-<a href=#253 id=253 data-nosnippet>253</a>        SupportedLanguage::Clojure =&gt; <span class="string">"clojure"</span>,
-<a href=#254 id=254 data-nosnippet>254</a>        SupportedLanguage::Erlang =&gt; <span class="string">"erlang"</span>,
-<a href=#255 id=255 data-nosnippet>255</a>        SupportedLanguage::D =&gt; <span class="string">"d"</span>,
-<a href=#256 id=256 data-nosnippet>256</a>        SupportedLanguage::Dart =&gt; <span class="string">"dart"</span>,
-<a href=#257 id=257 data-nosnippet>257</a>        SupportedLanguage::Dockerfile =&gt; <span class="string">"dockerfile"</span>,
-<a href=#258 id=258 data-nosnippet>258</a>        SupportedLanguage::Groovy =&gt; <span class="string">"groovy"</span>,
-<a href=#259 id=259 data-nosnippet>259</a>        SupportedLanguage::Haskell =&gt; <span class="string">"haskell"</span>,
-<a href=#260 id=260 data-nosnippet>260</a>        SupportedLanguage::Ini =&gt; <span class="string">"ini"</span>,
-<a href=#261 id=261 data-nosnippet>261</a>        SupportedLanguage::ObjectiveC =&gt; <span class="string">"objective-c"</span>,
-<a href=#262 id=262 data-nosnippet>262</a>        SupportedLanguage::Ocaml =&gt; <span class="string">"ocaml"</span>,
-<a href=#263 id=263 data-nosnippet>263</a>        SupportedLanguage::Pascal =&gt; <span class="string">"pascal"</span>,
-<a href=#264 id=264 data-nosnippet>264</a>        SupportedLanguage::Perl =&gt; <span class="string">"perl"</span>,
-<a href=#265 id=265 data-nosnippet>265</a>        SupportedLanguage::Powershell =&gt; <span class="string">"powershell"</span>,
-<a href=#266 id=266 data-nosnippet>266</a>        SupportedLanguage::Prolog =&gt; <span class="string">"prolog"</span>,
-<a href=#267 id=267 data-nosnippet>267</a>        SupportedLanguage::R =&gt; <span class="string">"r"</span>,
-<a href=#268 id=268 data-nosnippet>268</a>        SupportedLanguage::React =&gt; <span class="string">"react"</span>,
-<a href=#269 id=269 data-nosnippet>269</a>        SupportedLanguage::Scss =&gt; <span class="string">"scss"</span>,
-<a href=#270 id=270 data-nosnippet>270</a>        SupportedLanguage::Vue =&gt; <span class="string">"vue"</span>,
-<a href=#271 id=271 data-nosnippet>271</a>        SupportedLanguage::Xml =&gt; <span class="string">"html"</span>,
-<a href=#272 id=272 data-nosnippet>272</a>        other =&gt; to_language(other).name(),
-<a href=#273 id=273 data-nosnippet>273</a>    }
-<a href=#274 id=274 data-nosnippet>274</a>}
-<a href=#275 id=275 data-nosnippet>275</a>
-<a href=#276 id=276 data-nosnippet>276</a><span class="doccomment">/// Get the Language enum from a filename or file extension.
-<a href=#277 id=277 data-nosnippet>277</a>/// Exact filename matches (e.g. `Dockerfile`, `Makefile`) are checked first,
-<a href=#278 id=278 data-nosnippet>278</a>/// then falls back to the file extension.
-<a href=#279 id=279 data-nosnippet>279</a>///
-<a href=#280 id=280 data-nosnippet>280</a>/// ### Arguments
-<a href=#281 id=281 data-nosnippet>281</a>/// - `filename`: The file name
-<a href=#282 id=282 data-nosnippet>282</a>///
-<a href=#283 id=283 data-nosnippet>283</a>/// ### Returns
-<a href=#284 id=284 data-nosnippet>284</a>/// - `SupportedLanguage`: The detected language
-<a href=#285 id=285 data-nosnippet>285</a></span><span class="kw">pub fn </span>language_from_filename(filename: <span class="kw-2">&amp;</span>str) -&gt; SupportedLanguage {
-<a href=#286 id=286 data-nosnippet>286</a>    <span class="kw">let </span>lower = filename.to_lowercase();
-<a href=#287 id=287 data-nosnippet>287</a>    <span class="kw">let </span>exact = <span class="kw">match </span>lower.as_str() {
-<a href=#288 id=288 data-nosnippet>288</a>        <span class="string">"dockerfile" </span>=&gt; <span class="prelude-val">Some</span>(SupportedLanguage::Dockerfile),
-<a href=#289 id=289 data-nosnippet>289</a>        <span class="string">"makefile" </span>| <span class="string">"gnumakefile" </span>=&gt; <span class="prelude-val">Some</span>(SupportedLanguage::Make),
-<a href=#290 id=290 data-nosnippet>290</a>        <span class="string">"gemfile" </span>| <span class="string">"rakefile" </span>| <span class="string">"guardfile" </span>| <span class="string">"podfile" </span>=&gt; <span class="prelude-val">Some</span>(SupportedLanguage::Ruby),
-<a href=#291 id=291 data-nosnippet>291</a>        <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-<a href=#292 id=292 data-nosnippet>292</a>    };
-<a href=#293 id=293 data-nosnippet>293</a>    <span class="kw">if let </span><span class="prelude-val">Some</span>(lang) = exact {
-<a href=#294 id=294 data-nosnippet>294</a>        <span class="kw">return </span>lang;
-<a href=#295 id=295 data-nosnippet>295</a>    }
-<a href=#296 id=296 data-nosnippet>296</a>
-<a href=#297 id=297 data-nosnippet>297</a>    <span class="kw">let </span>extension = std::path::Path::new(filename)
-<a href=#298 id=298 data-nosnippet>298</a>        .extension()
-<a href=#299 id=299 data-nosnippet>299</a>        .and_then(|ext| ext.to_str())
-<a href=#300 id=300 data-nosnippet>300</a>        .unwrap_or(<span class="string">""</span>);
-<a href=#301 id=301 data-nosnippet>301</a>
-<a href=#302 id=302 data-nosnippet>302</a>    <span class="kw">if </span>extension == <span class="string">"txt" </span>{
-<a href=#303 id=303 data-nosnippet>303</a>        <span class="kw">return </span>SupportedLanguage::Plain;
-<a href=#304 id=304 data-nosnippet>304</a>    }
-<a href=#305 id=305 data-nosnippet>305</a>
-<a href=#306 id=306 data-nosnippet>306</a>    <span class="comment">// Overriding gpui-component's default language mapping.
-<a href=#307 id=307 data-nosnippet>307</a>    </span><span class="kw">if let </span><span class="prelude-val">Some</span>(lang) = <span class="kw">match </span>extension {
-<a href=#308 id=308 data-nosnippet>308</a>        <span class="string">"scss" </span>=&gt; <span class="prelude-val">Some</span>(SupportedLanguage::Scss),
-<a href=#309 id=309 data-nosnippet>309</a>        <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-<a href=#310 id=310 data-nosnippet>310</a>    } {
-<a href=#311 id=311 data-nosnippet>311</a>        <span class="kw">return </span>lang;
-<a href=#312 id=312 data-nosnippet>312</a>    }
-<a href=#313 id=313 data-nosnippet>313</a>
-<a href=#314 id=314 data-nosnippet>314</a>    <span class="kw">let </span><span class="kw-2">mut </span>language = from_language(Language::from_str(extension));
-<a href=#315 id=315 data-nosnippet>315</a>    <span class="kw">if </span>language == SupportedLanguage::Plain {
-<a href=#316 id=316 data-nosnippet>316</a>        language = <span class="kw">match </span>extension {
-<a href=#317 id=317 data-nosnippet>317</a>            <span class="string">"ada" </span>| <span class="string">"ads" </span>| <span class="string">"adb" </span>=&gt; SupportedLanguage::Ada,
-<a href=#318 id=318 data-nosnippet>318</a>            <span class="string">"clojure" </span>| <span class="string">"clj" </span>| <span class="string">"cljs" </span>=&gt; SupportedLanguage::Clojure,
-<a href=#319 id=319 data-nosnippet>319</a>            <span class="string">"d" </span>| <span class="string">"di" </span>=&gt; SupportedLanguage::D,
-<a href=#320 id=320 data-nosnippet>320</a>            <span class="string">"dart" </span>=&gt; SupportedLanguage::Dart,
-<a href=#321 id=321 data-nosnippet>321</a>            <span class="string">"dockerfile" </span>=&gt; SupportedLanguage::Dockerfile,
-<a href=#322 id=322 data-nosnippet>322</a>            <span class="string">"erl" </span>| <span class="string">"hrl" </span>| <span class="string">"escript" </span>=&gt; SupportedLanguage::Erlang,
-<a href=#323 id=323 data-nosnippet>323</a>            <span class="string">"hs" </span>| <span class="string">"lhs" </span>=&gt; SupportedLanguage::Haskell,
-<a href=#324 id=324 data-nosnippet>324</a>            <span class="string">"ini" </span>| <span class="string">"cfg" </span>| <span class="string">"conf" </span>| <span class="string">"config" </span>=&gt; SupportedLanguage::Ini,
-<a href=#325 id=325 data-nosnippet>325</a>            <span class="string">"lock" </span>=&gt; SupportedLanguage::Toml,
-<a href=#326 id=326 data-nosnippet>326</a>            <span class="string">"groovy" </span>| <span class="string">"gvy" </span>| <span class="string">"gy" </span>| <span class="string">"gsh" </span>=&gt; SupportedLanguage::Groovy,
-<a href=#327 id=327 data-nosnippet>327</a>            <span class="string">"mjs" </span>=&gt; SupportedLanguage::JavaScript,
-<a href=#328 id=328 data-nosnippet>328</a>            <span class="string">"pas" </span>| <span class="string">"pp" </span>| <span class="string">"dpr" </span>| <span class="string">"dpk" </span>| <span class="string">"lpr" </span>=&gt; SupportedLanguage::Pascal,
-<a href=#329 id=329 data-nosnippet>329</a>            <span class="string">"perl" </span>| <span class="string">"pl" </span>| <span class="string">"pm" </span>| <span class="string">"plx" </span>=&gt; SupportedLanguage::Perl,
-<a href=#330 id=330 data-nosnippet>330</a>            <span class="string">"powershell" </span>| <span class="string">"ps1" </span>| <span class="string">"psm1" </span>| <span class="string">"psd1" </span>=&gt; SupportedLanguage::Powershell,
-<a href=#331 id=331 data-nosnippet>331</a>            <span class="string">"pro" </span>| <span class="string">"prolog" </span>=&gt; SupportedLanguage::Prolog,
-<a href=#332 id=332 data-nosnippet>332</a>            <span class="string">"m" </span>| <span class="string">"M" </span>| <span class="string">"mm" </span>=&gt; SupportedLanguage::ObjectiveC,
-<a href=#333 id=333 data-nosnippet>333</a>            <span class="string">"ml" </span>| <span class="string">"mli" </span>=&gt; SupportedLanguage::Ocaml,
-<a href=#334 id=334 data-nosnippet>334</a>            <span class="string">"r" </span>| <span class="string">"rmd" </span>=&gt; SupportedLanguage::R,
-<a href=#335 id=335 data-nosnippet>335</a>            <span class="string">"svg" </span>=&gt; SupportedLanguage::Html,
-<a href=#336 id=336 data-nosnippet>336</a>            <span class="string">"tsx" </span>| <span class="string">"jsx" </span>=&gt; SupportedLanguage::React,
-<a href=#337 id=337 data-nosnippet>337</a>            <span class="string">"vue" </span>=&gt; SupportedLanguage::Vue,
-<a href=#338 id=338 data-nosnippet>338</a>            <span class="string">"xml" </span>=&gt; SupportedLanguage::Xml,
-<a href=#339 id=339 data-nosnippet>339</a>            <span class="kw">_ </span>=&gt; SupportedLanguage::Plain,
-<a href=#340 id=340 data-nosnippet>340</a>        };
-<a href=#341 id=341 data-nosnippet>341</a>    }
-<a href=#342 id=342 data-nosnippet>342</a>    language
-<a href=#343 id=343 data-nosnippet>343</a>}
-<a href=#344 id=344 data-nosnippet>344</a>
-<a href=#345 id=345 data-nosnippet>345</a><span class="kw">impl </span>SupportedLanguage {
-<a href=#346 id=346 data-nosnippet>346</a>    <span class="doccomment">/// Lists all supported languages in alphabetical order, including some that are not supported by the language registry.
-<a href=#347 id=347 data-nosnippet>347</a>    ///
-<a href=#348 id=348 data-nosnippet>348</a>    /// ### Returns
-<a href=#349 id=349 data-nosnippet>349</a>    /// - `Vec&lt;SupportedLanguage&gt;`: A vector of all supported languages
-<a href=#350 id=350 data-nosnippet>350</a>    </span><span class="kw">pub fn </span>all() -&gt; Vec&lt;SupportedLanguage&gt; {
-<a href=#351 id=351 data-nosnippet>351</a>        <span class="macro">vec!</span>[
-<a href=#352 id=352 data-nosnippet>352</a>            SupportedLanguage::Ada,
-<a href=#353 id=353 data-nosnippet>353</a>            SupportedLanguage::Astro,
-<a href=#354 id=354 data-nosnippet>354</a>            SupportedLanguage::Bash,
-<a href=#355 id=355 data-nosnippet>355</a>            SupportedLanguage::C,
-<a href=#356 id=356 data-nosnippet>356</a>            SupportedLanguage::Clojure,
-<a href=#357 id=357 data-nosnippet>357</a>            SupportedLanguage::Cpp,
-<a href=#358 id=358 data-nosnippet>358</a>            SupportedLanguage::CMake,
-<a href=#359 id=359 data-nosnippet>359</a>            SupportedLanguage::CSharp,
-<a href=#360 id=360 data-nosnippet>360</a>            SupportedLanguage::Css,
-<a href=#361 id=361 data-nosnippet>361</a>            SupportedLanguage::D,
-<a href=#362 id=362 data-nosnippet>362</a>            SupportedLanguage::Dart,
-<a href=#363 id=363 data-nosnippet>363</a>            SupportedLanguage::Diff,
-<a href=#364 id=364 data-nosnippet>364</a>            SupportedLanguage::Dockerfile,
-<a href=#365 id=365 data-nosnippet>365</a>            SupportedLanguage::Ejs,
-<a href=#366 id=366 data-nosnippet>366</a>            SupportedLanguage::Elixir,
-<a href=#367 id=367 data-nosnippet>367</a>            SupportedLanguage::Erb,
-<a href=#368 id=368 data-nosnippet>368</a>            SupportedLanguage::Erlang,
-<a href=#369 id=369 data-nosnippet>369</a>            SupportedLanguage::Go,
-<a href=#370 id=370 data-nosnippet>370</a>            SupportedLanguage::GraphQl,
-<a href=#371 id=371 data-nosnippet>371</a>            SupportedLanguage::Groovy,
-<a href=#372 id=372 data-nosnippet>372</a>            SupportedLanguage::Haskell,
-<a href=#373 id=373 data-nosnippet>373</a>            SupportedLanguage::Html,
-<a href=#374 id=374 data-nosnippet>374</a>            SupportedLanguage::Ini,
-<a href=#375 id=375 data-nosnippet>375</a>            SupportedLanguage::Java,
-<a href=#376 id=376 data-nosnippet>376</a>            SupportedLanguage::JavaScript,
-<a href=#377 id=377 data-nosnippet>377</a>            SupportedLanguage::JsDoc,
-<a href=#378 id=378 data-nosnippet>378</a>            SupportedLanguage::Json,
-<a href=#379 id=379 data-nosnippet>379</a>            SupportedLanguage::Kotlin,
-<a href=#380 id=380 data-nosnippet>380</a>            SupportedLanguage::Lua,
-<a href=#381 id=381 data-nosnippet>381</a>            SupportedLanguage::Make,
-<a href=#382 id=382 data-nosnippet>382</a>            SupportedLanguage::Markdown,
-<a href=#383 id=383 data-nosnippet>383</a>            SupportedLanguage::MarkdownInline,
-<a href=#384 id=384 data-nosnippet>384</a>            SupportedLanguage::ObjectiveC,
-<a href=#385 id=385 data-nosnippet>385</a>            SupportedLanguage::Ocaml,
-<a href=#386 id=386 data-nosnippet>386</a>            SupportedLanguage::Pascal,
-<a href=#387 id=387 data-nosnippet>387</a>            SupportedLanguage::Perl,
-<a href=#388 id=388 data-nosnippet>388</a>            SupportedLanguage::Php,
-<a href=#389 id=389 data-nosnippet>389</a>            SupportedLanguage::Plain,
-<a href=#390 id=390 data-nosnippet>390</a>            SupportedLanguage::Powershell,
-<a href=#391 id=391 data-nosnippet>391</a>            SupportedLanguage::Prolog,
-<a href=#392 id=392 data-nosnippet>392</a>            SupportedLanguage::Proto,
-<a href=#393 id=393 data-nosnippet>393</a>            SupportedLanguage::Python,
-<a href=#394 id=394 data-nosnippet>394</a>            SupportedLanguage::R,
-<a href=#395 id=395 data-nosnippet>395</a>            SupportedLanguage::React,
-<a href=#396 id=396 data-nosnippet>396</a>            SupportedLanguage::Ruby,
-<a href=#397 id=397 data-nosnippet>397</a>            SupportedLanguage::Rust,
-<a href=#398 id=398 data-nosnippet>398</a>            SupportedLanguage::Scala,
-<a href=#399 id=399 data-nosnippet>399</a>            SupportedLanguage::Scss,
-<a href=#400 id=400 data-nosnippet>400</a>            SupportedLanguage::Sql,
-<a href=#401 id=401 data-nosnippet>401</a>            SupportedLanguage::Svelte,
-<a href=#402 id=402 data-nosnippet>402</a>            SupportedLanguage::Svg,
-<a href=#403 id=403 data-nosnippet>403</a>            SupportedLanguage::Swift,
-<a href=#404 id=404 data-nosnippet>404</a>            SupportedLanguage::Toml,
-<a href=#405 id=405 data-nosnippet>405</a>            SupportedLanguage::TypeScript,
-<a href=#406 id=406 data-nosnippet>406</a>            SupportedLanguage::Vue,
-<a href=#407 id=407 data-nosnippet>407</a>            SupportedLanguage::Xml,
-<a href=#408 id=408 data-nosnippet>408</a>            SupportedLanguage::Yaml,
-<a href=#409 id=409 data-nosnippet>409</a>            SupportedLanguage::Zig,
-<a href=#410 id=410 data-nosnippet>410</a>        ]
-<a href=#411 id=411 data-nosnippet>411</a>    }
-<a href=#412 id=412 data-nosnippet>412</a>}
-<a href=#413 id=413 data-nosnippet>413</a>
-<a href=#414 id=414 data-nosnippet>414</a><span class="kw">impl </span>Fulgur {
-<a href=#415 id=415 data-nosnippet>415</a>    <span class="doccomment">/// Get the current language of the active tab
-<a href=#416 id=416 data-nosnippet>416</a>    ///
-<a href=#417 id=417 data-nosnippet>417</a>    /// ### Returns
-<a href=#418 id=418 data-nosnippet>418</a>    /// - `SupportedLanguage`: The active tab's language
-<a href=#419 id=419 data-nosnippet>419</a>    </span><span class="kw">pub fn </span>get_current_language(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; SupportedLanguage {
-<a href=#420 id=420 data-nosnippet>420</a>        <span class="kw">match </span><span class="self">self</span>.active_tab_index {
-<a href=#421 id=421 data-nosnippet>421</a>            <span class="prelude-val">Some</span>(index) =&gt; {
-<a href=#422 id=422 data-nosnippet>422</a>                <span class="kw">if let </span><span class="prelude-val">Some</span>(editor_tab) = <span class="self">self</span>.tabs[index].as_editor() {
-<a href=#423 id=423 data-nosnippet>423</a>                    editor_tab.language
-<a href=#424 id=424 data-nosnippet>424</a>                } <span class="kw">else </span>{
-<a href=#425 id=425 data-nosnippet>425</a>                    SupportedLanguage::Plain
-<a href=#426 id=426 data-nosnippet>426</a>                }
-<a href=#427 id=427 data-nosnippet>427</a>            }
-<a href=#428 id=428 data-nosnippet>428</a>            <span class="prelude-val">None </span>=&gt; SupportedLanguage::Plain,
+<a href=#9 id=9 data-nosnippet>9</a>    Asm,
+<a href=#10 id=10 data-nosnippet>10</a>    Astro,
+<a href=#11 id=11 data-nosnippet>11</a>    Bash,
+<a href=#12 id=12 data-nosnippet>12</a>    C,
+<a href=#13 id=13 data-nosnippet>13</a>    Clojure,
+<a href=#14 id=14 data-nosnippet>14</a>    CMake,
+<a href=#15 id=15 data-nosnippet>15</a>    CSharp,
+<a href=#16 id=16 data-nosnippet>16</a>    Cpp,
+<a href=#17 id=17 data-nosnippet>17</a>    Css,
+<a href=#18 id=18 data-nosnippet>18</a>    D,
+<a href=#19 id=19 data-nosnippet>19</a>    Dart,
+<a href=#20 id=20 data-nosnippet>20</a>    Diff,
+<a href=#21 id=21 data-nosnippet>21</a>    Dockerfile,
+<a href=#22 id=22 data-nosnippet>22</a>    Ejs,
+<a href=#23 id=23 data-nosnippet>23</a>    Elixir,
+<a href=#24 id=24 data-nosnippet>24</a>    Erb,
+<a href=#25 id=25 data-nosnippet>25</a>    Erlang,
+<a href=#26 id=26 data-nosnippet>26</a>    Fortran,
+<a href=#27 id=27 data-nosnippet>27</a>    FSharp,
+<a href=#28 id=28 data-nosnippet>28</a>    Go,
+<a href=#29 id=29 data-nosnippet>29</a>    GraphQl,
+<a href=#30 id=30 data-nosnippet>30</a>    Groovy,
+<a href=#31 id=31 data-nosnippet>31</a>    Haskell,
+<a href=#32 id=32 data-nosnippet>32</a>    Html,
+<a href=#33 id=33 data-nosnippet>33</a>    Ini,
+<a href=#34 id=34 data-nosnippet>34</a>    Jinja2,
+<a href=#35 id=35 data-nosnippet>35</a>    Java,
+<a href=#36 id=36 data-nosnippet>36</a>    JavaScript,
+<a href=#37 id=37 data-nosnippet>37</a>    JsDoc,
+<a href=#38 id=38 data-nosnippet>38</a>    Json,
+<a href=#39 id=39 data-nosnippet>39</a>    Julia,
+<a href=#40 id=40 data-nosnippet>40</a>    Kotlin,
+<a href=#41 id=41 data-nosnippet>41</a>    Lua,
+<a href=#42 id=42 data-nosnippet>42</a>    Make,
+<a href=#43 id=43 data-nosnippet>43</a>    Markdown,
+<a href=#44 id=44 data-nosnippet>44</a>    Matlab,
+<a href=#45 id=45 data-nosnippet>45</a>    MarkdownInline,
+<a href=#46 id=46 data-nosnippet>46</a>    ObjectiveC,
+<a href=#47 id=47 data-nosnippet>47</a>    Ocaml,
+<a href=#48 id=48 data-nosnippet>48</a>    Pascal,
+<a href=#49 id=49 data-nosnippet>49</a>    Perl,
+<a href=#50 id=50 data-nosnippet>50</a>    Php,
+<a href=#51 id=51 data-nosnippet>51</a>    Plain,
+<a href=#52 id=52 data-nosnippet>52</a>    Powershell,
+<a href=#53 id=53 data-nosnippet>53</a>    Prolog,
+<a href=#54 id=54 data-nosnippet>54</a>    Proto,
+<a href=#55 id=55 data-nosnippet>55</a>    Python,
+<a href=#56 id=56 data-nosnippet>56</a>    R,
+<a href=#57 id=57 data-nosnippet>57</a>    React,
+<a href=#58 id=58 data-nosnippet>58</a>    Ruby,
+<a href=#59 id=59 data-nosnippet>59</a>    Rust,
+<a href=#60 id=60 data-nosnippet>60</a>    Scala,
+<a href=#61 id=61 data-nosnippet>61</a>    Scss,
+<a href=#62 id=62 data-nosnippet>62</a>    Sql,
+<a href=#63 id=63 data-nosnippet>63</a>    Svelte,
+<a href=#64 id=64 data-nosnippet>64</a>    Svg,
+<a href=#65 id=65 data-nosnippet>65</a>    Swift,
+<a href=#66 id=66 data-nosnippet>66</a>    Toml,
+<a href=#67 id=67 data-nosnippet>67</a>    TypeScript,
+<a href=#68 id=68 data-nosnippet>68</a>    Vue,
+<a href=#69 id=69 data-nosnippet>69</a>    Xml,
+<a href=#70 id=70 data-nosnippet>70</a>    Yaml,
+<a href=#71 id=71 data-nosnippet>71</a>    Zig,
+<a href=#72 id=72 data-nosnippet>72</a>}
+<a href=#73 id=73 data-nosnippet>73</a>
+<a href=#74 id=74 data-nosnippet>74</a><span class="doccomment">/// Convert a Language to a SupportedLanguage
+<a href=#75 id=75 data-nosnippet>75</a>///
+<a href=#76 id=76 data-nosnippet>76</a>/// ### Arguments
+<a href=#77 id=77 data-nosnippet>77</a>/// - `language`: The Language enum
+<a href=#78 id=78 data-nosnippet>78</a>///
+<a href=#79 id=79 data-nosnippet>79</a>/// ### Returns
+<a href=#80 id=80 data-nosnippet>80</a>/// - `SupportedLanguage`: The corresponding SupportedLanguage
+<a href=#81 id=81 data-nosnippet>81</a></span><span class="kw">pub fn </span>from_language(language: Language) -&gt; SupportedLanguage {
+<a href=#82 id=82 data-nosnippet>82</a>    <span class="kw">match </span>language {
+<a href=#83 id=83 data-nosnippet>83</a>        Language::Astro =&gt; SupportedLanguage::Astro,
+<a href=#84 id=84 data-nosnippet>84</a>        Language::Bash =&gt; SupportedLanguage::Bash,
+<a href=#85 id=85 data-nosnippet>85</a>        Language::C =&gt; SupportedLanguage::C,
+<a href=#86 id=86 data-nosnippet>86</a>        Language::CMake =&gt; SupportedLanguage::CMake,
+<a href=#87 id=87 data-nosnippet>87</a>        Language::CSharp =&gt; SupportedLanguage::CSharp,
+<a href=#88 id=88 data-nosnippet>88</a>        Language::Cpp =&gt; SupportedLanguage::Cpp,
+<a href=#89 id=89 data-nosnippet>89</a>        Language::Css =&gt; SupportedLanguage::Css,
+<a href=#90 id=90 data-nosnippet>90</a>        Language::Diff =&gt; SupportedLanguage::Diff,
+<a href=#91 id=91 data-nosnippet>91</a>        Language::Ejs =&gt; SupportedLanguage::Ejs,
+<a href=#92 id=92 data-nosnippet>92</a>        Language::Elixir =&gt; SupportedLanguage::Elixir,
+<a href=#93 id=93 data-nosnippet>93</a>        Language::Erb =&gt; SupportedLanguage::Erb,
+<a href=#94 id=94 data-nosnippet>94</a>        Language::Go =&gt; SupportedLanguage::Go,
+<a href=#95 id=95 data-nosnippet>95</a>        Language::GraphQL =&gt; SupportedLanguage::GraphQl,
+<a href=#96 id=96 data-nosnippet>96</a>        Language::Html =&gt; SupportedLanguage::Html,
+<a href=#97 id=97 data-nosnippet>97</a>        Language::Java =&gt; SupportedLanguage::Java,
+<a href=#98 id=98 data-nosnippet>98</a>        Language::JavaScript =&gt; SupportedLanguage::JavaScript,
+<a href=#99 id=99 data-nosnippet>99</a>        Language::JsDoc =&gt; SupportedLanguage::JsDoc,
+<a href=#100 id=100 data-nosnippet>100</a>        Language::Json =&gt; SupportedLanguage::Json,
+<a href=#101 id=101 data-nosnippet>101</a>        Language::Kotlin =&gt; SupportedLanguage::Kotlin,
+<a href=#102 id=102 data-nosnippet>102</a>        Language::Lua =&gt; SupportedLanguage::Lua,
+<a href=#103 id=103 data-nosnippet>103</a>        Language::Make =&gt; SupportedLanguage::Make,
+<a href=#104 id=104 data-nosnippet>104</a>        Language::Markdown =&gt; SupportedLanguage::Markdown,
+<a href=#105 id=105 data-nosnippet>105</a>        Language::MarkdownInline =&gt; SupportedLanguage::MarkdownInline,
+<a href=#106 id=106 data-nosnippet>106</a>        Language::Php =&gt; SupportedLanguage::Php,
+<a href=#107 id=107 data-nosnippet>107</a>        Language::Plain =&gt; SupportedLanguage::Plain,
+<a href=#108 id=108 data-nosnippet>108</a>        Language::Proto =&gt; SupportedLanguage::Proto,
+<a href=#109 id=109 data-nosnippet>109</a>        Language::Python =&gt; SupportedLanguage::Python,
+<a href=#110 id=110 data-nosnippet>110</a>        Language::Ruby =&gt; SupportedLanguage::Ruby,
+<a href=#111 id=111 data-nosnippet>111</a>        Language::Rust =&gt; SupportedLanguage::Rust,
+<a href=#112 id=112 data-nosnippet>112</a>        Language::Scala =&gt; SupportedLanguage::Scala,
+<a href=#113 id=113 data-nosnippet>113</a>        Language::Sql =&gt; SupportedLanguage::Sql,
+<a href=#114 id=114 data-nosnippet>114</a>        Language::Svelte =&gt; SupportedLanguage::Svelte,
+<a href=#115 id=115 data-nosnippet>115</a>        Language::Swift =&gt; SupportedLanguage::Swift,
+<a href=#116 id=116 data-nosnippet>116</a>        Language::Toml =&gt; SupportedLanguage::Toml,
+<a href=#117 id=117 data-nosnippet>117</a>        Language::Tsx =&gt; SupportedLanguage::React,
+<a href=#118 id=118 data-nosnippet>118</a>        Language::TypeScript =&gt; SupportedLanguage::TypeScript,
+<a href=#119 id=119 data-nosnippet>119</a>        Language::Yaml =&gt; SupportedLanguage::Yaml,
+<a href=#120 id=120 data-nosnippet>120</a>        Language::Zig =&gt; SupportedLanguage::Zig,
+<a href=#121 id=121 data-nosnippet>121</a>    }
+<a href=#122 id=122 data-nosnippet>122</a>}
+<a href=#123 id=123 data-nosnippet>123</a>
+<a href=#124 id=124 data-nosnippet>124</a><span class="doccomment">/// Convert a supported language to a language
+<a href=#125 id=125 data-nosnippet>125</a>///
+<a href=#126 id=126 data-nosnippet>126</a>/// ### Arguments
+<a href=#127 id=127 data-nosnippet>127</a>/// - `supported_language`: The supported language to convert
+<a href=#128 id=128 data-nosnippet>128</a>///
+<a href=#129 id=129 data-nosnippet>129</a>/// ### Returns
+<a href=#130 id=130 data-nosnippet>130</a>/// The corresponding language
+<a href=#131 id=131 data-nosnippet>131</a></span><span class="kw">pub fn </span>to_language(supported_language: <span class="kw-2">&amp;</span>SupportedLanguage) -&gt; Language {
+<a href=#132 id=132 data-nosnippet>132</a>    <span class="kw">match </span>supported_language {
+<a href=#133 id=133 data-nosnippet>133</a>        SupportedLanguage::Asm =&gt; Language::Plain,
+<a href=#134 id=134 data-nosnippet>134</a>        SupportedLanguage::Astro =&gt; Language::Astro,
+<a href=#135 id=135 data-nosnippet>135</a>        SupportedLanguage::Bash =&gt; Language::Bash,
+<a href=#136 id=136 data-nosnippet>136</a>        SupportedLanguage::C =&gt; Language::C,
+<a href=#137 id=137 data-nosnippet>137</a>        SupportedLanguage::CMake =&gt; Language::CMake,
+<a href=#138 id=138 data-nosnippet>138</a>        SupportedLanguage::CSharp =&gt; Language::CSharp,
+<a href=#139 id=139 data-nosnippet>139</a>        SupportedLanguage::Cpp =&gt; Language::Cpp,
+<a href=#140 id=140 data-nosnippet>140</a>        SupportedLanguage::Css =&gt; Language::Css,
+<a href=#141 id=141 data-nosnippet>141</a>        SupportedLanguage::Diff =&gt; Language::Diff,
+<a href=#142 id=142 data-nosnippet>142</a>        SupportedLanguage::Ejs =&gt; Language::Ejs,
+<a href=#143 id=143 data-nosnippet>143</a>        SupportedLanguage::Elixir =&gt; Language::Elixir,
+<a href=#144 id=144 data-nosnippet>144</a>        SupportedLanguage::Erb =&gt; Language::Erb,
+<a href=#145 id=145 data-nosnippet>145</a>        SupportedLanguage::Erlang =&gt; Language::Plain,
+<a href=#146 id=146 data-nosnippet>146</a>        SupportedLanguage::Fortran =&gt; Language::Plain,
+<a href=#147 id=147 data-nosnippet>147</a>        SupportedLanguage::FSharp =&gt; Language::Plain,
+<a href=#148 id=148 data-nosnippet>148</a>        SupportedLanguage::Go =&gt; Language::Go,
+<a href=#149 id=149 data-nosnippet>149</a>        SupportedLanguage::GraphQl =&gt; Language::GraphQL,
+<a href=#150 id=150 data-nosnippet>150</a>        SupportedLanguage::Html =&gt; Language::Html,
+<a href=#151 id=151 data-nosnippet>151</a>        SupportedLanguage::Ini =&gt; Language::Plain,
+<a href=#152 id=152 data-nosnippet>152</a>        SupportedLanguage::Jinja2 =&gt; Language::Plain,
+<a href=#153 id=153 data-nosnippet>153</a>        SupportedLanguage::Julia =&gt; Language::Plain,
+<a href=#154 id=154 data-nosnippet>154</a>        SupportedLanguage::Matlab =&gt; Language::Plain,
+<a href=#155 id=155 data-nosnippet>155</a>        SupportedLanguage::Java =&gt; Language::Java,
+<a href=#156 id=156 data-nosnippet>156</a>        SupportedLanguage::JavaScript =&gt; Language::JavaScript,
+<a href=#157 id=157 data-nosnippet>157</a>        SupportedLanguage::JsDoc =&gt; Language::JsDoc,
+<a href=#158 id=158 data-nosnippet>158</a>        SupportedLanguage::Json =&gt; Language::Json,
+<a href=#159 id=159 data-nosnippet>159</a>        SupportedLanguage::Kotlin =&gt; Language::Kotlin,
+<a href=#160 id=160 data-nosnippet>160</a>        SupportedLanguage::Lua =&gt; Language::Lua,
+<a href=#161 id=161 data-nosnippet>161</a>        SupportedLanguage::Make =&gt; Language::Make,
+<a href=#162 id=162 data-nosnippet>162</a>        SupportedLanguage::Markdown =&gt; Language::Markdown,
+<a href=#163 id=163 data-nosnippet>163</a>        SupportedLanguage::MarkdownInline =&gt; Language::MarkdownInline,
+<a href=#164 id=164 data-nosnippet>164</a>        SupportedLanguage::Php =&gt; Language::Php,
+<a href=#165 id=165 data-nosnippet>165</a>        SupportedLanguage::Plain =&gt; Language::Plain,
+<a href=#166 id=166 data-nosnippet>166</a>        SupportedLanguage::Proto =&gt; Language::Proto,
+<a href=#167 id=167 data-nosnippet>167</a>        SupportedLanguage::Python =&gt; Language::Python,
+<a href=#168 id=168 data-nosnippet>168</a>        SupportedLanguage::Ruby =&gt; Language::Ruby,
+<a href=#169 id=169 data-nosnippet>169</a>        SupportedLanguage::Rust =&gt; Language::Rust,
+<a href=#170 id=170 data-nosnippet>170</a>        SupportedLanguage::Scala =&gt; Language::Scala,
+<a href=#171 id=171 data-nosnippet>171</a>        SupportedLanguage::Sql =&gt; Language::Sql,
+<a href=#172 id=172 data-nosnippet>172</a>        SupportedLanguage::Svelte =&gt; Language::Svelte,
+<a href=#173 id=173 data-nosnippet>173</a>        SupportedLanguage::Svg =&gt; Language::Html,
+<a href=#174 id=174 data-nosnippet>174</a>        SupportedLanguage::Swift =&gt; Language::Swift,
+<a href=#175 id=175 data-nosnippet>175</a>        SupportedLanguage::Toml =&gt; Language::Toml,
+<a href=#176 id=176 data-nosnippet>176</a>        SupportedLanguage::TypeScript =&gt; Language::TypeScript,
+<a href=#177 id=177 data-nosnippet>177</a>        SupportedLanguage::Yaml =&gt; Language::Yaml,
+<a href=#178 id=178 data-nosnippet>178</a>        SupportedLanguage::Zig =&gt; Language::Zig,
+<a href=#179 id=179 data-nosnippet>179</a>        <span class="kw">_ </span>=&gt; Language::Plain,
+<a href=#180 id=180 data-nosnippet>180</a>    }
+<a href=#181 id=181 data-nosnippet>181</a>}
+<a href=#182 id=182 data-nosnippet>182</a>
+<a href=#183 id=183 data-nosnippet>183</a><span class="doccomment">/// Get the pretty name (human-readable) of a SupportedLanguage
+<a href=#184 id=184 data-nosnippet>184</a>///
+<a href=#185 id=185 data-nosnippet>185</a>/// ### Arguments
+<a href=#186 id=186 data-nosnippet>186</a>/// - `language`: The SupportedLanguage enum
+<a href=#187 id=187 data-nosnippet>187</a>///
+<a href=#188 id=188 data-nosnippet>188</a>/// ### Returns
+<a href=#189 id=189 data-nosnippet>189</a>/// - `String`: The human-readable name of the language
+<a href=#190 id=190 data-nosnippet>190</a></span><span class="kw">pub fn </span>pretty_name(language: <span class="kw-2">&amp;</span>SupportedLanguage) -&gt; String {
+<a href=#191 id=191 data-nosnippet>191</a>    <span class="kw">match </span>language {
+<a href=#192 id=192 data-nosnippet>192</a>        SupportedLanguage::Ada =&gt; <span class="string">"Ada"</span>.to_string(),
+<a href=#193 id=193 data-nosnippet>193</a>        SupportedLanguage::Asm =&gt; <span class="string">"Assembly"</span>.to_string(),
+<a href=#194 id=194 data-nosnippet>194</a>        SupportedLanguage::Astro =&gt; <span class="string">"Astro"</span>.to_string(),
+<a href=#195 id=195 data-nosnippet>195</a>        SupportedLanguage::Bash =&gt; <span class="string">"Bash"</span>.to_string(),
+<a href=#196 id=196 data-nosnippet>196</a>        SupportedLanguage::C =&gt; <span class="string">"C"</span>.to_string(),
+<a href=#197 id=197 data-nosnippet>197</a>        SupportedLanguage::Clojure =&gt; <span class="string">"Clojure"</span>.to_string(),
+<a href=#198 id=198 data-nosnippet>198</a>        SupportedLanguage::CMake =&gt; <span class="string">"CMake"</span>.to_string(),
+<a href=#199 id=199 data-nosnippet>199</a>        SupportedLanguage::CSharp =&gt; <span class="string">"C#"</span>.to_string(),
+<a href=#200 id=200 data-nosnippet>200</a>        SupportedLanguage::Cpp =&gt; <span class="string">"C++"</span>.to_string(),
+<a href=#201 id=201 data-nosnippet>201</a>        SupportedLanguage::Css =&gt; <span class="string">"CSS"</span>.to_string(),
+<a href=#202 id=202 data-nosnippet>202</a>        SupportedLanguage::D =&gt; <span class="string">"D"</span>.to_string(),
+<a href=#203 id=203 data-nosnippet>203</a>        SupportedLanguage::Dart =&gt; <span class="string">"Dart"</span>.to_string(),
+<a href=#204 id=204 data-nosnippet>204</a>        SupportedLanguage::Diff =&gt; <span class="string">"Diff"</span>.to_string(),
+<a href=#205 id=205 data-nosnippet>205</a>        SupportedLanguage::Dockerfile =&gt; <span class="string">"Dockerfile"</span>.to_string(),
+<a href=#206 id=206 data-nosnippet>206</a>        SupportedLanguage::Ejs =&gt; <span class="string">"EJS"</span>.to_string(),
+<a href=#207 id=207 data-nosnippet>207</a>        SupportedLanguage::Elixir =&gt; <span class="string">"Elixir"</span>.to_string(),
+<a href=#208 id=208 data-nosnippet>208</a>        SupportedLanguage::Erb =&gt; <span class="string">"ERB"</span>.to_string(),
+<a href=#209 id=209 data-nosnippet>209</a>        SupportedLanguage::Erlang =&gt; <span class="string">"Erlang"</span>.to_string(),
+<a href=#210 id=210 data-nosnippet>210</a>        SupportedLanguage::Fortran =&gt; <span class="string">"Fortran"</span>.to_string(),
+<a href=#211 id=211 data-nosnippet>211</a>        SupportedLanguage::FSharp =&gt; <span class="string">"F#"</span>.to_string(),
+<a href=#212 id=212 data-nosnippet>212</a>        SupportedLanguage::Go =&gt; <span class="string">"Go"</span>.to_string(),
+<a href=#213 id=213 data-nosnippet>213</a>        SupportedLanguage::GraphQl =&gt; <span class="string">"GraphQL"</span>.to_string(),
+<a href=#214 id=214 data-nosnippet>214</a>        SupportedLanguage::Groovy =&gt; <span class="string">"Groovy"</span>.to_string(),
+<a href=#215 id=215 data-nosnippet>215</a>        SupportedLanguage::Haskell =&gt; <span class="string">"Haskell"</span>.to_string(),
+<a href=#216 id=216 data-nosnippet>216</a>        SupportedLanguage::Html =&gt; <span class="string">"HTML"</span>.to_string(),
+<a href=#217 id=217 data-nosnippet>217</a>        SupportedLanguage::Ini =&gt; <span class="string">"INI"</span>.to_string(),
+<a href=#218 id=218 data-nosnippet>218</a>        SupportedLanguage::Jinja2 =&gt; <span class="string">"Jinja2"</span>.to_string(),
+<a href=#219 id=219 data-nosnippet>219</a>        SupportedLanguage::Java =&gt; <span class="string">"Java"</span>.to_string(),
+<a href=#220 id=220 data-nosnippet>220</a>        SupportedLanguage::JavaScript =&gt; <span class="string">"JavaScript"</span>.to_string(),
+<a href=#221 id=221 data-nosnippet>221</a>        SupportedLanguage::JsDoc =&gt; <span class="string">"JSDoc"</span>.to_string(),
+<a href=#222 id=222 data-nosnippet>222</a>        SupportedLanguage::Json =&gt; <span class="string">"JSON"</span>.to_string(),
+<a href=#223 id=223 data-nosnippet>223</a>        SupportedLanguage::Julia =&gt; <span class="string">"Julia"</span>.to_string(),
+<a href=#224 id=224 data-nosnippet>224</a>        SupportedLanguage::Kotlin =&gt; <span class="string">"Kotlin"</span>.to_string(),
+<a href=#225 id=225 data-nosnippet>225</a>        SupportedLanguage::Lua =&gt; <span class="string">"Lua"</span>.to_string(),
+<a href=#226 id=226 data-nosnippet>226</a>        SupportedLanguage::Make =&gt; <span class="string">"Make"</span>.to_string(),
+<a href=#227 id=227 data-nosnippet>227</a>        SupportedLanguage::Markdown =&gt; <span class="string">"Markdown"</span>.to_string(),
+<a href=#228 id=228 data-nosnippet>228</a>        SupportedLanguage::Matlab =&gt; <span class="string">"MATLAB"</span>.to_string(),
+<a href=#229 id=229 data-nosnippet>229</a>        SupportedLanguage::MarkdownInline =&gt; <span class="string">"Markdown Inline"</span>.to_string(),
+<a href=#230 id=230 data-nosnippet>230</a>        SupportedLanguage::ObjectiveC =&gt; <span class="string">"Objective-C"</span>.to_string(),
+<a href=#231 id=231 data-nosnippet>231</a>        SupportedLanguage::Ocaml =&gt; <span class="string">"OCaml"</span>.to_string(),
+<a href=#232 id=232 data-nosnippet>232</a>        SupportedLanguage::Pascal =&gt; <span class="string">"Pascal"</span>.to_string(),
+<a href=#233 id=233 data-nosnippet>233</a>        SupportedLanguage::Perl =&gt; <span class="string">"Perl"</span>.to_string(),
+<a href=#234 id=234 data-nosnippet>234</a>        SupportedLanguage::Php =&gt; <span class="string">"PHP"</span>.to_string(),
+<a href=#235 id=235 data-nosnippet>235</a>        SupportedLanguage::Plain =&gt; <span class="string">"Plain Text"</span>.to_string(),
+<a href=#236 id=236 data-nosnippet>236</a>        SupportedLanguage::Powershell =&gt; <span class="string">"PowerShell"</span>.to_string(),
+<a href=#237 id=237 data-nosnippet>237</a>        SupportedLanguage::Prolog =&gt; <span class="string">"Prolog"</span>.to_string(),
+<a href=#238 id=238 data-nosnippet>238</a>        SupportedLanguage::Proto =&gt; <span class="string">"Protocol Buffers"</span>.to_string(),
+<a href=#239 id=239 data-nosnippet>239</a>        SupportedLanguage::Python =&gt; <span class="string">"Python"</span>.to_string(),
+<a href=#240 id=240 data-nosnippet>240</a>        SupportedLanguage::R =&gt; <span class="string">"R"</span>.to_string(),
+<a href=#241 id=241 data-nosnippet>241</a>        SupportedLanguage::React =&gt; <span class="string">"React"</span>.to_string(),
+<a href=#242 id=242 data-nosnippet>242</a>        SupportedLanguage::Ruby =&gt; <span class="string">"Ruby"</span>.to_string(),
+<a href=#243 id=243 data-nosnippet>243</a>        SupportedLanguage::Rust =&gt; <span class="string">"Rust"</span>.to_string(),
+<a href=#244 id=244 data-nosnippet>244</a>        SupportedLanguage::Scala =&gt; <span class="string">"Scala"</span>.to_string(),
+<a href=#245 id=245 data-nosnippet>245</a>        SupportedLanguage::Scss =&gt; <span class="string">"SCSS"</span>.to_string(),
+<a href=#246 id=246 data-nosnippet>246</a>        SupportedLanguage::Sql =&gt; <span class="string">"SQL"</span>.to_string(),
+<a href=#247 id=247 data-nosnippet>247</a>        SupportedLanguage::Svg =&gt; <span class="string">"SVG"</span>.to_string(),
+<a href=#248 id=248 data-nosnippet>248</a>        SupportedLanguage::Svelte =&gt; <span class="string">"Svelte"</span>.to_string(),
+<a href=#249 id=249 data-nosnippet>249</a>        SupportedLanguage::Swift =&gt; <span class="string">"Swift"</span>.to_string(),
+<a href=#250 id=250 data-nosnippet>250</a>        SupportedLanguage::Toml =&gt; <span class="string">"TOML"</span>.to_string(),
+<a href=#251 id=251 data-nosnippet>251</a>        SupportedLanguage::TypeScript =&gt; <span class="string">"TypeScript"</span>.to_string(),
+<a href=#252 id=252 data-nosnippet>252</a>        SupportedLanguage::Vue =&gt; <span class="string">"Vue"</span>.to_string(),
+<a href=#253 id=253 data-nosnippet>253</a>        SupportedLanguage::Xml =&gt; <span class="string">"XML"</span>.to_string(),
+<a href=#254 id=254 data-nosnippet>254</a>        SupportedLanguage::Yaml =&gt; <span class="string">"YAML"</span>.to_string(),
+<a href=#255 id=255 data-nosnippet>255</a>        SupportedLanguage::Zig =&gt; <span class="string">"Zig"</span>.to_string(),
+<a href=#256 id=256 data-nosnippet>256</a>    }
+<a href=#257 id=257 data-nosnippet>257</a>}
+<a href=#258 id=258 data-nosnippet>258</a>
+<a href=#259 id=259 data-nosnippet>259</a><span class="doccomment">/// Get the language registry name for a SupportedLanguage.
+<a href=#260 id=260 data-nosnippet>260</a>/// For languages built into gpui-component, this delegates to `to_language().name()`.
+<a href=#261 id=261 data-nosnippet>261</a>/// For custom-registered languages (e.g. Perl), this returns the registered name directly.
+<a href=#262 id=262 data-nosnippet>262</a>///
+<a href=#263 id=263 data-nosnippet>263</a>/// ### Arguments
+<a href=#264 id=264 data-nosnippet>264</a>/// - `supported_language`: The supported language to convert
+<a href=#265 id=265 data-nosnippet>265</a>///
+<a href=#266 id=266 data-nosnippet>266</a>/// ### Returns
+<a href=#267 id=267 data-nosnippet>267</a>/// - `&amp;'static str`: The language name as registered in the LanguageRegistry
+<a href=#268 id=268 data-nosnippet>268</a></span><span class="kw">pub fn </span>language_registry_name(supported_language: <span class="kw-2">&amp;</span>SupportedLanguage) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+<a href=#269 id=269 data-nosnippet>269</a>    <span class="kw">match </span>supported_language {
+<a href=#270 id=270 data-nosnippet>270</a>        SupportedLanguage::Ada =&gt; <span class="string">"ada"</span>,
+<a href=#271 id=271 data-nosnippet>271</a>        SupportedLanguage::Asm =&gt; <span class="string">"asm"</span>,
+<a href=#272 id=272 data-nosnippet>272</a>        SupportedLanguage::Clojure =&gt; <span class="string">"clojure"</span>,
+<a href=#273 id=273 data-nosnippet>273</a>        SupportedLanguage::Erlang =&gt; <span class="string">"erlang"</span>,
+<a href=#274 id=274 data-nosnippet>274</a>        SupportedLanguage::Fortran =&gt; <span class="string">"fortran"</span>,
+<a href=#275 id=275 data-nosnippet>275</a>        SupportedLanguage::FSharp =&gt; <span class="string">"fsharp"</span>,
+<a href=#276 id=276 data-nosnippet>276</a>        SupportedLanguage::D =&gt; <span class="string">"d"</span>,
+<a href=#277 id=277 data-nosnippet>277</a>        SupportedLanguage::Dart =&gt; <span class="string">"dart"</span>,
+<a href=#278 id=278 data-nosnippet>278</a>        SupportedLanguage::Dockerfile =&gt; <span class="string">"dockerfile"</span>,
+<a href=#279 id=279 data-nosnippet>279</a>        SupportedLanguage::Groovy =&gt; <span class="string">"groovy"</span>,
+<a href=#280 id=280 data-nosnippet>280</a>        SupportedLanguage::Haskell =&gt; <span class="string">"haskell"</span>,
+<a href=#281 id=281 data-nosnippet>281</a>        SupportedLanguage::Ini =&gt; <span class="string">"ini"</span>,
+<a href=#282 id=282 data-nosnippet>282</a>        SupportedLanguage::Jinja2 =&gt; <span class="string">"jinja2"</span>,
+<a href=#283 id=283 data-nosnippet>283</a>        SupportedLanguage::Julia =&gt; <span class="string">"julia"</span>,
+<a href=#284 id=284 data-nosnippet>284</a>        SupportedLanguage::Matlab =&gt; <span class="string">"matlab"</span>,
+<a href=#285 id=285 data-nosnippet>285</a>        SupportedLanguage::ObjectiveC =&gt; <span class="string">"objective-c"</span>,
+<a href=#286 id=286 data-nosnippet>286</a>        SupportedLanguage::Ocaml =&gt; <span class="string">"ocaml"</span>,
+<a href=#287 id=287 data-nosnippet>287</a>        SupportedLanguage::Pascal =&gt; <span class="string">"pascal"</span>,
+<a href=#288 id=288 data-nosnippet>288</a>        SupportedLanguage::Perl =&gt; <span class="string">"perl"</span>,
+<a href=#289 id=289 data-nosnippet>289</a>        SupportedLanguage::Powershell =&gt; <span class="string">"powershell"</span>,
+<a href=#290 id=290 data-nosnippet>290</a>        SupportedLanguage::Prolog =&gt; <span class="string">"prolog"</span>,
+<a href=#291 id=291 data-nosnippet>291</a>        SupportedLanguage::R =&gt; <span class="string">"r"</span>,
+<a href=#292 id=292 data-nosnippet>292</a>        SupportedLanguage::React =&gt; <span class="string">"react"</span>,
+<a href=#293 id=293 data-nosnippet>293</a>        SupportedLanguage::Scss =&gt; <span class="string">"scss"</span>,
+<a href=#294 id=294 data-nosnippet>294</a>        SupportedLanguage::Vue =&gt; <span class="string">"vue"</span>,
+<a href=#295 id=295 data-nosnippet>295</a>        SupportedLanguage::Xml =&gt; <span class="string">"html"</span>,
+<a href=#296 id=296 data-nosnippet>296</a>        other =&gt; to_language(other).name(),
+<a href=#297 id=297 data-nosnippet>297</a>    }
+<a href=#298 id=298 data-nosnippet>298</a>}
+<a href=#299 id=299 data-nosnippet>299</a>
+<a href=#300 id=300 data-nosnippet>300</a><span class="doccomment">/// Get the Language enum from a filename or file extension.
+<a href=#301 id=301 data-nosnippet>301</a>/// Exact filename matches (e.g. `Dockerfile`, `Makefile`) are checked first,
+<a href=#302 id=302 data-nosnippet>302</a>/// then falls back to the file extension.
+<a href=#303 id=303 data-nosnippet>303</a>///
+<a href=#304 id=304 data-nosnippet>304</a>/// ### Arguments
+<a href=#305 id=305 data-nosnippet>305</a>/// - `filename`: The file name
+<a href=#306 id=306 data-nosnippet>306</a>///
+<a href=#307 id=307 data-nosnippet>307</a>/// ### Returns
+<a href=#308 id=308 data-nosnippet>308</a>/// - `SupportedLanguage`: The detected language
+<a href=#309 id=309 data-nosnippet>309</a></span><span class="kw">pub fn </span>language_from_filename(filename: <span class="kw-2">&amp;</span>str) -&gt; SupportedLanguage {
+<a href=#310 id=310 data-nosnippet>310</a>    <span class="kw">let </span>lower = filename.to_lowercase();
+<a href=#311 id=311 data-nosnippet>311</a>    <span class="kw">let </span>exact = <span class="kw">match </span>lower.as_str() {
+<a href=#312 id=312 data-nosnippet>312</a>        <span class="string">"dockerfile" </span>=&gt; <span class="prelude-val">Some</span>(SupportedLanguage::Dockerfile),
+<a href=#313 id=313 data-nosnippet>313</a>        <span class="string">"makefile" </span>| <span class="string">"gnumakefile" </span>=&gt; <span class="prelude-val">Some</span>(SupportedLanguage::Make),
+<a href=#314 id=314 data-nosnippet>314</a>        <span class="string">"gemfile" </span>| <span class="string">"rakefile" </span>| <span class="string">"guardfile" </span>| <span class="string">"podfile" </span>=&gt; <span class="prelude-val">Some</span>(SupportedLanguage::Ruby),
+<a href=#315 id=315 data-nosnippet>315</a>        <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+<a href=#316 id=316 data-nosnippet>316</a>    };
+<a href=#317 id=317 data-nosnippet>317</a>    <span class="kw">if let </span><span class="prelude-val">Some</span>(lang) = exact {
+<a href=#318 id=318 data-nosnippet>318</a>        <span class="kw">return </span>lang;
+<a href=#319 id=319 data-nosnippet>319</a>    }
+<a href=#320 id=320 data-nosnippet>320</a>
+<a href=#321 id=321 data-nosnippet>321</a>    <span class="kw">let </span>extension = std::path::Path::new(filename)
+<a href=#322 id=322 data-nosnippet>322</a>        .extension()
+<a href=#323 id=323 data-nosnippet>323</a>        .and_then(|ext| ext.to_str())
+<a href=#324 id=324 data-nosnippet>324</a>        .unwrap_or(<span class="string">""</span>);
+<a href=#325 id=325 data-nosnippet>325</a>
+<a href=#326 id=326 data-nosnippet>326</a>    <span class="kw">if </span>extension == <span class="string">"txt" </span>{
+<a href=#327 id=327 data-nosnippet>327</a>        <span class="kw">return </span>SupportedLanguage::Plain;
+<a href=#328 id=328 data-nosnippet>328</a>    }
+<a href=#329 id=329 data-nosnippet>329</a>
+<a href=#330 id=330 data-nosnippet>330</a>    <span class="comment">// Overriding gpui-component's default language mapping.
+<a href=#331 id=331 data-nosnippet>331</a>    </span><span class="kw">if let </span><span class="prelude-val">Some</span>(lang) = <span class="kw">match </span>extension {
+<a href=#332 id=332 data-nosnippet>332</a>        <span class="string">"scss" </span>=&gt; <span class="prelude-val">Some</span>(SupportedLanguage::Scss),
+<a href=#333 id=333 data-nosnippet>333</a>        <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+<a href=#334 id=334 data-nosnippet>334</a>    } {
+<a href=#335 id=335 data-nosnippet>335</a>        <span class="kw">return </span>lang;
+<a href=#336 id=336 data-nosnippet>336</a>    }
+<a href=#337 id=337 data-nosnippet>337</a>
+<a href=#338 id=338 data-nosnippet>338</a>    <span class="kw">let </span><span class="kw-2">mut </span>language = from_language(Language::from_str(extension));
+<a href=#339 id=339 data-nosnippet>339</a>    <span class="kw">if </span>language == SupportedLanguage::Plain {
+<a href=#340 id=340 data-nosnippet>340</a>        language = <span class="kw">match </span>extension {
+<a href=#341 id=341 data-nosnippet>341</a>            <span class="string">"ada" </span>| <span class="string">"ads" </span>| <span class="string">"adb" </span>=&gt; SupportedLanguage::Ada,
+<a href=#342 id=342 data-nosnippet>342</a>            <span class="string">"asm" </span>| <span class="string">"s" </span>| <span class="string">"S" </span>| <span class="string">"nasm" </span>| <span class="string">"masm" </span>=&gt; SupportedLanguage::Asm,
+<a href=#343 id=343 data-nosnippet>343</a>            <span class="string">"clojure" </span>| <span class="string">"clj" </span>| <span class="string">"cljs" </span>=&gt; SupportedLanguage::Clojure,
+<a href=#344 id=344 data-nosnippet>344</a>            <span class="string">"d" </span>| <span class="string">"di" </span>=&gt; SupportedLanguage::D,
+<a href=#345 id=345 data-nosnippet>345</a>            <span class="string">"dart" </span>=&gt; SupportedLanguage::Dart,
+<a href=#346 id=346 data-nosnippet>346</a>            <span class="string">"dockerfile" </span>=&gt; SupportedLanguage::Dockerfile,
+<a href=#347 id=347 data-nosnippet>347</a>            <span class="string">"erl" </span>| <span class="string">"hrl" </span>| <span class="string">"escript" </span>=&gt; SupportedLanguage::Erlang,
+<a href=#348 id=348 data-nosnippet>348</a>            <span class="string">"f" </span>| <span class="string">"f77" </span>| <span class="string">"f90" </span>| <span class="string">"f95" </span>| <span class="string">"f03" </span>| <span class="string">"f08" </span>| <span class="string">"for" </span>| <span class="string">"ftn" </span>| <span class="string">"pf" </span>=&gt; {
+<a href=#349 id=349 data-nosnippet>349</a>                SupportedLanguage::Fortran
+<a href=#350 id=350 data-nosnippet>350</a>            }
+<a href=#351 id=351 data-nosnippet>351</a>            <span class="string">"fs" </span>| <span class="string">"fsi" </span>| <span class="string">"fsx" </span>| <span class="string">"fsscript" </span>=&gt; SupportedLanguage::FSharp,
+<a href=#352 id=352 data-nosnippet>352</a>            <span class="string">"hs" </span>| <span class="string">"lhs" </span>=&gt; SupportedLanguage::Haskell,
+<a href=#353 id=353 data-nosnippet>353</a>            <span class="string">"ini" </span>| <span class="string">"cfg" </span>| <span class="string">"conf" </span>| <span class="string">"config" </span>=&gt; SupportedLanguage::Ini,
+<a href=#354 id=354 data-nosnippet>354</a>            <span class="string">"jinja" </span>| <span class="string">"jinja2" </span>| <span class="string">"j2" </span>=&gt; SupportedLanguage::Jinja2,
+<a href=#355 id=355 data-nosnippet>355</a>            <span class="string">"jl" </span>=&gt; SupportedLanguage::Julia,
+<a href=#356 id=356 data-nosnippet>356</a>            <span class="string">"lock" </span>=&gt; SupportedLanguage::Toml,
+<a href=#357 id=357 data-nosnippet>357</a>            <span class="string">"groovy" </span>| <span class="string">"gvy" </span>| <span class="string">"gy" </span>| <span class="string">"gsh" </span>=&gt; SupportedLanguage::Groovy,
+<a href=#358 id=358 data-nosnippet>358</a>            <span class="string">"mjs" </span>=&gt; SupportedLanguage::JavaScript,
+<a href=#359 id=359 data-nosnippet>359</a>            <span class="string">"pas" </span>| <span class="string">"pp" </span>| <span class="string">"dpr" </span>| <span class="string">"dpk" </span>| <span class="string">"lpr" </span>=&gt; SupportedLanguage::Pascal,
+<a href=#360 id=360 data-nosnippet>360</a>            <span class="string">"perl" </span>| <span class="string">"pl" </span>| <span class="string">"pm" </span>| <span class="string">"plx" </span>=&gt; SupportedLanguage::Perl,
+<a href=#361 id=361 data-nosnippet>361</a>            <span class="string">"powershell" </span>| <span class="string">"ps1" </span>| <span class="string">"psm1" </span>| <span class="string">"psd1" </span>=&gt; SupportedLanguage::Powershell,
+<a href=#362 id=362 data-nosnippet>362</a>            <span class="string">"pro" </span>| <span class="string">"prolog" </span>=&gt; SupportedLanguage::Prolog,
+<a href=#363 id=363 data-nosnippet>363</a>            <span class="string">"m" </span>| <span class="string">"M" </span>| <span class="string">"mm" </span>=&gt; SupportedLanguage::ObjectiveC,
+<a href=#364 id=364 data-nosnippet>364</a>            <span class="string">"ml" </span>| <span class="string">"mli" </span>=&gt; SupportedLanguage::Ocaml,
+<a href=#365 id=365 data-nosnippet>365</a>            <span class="string">"r" </span>| <span class="string">"rmd" </span>=&gt; SupportedLanguage::R,
+<a href=#366 id=366 data-nosnippet>366</a>            <span class="string">"svg" </span>=&gt; SupportedLanguage::Html,
+<a href=#367 id=367 data-nosnippet>367</a>            <span class="string">"tsx" </span>| <span class="string">"jsx" </span>=&gt; SupportedLanguage::React,
+<a href=#368 id=368 data-nosnippet>368</a>            <span class="string">"vue" </span>=&gt; SupportedLanguage::Vue,
+<a href=#369 id=369 data-nosnippet>369</a>            <span class="string">"xml" </span>=&gt; SupportedLanguage::Xml,
+<a href=#370 id=370 data-nosnippet>370</a>            <span class="kw">_ </span>=&gt; SupportedLanguage::Plain,
+<a href=#371 id=371 data-nosnippet>371</a>        };
+<a href=#372 id=372 data-nosnippet>372</a>    }
+<a href=#373 id=373 data-nosnippet>373</a>    language
+<a href=#374 id=374 data-nosnippet>374</a>}
+<a href=#375 id=375 data-nosnippet>375</a>
+<a href=#376 id=376 data-nosnippet>376</a><span class="doccomment">/// Detect whether a `.m` file contains Objective-C or MATLAB source by scanning
+<a href=#377 id=377 data-nosnippet>377</a>/// the first 50 lines for distinctive markers.
+<a href=#378 id=378 data-nosnippet>378</a>///
+<a href=#379 id=379 data-nosnippet>379</a>/// Returns `ObjectiveC` if any Objective-C marker is encountered first, `Matlab` if any
+<a href=#380 id=380 data-nosnippet>380</a>/// MATLAB marker is encountered first, and `ObjectiveC` as the default when no signal is found.
+<a href=#381 id=381 data-nosnippet>381</a></span><span class="kw">fn </span>detect_m_file_language(content: <span class="kw-2">&amp;</span>str) -&gt; SupportedLanguage {
+<a href=#382 id=382 data-nosnippet>382</a>    <span class="kw">for </span>line <span class="kw">in </span>content.lines().take(<span class="number">50</span>) {
+<a href=#383 id=383 data-nosnippet>383</a>        <span class="kw">let </span>trimmed = line.trim();
+<a href=#384 id=384 data-nosnippet>384</a>        <span class="comment">// Objective-C markers
+<a href=#385 id=385 data-nosnippet>385</a>        </span><span class="kw">if </span>trimmed.starts_with(<span class="string">"#import"</span>)
+<a href=#386 id=386 data-nosnippet>386</a>            || trimmed.starts_with(<span class="string">"#include"</span>)
+<a href=#387 id=387 data-nosnippet>387</a>            || trimmed.starts_with(<span class="string">"@interface"</span>)
+<a href=#388 id=388 data-nosnippet>388</a>            || trimmed.starts_with(<span class="string">"@implementation"</span>)
+<a href=#389 id=389 data-nosnippet>389</a>            || trimmed.starts_with(<span class="string">"@protocol"</span>)
+<a href=#390 id=390 data-nosnippet>390</a>            || trimmed.starts_with(<span class="string">"@property"</span>)
+<a href=#391 id=391 data-nosnippet>391</a>            || trimmed.starts_with(<span class="string">"- ("</span>)
+<a href=#392 id=392 data-nosnippet>392</a>            || trimmed.starts_with(<span class="string">"+ ("</span>)
+<a href=#393 id=393 data-nosnippet>393</a>        {
+<a href=#394 id=394 data-nosnippet>394</a>            <span class="kw">return </span>SupportedLanguage::ObjectiveC;
+<a href=#395 id=395 data-nosnippet>395</a>        }
+<a href=#396 id=396 data-nosnippet>396</a>        <span class="comment">// MATLAB markers
+<a href=#397 id=397 data-nosnippet>397</a>        </span><span class="kw">if </span>trimmed.starts_with(<span class="string">'%'</span>)
+<a href=#398 id=398 data-nosnippet>398</a>            || trimmed.starts_with(<span class="string">"function "</span>)
+<a href=#399 id=399 data-nosnippet>399</a>            || trimmed == <span class="string">"function"
+<a href=#400 id=400 data-nosnippet>400</a>            </span>|| trimmed.starts_with(<span class="string">"classdef "</span>)
+<a href=#401 id=401 data-nosnippet>401</a>        {
+<a href=#402 id=402 data-nosnippet>402</a>            <span class="kw">return </span>SupportedLanguage::Matlab;
+<a href=#403 id=403 data-nosnippet>403</a>        }
+<a href=#404 id=404 data-nosnippet>404</a>    }
+<a href=#405 id=405 data-nosnippet>405</a>    SupportedLanguage::ObjectiveC
+<a href=#406 id=406 data-nosnippet>406</a>}
+<a href=#407 id=407 data-nosnippet>407</a>
+<a href=#408 id=408 data-nosnippet>408</a><span class="doccomment">/// Get the language from a filename and file content.
+<a href=#409 id=409 data-nosnippet>409</a>///
+<a href=#410 id=410 data-nosnippet>410</a>/// Behaves like [`language_from_filename`] but additionally uses content-based heuristics
+<a href=#411 id=411 data-nosnippet>411</a>/// for extensions that are shared between multiple languages. Currently handles:
+<a href=#412 id=412 data-nosnippet>412</a>/// - `.m`: disambiguates between Objective-C and MATLAB by scanning the first 50 lines.
+<a href=#413 id=413 data-nosnippet>413</a>///
+<a href=#414 id=414 data-nosnippet>414</a>/// ### Arguments
+<a href=#415 id=415 data-nosnippet>415</a>/// - `filename`: The file name
+<a href=#416 id=416 data-nosnippet>416</a>/// - `content`: The file content
+<a href=#417 id=417 data-nosnippet>417</a>///
+<a href=#418 id=418 data-nosnippet>418</a>/// ### Returns
+<a href=#419 id=419 data-nosnippet>419</a>/// - `SupportedLanguage`: The detected language
+<a href=#420 id=420 data-nosnippet>420</a></span><span class="kw">pub fn </span>language_from_content(filename: <span class="kw-2">&amp;</span>str, content: <span class="kw-2">&amp;</span>str) -&gt; SupportedLanguage {
+<a href=#421 id=421 data-nosnippet>421</a>    <span class="kw">let </span>base = language_from_filename(filename);
+<a href=#422 id=422 data-nosnippet>422</a>    <span class="kw">if </span>base == SupportedLanguage::ObjectiveC {
+<a href=#423 id=423 data-nosnippet>423</a>        <span class="kw">let </span>ext = std::path::Path::new(filename)
+<a href=#424 id=424 data-nosnippet>424</a>            .extension()
+<a href=#425 id=425 data-nosnippet>425</a>            .and_then(|e| e.to_str())
+<a href=#426 id=426 data-nosnippet>426</a>            .unwrap_or(<span class="string">""</span>);
+<a href=#427 id=427 data-nosnippet>427</a>        <span class="kw">if </span>ext == <span class="string">"m" </span>{
+<a href=#428 id=428 data-nosnippet>428</a>            <span class="kw">return </span>detect_m_file_language(content);
 <a href=#429 id=429 data-nosnippet>429</a>        }
 <a href=#430 id=430 data-nosnippet>430</a>    }
-<a href=#431 id=431 data-nosnippet>431</a>
-<a href=#432 id=432 data-nosnippet>432</a>    <span class="doccomment">/// Check if the current active tab's language is a Markdown language
-<a href=#433 id=433 data-nosnippet>433</a>    ///
-<a href=#434 id=434 data-nosnippet>434</a>    /// ### Returns
-<a href=#435 id=435 data-nosnippet>435</a>    /// - `True` if the active tab's language is a Markdown language, `False` otherwise
-<a href=#436 id=436 data-nosnippet>436</a>    </span><span class="kw">pub fn </span>is_markdown(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-<a href=#437 id=437 data-nosnippet>437</a>        <span class="kw">let </span>current_language = <span class="self">self</span>.get_current_language();
-<a href=#438 id=438 data-nosnippet>438</a>        current_language == SupportedLanguage::Markdown
-<a href=#439 id=439 data-nosnippet>439</a>            || current_language == SupportedLanguage::MarkdownInline
-<a href=#440 id=440 data-nosnippet>440</a>    }
-<a href=#441 id=441 data-nosnippet>441</a>}
-<a href=#442 id=442 data-nosnippet>442</a>
-<a href=#443 id=443 data-nosnippet>443</a><span class="doccomment">/// Register external languages that are not supported by default by the editor
-<a href=#444 id=444 data-nosnippet>444</a></span><span class="kw">pub fn </span>register_external_languages() {
-<a href=#445 id=445 data-nosnippet>445</a>    <span class="kw">super</span>::syntax_highlighting::ada::add_ada_support();
-<a href=#446 id=446 data-nosnippet>446</a>    <span class="kw">super</span>::syntax_highlighting::clojure::add_clojure_support();
-<a href=#447 id=447 data-nosnippet>447</a>    <span class="kw">super</span>::syntax_highlighting::d::add_d_support();
-<a href=#448 id=448 data-nosnippet>448</a>    <span class="kw">super</span>::syntax_highlighting::dart::add_dart_support();
-<a href=#449 id=449 data-nosnippet>449</a>    <span class="kw">super</span>::syntax_highlighting::dockerfile::add_dockerfile_support();
-<a href=#450 id=450 data-nosnippet>450</a>    <span class="kw">super</span>::syntax_highlighting::erlang::add_erlang_support();
-<a href=#451 id=451 data-nosnippet>451</a>    <span class="kw">super</span>::syntax_highlighting::groovy::add_groovy_support();
-<a href=#452 id=452 data-nosnippet>452</a>    <span class="kw">super</span>::syntax_highlighting::haskell::add_haskell_support();
-<a href=#453 id=453 data-nosnippet>453</a>    <span class="kw">super</span>::syntax_highlighting::ini::add_ini_support();
-<a href=#454 id=454 data-nosnippet>454</a>    <span class="kw">super</span>::syntax_highlighting::objective_c::add_objective_c_support();
-<a href=#455 id=455 data-nosnippet>455</a>    <span class="kw">super</span>::syntax_highlighting::ocaml::add_ocaml_support();
-<a href=#456 id=456 data-nosnippet>456</a>    <span class="kw">super</span>::syntax_highlighting::pascal::add_pascal_support();
-<a href=#457 id=457 data-nosnippet>457</a>    <span class="kw">super</span>::syntax_highlighting::perl::add_perl_support();
-<a href=#458 id=458 data-nosnippet>458</a>    <span class="kw">super</span>::syntax_highlighting::powershell::add_powershell_support();
-<a href=#459 id=459 data-nosnippet>459</a>    <span class="kw">super</span>::syntax_highlighting::prolog::add_prolog_support();
-<a href=#460 id=460 data-nosnippet>460</a>    <span class="kw">super</span>::syntax_highlighting::r::add_r_support();
-<a href=#461 id=461 data-nosnippet>461</a>    <span class="kw">super</span>::syntax_highlighting::react::add_react_support();
-<a href=#462 id=462 data-nosnippet>462</a>    <span class="kw">super</span>::syntax_highlighting::scss::add_scss_support();
-<a href=#463 id=463 data-nosnippet>463</a>    <span class="kw">super</span>::syntax_highlighting::vue::add_vue_support();
-<a href=#464 id=464 data-nosnippet>464</a>}
+<a href=#431 id=431 data-nosnippet>431</a>    base
+<a href=#432 id=432 data-nosnippet>432</a>}
+<a href=#433 id=433 data-nosnippet>433</a>
+<a href=#434 id=434 data-nosnippet>434</a><span class="kw">impl </span>SupportedLanguage {
+<a href=#435 id=435 data-nosnippet>435</a>    <span class="doccomment">/// Lists all supported languages in alphabetical order, including some that are not supported by the language registry.
+<a href=#436 id=436 data-nosnippet>436</a>    ///
+<a href=#437 id=437 data-nosnippet>437</a>    /// ### Returns
+<a href=#438 id=438 data-nosnippet>438</a>    /// - `Vec&lt;SupportedLanguage&gt;`: A vector of all supported languages
+<a href=#439 id=439 data-nosnippet>439</a>    </span><span class="kw">pub fn </span>all() -&gt; Vec&lt;SupportedLanguage&gt; {
+<a href=#440 id=440 data-nosnippet>440</a>        <span class="macro">vec!</span>[
+<a href=#441 id=441 data-nosnippet>441</a>            SupportedLanguage::Ada,
+<a href=#442 id=442 data-nosnippet>442</a>            SupportedLanguage::Asm,
+<a href=#443 id=443 data-nosnippet>443</a>            SupportedLanguage::Astro,
+<a href=#444 id=444 data-nosnippet>444</a>            SupportedLanguage::Bash,
+<a href=#445 id=445 data-nosnippet>445</a>            SupportedLanguage::C,
+<a href=#446 id=446 data-nosnippet>446</a>            SupportedLanguage::Clojure,
+<a href=#447 id=447 data-nosnippet>447</a>            SupportedLanguage::Cpp,
+<a href=#448 id=448 data-nosnippet>448</a>            SupportedLanguage::CMake,
+<a href=#449 id=449 data-nosnippet>449</a>            SupportedLanguage::CSharp,
+<a href=#450 id=450 data-nosnippet>450</a>            SupportedLanguage::Css,
+<a href=#451 id=451 data-nosnippet>451</a>            SupportedLanguage::D,
+<a href=#452 id=452 data-nosnippet>452</a>            SupportedLanguage::Dart,
+<a href=#453 id=453 data-nosnippet>453</a>            SupportedLanguage::Diff,
+<a href=#454 id=454 data-nosnippet>454</a>            SupportedLanguage::Dockerfile,
+<a href=#455 id=455 data-nosnippet>455</a>            SupportedLanguage::Ejs,
+<a href=#456 id=456 data-nosnippet>456</a>            SupportedLanguage::Elixir,
+<a href=#457 id=457 data-nosnippet>457</a>            SupportedLanguage::Erb,
+<a href=#458 id=458 data-nosnippet>458</a>            SupportedLanguage::Erlang,
+<a href=#459 id=459 data-nosnippet>459</a>            SupportedLanguage::Fortran,
+<a href=#460 id=460 data-nosnippet>460</a>            SupportedLanguage::FSharp,
+<a href=#461 id=461 data-nosnippet>461</a>            SupportedLanguage::Go,
+<a href=#462 id=462 data-nosnippet>462</a>            SupportedLanguage::GraphQl,
+<a href=#463 id=463 data-nosnippet>463</a>            SupportedLanguage::Groovy,
+<a href=#464 id=464 data-nosnippet>464</a>            SupportedLanguage::Haskell,
+<a href=#465 id=465 data-nosnippet>465</a>            SupportedLanguage::Html,
+<a href=#466 id=466 data-nosnippet>466</a>            SupportedLanguage::Ini,
+<a href=#467 id=467 data-nosnippet>467</a>            SupportedLanguage::Jinja2,
+<a href=#468 id=468 data-nosnippet>468</a>            SupportedLanguage::Java,
+<a href=#469 id=469 data-nosnippet>469</a>            SupportedLanguage::JavaScript,
+<a href=#470 id=470 data-nosnippet>470</a>            SupportedLanguage::JsDoc,
+<a href=#471 id=471 data-nosnippet>471</a>            SupportedLanguage::Json,
+<a href=#472 id=472 data-nosnippet>472</a>            SupportedLanguage::Julia,
+<a href=#473 id=473 data-nosnippet>473</a>            SupportedLanguage::Kotlin,
+<a href=#474 id=474 data-nosnippet>474</a>            SupportedLanguage::Lua,
+<a href=#475 id=475 data-nosnippet>475</a>            SupportedLanguage::Make,
+<a href=#476 id=476 data-nosnippet>476</a>            SupportedLanguage::Markdown,
+<a href=#477 id=477 data-nosnippet>477</a>            SupportedLanguage::MarkdownInline,
+<a href=#478 id=478 data-nosnippet>478</a>            SupportedLanguage::Matlab,
+<a href=#479 id=479 data-nosnippet>479</a>            SupportedLanguage::ObjectiveC,
+<a href=#480 id=480 data-nosnippet>480</a>            SupportedLanguage::Ocaml,
+<a href=#481 id=481 data-nosnippet>481</a>            SupportedLanguage::Pascal,
+<a href=#482 id=482 data-nosnippet>482</a>            SupportedLanguage::Perl,
+<a href=#483 id=483 data-nosnippet>483</a>            SupportedLanguage::Php,
+<a href=#484 id=484 data-nosnippet>484</a>            SupportedLanguage::Plain,
+<a href=#485 id=485 data-nosnippet>485</a>            SupportedLanguage::Powershell,
+<a href=#486 id=486 data-nosnippet>486</a>            SupportedLanguage::Prolog,
+<a href=#487 id=487 data-nosnippet>487</a>            SupportedLanguage::Proto,
+<a href=#488 id=488 data-nosnippet>488</a>            SupportedLanguage::Python,
+<a href=#489 id=489 data-nosnippet>489</a>            SupportedLanguage::R,
+<a href=#490 id=490 data-nosnippet>490</a>            SupportedLanguage::React,
+<a href=#491 id=491 data-nosnippet>491</a>            SupportedLanguage::Ruby,
+<a href=#492 id=492 data-nosnippet>492</a>            SupportedLanguage::Rust,
+<a href=#493 id=493 data-nosnippet>493</a>            SupportedLanguage::Scala,
+<a href=#494 id=494 data-nosnippet>494</a>            SupportedLanguage::Scss,
+<a href=#495 id=495 data-nosnippet>495</a>            SupportedLanguage::Sql,
+<a href=#496 id=496 data-nosnippet>496</a>            SupportedLanguage::Svelte,
+<a href=#497 id=497 data-nosnippet>497</a>            SupportedLanguage::Svg,
+<a href=#498 id=498 data-nosnippet>498</a>            SupportedLanguage::Swift,
+<a href=#499 id=499 data-nosnippet>499</a>            SupportedLanguage::Toml,
+<a href=#500 id=500 data-nosnippet>500</a>            SupportedLanguage::TypeScript,
+<a href=#501 id=501 data-nosnippet>501</a>            SupportedLanguage::Vue,
+<a href=#502 id=502 data-nosnippet>502</a>            SupportedLanguage::Xml,
+<a href=#503 id=503 data-nosnippet>503</a>            SupportedLanguage::Yaml,
+<a href=#504 id=504 data-nosnippet>504</a>            SupportedLanguage::Zig,
+<a href=#505 id=505 data-nosnippet>505</a>        ]
+<a href=#506 id=506 data-nosnippet>506</a>    }
+<a href=#507 id=507 data-nosnippet>507</a>}
+<a href=#508 id=508 data-nosnippet>508</a>
+<a href=#509 id=509 data-nosnippet>509</a><span class="kw">impl </span>Fulgur {
+<a href=#510 id=510 data-nosnippet>510</a>    <span class="doccomment">/// Get the current language of the active tab
+<a href=#511 id=511 data-nosnippet>511</a>    ///
+<a href=#512 id=512 data-nosnippet>512</a>    /// ### Returns
+<a href=#513 id=513 data-nosnippet>513</a>    /// - `SupportedLanguage`: The active tab's language
+<a href=#514 id=514 data-nosnippet>514</a>    </span><span class="kw">pub fn </span>get_current_language(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; SupportedLanguage {
+<a href=#515 id=515 data-nosnippet>515</a>        <span class="kw">match </span><span class="self">self</span>.active_tab_index {
+<a href=#516 id=516 data-nosnippet>516</a>            <span class="prelude-val">Some</span>(index) =&gt; {
+<a href=#517 id=517 data-nosnippet>517</a>                <span class="kw">if let </span><span class="prelude-val">Some</span>(editor_tab) = <span class="self">self</span>.tabs[index].as_editor() {
+<a href=#518 id=518 data-nosnippet>518</a>                    editor_tab.language
+<a href=#519 id=519 data-nosnippet>519</a>                } <span class="kw">else </span>{
+<a href=#520 id=520 data-nosnippet>520</a>                    SupportedLanguage::Plain
+<a href=#521 id=521 data-nosnippet>521</a>                }
+<a href=#522 id=522 data-nosnippet>522</a>            }
+<a href=#523 id=523 data-nosnippet>523</a>            <span class="prelude-val">None </span>=&gt; SupportedLanguage::Plain,
+<a href=#524 id=524 data-nosnippet>524</a>        }
+<a href=#525 id=525 data-nosnippet>525</a>    }
+<a href=#526 id=526 data-nosnippet>526</a>
+<a href=#527 id=527 data-nosnippet>527</a>    <span class="doccomment">/// Check if the current active tab's language is a Markdown language
+<a href=#528 id=528 data-nosnippet>528</a>    ///
+<a href=#529 id=529 data-nosnippet>529</a>    /// ### Returns
+<a href=#530 id=530 data-nosnippet>530</a>    /// - `True` if the active tab's language is a Markdown language, `False` otherwise
+<a href=#531 id=531 data-nosnippet>531</a>    </span><span class="kw">pub fn </span>is_markdown(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+<a href=#532 id=532 data-nosnippet>532</a>        <span class="kw">let </span>current_language = <span class="self">self</span>.get_current_language();
+<a href=#533 id=533 data-nosnippet>533</a>        current_language == SupportedLanguage::Markdown
+<a href=#534 id=534 data-nosnippet>534</a>            || current_language == SupportedLanguage::MarkdownInline
+<a href=#535 id=535 data-nosnippet>535</a>    }
+<a href=#536 id=536 data-nosnippet>536</a>}
+<a href=#537 id=537 data-nosnippet>537</a>
+<a href=#538 id=538 data-nosnippet>538</a><span class="doccomment">/// Register external languages that are not supported by default by the editor
+<a href=#539 id=539 data-nosnippet>539</a></span><span class="kw">pub fn </span>register_external_languages() {
+<a href=#540 id=540 data-nosnippet>540</a>    <span class="kw">super</span>::syntax_highlighting::ada::add_ada_support();
+<a href=#541 id=541 data-nosnippet>541</a>    <span class="kw">super</span>::syntax_highlighting::asm::add_asm_support();
+<a href=#542 id=542 data-nosnippet>542</a>    <span class="kw">super</span>::syntax_highlighting::clojure::add_clojure_support();
+<a href=#543 id=543 data-nosnippet>543</a>    <span class="kw">super</span>::syntax_highlighting::d::add_d_support();
+<a href=#544 id=544 data-nosnippet>544</a>    <span class="kw">super</span>::syntax_highlighting::dart::add_dart_support();
+<a href=#545 id=545 data-nosnippet>545</a>    <span class="kw">super</span>::syntax_highlighting::dockerfile::add_dockerfile_support();
+<a href=#546 id=546 data-nosnippet>546</a>    <span class="kw">super</span>::syntax_highlighting::erlang::add_erlang_support();
+<a href=#547 id=547 data-nosnippet>547</a>    <span class="kw">super</span>::syntax_highlighting::fortran::add_fortran_support();
+<a href=#548 id=548 data-nosnippet>548</a>    <span class="kw">super</span>::syntax_highlighting::fsharp::add_fsharp_support();
+<a href=#549 id=549 data-nosnippet>549</a>    <span class="kw">super</span>::syntax_highlighting::groovy::add_groovy_support();
+<a href=#550 id=550 data-nosnippet>550</a>    <span class="kw">super</span>::syntax_highlighting::haskell::add_haskell_support();
+<a href=#551 id=551 data-nosnippet>551</a>    <span class="kw">super</span>::syntax_highlighting::ini::add_ini_support();
+<a href=#552 id=552 data-nosnippet>552</a>    <span class="kw">super</span>::syntax_highlighting::jinja2::add_jinja2_support();
+<a href=#553 id=553 data-nosnippet>553</a>    <span class="kw">super</span>::syntax_highlighting::julia::add_julia_support();
+<a href=#554 id=554 data-nosnippet>554</a>    <span class="kw">super</span>::syntax_highlighting::matlab::add_matlab_support();
+<a href=#555 id=555 data-nosnippet>555</a>    <span class="kw">super</span>::syntax_highlighting::objective_c::add_objective_c_support();
+<a href=#556 id=556 data-nosnippet>556</a>    <span class="kw">super</span>::syntax_highlighting::ocaml::add_ocaml_support();
+<a href=#557 id=557 data-nosnippet>557</a>    <span class="kw">super</span>::syntax_highlighting::pascal::add_pascal_support();
+<a href=#558 id=558 data-nosnippet>558</a>    <span class="kw">super</span>::syntax_highlighting::perl::add_perl_support();
+<a href=#559 id=559 data-nosnippet>559</a>    <span class="kw">super</span>::syntax_highlighting::powershell::add_powershell_support();
+<a href=#560 id=560 data-nosnippet>560</a>    <span class="kw">super</span>::syntax_highlighting::prolog::add_prolog_support();
+<a href=#561 id=561 data-nosnippet>561</a>    <span class="kw">super</span>::syntax_highlighting::r::add_r_support();
+<a href=#562 id=562 data-nosnippet>562</a>    <span class="kw">super</span>::syntax_highlighting::react::add_react_support();
+<a href=#563 id=563 data-nosnippet>563</a>    <span class="kw">super</span>::syntax_highlighting::scss::add_scss_support();
+<a href=#564 id=564 data-nosnippet>564</a>    <span class="kw">super</span>::syntax_highlighting::vue::add_vue_support();
+<a href=#565 id=565 data-nosnippet>565</a>}
+<a href=#566 id=566 data-nosnippet>566</a>
+<a href=#567 id=567 data-nosnippet>567</a><span class="attr">#[cfg(test)]
+<a href=#568 id=568 data-nosnippet>568</a></span><span class="kw">mod </span>tests {
+<a href=#569 id=569 data-nosnippet>569</a>    <span class="kw">use </span>super::<span class="kw-2">*</span>;
+<a href=#570 id=570 data-nosnippet>570</a>
+<a href=#571 id=571 data-nosnippet>571</a>    <span class="attr">#[test]
+<a href=#572 id=572 data-nosnippet>572</a>    </span><span class="kw">fn </span>test_m_file_objc_by_import() {
+<a href=#573 id=573 data-nosnippet>573</a>        <span class="kw">let </span>content = <span class="string">"#import &lt;Foundation/Foundation.h&gt;\n@interface Foo : NSObject\n@end\n"</span>;
+<a href=#574 id=574 data-nosnippet>574</a>        <span class="macro">assert_eq!</span>(
+<a href=#575 id=575 data-nosnippet>575</a>            language_from_content(<span class="string">"foo.m"</span>, content),
+<a href=#576 id=576 data-nosnippet>576</a>            SupportedLanguage::ObjectiveC
+<a href=#577 id=577 data-nosnippet>577</a>        );
+<a href=#578 id=578 data-nosnippet>578</a>    }
+<a href=#579 id=579 data-nosnippet>579</a>
+<a href=#580 id=580 data-nosnippet>580</a>    <span class="attr">#[test]
+<a href=#581 id=581 data-nosnippet>581</a>    </span><span class="kw">fn </span>test_m_file_objc_by_interface() {
+<a href=#582 id=582 data-nosnippet>582</a>        <span class="kw">let </span>content = <span class="string">"@interface MyClass : NSObject\n- (void)doSomething;\n@end\n"</span>;
+<a href=#583 id=583 data-nosnippet>583</a>        <span class="macro">assert_eq!</span>(
+<a href=#584 id=584 data-nosnippet>584</a>            language_from_content(<span class="string">"foo.m"</span>, content),
+<a href=#585 id=585 data-nosnippet>585</a>            SupportedLanguage::ObjectiveC
+<a href=#586 id=586 data-nosnippet>586</a>        );
+<a href=#587 id=587 data-nosnippet>587</a>    }
+<a href=#588 id=588 data-nosnippet>588</a>
+<a href=#589 id=589 data-nosnippet>589</a>    <span class="attr">#[test]
+<a href=#590 id=590 data-nosnippet>590</a>    </span><span class="kw">fn </span>test_m_file_objc_by_method() {
+<a href=#591 id=591 data-nosnippet>591</a>        <span class="kw">let </span>content = <span class="string">"- (void)viewDidLoad {\n    [super viewDidLoad];\n}\n"</span>;
+<a href=#592 id=592 data-nosnippet>592</a>        <span class="macro">assert_eq!</span>(
+<a href=#593 id=593 data-nosnippet>593</a>            language_from_content(<span class="string">"foo.m"</span>, content),
+<a href=#594 id=594 data-nosnippet>594</a>            SupportedLanguage::ObjectiveC
+<a href=#595 id=595 data-nosnippet>595</a>        );
+<a href=#596 id=596 data-nosnippet>596</a>    }
+<a href=#597 id=597 data-nosnippet>597</a>
+<a href=#598 id=598 data-nosnippet>598</a>    <span class="attr">#[test]
+<a href=#599 id=599 data-nosnippet>599</a>    </span><span class="kw">fn </span>test_m_file_matlab_by_percent_comment() {
+<a href=#600 id=600 data-nosnippet>600</a>        <span class="kw">let </span>content = <span class="string">"% This is a MATLAB script\nx = 1 + 2;\n"</span>;
+<a href=#601 id=601 data-nosnippet>601</a>        <span class="macro">assert_eq!</span>(
+<a href=#602 id=602 data-nosnippet>602</a>            language_from_content(<span class="string">"foo.m"</span>, content),
+<a href=#603 id=603 data-nosnippet>603</a>            SupportedLanguage::Matlab
+<a href=#604 id=604 data-nosnippet>604</a>        );
+<a href=#605 id=605 data-nosnippet>605</a>    }
+<a href=#606 id=606 data-nosnippet>606</a>
+<a href=#607 id=607 data-nosnippet>607</a>    <span class="attr">#[test]
+<a href=#608 id=608 data-nosnippet>608</a>    </span><span class="kw">fn </span>test_m_file_matlab_by_function_keyword() {
+<a href=#609 id=609 data-nosnippet>609</a>        <span class="kw">let </span>content = <span class="string">"function result = add(a, b)\n    result = a + b;\nend\n"</span>;
+<a href=#610 id=610 data-nosnippet>610</a>        <span class="macro">assert_eq!</span>(
+<a href=#611 id=611 data-nosnippet>611</a>            language_from_content(<span class="string">"foo.m"</span>, content),
+<a href=#612 id=612 data-nosnippet>612</a>            SupportedLanguage::Matlab
+<a href=#613 id=613 data-nosnippet>613</a>        );
+<a href=#614 id=614 data-nosnippet>614</a>    }
+<a href=#615 id=615 data-nosnippet>615</a>
+<a href=#616 id=616 data-nosnippet>616</a>    <span class="attr">#[test]
+<a href=#617 id=617 data-nosnippet>617</a>    </span><span class="kw">fn </span>test_m_file_matlab_by_classdef() {
+<a href=#618 id=618 data-nosnippet>618</a>        <span class="kw">let </span>content = <span class="string">"classdef Animal\n    properties\n        Name\n    end\nend\n"</span>;
+<a href=#619 id=619 data-nosnippet>619</a>        <span class="macro">assert_eq!</span>(
+<a href=#620 id=620 data-nosnippet>620</a>            language_from_content(<span class="string">"foo.m"</span>, content),
+<a href=#621 id=621 data-nosnippet>621</a>            SupportedLanguage::Matlab
+<a href=#622 id=622 data-nosnippet>622</a>        );
+<a href=#623 id=623 data-nosnippet>623</a>    }
+<a href=#624 id=624 data-nosnippet>624</a>
+<a href=#625 id=625 data-nosnippet>625</a>    <span class="attr">#[test]
+<a href=#626 id=626 data-nosnippet>626</a>    </span><span class="kw">fn </span>test_m_file_defaults_to_objc_when_ambiguous() {
+<a href=#627 id=627 data-nosnippet>627</a>        <span class="kw">let </span>content = <span class="string">"x = 1;\ny = 2;\n"</span>;
+<a href=#628 id=628 data-nosnippet>628</a>        <span class="macro">assert_eq!</span>(
+<a href=#629 id=629 data-nosnippet>629</a>            language_from_content(<span class="string">"foo.m"</span>, content),
+<a href=#630 id=630 data-nosnippet>630</a>            SupportedLanguage::ObjectiveC
+<a href=#631 id=631 data-nosnippet>631</a>        );
+<a href=#632 id=632 data-nosnippet>632</a>    }
+<a href=#633 id=633 data-nosnippet>633</a>
+<a href=#634 id=634 data-nosnippet>634</a>    <span class="attr">#[test]
+<a href=#635 id=635 data-nosnippet>635</a>    </span><span class="kw">fn </span>test_mm_file_always_objc() {
+<a href=#636 id=636 data-nosnippet>636</a>        <span class="kw">let </span>content = <span class="string">"% looks like matlab but is .mm\n"</span>;
+<a href=#637 id=637 data-nosnippet>637</a>        <span class="macro">assert_eq!</span>(
+<a href=#638 id=638 data-nosnippet>638</a>            language_from_content(<span class="string">"foo.mm"</span>, content),
+<a href=#639 id=639 data-nosnippet>639</a>            SupportedLanguage::ObjectiveC
+<a href=#640 id=640 data-nosnippet>640</a>        );
+<a href=#641 id=641 data-nosnippet>641</a>    }
+<a href=#642 id=642 data-nosnippet>642</a>
+<a href=#643 id=643 data-nosnippet>643</a>    <span class="attr">#[test]
+<a href=#644 id=644 data-nosnippet>644</a>    </span><span class="kw">fn </span>test_non_m_file_unaffected() {
+<a href=#645 id=645 data-nosnippet>645</a>        <span class="macro">assert_eq!</span>(
+<a href=#646 id=646 data-nosnippet>646</a>            language_from_content(<span class="string">"foo.rs"</span>, <span class="string">"fn main() {}"</span>),
+<a href=#647 id=647 data-nosnippet>647</a>            SupportedLanguage::Rust
+<a href=#648 id=648 data-nosnippet>648</a>        );
+<a href=#649 id=649 data-nosnippet>649</a>    }
+<a href=#650 id=650 data-nosnippet>650</a>}
 </code></pre></div></section></main></body></html>
