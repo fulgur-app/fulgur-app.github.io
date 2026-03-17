@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["add_csp_nonce_and_header"],"struct":["CspNonce"]};
+window.SIDEBAR_ITEMS = {"fn":["add_csp_header"]};
