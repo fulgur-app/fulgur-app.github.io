@@ -87,104 +87,100 @@
 <a href=#87 id=87 data-nosnippet>87</a>
 <a href=#88 id=88 data-nosnippet>88</a><span class="kw">impl </span>SharedAppState {
 <a href=#89 id=89 data-nosnippet>89</a>    <span class="doccomment">/// Create a new shared app state by orchestrating the initialization of shared application state
-<a href=#90 id=90 data-nosnippet>90</a>    /// by loading settings, themes, and determining the initial synchronization status.
+<a href=#90 id=90 data-nosnippet>90</a>    /// by loading themes, and determining the initial synchronization status.
 <a href=#91 id=91 data-nosnippet>91</a>    ///
 <a href=#92 id=92 data-nosnippet>92</a>    /// ### Arguments
-<a href=#93 id=93 data-nosnippet>93</a>    /// - `pending_files_from_macos`: Arc to the pending files queue from macOS open events
-<a href=#94 id=94 data-nosnippet>94</a>    ///
-<a href=#95 id=95 data-nosnippet>95</a>    /// ### Returns
-<a href=#96 id=96 data-nosnippet>96</a>    /// - `Self`: The new shared app state
-<a href=#97 id=97 data-nosnippet>97</a>    </span><span class="kw">pub fn </span>new(pending_files_from_macos: Arc&lt;Mutex&lt;Vec&lt;PathBuf&gt;&gt;&gt;) -&gt; <span class="self">Self </span>{
-<a href=#98 id=98 data-nosnippet>98</a>        <span class="kw">let </span>(settings, sync_error) = <span class="self">Self</span>::load_and_validate_settings();
-<a href=#99 id=99 data-nosnippet>99</a>        <span class="kw">let </span>themes = <span class="self">Self</span>::load_themes();
-<a href=#100 id=100 data-nosnippet>100</a>        <span class="kw">let </span>synchronization_status = <span class="self">Self</span>::determine_initial_sync_status(<span class="kw-2">&amp;</span>settings);
-<a href=#101 id=101 data-nosnippet>101</a>
-<a href=#102 id=102 data-nosnippet>102</a>        <span class="self">Self </span>{
-<a href=#103 id=103 data-nosnippet>103</a>            settings: Arc::new(Mutex::new(settings)),
-<a href=#104 id=104 data-nosnippet>104</a>            settings_version: Arc::new(AtomicU64::new(<span class="number">0</span>)),
-<a href=#105 id=105 data-nosnippet>105</a>            themes: Arc::new(Mutex::new(themes)),
-<a href=#106 id=106 data-nosnippet>106</a>            sync_state: SyncState::new(synchronization_status),
-<a href=#107 id=107 data-nosnippet>107</a>            sync_error: Arc::new(Mutex::new(sync_error)),
-<a href=#108 id=108 data-nosnippet>108</a>            update_info: Arc::new(Mutex::new(<span class="prelude-val">None</span>)),
-<a href=#109 id=109 data-nosnippet>109</a>            pending_files_from_macos,
-<a href=#110 id=110 data-nosnippet>110</a>            http_agent: Arc::new(ureq::Agent::new_with_config(
-<a href=#111 id=111 data-nosnippet>111</a>                ureq::config::Config::builder()
-<a href=#112 id=112 data-nosnippet>112</a>                    .timeout_connect(<span class="prelude-val">Some</span>(std::time::Duration::from_secs(<span class="number">5</span>)))
-<a href=#113 id=113 data-nosnippet>113</a>                    .timeout_global(<span class="prelude-val">Some</span>(std::time::Duration::from_secs(<span class="number">10</span>)))
-<a href=#114 id=114 data-nosnippet>114</a>                    .build(),
-<a href=#115 id=115 data-nosnippet>115</a>            )),
-<a href=#116 id=116 data-nosnippet>116</a>        }
-<a href=#117 id=117 data-nosnippet>117</a>    }
-<a href=#118 id=118 data-nosnippet>118</a>
-<a href=#119 id=119 data-nosnippet>119</a>    <span class="doccomment">/// Load settings from disk and validate encryption keys
-<a href=#120 id=120 data-nosnippet>120</a>    ///
-<a href=#121 id=121 data-nosnippet>121</a>    /// If settings cannot be loaded, returns default settings with an error log.
+<a href=#93 id=93 data-nosnippet>93</a>    /// - `settings`: Already-loaded application settings
+<a href=#94 id=94 data-nosnippet>94</a>    /// - `pending_files_from_macos`: Arc to the pending files queue from macOS open events
+<a href=#95 id=95 data-nosnippet>95</a>    ///
+<a href=#96 id=96 data-nosnippet>96</a>    /// ### Returns
+<a href=#97 id=97 data-nosnippet>97</a>    /// - `Self`: The new shared app state
+<a href=#98 id=98 data-nosnippet>98</a>    </span><span class="kw">pub fn </span>new(settings: Settings, pending_files_from_macos: Arc&lt;Mutex&lt;Vec&lt;PathBuf&gt;&gt;&gt;) -&gt; <span class="self">Self </span>{
+<a href=#99 id=99 data-nosnippet>99</a>        <span class="kw">let </span>(settings, sync_error) = <span class="self">Self</span>::validate_settings(settings);
+<a href=#100 id=100 data-nosnippet>100</a>        <span class="kw">let </span>themes = <span class="self">Self</span>::load_themes();
+<a href=#101 id=101 data-nosnippet>101</a>        <span class="kw">let </span>synchronization_status = <span class="self">Self</span>::determine_initial_sync_status(<span class="kw-2">&amp;</span>settings);
+<a href=#102 id=102 data-nosnippet>102</a>
+<a href=#103 id=103 data-nosnippet>103</a>        <span class="self">Self </span>{
+<a href=#104 id=104 data-nosnippet>104</a>            settings: Arc::new(Mutex::new(settings)),
+<a href=#105 id=105 data-nosnippet>105</a>            settings_version: Arc::new(AtomicU64::new(<span class="number">0</span>)),
+<a href=#106 id=106 data-nosnippet>106</a>            themes: Arc::new(Mutex::new(themes)),
+<a href=#107 id=107 data-nosnippet>107</a>            sync_state: SyncState::new(synchronization_status),
+<a href=#108 id=108 data-nosnippet>108</a>            sync_error: Arc::new(Mutex::new(sync_error)),
+<a href=#109 id=109 data-nosnippet>109</a>            update_info: Arc::new(Mutex::new(<span class="prelude-val">None</span>)),
+<a href=#110 id=110 data-nosnippet>110</a>            pending_files_from_macos,
+<a href=#111 id=111 data-nosnippet>111</a>            http_agent: Arc::new(ureq::Agent::new_with_config(
+<a href=#112 id=112 data-nosnippet>112</a>                ureq::config::Config::builder()
+<a href=#113 id=113 data-nosnippet>113</a>                    .timeout_connect(<span class="prelude-val">Some</span>(std::time::Duration::from_secs(<span class="number">5</span>)))
+<a href=#114 id=114 data-nosnippet>114</a>                    .timeout_global(<span class="prelude-val">Some</span>(std::time::Duration::from_secs(<span class="number">10</span>)))
+<a href=#115 id=115 data-nosnippet>115</a>                    .build(),
+<a href=#116 id=116 data-nosnippet>116</a>            )),
+<a href=#117 id=117 data-nosnippet>117</a>        }
+<a href=#118 id=118 data-nosnippet>118</a>    }
+<a href=#119 id=119 data-nosnippet>119</a>
+<a href=#120 id=120 data-nosnippet>120</a>    <span class="doccomment">/// Validate encryption keys against pre-loaded settings.
+<a href=#121 id=121 data-nosnippet>121</a>    ///
 <a href=#122 id=122 data-nosnippet>122</a>    /// If synchronization is activated but keys cannot be validated, disables
 <a href=#123 id=123 data-nosnippet>123</a>    /// synchronization and returns the error message for user notification.
 <a href=#124 id=124 data-nosnippet>124</a>    ///
-<a href=#125 id=125 data-nosnippet>125</a>    /// ### Returns
-<a href=#126 id=126 data-nosnippet>126</a>    /// - `(Settings, Option&lt;String&gt;)`: The loaded and validated settings (or defaults on error),
-<a href=#127 id=127 data-nosnippet>127</a>    ///   and an optional error message if key validation failed
-<a href=#128 id=128 data-nosnippet>128</a>    </span><span class="kw">fn </span>load_and_validate_settings() -&gt; (Settings, <span class="prelude-ty">Option</span>&lt;String&gt;) {
-<a href=#129 id=129 data-nosnippet>129</a>        <span class="kw">let </span><span class="kw-2">mut </span>settings = Settings::load().unwrap_or_else(|e| {
-<a href=#130 id=130 data-nosnippet>130</a>            <span class="macro">log::error!</span>(
-<a href=#131 id=131 data-nosnippet>131</a>                <span class="string">"Failed to load settings in shared state, using defaults: {}"</span>,
-<a href=#132 id=132 data-nosnippet>132</a>                e
-<a href=#133 id=133 data-nosnippet>133</a>            );
-<a href=#134 id=134 data-nosnippet>134</a>            Settings::new()
-<a href=#135 id=135 data-nosnippet>135</a>        });
-<a href=#136 id=136 data-nosnippet>136</a>        <span class="kw">let </span>sync_error = <span class="kw">if </span>settings
-<a href=#137 id=137 data-nosnippet>137</a>            .app_settings
-<a href=#138 id=138 data-nosnippet>138</a>            .synchronization_settings
-<a href=#139 id=139 data-nosnippet>139</a>            .is_synchronization_activated
-<a href=#140 id=140 data-nosnippet>140</a>        {
-<a href=#141 id=141 data-nosnippet>141</a>            <span class="kw">match </span>check_private_public_keys(<span class="kw-2">&amp;mut </span>settings) {
-<a href=#142 id=142 data-nosnippet>142</a>                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
-<a href=#143 id=143 data-nosnippet>143</a>                <span class="prelude-val">Err</span>(e) =&gt; {
-<a href=#144 id=144 data-nosnippet>144</a>                    <span class="kw">let </span>error_msg = <span class="macro">format!</span>(
-<a href=#145 id=145 data-nosnippet>145</a>                        <span class="string">"Failed to initialize encryption keys. Synchronization has been disabled. Error: {}"</span>,
-<a href=#146 id=146 data-nosnippet>146</a>                        e
-<a href=#147 id=147 data-nosnippet>147</a>                    );
-<a href=#148 id=148 data-nosnippet>148</a>                    <span class="macro">log::error!</span>(<span class="string">"{}"</span>, error_msg);
-<a href=#149 id=149 data-nosnippet>149</a>                    settings
-<a href=#150 id=150 data-nosnippet>150</a>                        .app_settings
-<a href=#151 id=151 data-nosnippet>151</a>                        .synchronization_settings
-<a href=#152 id=152 data-nosnippet>152</a>                        .is_synchronization_activated = <span class="bool-val">false</span>;
-<a href=#153 id=153 data-nosnippet>153</a>                    <span class="prelude-val">Some</span>(error_msg)
-<a href=#154 id=154 data-nosnippet>154</a>                }
-<a href=#155 id=155 data-nosnippet>155</a>            }
-<a href=#156 id=156 data-nosnippet>156</a>        } <span class="kw">else </span>{
-<a href=#157 id=157 data-nosnippet>157</a>            <span class="prelude-val">None
-<a href=#158 id=158 data-nosnippet>158</a>        </span>};
-<a href=#159 id=159 data-nosnippet>159</a>        (settings, sync_error)
-<a href=#160 id=160 data-nosnippet>160</a>    }
-<a href=#161 id=161 data-nosnippet>161</a>
-<a href=#162 id=162 data-nosnippet>162</a>    <span class="doccomment">/// Load themes from disk
-<a href=#163 id=163 data-nosnippet>163</a>    ///
-<a href=#164 id=164 data-nosnippet>164</a>    /// ### Returns
-<a href=#165 id=165 data-nosnippet>165</a>    /// - `Some(Themes)`: The loaded themes
-<a href=#166 id=166 data-nosnippet>166</a>    /// - `None`: If themes cannot be loaded
-<a href=#167 id=167 data-nosnippet>167</a>    </span><span class="kw">fn </span>load_themes() -&gt; <span class="prelude-ty">Option</span>&lt;Themes&gt; {
-<a href=#168 id=168 data-nosnippet>168</a>        Themes::load().ok()
-<a href=#169 id=169 data-nosnippet>169</a>    }
-<a href=#170 id=170 data-nosnippet>170</a>
-<a href=#171 id=171 data-nosnippet>171</a>    <span class="doccomment">/// Determine the initial synchronization status based on settings
-<a href=#172 id=172 data-nosnippet>172</a>    ///
-<a href=#173 id=173 data-nosnippet>173</a>    /// ### Arguments
-<a href=#174 id=174 data-nosnippet>174</a>    /// - `settings`: The application settings
-<a href=#175 id=175 data-nosnippet>175</a>    ///
-<a href=#176 id=176 data-nosnippet>176</a>    /// ### Returns
-<a href=#177 id=177 data-nosnippet>177</a>    /// - `SynchronizationStatus`: Connected if sync is activated, NotActivated otherwise
-<a href=#178 id=178 data-nosnippet>178</a>    </span><span class="kw">fn </span>determine_initial_sync_status(settings: <span class="kw-2">&amp;</span>Settings) -&gt; SynchronizationStatus {
-<a href=#179 id=179 data-nosnippet>179</a>        <span class="kw">if </span>settings
-<a href=#180 id=180 data-nosnippet>180</a>            .app_settings
-<a href=#181 id=181 data-nosnippet>181</a>            .synchronization_settings
-<a href=#182 id=182 data-nosnippet>182</a>            .is_synchronization_activated
-<a href=#183 id=183 data-nosnippet>183</a>        {
-<a href=#184 id=184 data-nosnippet>184</a>            SynchronizationStatus::Connected
-<a href=#185 id=185 data-nosnippet>185</a>        } <span class="kw">else </span>{
-<a href=#186 id=186 data-nosnippet>186</a>            SynchronizationStatus::NotActivated
-<a href=#187 id=187 data-nosnippet>187</a>        }
-<a href=#188 id=188 data-nosnippet>188</a>    }
-<a href=#189 id=189 data-nosnippet>189</a>}
+<a href=#125 id=125 data-nosnippet>125</a>    /// ### Arguments
+<a href=#126 id=126 data-nosnippet>126</a>    /// - `settings`: Application settings to validate
+<a href=#127 id=127 data-nosnippet>127</a>    ///
+<a href=#128 id=128 data-nosnippet>128</a>    /// ### Returns
+<a href=#129 id=129 data-nosnippet>129</a>    /// - `(Settings, Option&lt;String&gt;)`: The validated settings and an optional error message
+<a href=#130 id=130 data-nosnippet>130</a>    ///   if key validation failed
+<a href=#131 id=131 data-nosnippet>131</a>    </span><span class="kw">fn </span>validate_settings(<span class="kw-2">mut </span>settings: Settings) -&gt; (Settings, <span class="prelude-ty">Option</span>&lt;String&gt;) {
+<a href=#132 id=132 data-nosnippet>132</a>        <span class="kw">let </span>sync_error = <span class="kw">if </span>settings
+<a href=#133 id=133 data-nosnippet>133</a>            .app_settings
+<a href=#134 id=134 data-nosnippet>134</a>            .synchronization_settings
+<a href=#135 id=135 data-nosnippet>135</a>            .is_synchronization_activated
+<a href=#136 id=136 data-nosnippet>136</a>        {
+<a href=#137 id=137 data-nosnippet>137</a>            <span class="kw">match </span>check_private_public_keys(<span class="kw-2">&amp;mut </span>settings) {
+<a href=#138 id=138 data-nosnippet>138</a>                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
+<a href=#139 id=139 data-nosnippet>139</a>                <span class="prelude-val">Err</span>(e) =&gt; {
+<a href=#140 id=140 data-nosnippet>140</a>                    <span class="kw">let </span>error_msg = <span class="macro">format!</span>(
+<a href=#141 id=141 data-nosnippet>141</a>                        <span class="string">"Failed to initialize encryption keys. Synchronization has been disabled. Error: {}"</span>,
+<a href=#142 id=142 data-nosnippet>142</a>                        e
+<a href=#143 id=143 data-nosnippet>143</a>                    );
+<a href=#144 id=144 data-nosnippet>144</a>                    <span class="macro">log::error!</span>(<span class="string">"{}"</span>, error_msg);
+<a href=#145 id=145 data-nosnippet>145</a>                    settings
+<a href=#146 id=146 data-nosnippet>146</a>                        .app_settings
+<a href=#147 id=147 data-nosnippet>147</a>                        .synchronization_settings
+<a href=#148 id=148 data-nosnippet>148</a>                        .is_synchronization_activated = <span class="bool-val">false</span>;
+<a href=#149 id=149 data-nosnippet>149</a>                    <span class="prelude-val">Some</span>(error_msg)
+<a href=#150 id=150 data-nosnippet>150</a>                }
+<a href=#151 id=151 data-nosnippet>151</a>            }
+<a href=#152 id=152 data-nosnippet>152</a>        } <span class="kw">else </span>{
+<a href=#153 id=153 data-nosnippet>153</a>            <span class="prelude-val">None
+<a href=#154 id=154 data-nosnippet>154</a>        </span>};
+<a href=#155 id=155 data-nosnippet>155</a>        (settings, sync_error)
+<a href=#156 id=156 data-nosnippet>156</a>    }
+<a href=#157 id=157 data-nosnippet>157</a>
+<a href=#158 id=158 data-nosnippet>158</a>    <span class="doccomment">/// Load themes from disk
+<a href=#159 id=159 data-nosnippet>159</a>    ///
+<a href=#160 id=160 data-nosnippet>160</a>    /// ### Returns
+<a href=#161 id=161 data-nosnippet>161</a>    /// - `Some(Themes)`: The loaded themes
+<a href=#162 id=162 data-nosnippet>162</a>    /// - `None`: If themes cannot be loaded
+<a href=#163 id=163 data-nosnippet>163</a>    </span><span class="kw">fn </span>load_themes() -&gt; <span class="prelude-ty">Option</span>&lt;Themes&gt; {
+<a href=#164 id=164 data-nosnippet>164</a>        Themes::load().ok()
+<a href=#165 id=165 data-nosnippet>165</a>    }
+<a href=#166 id=166 data-nosnippet>166</a>
+<a href=#167 id=167 data-nosnippet>167</a>    <span class="doccomment">/// Determine the initial synchronization status based on settings
+<a href=#168 id=168 data-nosnippet>168</a>    ///
+<a href=#169 id=169 data-nosnippet>169</a>    /// ### Arguments
+<a href=#170 id=170 data-nosnippet>170</a>    /// - `settings`: The application settings
+<a href=#171 id=171 data-nosnippet>171</a>    ///
+<a href=#172 id=172 data-nosnippet>172</a>    /// ### Returns
+<a href=#173 id=173 data-nosnippet>173</a>    /// - `SynchronizationStatus`: Connecting if sync is activated, NotActivated otherwise
+<a href=#174 id=174 data-nosnippet>174</a>    </span><span class="kw">fn </span>determine_initial_sync_status(settings: <span class="kw-2">&amp;</span>Settings) -&gt; SynchronizationStatus {
+<a href=#175 id=175 data-nosnippet>175</a>        <span class="kw">if </span>settings
+<a href=#176 id=176 data-nosnippet>176</a>            .app_settings
+<a href=#177 id=177 data-nosnippet>177</a>            .synchronization_settings
+<a href=#178 id=178 data-nosnippet>178</a>            .is_synchronization_activated
+<a href=#179 id=179 data-nosnippet>179</a>        {
+<a href=#180 id=180 data-nosnippet>180</a>            SynchronizationStatus::Connecting
+<a href=#181 id=181 data-nosnippet>181</a>        } <span class="kw">else </span>{
+<a href=#182 id=182 data-nosnippet>182</a>            SynchronizationStatus::NotActivated
+<a href=#183 id=183 data-nosnippet>183</a>        }
+<a href=#184 id=184 data-nosnippet>184</a>    }
+<a href=#185 id=185 data-nosnippet>185</a>}
 </code></pre></div></section></main></body></html>

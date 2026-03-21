@@ -559,27 +559,26 @@
 <a href=#559 id=559 data-nosnippet>559</a>        <span class="kw">if </span><span class="self">self</span>.search_state.show_search {
 <a href=#560 id=560 data-nosnippet>560</a>            <span class="kw">let </span>current_query = <span class="self">self</span>.search_state.search_input.read(cx).text().to_string();
 <a href=#561 id=561 data-nosnippet>561</a>            <span class="kw">if </span><span class="macro">current_query !</span>= <span class="self">self</span>.search_state.last_search_query {
-<a href=#562 id=562 data-nosnippet>562</a>                <span class="self">self</span>.search_state.last_search_query = current_query;
-<a href=#563 id=563 data-nosnippet>563</a>                <span class="self">self</span>.perform_search(window, cx);
-<a href=#564 id=564 data-nosnippet>564</a>                <span class="comment">// Restore focus to the search input after perform_search
-<a href=#565 id=565 data-nosnippet>565</a>                </span><span class="kw">let </span>search_focus = <span class="self">self</span>.search_state.search_input.read(cx).focus_handle(cx);
-<a href=#566 id=566 data-nosnippet>566</a>                window.focus(<span class="kw-2">&amp;</span>search_focus, cx);
-<a href=#567 id=567 data-nosnippet>567</a>            }
-<a href=#568 id=568 data-nosnippet>568</a>        }
-<a href=#569 id=569 data-nosnippet>569</a>    }
-<a href=#570 id=570 data-nosnippet>570</a>
-<a href=#571 id=571 data-nosnippet>571</a>    <span class="doccomment">/// Handle pending jump-to-line action
-<a href=#572 id=572 data-nosnippet>572</a>    ///
-<a href=#573 id=573 data-nosnippet>573</a>    /// ### Arguments
-<a href=#574 id=574 data-nosnippet>574</a>    /// - `window`: The window containing the editor
-<a href=#575 id=575 data-nosnippet>575</a>    /// - `cx`: The application context
-<a href=#576 id=576 data-nosnippet>576</a>    </span><span class="kw">pub fn </span>handle_pending_jump_to_line(<span class="kw-2">&amp;mut </span><span class="self">self</span>, window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
-<a href=#577 id=577 data-nosnippet>577</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(jump) = <span class="self">self</span>.pending_jump.take()
-<a href=#578 id=578 data-nosnippet>578</a>            &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(index) = <span class="self">self</span>.active_tab_index
-<a href=#579 id=579 data-nosnippet>579</a>            &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(Tab::Editor(editor_tab)) = <span class="self">self</span>.tabs.get_mut(index)
-<a href=#580 id=580 data-nosnippet>580</a>        {
-<a href=#581 id=581 data-nosnippet>581</a>            editor_tab.jump_to_line(window, cx, jump);
-<a href=#582 id=582 data-nosnippet>582</a>        }
-<a href=#583 id=583 data-nosnippet>583</a>    }
-<a href=#584 id=584 data-nosnippet>584</a>}
+<a href=#562 id=562 data-nosnippet>562</a>                <span class="self">self</span>.perform_search(window, cx);
+<a href=#563 id=563 data-nosnippet>563</a>                <span class="comment">// Restore focus to the search input after perform_search
+<a href=#564 id=564 data-nosnippet>564</a>                </span><span class="kw">let </span>search_focus = <span class="self">self</span>.search_state.search_input.read(cx).focus_handle(cx);
+<a href=#565 id=565 data-nosnippet>565</a>                window.focus(<span class="kw-2">&amp;</span>search_focus, cx);
+<a href=#566 id=566 data-nosnippet>566</a>            }
+<a href=#567 id=567 data-nosnippet>567</a>        }
+<a href=#568 id=568 data-nosnippet>568</a>    }
+<a href=#569 id=569 data-nosnippet>569</a>
+<a href=#570 id=570 data-nosnippet>570</a>    <span class="doccomment">/// Handle pending jump-to-line action
+<a href=#571 id=571 data-nosnippet>571</a>    ///
+<a href=#572 id=572 data-nosnippet>572</a>    /// ### Arguments
+<a href=#573 id=573 data-nosnippet>573</a>    /// - `window`: The window containing the editor
+<a href=#574 id=574 data-nosnippet>574</a>    /// - `cx`: The application context
+<a href=#575 id=575 data-nosnippet>575</a>    </span><span class="kw">pub fn </span>handle_pending_jump_to_line(<span class="kw-2">&amp;mut </span><span class="self">self</span>, window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
+<a href=#576 id=576 data-nosnippet>576</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(jump) = <span class="self">self</span>.pending_jump.take()
+<a href=#577 id=577 data-nosnippet>577</a>            &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(index) = <span class="self">self</span>.active_tab_index
+<a href=#578 id=578 data-nosnippet>578</a>            &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(Tab::Editor(editor_tab)) = <span class="self">self</span>.tabs.get_mut(index)
+<a href=#579 id=579 data-nosnippet>579</a>        {
+<a href=#580 id=580 data-nosnippet>580</a>            editor_tab.jump_to_line(window, cx, jump);
+<a href=#581 id=581 data-nosnippet>581</a>        }
+<a href=#582 id=582 data-nosnippet>582</a>    }
+<a href=#583 id=583 data-nosnippet>583</a>}
 </code></pre></div></section></main></body></html>

@@ -220,155 +220,168 @@
 <a href=#220 id=220 data-nosnippet>220</a>    </span>drop(state);
 <a href=#221 id=221 data-nosnippet>221</a>
 <a href=#222 id=222 data-nosnippet>222</a>    <span class="macro">log::debug!</span>(<span class="string">"Access token expired or missing, requesting new token"</span>);
-<a href=#223 id=223 data-nosnippet>223</a>    <span class="kw">let </span>token_response = request_access_token(synchronization_settings, http_agent)<span class="question-mark">?</span>;
-<a href=#224 id=224 data-nosnippet>224</a>    <span class="kw">let </span>expires_at = OffsetDateTime::parse(
-<a href=#225 id=225 data-nosnippet>225</a>        <span class="kw-2">&amp;</span>token_response.expires_at,
-<a href=#226 id=226 data-nosnippet>226</a>        <span class="kw-2">&amp;</span>time::format_description::well_known::Rfc3339,
-<a href=#227 id=227 data-nosnippet>227</a>    )
-<a href=#228 id=228 data-nosnippet>228</a>    .map_err(|e| {
-<a href=#229 id=229 data-nosnippet>229</a>        <span class="macro">log::error!</span>(<span class="string">"Failed to parse token expiration time: {}"</span>, e);
-<a href=#230 id=230 data-nosnippet>230</a>        SynchronizationError::Other(e.to_string())
-<a href=#231 id=231 data-nosnippet>231</a>    })<span class="question-mark">?</span>;
-<a href=#232 id=232 data-nosnippet>232</a>
-<a href=#233 id=233 data-nosnippet>233</a>    <span class="comment">// Update state and notify waiting threads
-<a href=#234 id=234 data-nosnippet>234</a>    </span><span class="kw">let </span><span class="kw-2">mut </span>state = token_manager.state.lock();
-<a href=#235 id=235 data-nosnippet>235</a>    state.access_token = <span class="prelude-val">Some</span>(token_response.access_token.clone());
-<a href=#236 id=236 data-nosnippet>236</a>    state.token_expires_at = <span class="prelude-val">Some</span>(expires_at);
-<a href=#237 id=237 data-nosnippet>237</a>    state.is_refreshing_token = <span class="bool-val">false</span>;
-<a href=#238 id=238 data-nosnippet>238</a>
-<a href=#239 id=239 data-nosnippet>239</a>    <span class="comment">// Notify all threads waiting for token refresh
-<a href=#240 id=240 data-nosnippet>240</a>    </span>token_manager.refresh_notify.notify_all();
-<a href=#241 id=241 data-nosnippet>241</a>
-<a href=#242 id=242 data-nosnippet>242</a>    <span class="macro">log::debug!</span>(<span class="string">"Access token refreshed successfully"</span>);
-<a href=#243 id=243 data-nosnippet>243</a>    <span class="prelude-val">Ok</span>(token_response.access_token)
-<a href=#244 id=244 data-nosnippet>244</a>}
+<a href=#223 id=223 data-nosnippet>223</a>    <span class="kw">let </span>token_response = <span class="kw">match </span>request_access_token(synchronization_settings, http_agent) {
+<a href=#224 id=224 data-nosnippet>224</a>        <span class="prelude-val">Ok</span>(r) =&gt; r,
+<a href=#225 id=225 data-nosnippet>225</a>        <span class="prelude-val">Err</span>(e) =&gt; {
+<a href=#226 id=226 data-nosnippet>226</a>            <span class="kw">let </span><span class="kw-2">mut </span>state = token_manager.state.lock();
+<a href=#227 id=227 data-nosnippet>227</a>            state.is_refreshing_token = <span class="bool-val">false</span>;
+<a href=#228 id=228 data-nosnippet>228</a>            token_manager.refresh_notify.notify_all();
+<a href=#229 id=229 data-nosnippet>229</a>            <span class="kw">return </span><span class="prelude-val">Err</span>(e);
+<a href=#230 id=230 data-nosnippet>230</a>        }
+<a href=#231 id=231 data-nosnippet>231</a>    };
+<a href=#232 id=232 data-nosnippet>232</a>    <span class="kw">let </span>expires_at = <span class="kw">match </span>OffsetDateTime::parse(
+<a href=#233 id=233 data-nosnippet>233</a>        <span class="kw-2">&amp;</span>token_response.expires_at,
+<a href=#234 id=234 data-nosnippet>234</a>        <span class="kw-2">&amp;</span>time::format_description::well_known::Rfc3339,
+<a href=#235 id=235 data-nosnippet>235</a>    ) {
+<a href=#236 id=236 data-nosnippet>236</a>        <span class="prelude-val">Ok</span>(t) =&gt; t,
+<a href=#237 id=237 data-nosnippet>237</a>        <span class="prelude-val">Err</span>(e) =&gt; {
+<a href=#238 id=238 data-nosnippet>238</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to parse token expiration time: {}"</span>, e);
+<a href=#239 id=239 data-nosnippet>239</a>            <span class="kw">let </span><span class="kw-2">mut </span>state = token_manager.state.lock();
+<a href=#240 id=240 data-nosnippet>240</a>            state.is_refreshing_token = <span class="bool-val">false</span>;
+<a href=#241 id=241 data-nosnippet>241</a>            token_manager.refresh_notify.notify_all();
+<a href=#242 id=242 data-nosnippet>242</a>            <span class="kw">return </span><span class="prelude-val">Err</span>(SynchronizationError::Other(e.to_string()));
+<a href=#243 id=243 data-nosnippet>243</a>        }
+<a href=#244 id=244 data-nosnippet>244</a>    };
 <a href=#245 id=245 data-nosnippet>245</a>
-<a href=#246 id=246 data-nosnippet>246</a><span class="attr">#[cfg(test)]
-<a href=#247 id=247 data-nosnippet>247</a></span><span class="kw">mod </span>tests {
-<a href=#248 id=248 data-nosnippet>248</a>    <span class="kw">use </span>super::<span class="kw-2">*</span>;
-<a href=#249 id=249 data-nosnippet>249</a>    <span class="kw">use </span>time::OffsetDateTime;
-<a href=#250 id=250 data-nosnippet>250</a>
-<a href=#251 id=251 data-nosnippet>251</a>    <span class="attr">#[test]
-<a href=#252 id=252 data-nosnippet>252</a>    </span><span class="kw">fn </span>test_is_token_valid_with_future_expiration() {
-<a href=#253 id=253 data-nosnippet>253</a>        <span class="comment">// Token expires 10 minutes from now (well beyond the 5-minute buffer)
-<a href=#254 id=254 data-nosnippet>254</a>        </span><span class="kw">let </span>expires_at = OffsetDateTime::now_utc() + time::Duration::minutes(<span class="number">10</span>);
-<a href=#255 id=255 data-nosnippet>255</a>        <span class="macro">assert!</span>(
-<a href=#256 id=256 data-nosnippet>256</a>            is_token_valid(<span class="kw-2">&amp;</span>expires_at),
-<a href=#257 id=257 data-nosnippet>257</a>            <span class="string">"Token expiring in 10 minutes should be valid"
-<a href=#258 id=258 data-nosnippet>258</a>        </span>);
-<a href=#259 id=259 data-nosnippet>259</a>    }
-<a href=#260 id=260 data-nosnippet>260</a>
-<a href=#261 id=261 data-nosnippet>261</a>    <span class="attr">#[test]
-<a href=#262 id=262 data-nosnippet>262</a>    </span><span class="kw">fn </span>test_is_token_valid_with_past_expiration() {
-<a href=#263 id=263 data-nosnippet>263</a>        <span class="comment">// Token expired 5 minutes ago
-<a href=#264 id=264 data-nosnippet>264</a>        </span><span class="kw">let </span>expires_at = OffsetDateTime::now_utc() - time::Duration::minutes(<span class="number">5</span>);
-<a href=#265 id=265 data-nosnippet>265</a>        <span class="macro">assert!</span>(
-<a href=#266 id=266 data-nosnippet>266</a>            !is_token_valid(<span class="kw-2">&amp;</span>expires_at),
-<a href=#267 id=267 data-nosnippet>267</a>            <span class="string">"Token expired 5 minutes ago should be invalid"
-<a href=#268 id=268 data-nosnippet>268</a>        </span>);
-<a href=#269 id=269 data-nosnippet>269</a>    }
-<a href=#270 id=270 data-nosnippet>270</a>
-<a href=#271 id=271 data-nosnippet>271</a>    <span class="attr">#[test]
-<a href=#272 id=272 data-nosnippet>272</a>    </span><span class="kw">fn </span>test_is_token_valid_expiring_in_less_than_buffer() {
-<a href=#273 id=273 data-nosnippet>273</a>        <span class="comment">// Token expires in 3 minutes (less than 5-minute buffer)
-<a href=#274 id=274 data-nosnippet>274</a>        </span><span class="kw">let </span>expires_at = OffsetDateTime::now_utc() + time::Duration::minutes(<span class="number">3</span>);
-<a href=#275 id=275 data-nosnippet>275</a>        <span class="macro">assert!</span>(
-<a href=#276 id=276 data-nosnippet>276</a>            !is_token_valid(<span class="kw-2">&amp;</span>expires_at),
-<a href=#277 id=277 data-nosnippet>277</a>            <span class="string">"Token expiring in 3 minutes should be invalid (within buffer)"
-<a href=#278 id=278 data-nosnippet>278</a>        </span>);
-<a href=#279 id=279 data-nosnippet>279</a>    }
-<a href=#280 id=280 data-nosnippet>280</a>
-<a href=#281 id=281 data-nosnippet>281</a>    <span class="attr">#[test]
-<a href=#282 id=282 data-nosnippet>282</a>    </span><span class="kw">fn </span>test_is_token_valid_expiring_in_exactly_buffer_time() {
-<a href=#283 id=283 data-nosnippet>283</a>        <span class="comment">// Token expires in exactly 5 minutes
-<a href=#284 id=284 data-nosnippet>284</a>        </span><span class="kw">let </span>expires_at = OffsetDateTime::now_utc() + time::Duration::minutes(<span class="number">5</span>);
-<a href=#285 id=285 data-nosnippet>285</a>        <span class="macro">assert!</span>(
-<a href=#286 id=286 data-nosnippet>286</a>            !is_token_valid(<span class="kw-2">&amp;</span>expires_at),
-<a href=#287 id=287 data-nosnippet>287</a>            <span class="string">"Token expiring in exactly 5 minutes should be invalid (at buffer boundary)"
-<a href=#288 id=288 data-nosnippet>288</a>        </span>);
-<a href=#289 id=289 data-nosnippet>289</a>    }
-<a href=#290 id=290 data-nosnippet>290</a>
-<a href=#291 id=291 data-nosnippet>291</a>    <span class="attr">#[test]
-<a href=#292 id=292 data-nosnippet>292</a>    </span><span class="kw">fn </span>test_is_token_valid_with_one_second_past_expiration() {
-<a href=#293 id=293 data-nosnippet>293</a>        <span class="comment">// Token expired 1 second ago
-<a href=#294 id=294 data-nosnippet>294</a>        </span><span class="kw">let </span>expires_at = OffsetDateTime::now_utc() - time::Duration::seconds(<span class="number">1</span>);
-<a href=#295 id=295 data-nosnippet>295</a>        <span class="macro">assert!</span>(
-<a href=#296 id=296 data-nosnippet>296</a>            !is_token_valid(<span class="kw-2">&amp;</span>expires_at),
-<a href=#297 id=297 data-nosnippet>297</a>            <span class="string">"Token expired 1 second ago should be invalid"
-<a href=#298 id=298 data-nosnippet>298</a>        </span>);
-<a href=#299 id=299 data-nosnippet>299</a>    }
-<a href=#300 id=300 data-nosnippet>300</a>
-<a href=#301 id=301 data-nosnippet>301</a>    <span class="attr">#[test]
-<a href=#302 id=302 data-nosnippet>302</a>    </span><span class="kw">fn </span>test_is_token_valid_with_one_hour_remaining() {
-<a href=#303 id=303 data-nosnippet>303</a>        <span class="comment">// Token expires in 1 hour (well beyond the 5-minute buffer)
-<a href=#304 id=304 data-nosnippet>304</a>        </span><span class="kw">let </span>expires_at = OffsetDateTime::now_utc() + time::Duration::hours(<span class="number">1</span>);
-<a href=#305 id=305 data-nosnippet>305</a>        <span class="macro">assert!</span>(
-<a href=#306 id=306 data-nosnippet>306</a>            is_token_valid(<span class="kw-2">&amp;</span>expires_at),
-<a href=#307 id=307 data-nosnippet>307</a>            <span class="string">"Token expiring in 1 hour should be valid"
-<a href=#308 id=308 data-nosnippet>308</a>        </span>);
-<a href=#309 id=309 data-nosnippet>309</a>    }
-<a href=#310 id=310 data-nosnippet>310</a>
-<a href=#311 id=311 data-nosnippet>311</a>    <span class="attr">#[test]
-<a href=#312 id=312 data-nosnippet>312</a>    </span><span class="kw">fn </span>test_is_token_valid_expiring_in_six_minutes() {
-<a href=#313 id=313 data-nosnippet>313</a>        <span class="comment">// Token expires in 6 minutes (just beyond the 5-minute buffer)
-<a href=#314 id=314 data-nosnippet>314</a>        </span><span class="kw">let </span>expires_at = OffsetDateTime::now_utc() + time::Duration::minutes(<span class="number">6</span>);
-<a href=#315 id=315 data-nosnippet>315</a>        <span class="macro">assert!</span>(
-<a href=#316 id=316 data-nosnippet>316</a>            is_token_valid(<span class="kw-2">&amp;</span>expires_at),
-<a href=#317 id=317 data-nosnippet>317</a>            <span class="string">"Token expiring in 6 minutes should be valid (beyond buffer)"
-<a href=#318 id=318 data-nosnippet>318</a>        </span>);
-<a href=#319 id=319 data-nosnippet>319</a>    }
-<a href=#320 id=320 data-nosnippet>320</a>
-<a href=#321 id=321 data-nosnippet>321</a>    <span class="attr">#[test]
-<a href=#322 id=322 data-nosnippet>322</a>    </span><span class="kw">fn </span>test_is_token_valid_expiring_in_four_minutes_59_seconds() {
-<a href=#323 id=323 data-nosnippet>323</a>        <span class="comment">// Token expires in 4 minutes 59 seconds (just under the 5-minute buffer)
-<a href=#324 id=324 data-nosnippet>324</a>        </span><span class="kw">let </span>expires_at =
-<a href=#325 id=325 data-nosnippet>325</a>            OffsetDateTime::now_utc() + time::Duration::minutes(<span class="number">4</span>) + time::Duration::seconds(<span class="number">59</span>);
-<a href=#326 id=326 data-nosnippet>326</a>        <span class="macro">assert!</span>(
-<a href=#327 id=327 data-nosnippet>327</a>            !is_token_valid(<span class="kw-2">&amp;</span>expires_at),
-<a href=#328 id=328 data-nosnippet>328</a>            <span class="string">"Token expiring in 4:59 should be invalid (within buffer)"
-<a href=#329 id=329 data-nosnippet>329</a>        </span>);
-<a href=#330 id=330 data-nosnippet>330</a>    }
-<a href=#331 id=331 data-nosnippet>331</a>
-<a href=#332 id=332 data-nosnippet>332</a>    <span class="attr">#[test]
-<a href=#333 id=333 data-nosnippet>333</a>    </span><span class="kw">fn </span>test_is_token_valid_with_far_future_expiration() {
-<a href=#334 id=334 data-nosnippet>334</a>        <span class="comment">// Token expires in 1 day
-<a href=#335 id=335 data-nosnippet>335</a>        </span><span class="kw">let </span>expires_at = OffsetDateTime::now_utc() + time::Duration::days(<span class="number">1</span>);
-<a href=#336 id=336 data-nosnippet>336</a>        <span class="macro">assert!</span>(
-<a href=#337 id=337 data-nosnippet>337</a>            is_token_valid(<span class="kw-2">&amp;</span>expires_at),
-<a href=#338 id=338 data-nosnippet>338</a>            <span class="string">"Token expiring in 1 day should be valid"
-<a href=#339 id=339 data-nosnippet>339</a>        </span>);
-<a href=#340 id=340 data-nosnippet>340</a>    }
-<a href=#341 id=341 data-nosnippet>341</a>
-<a href=#342 id=342 data-nosnippet>342</a>    <span class="attr">#[test]
-<a href=#343 id=343 data-nosnippet>343</a>    </span><span class="kw">fn </span>test_is_token_valid_with_far_past_expiration() {
-<a href=#344 id=344 data-nosnippet>344</a>        <span class="comment">// Token expired 1 day ago
-<a href=#345 id=345 data-nosnippet>345</a>        </span><span class="kw">let </span>expires_at = OffsetDateTime::now_utc() - time::Duration::days(<span class="number">1</span>);
-<a href=#346 id=346 data-nosnippet>346</a>        <span class="macro">assert!</span>(
-<a href=#347 id=347 data-nosnippet>347</a>            !is_token_valid(<span class="kw-2">&amp;</span>expires_at),
-<a href=#348 id=348 data-nosnippet>348</a>            <span class="string">"Token expired 1 day ago should be invalid"
-<a href=#349 id=349 data-nosnippet>349</a>        </span>);
-<a href=#350 id=350 data-nosnippet>350</a>    }
-<a href=#351 id=351 data-nosnippet>351</a>
-<a href=#352 id=352 data-nosnippet>352</a>    <span class="attr">#[test]
-<a href=#353 id=353 data-nosnippet>353</a>    </span><span class="kw">fn </span>test_is_token_valid_boundary_case_five_minutes_one_second() {
-<a href=#354 id=354 data-nosnippet>354</a>        <span class="comment">// Token expires in 5 minutes 1 second (just beyond the buffer)
-<a href=#355 id=355 data-nosnippet>355</a>        </span><span class="kw">let </span>expires_at =
-<a href=#356 id=356 data-nosnippet>356</a>            OffsetDateTime::now_utc() + time::Duration::minutes(<span class="number">5</span>) + time::Duration::seconds(<span class="number">1</span>);
-<a href=#357 id=357 data-nosnippet>357</a>        <span class="macro">assert!</span>(
-<a href=#358 id=358 data-nosnippet>358</a>            is_token_valid(<span class="kw-2">&amp;</span>expires_at),
-<a href=#359 id=359 data-nosnippet>359</a>            <span class="string">"Token expiring in 5:01 should be valid (just beyond buffer)"
-<a href=#360 id=360 data-nosnippet>360</a>        </span>);
-<a href=#361 id=361 data-nosnippet>361</a>    }
-<a href=#362 id=362 data-nosnippet>362</a>
-<a href=#363 id=363 data-nosnippet>363</a>    <span class="attr">#[test]
-<a href=#364 id=364 data-nosnippet>364</a>    </span><span class="kw">fn </span>test_is_token_valid_with_current_time() {
-<a href=#365 id=365 data-nosnippet>365</a>        <span class="comment">// Token expires right now (edge case)
-<a href=#366 id=366 data-nosnippet>366</a>        </span><span class="kw">let </span>expires_at = OffsetDateTime::now_utc();
-<a href=#367 id=367 data-nosnippet>367</a>
-<a href=#368 id=368 data-nosnippet>368</a>        <span class="macro">assert!</span>(
-<a href=#369 id=369 data-nosnippet>369</a>            !is_token_valid(<span class="kw-2">&amp;</span>expires_at),
-<a href=#370 id=370 data-nosnippet>370</a>            <span class="string">"Token expiring right now should be invalid"
-<a href=#371 id=371 data-nosnippet>371</a>        </span>);
-<a href=#372 id=372 data-nosnippet>372</a>    }
-<a href=#373 id=373 data-nosnippet>373</a>}
+<a href=#246 id=246 data-nosnippet>246</a>    <span class="comment">// Update state and notify waiting threads
+<a href=#247 id=247 data-nosnippet>247</a>    </span><span class="kw">let </span><span class="kw-2">mut </span>state = token_manager.state.lock();
+<a href=#248 id=248 data-nosnippet>248</a>    state.access_token = <span class="prelude-val">Some</span>(token_response.access_token.clone());
+<a href=#249 id=249 data-nosnippet>249</a>    state.token_expires_at = <span class="prelude-val">Some</span>(expires_at);
+<a href=#250 id=250 data-nosnippet>250</a>    state.is_refreshing_token = <span class="bool-val">false</span>;
+<a href=#251 id=251 data-nosnippet>251</a>
+<a href=#252 id=252 data-nosnippet>252</a>    <span class="comment">// Notify all threads waiting for token refresh
+<a href=#253 id=253 data-nosnippet>253</a>    </span>token_manager.refresh_notify.notify_all();
+<a href=#254 id=254 data-nosnippet>254</a>
+<a href=#255 id=255 data-nosnippet>255</a>    <span class="macro">log::debug!</span>(<span class="string">"Access token refreshed successfully"</span>);
+<a href=#256 id=256 data-nosnippet>256</a>    <span class="prelude-val">Ok</span>(token_response.access_token)
+<a href=#257 id=257 data-nosnippet>257</a>}
+<a href=#258 id=258 data-nosnippet>258</a>
+<a href=#259 id=259 data-nosnippet>259</a><span class="attr">#[cfg(test)]
+<a href=#260 id=260 data-nosnippet>260</a></span><span class="kw">mod </span>tests {
+<a href=#261 id=261 data-nosnippet>261</a>    <span class="kw">use </span>super::<span class="kw-2">*</span>;
+<a href=#262 id=262 data-nosnippet>262</a>    <span class="kw">use </span>time::OffsetDateTime;
+<a href=#263 id=263 data-nosnippet>263</a>
+<a href=#264 id=264 data-nosnippet>264</a>    <span class="attr">#[test]
+<a href=#265 id=265 data-nosnippet>265</a>    </span><span class="kw">fn </span>test_is_token_valid_with_future_expiration() {
+<a href=#266 id=266 data-nosnippet>266</a>        <span class="comment">// Token expires 10 minutes from now (well beyond the 5-minute buffer)
+<a href=#267 id=267 data-nosnippet>267</a>        </span><span class="kw">let </span>expires_at = OffsetDateTime::now_utc() + time::Duration::minutes(<span class="number">10</span>);
+<a href=#268 id=268 data-nosnippet>268</a>        <span class="macro">assert!</span>(
+<a href=#269 id=269 data-nosnippet>269</a>            is_token_valid(<span class="kw-2">&amp;</span>expires_at),
+<a href=#270 id=270 data-nosnippet>270</a>            <span class="string">"Token expiring in 10 minutes should be valid"
+<a href=#271 id=271 data-nosnippet>271</a>        </span>);
+<a href=#272 id=272 data-nosnippet>272</a>    }
+<a href=#273 id=273 data-nosnippet>273</a>
+<a href=#274 id=274 data-nosnippet>274</a>    <span class="attr">#[test]
+<a href=#275 id=275 data-nosnippet>275</a>    </span><span class="kw">fn </span>test_is_token_valid_with_past_expiration() {
+<a href=#276 id=276 data-nosnippet>276</a>        <span class="comment">// Token expired 5 minutes ago
+<a href=#277 id=277 data-nosnippet>277</a>        </span><span class="kw">let </span>expires_at = OffsetDateTime::now_utc() - time::Duration::minutes(<span class="number">5</span>);
+<a href=#278 id=278 data-nosnippet>278</a>        <span class="macro">assert!</span>(
+<a href=#279 id=279 data-nosnippet>279</a>            !is_token_valid(<span class="kw-2">&amp;</span>expires_at),
+<a href=#280 id=280 data-nosnippet>280</a>            <span class="string">"Token expired 5 minutes ago should be invalid"
+<a href=#281 id=281 data-nosnippet>281</a>        </span>);
+<a href=#282 id=282 data-nosnippet>282</a>    }
+<a href=#283 id=283 data-nosnippet>283</a>
+<a href=#284 id=284 data-nosnippet>284</a>    <span class="attr">#[test]
+<a href=#285 id=285 data-nosnippet>285</a>    </span><span class="kw">fn </span>test_is_token_valid_expiring_in_less_than_buffer() {
+<a href=#286 id=286 data-nosnippet>286</a>        <span class="comment">// Token expires in 3 minutes (less than 5-minute buffer)
+<a href=#287 id=287 data-nosnippet>287</a>        </span><span class="kw">let </span>expires_at = OffsetDateTime::now_utc() + time::Duration::minutes(<span class="number">3</span>);
+<a href=#288 id=288 data-nosnippet>288</a>        <span class="macro">assert!</span>(
+<a href=#289 id=289 data-nosnippet>289</a>            !is_token_valid(<span class="kw-2">&amp;</span>expires_at),
+<a href=#290 id=290 data-nosnippet>290</a>            <span class="string">"Token expiring in 3 minutes should be invalid (within buffer)"
+<a href=#291 id=291 data-nosnippet>291</a>        </span>);
+<a href=#292 id=292 data-nosnippet>292</a>    }
+<a href=#293 id=293 data-nosnippet>293</a>
+<a href=#294 id=294 data-nosnippet>294</a>    <span class="attr">#[test]
+<a href=#295 id=295 data-nosnippet>295</a>    </span><span class="kw">fn </span>test_is_token_valid_expiring_in_exactly_buffer_time() {
+<a href=#296 id=296 data-nosnippet>296</a>        <span class="comment">// Token expires in exactly 5 minutes
+<a href=#297 id=297 data-nosnippet>297</a>        </span><span class="kw">let </span>expires_at = OffsetDateTime::now_utc() + time::Duration::minutes(<span class="number">5</span>);
+<a href=#298 id=298 data-nosnippet>298</a>        <span class="macro">assert!</span>(
+<a href=#299 id=299 data-nosnippet>299</a>            !is_token_valid(<span class="kw-2">&amp;</span>expires_at),
+<a href=#300 id=300 data-nosnippet>300</a>            <span class="string">"Token expiring in exactly 5 minutes should be invalid (at buffer boundary)"
+<a href=#301 id=301 data-nosnippet>301</a>        </span>);
+<a href=#302 id=302 data-nosnippet>302</a>    }
+<a href=#303 id=303 data-nosnippet>303</a>
+<a href=#304 id=304 data-nosnippet>304</a>    <span class="attr">#[test]
+<a href=#305 id=305 data-nosnippet>305</a>    </span><span class="kw">fn </span>test_is_token_valid_with_one_second_past_expiration() {
+<a href=#306 id=306 data-nosnippet>306</a>        <span class="comment">// Token expired 1 second ago
+<a href=#307 id=307 data-nosnippet>307</a>        </span><span class="kw">let </span>expires_at = OffsetDateTime::now_utc() - time::Duration::seconds(<span class="number">1</span>);
+<a href=#308 id=308 data-nosnippet>308</a>        <span class="macro">assert!</span>(
+<a href=#309 id=309 data-nosnippet>309</a>            !is_token_valid(<span class="kw-2">&amp;</span>expires_at),
+<a href=#310 id=310 data-nosnippet>310</a>            <span class="string">"Token expired 1 second ago should be invalid"
+<a href=#311 id=311 data-nosnippet>311</a>        </span>);
+<a href=#312 id=312 data-nosnippet>312</a>    }
+<a href=#313 id=313 data-nosnippet>313</a>
+<a href=#314 id=314 data-nosnippet>314</a>    <span class="attr">#[test]
+<a href=#315 id=315 data-nosnippet>315</a>    </span><span class="kw">fn </span>test_is_token_valid_with_one_hour_remaining() {
+<a href=#316 id=316 data-nosnippet>316</a>        <span class="comment">// Token expires in 1 hour (well beyond the 5-minute buffer)
+<a href=#317 id=317 data-nosnippet>317</a>        </span><span class="kw">let </span>expires_at = OffsetDateTime::now_utc() + time::Duration::hours(<span class="number">1</span>);
+<a href=#318 id=318 data-nosnippet>318</a>        <span class="macro">assert!</span>(
+<a href=#319 id=319 data-nosnippet>319</a>            is_token_valid(<span class="kw-2">&amp;</span>expires_at),
+<a href=#320 id=320 data-nosnippet>320</a>            <span class="string">"Token expiring in 1 hour should be valid"
+<a href=#321 id=321 data-nosnippet>321</a>        </span>);
+<a href=#322 id=322 data-nosnippet>322</a>    }
+<a href=#323 id=323 data-nosnippet>323</a>
+<a href=#324 id=324 data-nosnippet>324</a>    <span class="attr">#[test]
+<a href=#325 id=325 data-nosnippet>325</a>    </span><span class="kw">fn </span>test_is_token_valid_expiring_in_six_minutes() {
+<a href=#326 id=326 data-nosnippet>326</a>        <span class="comment">// Token expires in 6 minutes (just beyond the 5-minute buffer)
+<a href=#327 id=327 data-nosnippet>327</a>        </span><span class="kw">let </span>expires_at = OffsetDateTime::now_utc() + time::Duration::minutes(<span class="number">6</span>);
+<a href=#328 id=328 data-nosnippet>328</a>        <span class="macro">assert!</span>(
+<a href=#329 id=329 data-nosnippet>329</a>            is_token_valid(<span class="kw-2">&amp;</span>expires_at),
+<a href=#330 id=330 data-nosnippet>330</a>            <span class="string">"Token expiring in 6 minutes should be valid (beyond buffer)"
+<a href=#331 id=331 data-nosnippet>331</a>        </span>);
+<a href=#332 id=332 data-nosnippet>332</a>    }
+<a href=#333 id=333 data-nosnippet>333</a>
+<a href=#334 id=334 data-nosnippet>334</a>    <span class="attr">#[test]
+<a href=#335 id=335 data-nosnippet>335</a>    </span><span class="kw">fn </span>test_is_token_valid_expiring_in_four_minutes_59_seconds() {
+<a href=#336 id=336 data-nosnippet>336</a>        <span class="comment">// Token expires in 4 minutes 59 seconds (just under the 5-minute buffer)
+<a href=#337 id=337 data-nosnippet>337</a>        </span><span class="kw">let </span>expires_at =
+<a href=#338 id=338 data-nosnippet>338</a>            OffsetDateTime::now_utc() + time::Duration::minutes(<span class="number">4</span>) + time::Duration::seconds(<span class="number">59</span>);
+<a href=#339 id=339 data-nosnippet>339</a>        <span class="macro">assert!</span>(
+<a href=#340 id=340 data-nosnippet>340</a>            !is_token_valid(<span class="kw-2">&amp;</span>expires_at),
+<a href=#341 id=341 data-nosnippet>341</a>            <span class="string">"Token expiring in 4:59 should be invalid (within buffer)"
+<a href=#342 id=342 data-nosnippet>342</a>        </span>);
+<a href=#343 id=343 data-nosnippet>343</a>    }
+<a href=#344 id=344 data-nosnippet>344</a>
+<a href=#345 id=345 data-nosnippet>345</a>    <span class="attr">#[test]
+<a href=#346 id=346 data-nosnippet>346</a>    </span><span class="kw">fn </span>test_is_token_valid_with_far_future_expiration() {
+<a href=#347 id=347 data-nosnippet>347</a>        <span class="comment">// Token expires in 1 day
+<a href=#348 id=348 data-nosnippet>348</a>        </span><span class="kw">let </span>expires_at = OffsetDateTime::now_utc() + time::Duration::days(<span class="number">1</span>);
+<a href=#349 id=349 data-nosnippet>349</a>        <span class="macro">assert!</span>(
+<a href=#350 id=350 data-nosnippet>350</a>            is_token_valid(<span class="kw-2">&amp;</span>expires_at),
+<a href=#351 id=351 data-nosnippet>351</a>            <span class="string">"Token expiring in 1 day should be valid"
+<a href=#352 id=352 data-nosnippet>352</a>        </span>);
+<a href=#353 id=353 data-nosnippet>353</a>    }
+<a href=#354 id=354 data-nosnippet>354</a>
+<a href=#355 id=355 data-nosnippet>355</a>    <span class="attr">#[test]
+<a href=#356 id=356 data-nosnippet>356</a>    </span><span class="kw">fn </span>test_is_token_valid_with_far_past_expiration() {
+<a href=#357 id=357 data-nosnippet>357</a>        <span class="comment">// Token expired 1 day ago
+<a href=#358 id=358 data-nosnippet>358</a>        </span><span class="kw">let </span>expires_at = OffsetDateTime::now_utc() - time::Duration::days(<span class="number">1</span>);
+<a href=#359 id=359 data-nosnippet>359</a>        <span class="macro">assert!</span>(
+<a href=#360 id=360 data-nosnippet>360</a>            !is_token_valid(<span class="kw-2">&amp;</span>expires_at),
+<a href=#361 id=361 data-nosnippet>361</a>            <span class="string">"Token expired 1 day ago should be invalid"
+<a href=#362 id=362 data-nosnippet>362</a>        </span>);
+<a href=#363 id=363 data-nosnippet>363</a>    }
+<a href=#364 id=364 data-nosnippet>364</a>
+<a href=#365 id=365 data-nosnippet>365</a>    <span class="attr">#[test]
+<a href=#366 id=366 data-nosnippet>366</a>    </span><span class="kw">fn </span>test_is_token_valid_boundary_case_five_minutes_one_second() {
+<a href=#367 id=367 data-nosnippet>367</a>        <span class="comment">// Token expires in 5 minutes 1 second (just beyond the buffer)
+<a href=#368 id=368 data-nosnippet>368</a>        </span><span class="kw">let </span>expires_at =
+<a href=#369 id=369 data-nosnippet>369</a>            OffsetDateTime::now_utc() + time::Duration::minutes(<span class="number">5</span>) + time::Duration::seconds(<span class="number">1</span>);
+<a href=#370 id=370 data-nosnippet>370</a>        <span class="macro">assert!</span>(
+<a href=#371 id=371 data-nosnippet>371</a>            is_token_valid(<span class="kw-2">&amp;</span>expires_at),
+<a href=#372 id=372 data-nosnippet>372</a>            <span class="string">"Token expiring in 5:01 should be valid (just beyond buffer)"
+<a href=#373 id=373 data-nosnippet>373</a>        </span>);
+<a href=#374 id=374 data-nosnippet>374</a>    }
+<a href=#375 id=375 data-nosnippet>375</a>
+<a href=#376 id=376 data-nosnippet>376</a>    <span class="attr">#[test]
+<a href=#377 id=377 data-nosnippet>377</a>    </span><span class="kw">fn </span>test_is_token_valid_with_current_time() {
+<a href=#378 id=378 data-nosnippet>378</a>        <span class="comment">// Token expires right now (edge case)
+<a href=#379 id=379 data-nosnippet>379</a>        </span><span class="kw">let </span>expires_at = OffsetDateTime::now_utc();
+<a href=#380 id=380 data-nosnippet>380</a>
+<a href=#381 id=381 data-nosnippet>381</a>        <span class="macro">assert!</span>(
+<a href=#382 id=382 data-nosnippet>382</a>            !is_token_valid(<span class="kw-2">&amp;</span>expires_at),
+<a href=#383 id=383 data-nosnippet>383</a>            <span class="string">"Token expiring right now should be invalid"
+<a href=#384 id=384 data-nosnippet>384</a>        </span>);
+<a href=#385 id=385 data-nosnippet>385</a>    }
+<a href=#386 id=386 data-nosnippet>386</a>}
 </code></pre></div></section></main></body></html>
