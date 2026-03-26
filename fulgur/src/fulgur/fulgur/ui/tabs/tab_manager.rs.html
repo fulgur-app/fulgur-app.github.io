@@ -825,5 +825,73 @@
 <a href=#825 id=825 data-nosnippet>825</a>            <span class="self">self</span>.next_tab_id += <span class="number">1</span>;
 <a href=#826 id=826 data-nosnippet>826</a>        }
 <a href=#827 id=827 data-nosnippet>827</a>    }
-<a href=#828 id=828 data-nosnippet>828</a>}
+<a href=#828 id=828 data-nosnippet>828</a>
+<a href=#829 id=829 data-nosnippet>829</a>    <span class="doccomment">/// Reorder a tab from one index to another within this window.
+<a href=#830 id=830 data-nosnippet>830</a>    ///
+<a href=#831 id=831 data-nosnippet>831</a>    /// `to` is the logical insertion slot (0 = before all tabs, N = after all tabs).
+<a href=#832 id=832 data-nosnippet>832</a>    /// No-op when the operation would leave the tab in its current position.
+<a href=#833 id=833 data-nosnippet>833</a>    ///
+<a href=#834 id=834 data-nosnippet>834</a>    /// ### Arguments
+<a href=#835 id=835 data-nosnippet>835</a>    /// - `from`: The current index of the tab to move
+<a href=#836 id=836 data-nosnippet>836</a>    /// - `to`: The insertion slot index (0..=tabs.len())
+<a href=#837 id=837 data-nosnippet>837</a>    /// - `window`: The window context
+<a href=#838 id=838 data-nosnippet>838</a>    /// - `cx`: The application context
+<a href=#839 id=839 data-nosnippet>839</a>    </span><span class="kw">pub fn </span>reorder_tab(
+<a href=#840 id=840 data-nosnippet>840</a>        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+<a href=#841 id=841 data-nosnippet>841</a>        from: usize,
+<a href=#842 id=842 data-nosnippet>842</a>        to: usize,
+<a href=#843 id=843 data-nosnippet>843</a>        window: <span class="kw-2">&amp;mut </span>Window,
+<a href=#844 id=844 data-nosnippet>844</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
+<a href=#845 id=845 data-nosnippet>845</a>    ) {
+<a href=#846 id=846 data-nosnippet>846</a>        <span class="kw">if </span>from &gt;= <span class="self">self</span>.tabs.len() || to &gt; <span class="self">self</span>.tabs.len() {
+<a href=#847 id=847 data-nosnippet>847</a>            <span class="kw">return</span>;
+<a href=#848 id=848 data-nosnippet>848</a>        }
+<a href=#849 id=849 data-nosnippet>849</a>        <span class="comment">// Inserting at slot `to` or `to-1` when `to &gt; from` is equivalent to no move.
+<a href=#850 id=850 data-nosnippet>850</a>        </span><span class="kw">if </span>to == from || to == from + <span class="number">1 </span>{
+<a href=#851 id=851 data-nosnippet>851</a>            <span class="kw">return</span>;
+<a href=#852 id=852 data-nosnippet>852</a>        }
+<a href=#853 id=853 data-nosnippet>853</a>        <span class="kw">let </span>tab = <span class="self">self</span>.tabs.remove(from);
+<a href=#854 id=854 data-nosnippet>854</a>        <span class="comment">// After removing `from`, the effective insert position shifts down by 1 when to &gt; from.
+<a href=#855 id=855 data-nosnippet>855</a>        </span><span class="kw">let </span>insert_at = <span class="kw">if </span>to &gt; from { to - <span class="number">1 </span>} <span class="kw">else </span>{ to };
+<a href=#856 id=856 data-nosnippet>856</a>        <span class="self">self</span>.tabs.insert(insert_at, tab);
+<a href=#857 id=857 data-nosnippet>857</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(active) = <span class="self">self</span>.active_tab_index {
+<a href=#858 id=858 data-nosnippet>858</a>            <span class="self">self</span>.active_tab_index = <span class="prelude-val">Some</span>(<span class="kw">if </span>from == active {
+<a href=#859 id=859 data-nosnippet>859</a>                insert_at
+<a href=#860 id=860 data-nosnippet>860</a>            } <span class="kw">else if </span>from &lt; active &amp;&amp; insert_at &gt;= active {
+<a href=#861 id=861 data-nosnippet>861</a>                active - <span class="number">1
+<a href=#862 id=862 data-nosnippet>862</a>            </span>} <span class="kw">else if </span>from &gt; active &amp;&amp; insert_at &lt;= active {
+<a href=#863 id=863 data-nosnippet>863</a>                active + <span class="number">1
+<a href=#864 id=864 data-nosnippet>864</a>            </span>} <span class="kw">else </span>{
+<a href=#865 id=865 data-nosnippet>865</a>                active
+<a href=#866 id=866 data-nosnippet>866</a>            });
+<a href=#867 id=867 data-nosnippet>867</a>        }
+<a href=#868 id=868 data-nosnippet>868</a>        <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = <span class="self">self</span>.save_state(cx, window) {
+<a href=#869 id=869 data-nosnippet>869</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to save app state after reordering tab: {}"</span>, e);
+<a href=#870 id=870 data-nosnippet>870</a>            <span class="self">self</span>.pending_notification = <span class="prelude-val">Some</span>((
+<a href=#871 id=871 data-nosnippet>871</a>                gpui_component::notification::NotificationType::Warning,
+<a href=#872 id=872 data-nosnippet>872</a>                <span class="macro">format!</span>(<span class="string">"Tab reordered but failed to save state: {}"</span>, e).into(),
+<a href=#873 id=873 data-nosnippet>873</a>            ));
+<a href=#874 id=874 data-nosnippet>874</a>        }
+<a href=#875 id=875 data-nosnippet>875</a>        cx.notify();
+<a href=#876 id=876 data-nosnippet>876</a>    }
+<a href=#877 id=877 data-nosnippet>877</a>
+<a href=#878 id=878 data-nosnippet>878</a>    <span class="doccomment">/// Handle a tab drop onto an insertion slot.
+<a href=#879 id=879 data-nosnippet>879</a>    ///
+<a href=#880 id=880 data-nosnippet>880</a>    /// Called by `on_drop` handlers on the slot divs in the tab bar.
+<a href=#881 id=881 data-nosnippet>881</a>    ///
+<a href=#882 id=882 data-nosnippet>882</a>    /// ### Arguments
+<a href=#883 id=883 data-nosnippet>883</a>    /// - `dragged`: The drag payload
+<a href=#884 id=884 data-nosnippet>884</a>    /// - `slot_index`: The insertion slot (0 = before first tab, N = after last tab)
+<a href=#885 id=885 data-nosnippet>885</a>    /// - `window`: The window context
+<a href=#886 id=886 data-nosnippet>886</a>    /// - `cx`: The application context
+<a href=#887 id=887 data-nosnippet>887</a>    </span><span class="kw">pub fn </span>handle_tab_drop(
+<a href=#888 id=888 data-nosnippet>888</a>        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+<a href=#889 id=889 data-nosnippet>889</a>        dragged: <span class="kw-2">&amp;</span><span class="kw">crate</span>::fulgur::ui::tabs::tab_drag::DraggedTab,
+<a href=#890 id=890 data-nosnippet>890</a>        slot_index: usize,
+<a href=#891 id=891 data-nosnippet>891</a>        window: <span class="kw-2">&amp;mut </span>Window,
+<a href=#892 id=892 data-nosnippet>892</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
+<a href=#893 id=893 data-nosnippet>893</a>    ) {
+<a href=#894 id=894 data-nosnippet>894</a>        <span class="self">self</span>.reorder_tab(dragged.tab_index, slot_index, window, cx);
+<a href=#895 id=895 data-nosnippet>895</a>    }
+<a href=#896 id=896 data-nosnippet>896</a>}
 </code></pre></div></section></main></body></html>
