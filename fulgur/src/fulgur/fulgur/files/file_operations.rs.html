@@ -101,7 +101,7 @@
 <a href=#101 id=101 data-nosnippet>101</a>                        editor_tab.content.update(cx, |input_state, cx| {
 <a href=#102 id=102 data-nosnippet>102</a>                            input_state.set_value(<span class="kw-2">&amp;</span>contents, window, cx);
 <a href=#103 id=103 data-nosnippet>103</a>                        });
-<a href=#104 id=104 data-nosnippet>104</a>                        editor_tab.original_content = contents;
+<a href=#104 id=104 data-nosnippet>104</a>                        editor_tab.set_original_content_from_str(<span class="kw-2">&amp;</span>contents);
 <a href=#105 id=105 data-nosnippet>105</a>                        editor_tab.encoding = encoding;
 <a href=#106 id=106 data-nosnippet>106</a>                        editor_tab.modified = <span class="bool-val">false</span>;
 <a href=#107 id=107 data-nosnippet>107</a>                        editor_tab.update_file_tooltip_cache(bytes.len());
@@ -947,7 +947,7 @@
 <a href=#947 id=947 data-nosnippet>947</a>            fulgur.update(cx, |this, _cx| {
 <a href=#948 id=948 data-nosnippet>948</a>                <span class="kw">if let </span><span class="prelude-val">Some</span>(Tab::Editor(editor_tab)) = this.tabs.last_mut() {
 <a href=#949 id=949 data-nosnippet>949</a>                    editor_tab.file_path = <span class="prelude-val">Some</span>(path.clone());
-<a href=#950 id=950 data-nosnippet>950</a>                    editor_tab.original_content = <span class="string">"initial content"</span>.to_string();
+<a href=#950 id=950 data-nosnippet>950</a>                    editor_tab.set_original_content_from_str(<span class="string">"initial content"</span>);
 <a href=#951 id=951 data-nosnippet>951</a>                }
 <a href=#952 id=952 data-nosnippet>952</a>            });
 <a href=#953 id=953 data-nosnippet>953</a>        });

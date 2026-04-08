@@ -35,10 +35,12 @@
 <a href=#35 id=35 data-nosnippet>35</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>((notification_type, message)) = sync_notification {
 <a href=#36 id=36 data-nosnippet>36</a>            window.push_notification((notification_type, message), cx);
 <a href=#37 id=37 data-nosnippet>37</a>        }
-<a href=#38 id=38 data-nosnippet>38</a>        <span class="attr">#[cfg(target_os = <span class="string">"macos"</span>)]
-<a href=#39 id=39 data-nosnippet>39</a>        </span><span class="self">self</span>.update_dock_menu_if_changed(cx);
-<a href=#40 id=40 data-nosnippet>40</a>        <span class="attr">#[cfg(target_os = <span class="string">"windows"</span>)]
-<a href=#41 id=41 data-nosnippet>41</a>        </span><span class="self">self</span>.update_jump_list_if_changed(cx);
-<a href=#42 id=42 data-nosnippet>42</a>    }
-<a href=#43 id=43 data-nosnippet>43</a>}
+<a href=#38 id=38 data-nosnippet>38</a>        <span class="attr">#[cfg(any(target_os = <span class="string">"macos"</span>, target_os = <span class="string">"windows"</span>))]
+<a href=#39 id=39 data-nosnippet>39</a>        </span><span class="self">self</span>.publish_window_menu_fingerprint_if_changed(cx);
+<a href=#40 id=40 data-nosnippet>40</a>        <span class="attr">#[cfg(target_os = <span class="string">"macos"</span>)]
+<a href=#41 id=41 data-nosnippet>41</a>        </span><span class="self">self</span>.update_dock_menu_if_changed(cx);
+<a href=#42 id=42 data-nosnippet>42</a>        <span class="attr">#[cfg(target_os = <span class="string">"windows"</span>)]
+<a href=#43 id=43 data-nosnippet>43</a>        </span><span class="self">self</span>.update_jump_list_if_changed(cx);
+<a href=#44 id=44 data-nosnippet>44</a>    }
+<a href=#45 id=45 data-nosnippet>45</a>}
 </code></pre></div></section></main></body></html>
