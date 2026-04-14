@@ -279,12 +279,12 @@ This approach works cross-platform without requiring OS-specific print APIs.</p>
 <ul>
 <li><code>WindowState</code>: The WindowState for this window</li>
 </ul>
-</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-5" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/sync/sse.rs.html#386-576">Source</a><a href="#impl-Fulgur-5" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.is_connected" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/sync/sse.rs.html#391-397">Source</a><h4 class="code-header">pub fn <a href="#method.is_connected" class="fn">is_connected</a>(&amp;self, cx: &amp;App) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.94.1/std/primitive.bool.html">bool</a></h4></section></summary><div class="docblock"><p>Check if the Fulgur is connected to the sync server</p>
+</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-5" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/sync/sse.rs.html#449-617">Source</a><a href="#impl-Fulgur-5" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.is_connected" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/sync/sse.rs.html#454-460">Source</a><h4 class="code-header">pub fn <a href="#method.is_connected" class="fn">is_connected</a>(&amp;self, cx: &amp;App) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.94.1/std/primitive.bool.html">bool</a></h4></section></summary><div class="docblock"><p>Check if the Fulgur is connected to the sync server</p>
 <h6 id="returns-7"><a class="doc-anchor" href="#returns-7">§</a>Returns</h6>
 <ul>
 <li><code>true</code> if Fulgur is connected to the sync server, <code>false</code> otherwise</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.restart_sse_connection" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/sync/sse.rs.html#410-482">Source</a><h4 class="code-header">pub fn <a href="#method.restart_sse_connection" class="fn">restart_sse_connection</a>(&amp;mut self, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Restart the SSE connection with new settings</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.restart_sse_connection" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/sync/sse.rs.html#473-548">Source</a><h4 class="code-header">pub fn <a href="#method.restart_sse_connection" class="fn">restart_sse_connection</a>(&amp;mut self, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Restart the SSE connection with new settings</p>
 <h6 id="description-1"><a class="doc-anchor" href="#description-1">§</a>Description</h6>
 <p>Stops the current SSE connection and starts a new one with the updated settings.
 Waits for the previous SSE thread to exit (bounded by <code>SSE_THREAD_SHUTDOWN_TIMEOUT</code>)
@@ -294,7 +294,7 @@ in a background thread to avoid blocking the UI.</p>
 <ul>
 <li><code>cx</code>: The context of the application.</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_sse_event" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/sync/sse.rs.html#490-560">Source</a><h4 class="code-header">pub fn <a href="#method.handle_sse_event" class="fn">handle_sse_event</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_sse_event" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/sync/sse.rs.html#556-601">Source</a><h4 class="code-header">pub fn <a href="#method.handle_sse_event" class="fn">handle_sse_event</a>(
     &amp;mut self,
     event: <a class="enum" href="sync/sse/enum.SseEvent.html" title="enum fulgur::fulgur::sync::sse::SseEvent">SseEvent</a>,
     window: &amp;mut Window,
@@ -306,7 +306,7 @@ in a background thread to avoid blocking the UI.</p>
 <li><code>window</code>: The window to show notifications in</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.process_sse_events" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/sync/sse.rs.html#570-575">Source</a><h4 class="code-header">pub fn <a href="#method.process_sse_events" class="fn">process_sse_events</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.process_sse_events" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/sync/sse.rs.html#611-616">Source</a><h4 class="code-header">pub fn <a href="#method.process_sse_events" class="fn">process_sse_events</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
@@ -321,7 +321,7 @@ in a background thread to avoid blocking the UI.</p>
 <li><code>window</code>: The window to handle events in</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-6" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/sync/synchronization.rs.html#432-518">Source</a><a href="#impl-Fulgur-6" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.process_shared_files_from_sync" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/sync/synchronization.rs.html#438-517">Source</a><h4 class="code-header">pub fn <a href="#method.process_shared_files_from_sync" class="fn">process_shared_files_from_sync</a>(
+</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-6" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/sync/synchronization.rs.html#433-519">Source</a><a href="#impl-Fulgur-6" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.process_shared_files_from_sync" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/sync/synchronization.rs.html#439-518">Source</a><h4 class="code-header">pub fn <a href="#method.process_shared_files_from_sync" class="fn">process_shared_files_from_sync</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
