@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["change_user_role","create_user_from_admin","delete_user","get_admin","search_users","toggle_force_password_update"],"struct":["CreateUserFromAdminRequest","UserSearchParams"]};
+window.SIDEBAR_ITEMS = {"fn":["change_user_role","create_user_from_admin","delete_user","get_admin","search_users","toggle_force_password_update","update_max_file_size"],"struct":["CreateUserFromAdminRequest","UpdateMaxFileSizeRequest","UserSearchParams"]};
