@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["format_remote_url","parse_remote_url"],"struct":["RemoteSpec"]};

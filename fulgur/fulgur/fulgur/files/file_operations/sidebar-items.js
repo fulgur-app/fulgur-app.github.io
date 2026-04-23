@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["detect_encoding_and_decode"]};
+window.SIDEBAR_ITEMS = {"enum":["RemoteOpenResult"],"fn":["detect_encoding_and_decode"],"struct":["PendingRemoteOpenOutcome","RemoteBrowseResult","RemoteFileResult"]};

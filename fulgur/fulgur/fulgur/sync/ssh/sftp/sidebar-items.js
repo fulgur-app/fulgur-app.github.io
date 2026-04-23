@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["RemotePathKind"],"fn":["classify_remote_path","closest_existing_remote_directory","list_remote_directory","parent_remote_path","read_remote_file","write_remote_file"],"struct":["RemoteDirectoryEntry"]};

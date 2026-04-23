@@ -22,7 +22,7 @@
 <a href=#22 id=22 data-nosnippet>22</a>        <span class="kw">for </span>tab <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.tabs {
 <a href=#23 id=23 data-nosnippet>23</a>            tab.id().hash(<span class="kw-2">&amp;mut </span>hasher);
 <a href=#24 id=24 data-nosnippet>24</a>            tab.title().hash(<span class="kw-2">&amp;mut </span>hasher);
-<a href=#25 id=25 data-nosnippet>25</a>            <span class="kw">if let </span><span class="prelude-val">Some</span>(path) = tab.as_editor().and_then(|editor| editor.file_path.as_ref()) {
+<a href=#25 id=25 data-nosnippet>25</a>            <span class="kw">if let </span><span class="prelude-val">Some</span>(path) = tab.as_editor().and_then(|editor| editor.file_path()) {
 <a href=#26 id=26 data-nosnippet>26</a>                path.hash(<span class="kw-2">&amp;mut </span>hasher);
 <a href=#27 id=27 data-nosnippet>27</a>            }
 <a href=#28 id=28 data-nosnippet>28</a>        }
@@ -83,7 +83,7 @@
 <a href=#83 id=83 data-nosnippet>83</a>            </span>.tabs
 <a href=#84 id=84 data-nosnippet>84</a>            .iter()
 <a href=#85 id=85 data-nosnippet>85</a>            .map(|tab| {
-<a href=#86 id=86 data-nosnippet>86</a>                <span class="kw">let </span>path = tab.as_editor().and_then(|e| e.file_path.clone());
+<a href=#86 id=86 data-nosnippet>86</a>                <span class="kw">let </span>path = tab.as_editor().and_then(|e| e.file_path().cloned());
 <a href=#87 id=87 data-nosnippet>87</a>                <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>p) = path {
 <a href=#88 id=88 data-nosnippet>88</a>                    p.hash(<span class="kw-2">&amp;mut </span>hasher);
 <a href=#89 id=89 data-nosnippet>89</a>                }
@@ -109,7 +109,7 @@
 <a href=#109 id=109 data-nosnippet>109</a>                    .tabs
 <a href=#110 id=110 data-nosnippet>110</a>                    .iter()
 <a href=#111 id=111 data-nosnippet>111</a>                    .map(|tab| {
-<a href=#112 id=112 data-nosnippet>112</a>                        <span class="kw">let </span>path = tab.as_editor().and_then(|e| e.file_path.clone());
+<a href=#112 id=112 data-nosnippet>112</a>                        <span class="kw">let </span>path = tab.as_editor().and_then(|e| e.file_path().cloned());
 <a href=#113 id=113 data-nosnippet>113</a>                        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>p) = path {
 <a href=#114 id=114 data-nosnippet>114</a>                            p.hash(<span class="kw-2">&amp;mut </span>hasher);
 <a href=#115 id=115 data-nosnippet>115</a>                        }
@@ -207,7 +207,7 @@
 <a href=#207 id=207 data-nosnippet>207</a>            </span>.tabs
 <a href=#208 id=208 data-nosnippet>208</a>            .iter()
 <a href=#209 id=209 data-nosnippet>209</a>            .map(|tab| {
-<a href=#210 id=210 data-nosnippet>210</a>                <span class="kw">let </span>path = tab.as_editor().and_then(|e| e.file_path.clone());
+<a href=#210 id=210 data-nosnippet>210</a>                <span class="kw">let </span>path = tab.as_editor().and_then(|e| e.file_path().cloned());
 <a href=#211 id=211 data-nosnippet>211</a>                <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>p) = path {
 <a href=#212 id=212 data-nosnippet>212</a>                    p.hash(<span class="kw-2">&amp;mut </span>hasher);
 <a href=#213 id=213 data-nosnippet>213</a>                }
@@ -233,7 +233,7 @@
 <a href=#233 id=233 data-nosnippet>233</a>                    .tabs
 <a href=#234 id=234 data-nosnippet>234</a>                    .iter()
 <a href=#235 id=235 data-nosnippet>235</a>                    .map(|tab| {
-<a href=#236 id=236 data-nosnippet>236</a>                        <span class="kw">let </span>path = tab.as_editor().and_then(|e| e.file_path.clone());
+<a href=#236 id=236 data-nosnippet>236</a>                        <span class="kw">let </span>path = tab.as_editor().and_then(|e| e.file_path().cloned());
 <a href=#237 id=237 data-nosnippet>237</a>                        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>p) = path {
 <a href=#238 id=238 data-nosnippet>238</a>                            p.hash(<span class="kw-2">&amp;mut </span>hasher);
 <a href=#239 id=239 data-nosnippet>239</a>                        }
