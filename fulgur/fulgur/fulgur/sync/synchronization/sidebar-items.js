@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["SynchronizationError","SynchronizationStatus"],"fn":["begin_synchronization","handle_ureq_error","initial_synchronization","perform_initial_synchronization","set_sync_server_connection_status"]};
+window.SIDEBAR_ITEMS = {"enum":["SynchronizationError","SynchronizationStatus"],"fn":["begin_synchronization","handle_ureq_error","initial_synchronization","perform_initial_synchronization","set_sync_server_connection_status","store_server_max_file_size"]};
