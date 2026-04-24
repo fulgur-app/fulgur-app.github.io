@@ -196,7 +196,7 @@
 <a href=#196 id=196 data-nosnippet>196</a>    /// ### Returns
 <a href=#197 id=197 data-nosnippet>197</a>    /// - `Ok(PathBuf)`: The path to the state file
 <a href=#198 id=198 data-nosnippet>198</a>    /// - `Err(anyhow::Error)`: If the state file path could not be determined
-<a href=#199 id=199 data-nosnippet>199</a>    </span><span class="kw">fn </span>state_file_path() -&gt; anyhow::Result&lt;PathBuf&gt; {
+<a href=#199 id=199 data-nosnippet>199</a>    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>state_file_path() -&gt; anyhow::Result&lt;PathBuf&gt; {
 <a href=#200 id=200 data-nosnippet>200</a>        <span class="kw">let </span><span class="kw-2">mut </span>path = <span class="kw">crate</span>::fulgur::utils::paths::config_dir()<span class="question-mark">?</span>;
 <a href=#201 id=201 data-nosnippet>201</a>        path.push(<span class="string">"state.json"</span>);
 <a href=#202 id=202 data-nosnippet>202</a>        <span class="prelude-val">Ok</span>(path)
