@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["check_for_updates"],"struct":["GitHubRelease","ReleaseAsset","UpdateInfo"]};
+window.SIDEBAR_ITEMS = {"fn":["check_for_updates","is_valid_release_page_url"],"struct":["GitHubRelease","ReleaseAsset","UpdateInfo"]};
