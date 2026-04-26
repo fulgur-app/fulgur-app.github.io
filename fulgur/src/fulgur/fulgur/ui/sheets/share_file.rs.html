@@ -166,10 +166,10 @@
 <a href=#166 id=166 data-nosnippet>166</a>        max_file_size_bytes,
 <a href=#167 id=167 data-nosnippet>167</a>    ) = entity.update(cx, |this, cx| {
 <a href=#168 id=168 data-nosnippet>168</a>        <span class="kw">let </span>active_tab = this.get_active_editor_tab();
-<a href=#169 id=169 data-nosnippet>169</a>        <span class="kw">let </span>content = active_tab
+<a href=#169 id=169 data-nosnippet>169</a>        <span class="kw">let </span>content: Arc&lt;str&gt; = active_tab
 <a href=#170 id=170 data-nosnippet>170</a>            .as_ref()
-<a href=#171 id=171 data-nosnippet>171</a>            .map(|tab| tab.content.read(cx).value().to_string())
-<a href=#172 id=172 data-nosnippet>172</a>            .unwrap_or_default();
+<a href=#171 id=171 data-nosnippet>171</a>            .map(|tab| Arc::from(tab.content.read(cx).value().as_str()))
+<a href=#172 id=172 data-nosnippet>172</a>            .unwrap_or_else(|| Arc::from(<span class="string">""</span>));
 <a href=#173 id=173 data-nosnippet>173</a>        <span class="kw">let </span>file_path = active_tab.as_ref().and_then(|tab| tab.file_path().cloned());
 <a href=#174 id=174 data-nosnippet>174</a>        <span class="kw">let </span>file_name = file_path
 <a href=#175 id=175 data-nosnippet>175</a>            .as_ref()
