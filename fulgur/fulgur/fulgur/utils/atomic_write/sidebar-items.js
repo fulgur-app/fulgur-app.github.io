@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["atomic_write_file"]};
+window.SIDEBAR_ITEMS = {"fn":["atomic_write_file","backup_path_for","cleanup_orphan_temp_files"]};
