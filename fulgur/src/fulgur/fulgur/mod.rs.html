@@ -24,7 +24,7 @@
 <a href=#24 id=24 data-nosnippet>24</a>};
 <a href=#25 id=25 data-nosnippet>25</a><span class="kw">use </span><span class="kw">crate</span>::register_action;
 <a href=#26 id=26 data-nosnippet>26</a><span class="kw">use </span>gpui::{
-<a href=#27 id=27 data-nosnippet>27</a>    AnyElement, App, AppContext, Context, Corner, DismissEvent, Entity, ExternalPaths, FocusHandle,
+<a href=#27 id=27 data-nosnippet>27</a>    Anchor, AnyElement, App, AppContext, Context, DismissEvent, Entity, ExternalPaths, FocusHandle,
 <a href=#28 id=28 data-nosnippet>28</a>    Focusable, InteractiveElement, IntoElement, MouseButton, MouseDownEvent, ParentElement, Pixels,
 <a href=#29 id=29 data-nosnippet>29</a>    Point, Render, ScrollHandle, SharedString, Styled, Subscription, Window, WindowId, div, px,
 <a href=#30 id=30 data-nosnippet>30</a>};
@@ -130,7 +130,7 @@
 <a href=#130 id=130 data-nosnippet>130</a>    </span><span class="kw">pub </span>file_watch_state: FileWatchState, <span class="comment">// File watching state for external file change detection
 <a href=#131 id=131 data-nosnippet>131</a>    </span><span class="kw">pub </span>sse_state: SseState,           <span class="comment">// Server-Sent Events state for sync functionality
 <a href=#132 id=132 data-nosnippet>132</a>    </span><span class="kw">pub </span>pending_notification: <span class="prelude-ty">Option</span>&lt;(NotificationType, SharedString)&gt;, <span class="comment">// Pending notification to display on next render
-<a href=#133 id=133 data-nosnippet>133</a>    </span>save_failed_once: bool, <span class="comment">// Flag: save already failed once — allow force-close on next attempt
+<a href=#133 id=133 data-nosnippet>133</a>    </span>save_failed_once: bool, <span class="comment">// Flag: save already failed once, allow force-close on next attempt
 <a href=#134 id=134 data-nosnippet>134</a>    </span>pending_share_sheet: bool, <span class="comment">// Flag to open share sheet when pending devices are ready
 <a href=#135 id=135 data-nosnippet>135</a>    </span>cached_window_bounds: <span class="prelude-ty">Option</span>&lt;state_persistence::SerializedWindowBounds&gt;, <span class="comment">// Cached window bounds for cross-window saves
 <a href=#136 id=136 data-nosnippet>136</a>    </span>_font_select_subscription: <span class="prelude-ty">Option</span>&lt;Subscription&gt;, <span class="comment">// Subscription for font family selection events (set when settings tab is opened)
@@ -471,7 +471,7 @@
 <a href=#471 id=471 data-nosnippet>471</a>                    gpui::anchored()
 <a href=#472 id=472 data-nosnippet>472</a>                        .position(position)
 <a href=#473 id=473 data-nosnippet>473</a>                        .snap_to_window_with_margin(px(<span class="number">8.</span>))
-<a href=#474 id=474 data-nosnippet>474</a>                        .anchor(Corner::TopLeft)
+<a href=#474 id=474 data-nosnippet>474</a>                        .anchor(Anchor::TopLeft)
 <a href=#475 id=475 data-nosnippet>475</a>                        .child(
 <a href=#476 id=476 data-nosnippet>476</a>                            div()
 <a href=#477 id=477 data-nosnippet>477</a>                                .font_family(cx.theme().font_family.clone())
