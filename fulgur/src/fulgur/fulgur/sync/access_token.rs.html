@@ -62,10 +62,10 @@
 <a href=#62 id=62 data-nosnippet>62</a>    }
 <a href=#63 id=63 data-nosnippet>63</a>}
 <a href=#64 id=64 data-nosnippet>64</a>
-<a href=#65 id=65 data-nosnippet>65</a><span class="doccomment">/// Create a new empty TokenState
+<a href=#65 id=65 data-nosnippet>65</a><span class="doccomment">/// Create a new empty `TokenState`
 <a href=#66 id=66 data-nosnippet>66</a>///
 <a href=#67 id=67 data-nosnippet>67</a>/// ### Returns
-<a href=#68 id=68 data-nosnippet>68</a>/// - `TokenState`: A new TokenState with all fields initialized to default/empty values
+<a href=#68 id=68 data-nosnippet>68</a>/// - `TokenState`: A new `TokenState` with all fields initialized to default/empty values
 <a href=#69 id=69 data-nosnippet>69</a></span><span class="kw">impl </span>Default <span class="kw">for </span>TokenState {
 <a href=#70 id=70 data-nosnippet>70</a>    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
 <a href=#71 id=71 data-nosnippet>71</a>        <span class="self">Self</span>::new()
@@ -73,7 +73,7 @@
 <a href=#73 id=73 data-nosnippet>73</a>}
 <a href=#74 id=74 data-nosnippet>74</a>
 <a href=#75 id=75 data-nosnippet>75</a><span class="kw">impl </span>TokenState {
-<a href=#76 id=76 data-nosnippet>76</a>    <span class="doccomment">/// Create a new empty TokenState
+<a href=#76 id=76 data-nosnippet>76</a>    <span class="doccomment">/// Create a new empty `TokenState`
 <a href=#77 id=77 data-nosnippet>77</a>    </span><span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
 <a href=#78 id=78 data-nosnippet>78</a>        <span class="self">Self </span>{
 <a href=#79 id=79 data-nosnippet>79</a>            access_token: <span class="prelude-val">None</span>,
@@ -108,25 +108,25 @@
 <a href=#108 id=108 data-nosnippet>108</a>    }) <span class="kw">else </span>{
 <a href=#109 id=109 data-nosnippet>109</a>        <span class="kw">return </span><span class="prelude-val">Err</span>(SynchronizationError::DeviceKeyMissing);
 <a href=#110 id=110 data-nosnippet>110</a>    };
-<a href=#111 id=111 data-nosnippet>111</a>    <span class="kw">let </span>token_url = <span class="macro">format!</span>(<span class="string">"{}/api/token"</span>, server_url);
+<a href=#111 id=111 data-nosnippet>111</a>    <span class="kw">let </span>token_url = <span class="macro">format!</span>(<span class="string">"{server_url}/api/token"</span>);
 <a href=#112 id=112 data-nosnippet>112</a>    <span class="macro">log::debug!</span>(<span class="string">"Requesting JWT access token from server"</span>);
 <a href=#113 id=113 data-nosnippet>113</a>    <span class="kw">let </span><span class="kw-2">mut </span>response = http_agent
 <a href=#114 id=114 data-nosnippet>114</a>        .post(<span class="kw-2">&amp;</span>token_url)
-<a href=#115 id=115 data-nosnippet>115</a>        .header(<span class="string">"Authorization"</span>, <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"Bearer {}"</span>, device_api_key))
+<a href=#115 id=115 data-nosnippet>115</a>        .header(<span class="string">"Authorization"</span>, <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"Bearer {device_api_key}"</span>))
 <a href=#116 id=116 data-nosnippet>116</a>        .header(<span class="string">"X-User-Email"</span>, email)
 <a href=#117 id=117 data-nosnippet>117</a>        .send(<span class="string">""</span>)
 <a href=#118 id=118 data-nosnippet>118</a>        .map_err(|e| handle_ureq_error(e, <span class="string">"Failed to obtain access token"</span>))<span class="question-mark">?</span>;
 <a href=#119 id=119 data-nosnippet>119</a>    <span class="kw">let </span>body = <span class="kw">match </span>response.body_mut().read_to_string() {
 <a href=#120 id=120 data-nosnippet>120</a>        <span class="prelude-val">Ok</span>(body) =&gt; body,
 <a href=#121 id=121 data-nosnippet>121</a>        <span class="prelude-val">Err</span>(e) =&gt; {
-<a href=#122 id=122 data-nosnippet>122</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to read access token response body: {}"</span>, e);
+<a href=#122 id=122 data-nosnippet>122</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to read access token response body: {e}"</span>);
 <a href=#123 id=123 data-nosnippet>123</a>            <span class="kw">return </span><span class="prelude-val">Err</span>(SynchronizationError::Other(e.to_string()));
 <a href=#124 id=124 data-nosnippet>124</a>        }
 <a href=#125 id=125 data-nosnippet>125</a>    };
 <a href=#126 id=126 data-nosnippet>126</a>    <span class="kw">let </span>token_response: AccessTokenResponse = <span class="kw">match </span>serde_json::from_str(<span class="kw-2">&amp;</span>body) {
 <a href=#127 id=127 data-nosnippet>127</a>        <span class="prelude-val">Ok</span>(response) =&gt; response,
 <a href=#128 id=128 data-nosnippet>128</a>        <span class="prelude-val">Err</span>(e) =&gt; {
-<a href=#129 id=129 data-nosnippet>129</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to parse access token response: {}"</span>, e);
+<a href=#129 id=129 data-nosnippet>129</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to parse access token response: {e}"</span>);
 <a href=#130 id=130 data-nosnippet>130</a>            <span class="kw">return </span><span class="prelude-val">Err</span>(SynchronizationError::Other(e.to_string()));
 <a href=#131 id=131 data-nosnippet>131</a>        }
 <a href=#132 id=132 data-nosnippet>132</a>    };
@@ -167,7 +167,7 @@
 <a href=#167 id=167 data-nosnippet>167</a>/// - `Err(SynchronizationError)`: If token refresh failed
 <a href=#168 id=168 data-nosnippet>168</a></span><span class="kw">pub fn </span>get_valid_token(
 <a href=#169 id=169 data-nosnippet>169</a>    synchronization_settings: <span class="kw-2">&amp;</span>SynchronizationSettings,
-<a href=#170 id=170 data-nosnippet>170</a>    token_manager: Arc&lt;TokenStateManager&gt;,
+<a href=#170 id=170 data-nosnippet>170</a>    token_manager: <span class="kw-2">&amp;</span>Arc&lt;TokenStateManager&gt;,
 <a href=#171 id=171 data-nosnippet>171</a>    http_agent: <span class="kw-2">&amp;</span>ureq::Agent,
 <a href=#172 id=172 data-nosnippet>172</a>) -&gt; <span class="prelude-ty">Result</span>&lt;String, SynchronizationError&gt; {
 <a href=#173 id=173 data-nosnippet>173</a>    <span class="comment">// Fast path: check if current token is valid without acquiring write lock
@@ -234,7 +234,7 @@
 <a href=#234 id=234 data-nosnippet>234</a>    ) {
 <a href=#235 id=235 data-nosnippet>235</a>        <span class="prelude-val">Ok</span>(t) =&gt; t,
 <a href=#236 id=236 data-nosnippet>236</a>        <span class="prelude-val">Err</span>(e) =&gt; {
-<a href=#237 id=237 data-nosnippet>237</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to parse token expiration time: {}"</span>, e);
+<a href=#237 id=237 data-nosnippet>237</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to parse token expiration time: {e}"</span>);
 <a href=#238 id=238 data-nosnippet>238</a>            <span class="kw">let </span><span class="kw-2">mut </span>state = token_manager.state.lock();
 <a href=#239 id=239 data-nosnippet>239</a>            state.is_refreshing_token = <span class="bool-val">false</span>;
 <a href=#240 id=240 data-nosnippet>240</a>            token_manager.refresh_notify.notify_all();

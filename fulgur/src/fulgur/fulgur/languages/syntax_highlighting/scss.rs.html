@@ -112,7 +112,7 @@
 <a href=#112 id=112 data-nosnippet>112</a>] @punctuation.bracket
 <a href=#113 id=113 data-nosnippet>113</a>"#</span>;
 <a href=#114 id=114 data-nosnippet>114</a>
-<a href=#115 id=115 data-nosnippet>115</a><span class="doccomment">/// The full highlights query: the unmodified CSS base from arborium_css followed by our rewritten SCSS layer.
+<a href=#115 id=115 data-nosnippet>115</a><span class="doccomment">/// The full highlights query: the unmodified CSS base from `arborium_css` followed by our rewritten SCSS layer.
 <a href=#116 id=116 data-nosnippet>116</a></span><span class="kw">static </span>SCSS_HIGHLIGHTS_QUERY: std::sync::LazyLock&lt;String&gt; = std::sync::LazyLock::new(|| {
 <a href=#117 id=117 data-nosnippet>117</a>    <span class="kw">let </span>full = <span class="kw-2">&amp;*</span>arborium_scss::HIGHLIGHTS_QUERY;
 <a href=#118 id=118 data-nosnippet>118</a>    <span class="kw">let </span>css_base = full
@@ -120,7 +120,7 @@
 <a href=#120 id=120 data-nosnippet>120</a>        .map(|pos| <span class="kw-2">&amp;</span>full[..pos])
 <a href=#121 id=121 data-nosnippet>121</a>        .unwrap_or(full);
 <a href=#122 id=122 data-nosnippet>122</a>
-<a href=#123 id=123 data-nosnippet>123</a>    <span class="macro">format!</span>(<span class="string">"{}\n{}"</span>, css_base, SCSS_HIGHLIGHTS_QUERY_SCSS_LAYER)
+<a href=#123 id=123 data-nosnippet>123</a>    <span class="macro">format!</span>(<span class="string">"{css_base}\n{SCSS_HIGHLIGHTS_QUERY_SCSS_LAYER}"</span>)
 <a href=#124 id=124 data-nosnippet>124</a>});
 <a href=#125 id=125 data-nosnippet>125</a>
 <a href=#126 id=126 data-nosnippet>126</a><span class="attr">#[cfg(test)]

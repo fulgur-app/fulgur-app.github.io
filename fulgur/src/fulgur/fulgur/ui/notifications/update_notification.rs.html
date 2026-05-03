@@ -30,11 +30,11 @@
 <a href=#30 id=30 data-nosnippet>30</a>                                <span class="macro">log::debug!</span>(<span class="string">"Successfully opened browser for update"</span>);
 <a href=#31 id=31 data-nosnippet>31</a>                            }
 <a href=#32 id=32 data-nosnippet>32</a>                            <span class="prelude-val">Err</span>(e) =&gt; {
-<a href=#33 id=33 data-nosnippet>33</a>                                <span class="macro">log::error!</span>(<span class="string">"Failed to open browser: {}"</span>, e);
+<a href=#33 id=33 data-nosnippet>33</a>                                <span class="macro">log::error!</span>(<span class="string">"Failed to open browser: {e}"</span>);
 <a href=#34 id=34 data-nosnippet>34</a>                            }
 <a href=#35 id=35 data-nosnippet>35</a>                        }
 <a href=#36 id=36 data-nosnippet>36</a>                    } <span class="kw">else </span>{
-<a href=#37 id=37 data-nosnippet>37</a>                        <span class="macro">log::error!</span>(<span class="string">"Refusing to open non-canonical update URL: {}"</span>, url);
+<a href=#37 id=37 data-nosnippet>37</a>                        <span class="macro">log::error!</span>(<span class="string">"Refusing to open non-canonical update URL: {url}"</span>);
 <a href=#38 id=38 data-nosnippet>38</a>                    }
 <a href=#39 id=39 data-nosnippet>39</a>                    this.dismiss(window, cx);
 <a href=#40 id=40 data-nosnippet>40</a>                }))

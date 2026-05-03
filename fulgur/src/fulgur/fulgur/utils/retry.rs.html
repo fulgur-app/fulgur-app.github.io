@@ -6,7 +6,7 @@
 <a href=#6 id=6 data-nosnippet>6</a><span class="kw">use </span>std::time::Duration;
 <a href=#7 id=7 data-nosnippet>7</a>
 <a href=#8 id=8 data-nosnippet>8</a><span class="doccomment">/// Configuration for retry behavior
-<a href=#9 id=9 data-nosnippet>9</a></span><span class="attr">#[derive(Debug, Clone)]
+<a href=#9 id=9 data-nosnippet>9</a></span><span class="attr">#[derive(Debug, Clone, Copy)]
 <a href=#10 id=10 data-nosnippet>10</a></span><span class="kw">pub struct </span>RetryConfig {
 <a href=#11 id=11 data-nosnippet>11</a>    <span class="doccomment">/// Maximum number of retry attempts (0 = no retries, just one attempt)
 <a href=#12 id=12 data-nosnippet>12</a>    </span><span class="kw">pub </span>max_attempts: u32,
@@ -19,7 +19,7 @@
 <a href=#19 id=19 data-nosnippet>19</a>}
 <a href=#20 id=20 data-nosnippet>20</a>
 <a href=#21 id=21 data-nosnippet>21</a><span class="kw">impl </span>Default <span class="kw">for </span>RetryConfig {
-<a href=#22 id=22 data-nosnippet>22</a>    <span class="doccomment">/// Creates a default RetryConfig
+<a href=#22 id=22 data-nosnippet>22</a>    <span class="doccomment">/// Creates a default `RetryConfig`
 <a href=#23 id=23 data-nosnippet>23</a>    ///
 <a href=#24 id=24 data-nosnippet>24</a>    /// ### Returns
 <a href=#25 id=25 data-nosnippet>25</a>    /// `Self`: a default configuration
@@ -83,13 +83,13 @@
 <a href=#83 id=83 data-nosnippet>83</a>        <span class="kw">match </span>operation() {
 <a href=#84 id=84 data-nosnippet>84</a>            <span class="prelude-val">Ok</span>(result) =&gt; {
 <a href=#85 id=85 data-nosnippet>85</a>                <span class="kw">if </span>attempt &gt; <span class="number">1 </span>{
-<a href=#86 id=86 data-nosnippet>86</a>                    <span class="macro">log::info!</span>(<span class="string">"Operation succeeded after {} attempts"</span>, attempt);
+<a href=#86 id=86 data-nosnippet>86</a>                    <span class="macro">log::info!</span>(<span class="string">"Operation succeeded after {attempt} attempts"</span>);
 <a href=#87 id=87 data-nosnippet>87</a>                }
 <a href=#88 id=88 data-nosnippet>88</a>                <span class="kw">return </span><span class="prelude-val">Ok</span>(result);
 <a href=#89 id=89 data-nosnippet>89</a>            }
 <a href=#90 id=90 data-nosnippet>90</a>            <span class="prelude-val">Err</span>(error) =&gt; {
 <a href=#91 id=91 data-nosnippet>91</a>                <span class="kw">if </span>attempt &gt;= config.max_attempts {
-<a href=#92 id=92 data-nosnippet>92</a>                    <span class="macro">log::error!</span>(<span class="string">"Operation failed after {} attempts, giving up"</span>, attempt);
+<a href=#92 id=92 data-nosnippet>92</a>                    <span class="macro">log::error!</span>(<span class="string">"Operation failed after {attempt} attempts, giving up"</span>);
 <a href=#93 id=93 data-nosnippet>93</a>                    <span class="kw">return </span><span class="prelude-val">Err</span>(error);
 <a href=#94 id=94 data-nosnippet>94</a>                }
 <a href=#95 id=95 data-nosnippet>95</a>
@@ -132,7 +132,7 @@
 <a href=#132 id=132 data-nosnippet>132</a>    /// - `multiplier`: Backoff multiplier (typically 2.0)
 <a href=#133 id=133 data-nosnippet>133</a>    ///
 <a href=#134 id=134 data-nosnippet>134</a>    /// ### Returns
-<a href=#135 id=135 data-nosnippet>135</a>    /// `Self`: a new BackoffCalculator
+<a href=#135 id=135 data-nosnippet>135</a>    /// `Self`: a new `BackoffCalculator`
 <a href=#136 id=136 data-nosnippet>136</a>    </span><span class="kw">pub fn </span>new(initial_delay: Duration, max_delay: Duration, multiplier: f64) -&gt; <span class="self">Self </span>{
 <a href=#137 id=137 data-nosnippet>137</a>        <span class="self">Self </span>{
 <a href=#138 id=138 data-nosnippet>138</a>            consecutive_failures: <span class="number">0</span>,
@@ -145,7 +145,7 @@
 <a href=#145 id=145 data-nosnippet>145</a>    <span class="doccomment">/// Create with default settings (1s initial, 5min max, 2x multiplier)
 <a href=#146 id=146 data-nosnippet>146</a>    ///
 <a href=#147 id=147 data-nosnippet>147</a>    /// ### Returns
-<a href=#148 id=148 data-nosnippet>148</a>    /// `Self`: A BackoffCalculator with default settings
+<a href=#148 id=148 data-nosnippet>148</a>    /// `Self`: A `BackoffCalculator` with default settings
 <a href=#149 id=149 data-nosnippet>149</a>    </span><span class="kw">pub fn </span>default_settings() -&gt; <span class="self">Self </span>{
 <a href=#150 id=150 data-nosnippet>150</a>        <span class="self">Self</span>::new(
 <a href=#151 id=151 data-nosnippet>151</a>            Duration::from_secs(<span class="number">1</span>),
@@ -182,7 +182,7 @@
 <a href=#182 id=182 data-nosnippet>182</a>    <span class="doccomment">/// Get the number of consecutive failures
 <a href=#183 id=183 data-nosnippet>183</a>    ///
 <a href=#184 id=184 data-nosnippet>184</a>    /// ### Returns
-<a href=#185 id=185 data-nosnippet>185</a>    /// ù32`: the number of consecutive failures
+<a href=#185 id=185 data-nosnippet>185</a>    /// `u32`: the number of consecutive failures
 <a href=#186 id=186 data-nosnippet>186</a>    </span><span class="kw">pub fn </span>consecutive_failures(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
 <a href=#187 id=187 data-nosnippet>187</a>        <span class="self">self</span>.consecutive_failures
 <a href=#188 id=188 data-nosnippet>188</a>    }

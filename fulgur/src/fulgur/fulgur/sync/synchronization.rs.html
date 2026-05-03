@@ -25,11 +25,11 @@
 <a href=#25 id=25 data-nosnippet>25</a>
 <a href=#26 id=26 data-nosnippet>26</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::ui::notifications::progress::{CancelCallback, start_progress};
 <a href=#27 id=27 data-nosnippet>27</a>
-<a href=#28 id=28 data-nosnippet>28</a><span class="doccomment">/// Handle ureq errors and convert them to SynchronizationError with appropriate logging
+<a href=#28 id=28 data-nosnippet>28</a><span class="doccomment">/// Handle ureq errors and convert them to `SynchronizationError` with appropriate logging
 <a href=#29 id=29 data-nosnippet>29</a>///
 <a href=#30 id=30 data-nosnippet>30</a>/// ### Description
 <a href=#31 id=31 data-nosnippet>31</a>/// Centralizes ureq error handling logic that was duplicated across sync modules.
-<a href=#32 id=32 data-nosnippet>32</a>/// Maps all ureq error variants to appropriate SynchronizationError types and logs
+<a href=#32 id=32 data-nosnippet>32</a>/// Maps all ureq error variants to appropriate `SynchronizationError` types and logs
 <a href=#33 id=33 data-nosnippet>33</a>/// the error with context.
 <a href=#34 id=34 data-nosnippet>34</a>///
 <a href=#35 id=35 data-nosnippet>35</a>/// ### Arguments
@@ -41,7 +41,7 @@
 <a href=#41 id=41 data-nosnippet>41</a></span><span class="kw">pub fn </span>handle_ureq_error(error: ureq::Error, context: <span class="kw-2">&amp;</span>str) -&gt; SynchronizationError {
 <a href=#42 id=42 data-nosnippet>42</a>    <span class="kw">match </span>error {
 <a href=#43 id=43 data-nosnippet>43</a>        ureq::Error::StatusCode(code) =&gt; {
-<a href=#44 id=44 data-nosnippet>44</a>            <span class="macro">log::error!</span>(<span class="string">"{}: HTTP status {}"</span>, context, code);
+<a href=#44 id=44 data-nosnippet>44</a>            <span class="macro">log::error!</span>(<span class="string">"{context}: HTTP status {code}"</span>);
 <a href=#45 id=45 data-nosnippet>45</a>            <span class="kw">if </span>code == <span class="number">401 </span>|| code == <span class="number">403 </span>{
 <a href=#46 id=46 data-nosnippet>46</a>                SynchronizationError::AuthenticationFailed
 <a href=#47 id=47 data-nosnippet>47</a>            } <span class="kw">else if </span>code == <span class="number">400 </span>{
@@ -56,7 +56,7 @@
 <a href=#56 id=56 data-nosnippet>56</a>            }
 <a href=#57 id=57 data-nosnippet>57</a>        }
 <a href=#58 id=58 data-nosnippet>58</a>        ureq::Error::Io(io_error) =&gt; {
-<a href=#59 id=59 data-nosnippet>59</a>            <span class="macro">log::error!</span>(<span class="string">"{} (IO): {}"</span>, context, io_error);
+<a href=#59 id=59 data-nosnippet>59</a>            <span class="macro">log::error!</span>(<span class="string">"{context} (IO): {io_error}"</span>);
 <a href=#60 id=60 data-nosnippet>60</a>            <span class="kw">match </span>io_error.kind() {
 <a href=#61 id=61 data-nosnippet>61</a>                std::io::ErrorKind::ConnectionRefused =&gt; SynchronizationError::ConnectionFailed,
 <a href=#62 id=62 data-nosnippet>62</a>                std::io::ErrorKind::TimedOut =&gt; SynchronizationError::Timeout(io_error.to_string()),
@@ -68,19 +68,19 @@
 <a href=#68 id=68 data-nosnippet>68</a>            }
 <a href=#69 id=69 data-nosnippet>69</a>        }
 <a href=#70 id=70 data-nosnippet>70</a>        ureq::Error::ConnectionFailed =&gt; {
-<a href=#71 id=71 data-nosnippet>71</a>            <span class="macro">log::error!</span>(<span class="string">"{}: Connection failed"</span>, context);
+<a href=#71 id=71 data-nosnippet>71</a>            <span class="macro">log::error!</span>(<span class="string">"{context}: Connection failed"</span>);
 <a href=#72 id=72 data-nosnippet>72</a>            SynchronizationError::ConnectionFailed
 <a href=#73 id=73 data-nosnippet>73</a>        }
 <a href=#74 id=74 data-nosnippet>74</a>        ureq::Error::HostNotFound =&gt; {
-<a href=#75 id=75 data-nosnippet>75</a>            <span class="macro">log::error!</span>(<span class="string">"{}: Host not found"</span>, context);
+<a href=#75 id=75 data-nosnippet>75</a>            <span class="macro">log::error!</span>(<span class="string">"{context}: Host not found"</span>);
 <a href=#76 id=76 data-nosnippet>76</a>            SynchronizationError::HostNotFound
 <a href=#77 id=77 data-nosnippet>77</a>        }
 <a href=#78 id=78 data-nosnippet>78</a>        ureq::Error::Timeout(timeout) =&gt; {
-<a href=#79 id=79 data-nosnippet>79</a>            <span class="macro">log::error!</span>(<span class="string">"{}: Timeout ({})"</span>, context, timeout);
+<a href=#79 id=79 data-nosnippet>79</a>            <span class="macro">log::error!</span>(<span class="string">"{context}: Timeout ({timeout})"</span>);
 <a href=#80 id=80 data-nosnippet>80</a>            SynchronizationError::Timeout(timeout.to_string())
 <a href=#81 id=81 data-nosnippet>81</a>        }
 <a href=#82 id=82 data-nosnippet>82</a>        e =&gt; {
-<a href=#83 id=83 data-nosnippet>83</a>            <span class="macro">log::error!</span>(<span class="string">"{}: {}"</span>, context, e);
+<a href=#83 id=83 data-nosnippet>83</a>            <span class="macro">log::error!</span>(<span class="string">"{context}: {e}"</span>);
 <a href=#84 id=84 data-nosnippet>84</a>            SynchronizationError::Other(e.to_string())
 <a href=#85 id=85 data-nosnippet>85</a>        }
 <a href=#86 id=86 data-nosnippet>86</a>    }
@@ -105,7 +105,7 @@
 <a href=#105 id=105 data-nosnippet>105</a>            share::MAX_SYNC_SHARE_PAYLOAD_BYTES <span class="kw">as </span>u64
 <a href=#106 id=106 data-nosnippet>106</a>        }
 <a href=#107 id=107 data-nosnippet>107</a>        <span class="prelude-val">Some</span>(n) =&gt; {
-<a href=#108 id=108 data-nosnippet>108</a>            <span class="macro">log::info!</span>(<span class="string">"Server max file size: {} bytes"</span>, n);
+<a href=#108 id=108 data-nosnippet>108</a>            <span class="macro">log::info!</span>(<span class="string">"Server max file size: {n} bytes"</span>);
 <a href=#109 id=109 data-nosnippet>109</a>            n
 <a href=#110 id=110 data-nosnippet>110</a>        }
 <a href=#111 id=111 data-nosnippet>111</a>    };
@@ -124,7 +124,7 @@
 <a href=#124 id=124 data-nosnippet>124</a>/// - `Err(SynchronizationError)`: If the synchronization could not be performed
 <a href=#125 id=125 data-nosnippet>125</a></span><span class="kw">pub fn </span>initial_synchronization(
 <a href=#126 id=126 data-nosnippet>126</a>    synchronization_settings: <span class="kw-2">&amp;</span>SynchronizationSettings,
-<a href=#127 id=127 data-nosnippet>127</a>    token_state: Arc&lt;TokenStateManager&gt;,
+<a href=#127 id=127 data-nosnippet>127</a>    token_state: <span class="kw-2">&amp;</span>Arc&lt;TokenStateManager&gt;,
 <a href=#128 id=128 data-nosnippet>128</a>    http_agent: <span class="kw-2">&amp;</span>ureq::Agent,
 <a href=#129 id=129 data-nosnippet>129</a>) -&gt; <span class="prelude-ty">Result</span>&lt;BeginResponse, SynchronizationError&gt; {
 <a href=#130 id=130 data-nosnippet>130</a>    <span class="kw">let </span><span class="prelude-val">Some</span>(server_url) = synchronization_settings.server_url.clone() <span class="kw">else </span>{
@@ -134,24 +134,24 @@
 <a href=#134 id=134 data-nosnippet>134</a>        <span class="kw">return </span><span class="prelude-val">Err</span>(SynchronizationError::MissingEncryptionKey); <span class="comment">//TODO
 <a href=#135 id=135 data-nosnippet>135</a>    </span>};
 <a href=#136 id=136 data-nosnippet>136</a>    <span class="kw">let </span>token = get_valid_token(synchronization_settings, token_state, http_agent)<span class="question-mark">?</span>;
-<a href=#137 id=137 data-nosnippet>137</a>    <span class="kw">let </span>begin_url = <span class="macro">format!</span>(<span class="string">"{}/api/begin"</span>, server_url);
+<a href=#137 id=137 data-nosnippet>137</a>    <span class="kw">let </span>begin_url = <span class="macro">format!</span>(<span class="string">"{server_url}/api/begin"</span>);
 <a href=#138 id=138 data-nosnippet>138</a>    <span class="kw">let </span>payload = InitialSynchronizationPayload { public_key };
 <a href=#139 id=139 data-nosnippet>139</a>    <span class="kw">let </span><span class="kw-2">mut </span>response = http_agent
 <a href=#140 id=140 data-nosnippet>140</a>        .post(begin_url)
-<a href=#141 id=141 data-nosnippet>141</a>        .header(<span class="string">"Authorization"</span>, <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"Bearer {}"</span>, token))
+<a href=#141 id=141 data-nosnippet>141</a>        .header(<span class="string">"Authorization"</span>, <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"Bearer {token}"</span>))
 <a href=#142 id=142 data-nosnippet>142</a>        .send_json(payload)
 <a href=#143 id=143 data-nosnippet>143</a>        .map_err(|e| handle_ureq_error(e, <span class="string">"Failed to begin synchronization"</span>))<span class="question-mark">?</span>;
 <a href=#144 id=144 data-nosnippet>144</a>    <span class="kw">let </span>body = <span class="kw">match </span>response.body_mut().read_to_string() {
 <a href=#145 id=145 data-nosnippet>145</a>        <span class="prelude-val">Ok</span>(body) =&gt; body,
 <a href=#146 id=146 data-nosnippet>146</a>        <span class="prelude-val">Err</span>(e) =&gt; {
-<a href=#147 id=147 data-nosnippet>147</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to read response body: {}"</span>, e);
+<a href=#147 id=147 data-nosnippet>147</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to read response body: {e}"</span>);
 <a href=#148 id=148 data-nosnippet>148</a>            <span class="kw">return </span><span class="prelude-val">Err</span>(SynchronizationError::Other(e.to_string()));
 <a href=#149 id=149 data-nosnippet>149</a>        }
 <a href=#150 id=150 data-nosnippet>150</a>    };
 <a href=#151 id=151 data-nosnippet>151</a>    <span class="kw">let </span>begin_response: BeginResponse = <span class="kw">match </span>serde_json::from_str(<span class="kw-2">&amp;</span>body) {
 <a href=#152 id=152 data-nosnippet>152</a>        <span class="prelude-val">Ok</span>(response) =&gt; response,
 <a href=#153 id=153 data-nosnippet>153</a>        <span class="prelude-val">Err</span>(e) =&gt; {
-<a href=#154 id=154 data-nosnippet>154</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to parse response body: {}"</span>, e);
+<a href=#154 id=154 data-nosnippet>154</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to parse response body: {e}"</span>);
 <a href=#155 id=155 data-nosnippet>155</a>            <span class="kw">return </span><span class="prelude-val">Err</span>(SynchronizationError::InvalidResponse(e.to_string()));
 <a href=#156 id=156 data-nosnippet>156</a>        }
 <a href=#157 id=157 data-nosnippet>157</a>    };
@@ -209,9 +209,9 @@
 <a href=#209 id=209 data-nosnippet>209</a>        <span class="kw">let </span>key = <span class="kw">match </span>load_device_api_key_from_keychain() {
 <a href=#210 id=210 data-nosnippet>210</a>            <span class="prelude-val">Ok</span>(value) =&gt; value,
 <a href=#211 id=211 data-nosnippet>211</a>            <span class="prelude-val">Err</span>(e) =&gt; {
-<a href=#212 id=212 data-nosnippet>212</a>                <span class="macro">log::error!</span>(<span class="string">"Failed to load device API key from keychain: {}"</span>, e);
+<a href=#212 id=212 data-nosnippet>212</a>                <span class="macro">log::error!</span>(<span class="string">"Failed to load device API key from keychain: {e}"</span>);
 <a href=#213 id=213 data-nosnippet>213</a>                set_sync_server_connection_status(
-<a href=#214 id=214 data-nosnippet>214</a>                    sync_server_connection_status.clone(),
+<a href=#214 id=214 data-nosnippet>214</a>                    <span class="kw-2">&amp;</span>sync_server_connection_status,
 <a href=#215 id=215 data-nosnippet>215</a>                    SynchronizationStatus::Disconnected,
 <a href=#216 id=216 data-nosnippet>216</a>                );
 <a href=#217 id=217 data-nosnippet>217</a>                <span class="kw">return</span>;
@@ -219,20 +219,20 @@
 <a href=#219 id=219 data-nosnippet>219</a>        };
 <a href=#220 id=220 data-nosnippet>220</a>        <span class="kw">if </span>server_url.is_none() || email.is_none() || key.is_none() {
 <a href=#221 id=221 data-nosnippet>221</a>            set_sync_server_connection_status(
-<a href=#222 id=222 data-nosnippet>222</a>                sync_server_connection_status.clone(),
+<a href=#222 id=222 data-nosnippet>222</a>                <span class="kw-2">&amp;</span>sync_server_connection_status,
 <a href=#223 id=223 data-nosnippet>223</a>                SynchronizationStatus::Disconnected,
 <a href=#224 id=224 data-nosnippet>224</a>            );
 <a href=#225 id=225 data-nosnippet>225</a>            <span class="kw">return</span>;
 <a href=#226 id=226 data-nosnippet>226</a>        }
 <a href=#227 id=227 data-nosnippet>227</a>        <span class="kw">match </span>initial_synchronization(
 <a href=#228 id=228 data-nosnippet>228</a>            <span class="kw-2">&amp;</span>settings.app_settings.synchronization_settings,
-<a href=#229 id=229 data-nosnippet>229</a>            Arc::clone(<span class="kw-2">&amp;</span>token_state),
+<a href=#229 id=229 data-nosnippet>229</a>            <span class="kw-2">&amp;</span>token_state,
 <a href=#230 id=230 data-nosnippet>230</a>            <span class="kw-2">&amp;</span>http_agent,
 <a href=#231 id=231 data-nosnippet>231</a>        ) {
 <a href=#232 id=232 data-nosnippet>232</a>            <span class="prelude-val">Ok</span>(begin_response) =&gt; {
 <a href=#233 id=233 data-nosnippet>233</a>                <span class="macro">log::info!</span>(<span class="string">"Successfully connected to sync server"</span>);
 <a href=#234 id=234 data-nosnippet>234</a>                set_sync_server_connection_status(
-<a href=#235 id=235 data-nosnippet>235</a>                    sync_server_connection_status.clone(),
+<a href=#235 id=235 data-nosnippet>235</a>                    <span class="kw-2">&amp;</span>sync_server_connection_status,
 <a href=#236 id=236 data-nosnippet>236</a>                    SynchronizationStatus::Connected,
 <a href=#237 id=237 data-nosnippet>237</a>                );
 <a href=#238 id=238 data-nosnippet>238</a>                store_server_max_file_size(
@@ -261,15 +261,15 @@
 <a href=#261 id=261 data-nosnippet>261</a>                        tx,
 <a href=#262 id=262 data-nosnippet>262</a>                        shutdown,
 <a href=#263 id=263 data-nosnippet>263</a>                        sync_server_connection_status.clone(),
-<a href=#264 id=264 data-nosnippet>264</a>                        Arc::clone(<span class="kw-2">&amp;</span>token_state),
-<a href=#265 id=265 data-nosnippet>265</a>                        Arc::clone(<span class="kw-2">&amp;</span>http_agent),
-<a href=#266 id=266 data-nosnippet>266</a>                        Arc::clone(<span class="kw-2">&amp;</span>pending_shared_files),
+<a href=#264 id=264 data-nosnippet>264</a>                        <span class="kw-2">&amp;</span>token_state,
+<a href=#265 id=265 data-nosnippet>265</a>                        <span class="kw-2">&amp;</span>http_agent,
+<a href=#266 id=266 data-nosnippet>266</a>                        <span class="kw-2">&amp;</span>pending_shared_files,
 <a href=#267 id=267 data-nosnippet>267</a>                    ) {
 <a href=#268 id=268 data-nosnippet>268</a>                        <span class="prelude-val">Ok</span>(handle) =&gt; {
 <a href=#269 id=269 data-nosnippet>269</a>                            <span class="kw-2">*</span>sse_thread_handle.lock() = <span class="prelude-val">Some</span>(handle);
 <a href=#270 id=270 data-nosnippet>270</a>                        }
 <a href=#271 id=271 data-nosnippet>271</a>                        <span class="prelude-val">Err</span>(e) =&gt; {
-<a href=#272 id=272 data-nosnippet>272</a>                            <span class="macro">log::error!</span>(<span class="string">"Failed to start SSE connection: {}"</span>, e);
+<a href=#272 id=272 data-nosnippet>272</a>                            <span class="macro">log::error!</span>(<span class="string">"Failed to start SSE connection: {e}"</span>);
 <a href=#273 id=273 data-nosnippet>273</a>                        }
 <a href=#274 id=274 data-nosnippet>274</a>                    }
 <a href=#275 id=275 data-nosnippet>275</a>                } <span class="kw">else </span>{
@@ -279,9 +279,9 @@
 <a href=#279 id=279 data-nosnippet>279</a>                }
 <a href=#280 id=280 data-nosnippet>280</a>            }
 <a href=#281 id=281 data-nosnippet>281</a>            <span class="prelude-val">Err</span>(e) =&gt; {
-<a href=#282 id=282 data-nosnippet>282</a>                <span class="macro">log::error!</span>(<span class="string">"Failed to fetch shared files: {}"</span>, e);
+<a href=#282 id=282 data-nosnippet>282</a>                <span class="macro">log::error!</span>(<span class="string">"Failed to fetch shared files: {e}"</span>);
 <a href=#283 id=283 data-nosnippet>283</a>                set_sync_server_connection_status(
-<a href=#284 id=284 data-nosnippet>284</a>                    sync_server_connection_status,
+<a href=#284 id=284 data-nosnippet>284</a>                    <span class="kw-2">&amp;</span>sync_server_connection_status,
 <a href=#285 id=285 data-nosnippet>285</a>                    SynchronizationStatus::Disconnected,
 <a href=#286 id=286 data-nosnippet>286</a>                );
 <a href=#287 id=287 data-nosnippet>287</a>            }
@@ -295,7 +295,7 @@
 <a href=#295 id=295 data-nosnippet>295</a>/// - `sync_server_connection_status`: The synchronization status of the sync server
 <a href=#296 id=296 data-nosnippet>296</a>/// - `status`: The new synchronization status
 <a href=#297 id=297 data-nosnippet>297</a></span><span class="kw">pub fn </span>set_sync_server_connection_status(
-<a href=#298 id=298 data-nosnippet>298</a>    sync_server_connection_status: Arc&lt;Mutex&lt;SynchronizationStatus&gt;&gt;,
+<a href=#298 id=298 data-nosnippet>298</a>    sync_server_connection_status: <span class="kw-2">&amp;</span>Arc&lt;Mutex&lt;SynchronizationStatus&gt;&gt;,
 <a href=#299 id=299 data-nosnippet>299</a>    new_status: SynchronizationStatus,
 <a href=#300 id=300 data-nosnippet>300</a>) {
 <a href=#301 id=301 data-nosnippet>301</a>    <span class="kw-2">*</span>sync_server_connection_status.lock() = new_status;
@@ -310,7 +310,7 @@
 <a href=#310 id=310 data-nosnippet>310</a>/// ### Arguments
 <a href=#311 id=311 data-nosnippet>311</a>/// - `entity`: The Fulgur entity
 <a href=#312 id=312 data-nosnippet>312</a>/// - `cx`: The context
-<a href=#313 id=313 data-nosnippet>313</a></span><span class="kw">pub fn </span>perform_initial_synchronization(entity: Entity&lt;<span class="kw">crate</span>::fulgur::Fulgur&gt;, cx: <span class="kw-2">&amp;mut </span>App) {
+<a href=#313 id=313 data-nosnippet>313</a></span><span class="kw">pub fn </span>perform_initial_synchronization(entity: <span class="kw-2">&amp;</span>Entity&lt;<span class="kw">crate</span>::fulgur::Fulgur&gt;, cx: <span class="kw-2">&amp;mut </span>App) {
 <a href=#314 id=314 data-nosnippet>314</a>    <span class="kw">let </span>synchronization_settings = entity
 <a href=#315 id=315 data-nosnippet>315</a>        .read(cx)
 <a href=#316 id=316 data-nosnippet>316</a>        .settings
@@ -319,7 +319,7 @@
 <a href=#319 id=319 data-nosnippet>319</a>        .clone();
 <a href=#320 id=320 data-nosnippet>320</a>    <span class="kw">let </span>shared = cx.global::&lt;<span class="kw">crate</span>::fulgur::shared_state::SharedAppState&gt;();
 <a href=#321 id=321 data-nosnippet>321</a>    set_sync_server_connection_status(
-<a href=#322 id=322 data-nosnippet>322</a>        shared.sync_state.connection_status.clone(),
+<a href=#322 id=322 data-nosnippet>322</a>        <span class="kw-2">&amp;</span>shared.sync_state.connection_status,
 <a href=#323 id=323 data-nosnippet>323</a>        SynchronizationStatus::Connecting,
 <a href=#324 id=324 data-nosnippet>324</a>    );
 <a href=#325 id=325 data-nosnippet>325</a>    <span class="kw-2">*</span>shared.sync_state.connecting_since.lock() = <span class="prelude-val">Some</span>(Instant::now());
@@ -332,7 +332,7 @@
 <a href=#332 id=332 data-nosnippet>332</a>    <span class="kw">let </span>pending_notification = shared.sync_state.pending_notification.clone();
 <a href=#333 id=333 data-nosnippet>333</a>    <span class="kw">let </span>max_file_size_bytes = shared.sync_state.max_file_size_bytes.clone();
 <a href=#334 id=334 data-nosnippet>334</a>    thread::spawn(<span class="kw">move </span>|| {
-<a href=#335 id=335 data-nosnippet>335</a>        <span class="kw">let </span>result = initial_synchronization(<span class="kw-2">&amp;</span>synchronization_settings, token_state, <span class="kw-2">&amp;</span>http_agent);
+<a href=#335 id=335 data-nosnippet>335</a>        <span class="kw">let </span>result = initial_synchronization(<span class="kw-2">&amp;</span>synchronization_settings, <span class="kw-2">&amp;</span>token_state, <span class="kw-2">&amp;</span>http_agent);
 <a href=#336 id=336 data-nosnippet>336</a>        <span class="kw">let </span>(notification, status) = <span class="kw">match </span>result {
 <a href=#337 id=337 data-nosnippet>337</a>            <span class="prelude-val">Ok</span>(begin_response) =&gt; {
 <a href=#338 id=338 data-nosnippet>338</a>                store_server_max_file_size(
@@ -361,12 +361,12 @@
 <a href=#361 id=361 data-nosnippet>361</a>            <span class="prelude-val">Err</span>(e) =&gt; (
 <a href=#362 id=362 data-nosnippet>362</a>                (
 <a href=#363 id=363 data-nosnippet>363</a>                    NotificationType::Error,
-<a href=#364 id=364 data-nosnippet>364</a>                    SharedString::from(<span class="macro">format!</span>(<span class="string">"Connection failed: {}"</span>, e)),
+<a href=#364 id=364 data-nosnippet>364</a>                    SharedString::from(<span class="macro">format!</span>(<span class="string">"Connection failed: {e}"</span>)),
 <a href=#365 id=365 data-nosnippet>365</a>                ),
 <a href=#366 id=366 data-nosnippet>366</a>                SynchronizationStatus::from_error(<span class="kw-2">&amp;</span>e),
 <a href=#367 id=367 data-nosnippet>367</a>            ),
 <a href=#368 id=368 data-nosnippet>368</a>        };
-<a href=#369 id=369 data-nosnippet>369</a>        set_sync_server_connection_status(connection_status, status);
+<a href=#369 id=369 data-nosnippet>369</a>        set_sync_server_connection_status(<span class="kw-2">&amp;</span>connection_status, status);
 <a href=#370 id=370 data-nosnippet>370</a>        <span class="kw-2">*</span>connecting_since.lock() = <span class="prelude-val">None</span>;
 <a href=#371 id=371 data-nosnippet>371</a>        <span class="kw-2">*</span>pending_notification.lock() = <span class="prelude-val">Some</span>(notification);
 <a href=#372 id=372 data-nosnippet>372</a>    });
@@ -379,7 +379,7 @@
 <a href=#379 id=379 data-nosnippet>379</a>/// - `window`: Target window for the notification
 <a href=#380 id=380 data-nosnippet>380</a>/// - `cx`: The application context
 <a href=#381 id=381 data-nosnippet>381</a></span><span class="kw">pub fn </span>perform_initial_synchronization_with_progress(
-<a href=#382 id=382 data-nosnippet>382</a>    entity: Entity&lt;<span class="kw">crate</span>::fulgur::Fulgur&gt;,
+<a href=#382 id=382 data-nosnippet>382</a>    entity: <span class="kw-2">&amp;</span>Entity&lt;<span class="kw">crate</span>::fulgur::Fulgur&gt;,
 <a href=#383 id=383 data-nosnippet>383</a>    window: <span class="kw-2">&amp;mut </span>Window,
 <a href=#384 id=384 data-nosnippet>384</a>    cx: <span class="kw-2">&amp;mut </span>App,
 <a href=#385 id=385 data-nosnippet>385</a>) {
@@ -391,7 +391,7 @@
 <a href=#391 id=391 data-nosnippet>391</a>        .clone();
 <a href=#392 id=392 data-nosnippet>392</a>    <span class="kw">let </span>shared = cx.global::&lt;<span class="kw">crate</span>::fulgur::shared_state::SharedAppState&gt;();
 <a href=#393 id=393 data-nosnippet>393</a>    set_sync_server_connection_status(
-<a href=#394 id=394 data-nosnippet>394</a>        shared.sync_state.connection_status.clone(),
+<a href=#394 id=394 data-nosnippet>394</a>        <span class="kw-2">&amp;</span>shared.sync_state.connection_status,
 <a href=#395 id=395 data-nosnippet>395</a>        SynchronizationStatus::Connecting,
 <a href=#396 id=396 data-nosnippet>396</a>    );
 <a href=#397 id=397 data-nosnippet>397</a>    <span class="kw-2">*</span>shared.sync_state.connecting_since.lock() = <span class="prelude-val">Some</span>(Instant::now());
@@ -410,7 +410,7 @@
 <a href=#410 id=410 data-nosnippet>410</a>    <span class="kw">let </span>cancel_status = connection_status.clone();
 <a href=#411 id=411 data-nosnippet>411</a>    <span class="kw">let </span>cancel_connecting_since = connecting_since.clone();
 <a href=#412 id=412 data-nosnippet>412</a>    <span class="kw">let </span>cancel_callback: <span class="prelude-ty">Option</span>&lt;CancelCallback&gt; = <span class="prelude-val">Some</span>(Box::new(<span class="kw">move </span>|_window, _cx| {
-<a href=#413 id=413 data-nosnippet>413</a>        set_sync_server_connection_status(cancel_status, SynchronizationStatus::Disconnected);
+<a href=#413 id=413 data-nosnippet>413</a>        set_sync_server_connection_status(<span class="kw-2">&amp;</span>cancel_status, SynchronizationStatus::Disconnected);
 <a href=#414 id=414 data-nosnippet>414</a>        <span class="kw-2">*</span>cancel_connecting_since.lock() = <span class="prelude-val">None</span>;
 <a href=#415 id=415 data-nosnippet>415</a>    }));
 <a href=#416 id=416 data-nosnippet>416</a>
@@ -424,7 +424,7 @@
 <a href=#424 id=424 data-nosnippet>424</a>    <span class="kw">let </span>cancel_flag_for_thread = Arc::clone(<span class="kw-2">&amp;</span>cancel_flag);
 <a href=#425 id=425 data-nosnippet>425</a>
 <a href=#426 id=426 data-nosnippet>426</a>    thread::spawn(<span class="kw">move </span>|| {
-<a href=#427 id=427 data-nosnippet>427</a>        <span class="kw">let </span>result = initial_synchronization(<span class="kw-2">&amp;</span>synchronization_settings, token_state, <span class="kw-2">&amp;</span>http_agent);
+<a href=#427 id=427 data-nosnippet>427</a>        <span class="kw">let </span>result = initial_synchronization(<span class="kw-2">&amp;</span>synchronization_settings, <span class="kw-2">&amp;</span>token_state, <span class="kw-2">&amp;</span>http_agent);
 <a href=#428 id=428 data-nosnippet>428</a>
 <a href=#429 id=429 data-nosnippet>429</a>        <span class="kw">if </span>cancel_flag_for_thread.load(Ordering::Acquire) {
 <a href=#430 id=430 data-nosnippet>430</a>            done_for_thread.store(<span class="bool-val">true</span>, Ordering::Release);
@@ -459,12 +459,12 @@
 <a href=#459 id=459 data-nosnippet>459</a>            <span class="prelude-val">Err</span>(e) =&gt; (
 <a href=#460 id=460 data-nosnippet>460</a>                (
 <a href=#461 id=461 data-nosnippet>461</a>                    NotificationType::Error,
-<a href=#462 id=462 data-nosnippet>462</a>                    SharedString::from(<span class="macro">format!</span>(<span class="string">"Connection failed: {}"</span>, e)),
+<a href=#462 id=462 data-nosnippet>462</a>                    SharedString::from(<span class="macro">format!</span>(<span class="string">"Connection failed: {e}"</span>)),
 <a href=#463 id=463 data-nosnippet>463</a>                ),
 <a href=#464 id=464 data-nosnippet>464</a>                SynchronizationStatus::from_error(<span class="kw-2">&amp;</span>e),
 <a href=#465 id=465 data-nosnippet>465</a>            ),
 <a href=#466 id=466 data-nosnippet>466</a>        };
-<a href=#467 id=467 data-nosnippet>467</a>        set_sync_server_connection_status(connection_status, status);
+<a href=#467 id=467 data-nosnippet>467</a>        set_sync_server_connection_status(<span class="kw-2">&amp;</span>connection_status, status);
 <a href=#468 id=468 data-nosnippet>468</a>        <span class="kw-2">*</span>connecting_since.lock() = <span class="prelude-val">None</span>;
 <a href=#469 id=469 data-nosnippet>469</a>        <span class="kw-2">*</span>pending_notification.lock() = <span class="prelude-val">Some</span>(notification);
 <a href=#470 id=470 data-nosnippet>470</a>        done_for_thread.store(<span class="bool-val">true</span>, Ordering::Release);
@@ -539,18 +539,18 @@
 <a href=#539 id=539 data-nosnippet>539</a>            SynchronizationError::FileNameMissing =&gt; <span class="macro">write!</span>(f, <span class="string">"File name is missing"</span>),
 <a href=#540 id=540 data-nosnippet>540</a>            SynchronizationError::HostNotFound =&gt; <span class="macro">write!</span>(f, <span class="string">"Host not found"</span>),
 <a href=#541 id=541 data-nosnippet>541</a>            SynchronizationError::InvalidPublicKey(name) =&gt; {
-<a href=#542 id=542 data-nosnippet>542</a>                <span class="macro">write!</span>(f, <span class="string">"Invalid public key for device: {}"</span>, name)
+<a href=#542 id=542 data-nosnippet>542</a>                <span class="macro">write!</span>(f, <span class="string">"Invalid public key for device: {name}"</span>)
 <a href=#543 id=543 data-nosnippet>543</a>            }
-<a href=#544 id=544 data-nosnippet>544</a>            SynchronizationError::InvalidResponse(e) =&gt; <span class="macro">write!</span>(f, <span class="string">"{}"</span>, e),
+<a href=#544 id=544 data-nosnippet>544</a>            SynchronizationError::InvalidResponse(e) =&gt; <span class="macro">write!</span>(f, <span class="string">"{e}"</span>),
 <a href=#545 id=545 data-nosnippet>545</a>            SynchronizationError::MissingEncryptionKey =&gt; <span class="macro">write!</span>(f, <span class="string">"Missing encryption key"</span>),
 <a href=#546 id=546 data-nosnippet>546</a>            SynchronizationError::MissingExpirationDate =&gt; <span class="macro">write!</span>(f, <span class="string">"Missing expiration date"</span>),
 <a href=#547 id=547 data-nosnippet>547</a>            SynchronizationError::MissingPublicKey(e) =&gt; {
-<a href=#548 id=548 data-nosnippet>548</a>                <span class="macro">write!</span>(f, <span class="string">"Missing public key for device: {}"</span>, e)
+<a href=#548 id=548 data-nosnippet>548</a>                <span class="macro">write!</span>(f, <span class="string">"Missing public key for device: {e}"</span>)
 <a href=#549 id=549 data-nosnippet>549</a>            }
-<a href=#550 id=550 data-nosnippet>550</a>            SynchronizationError::Other(e) =&gt; <span class="macro">write!</span>(f, <span class="string">"{}"</span>, e),
-<a href=#551 id=551 data-nosnippet>551</a>            SynchronizationError::ServerError(e) =&gt; <span class="macro">write!</span>(f, <span class="string">"{}"</span>, e),
+<a href=#550 id=550 data-nosnippet>550</a>            SynchronizationError::Other(e) =&gt; <span class="macro">write!</span>(f, <span class="string">"{e}"</span>),
+<a href=#551 id=551 data-nosnippet>551</a>            SynchronizationError::ServerError(e) =&gt; <span class="macro">write!</span>(f, <span class="string">"{e}"</span>),
 <a href=#552 id=552 data-nosnippet>552</a>            SynchronizationError::ServerUrlMissing =&gt; <span class="macro">write!</span>(f, <span class="string">"Server URL is missing"</span>),
-<a href=#553 id=553 data-nosnippet>553</a>            SynchronizationError::Timeout(timeout) =&gt; <span class="macro">write!</span>(f, <span class="string">"Timeout: {}"</span>, timeout),
+<a href=#553 id=553 data-nosnippet>553</a>            SynchronizationError::Timeout(timeout) =&gt; <span class="macro">write!</span>(f, <span class="string">"Timeout: {timeout}"</span>),
 <a href=#554 id=554 data-nosnippet>554</a>        }
 <a href=#555 id=555 data-nosnippet>555</a>    }
 <a href=#556 id=556 data-nosnippet>556</a>}
@@ -674,7 +674,7 @@
 <a href=#674 id=674 data-nosnippet>674</a>                            <span class="self">self</span>.next_tab_id += <span class="number">1</span>;
 <a href=#675 id=675 data-nosnippet>675</a>                            <span class="kw">let </span>new_tab = Tab::Editor(editor_tab::EditorTab::from_content(
 <a href=#676 id=676 data-nosnippet>676</a>                                tab_id,
-<a href=#677 id=677 data-nosnippet>677</a>                                decrypted_content,
+<a href=#677 id=677 data-nosnippet>677</a>                                <span class="kw-2">&amp;</span>decrypted_content,
 <a href=#678 id=678 data-nosnippet>678</a>                                shared_file.file_name.clone(),
 <a href=#679 id=679 data-nosnippet>679</a>                                window,
 <a href=#680 id=680 data-nosnippet>680</a>                                cx,

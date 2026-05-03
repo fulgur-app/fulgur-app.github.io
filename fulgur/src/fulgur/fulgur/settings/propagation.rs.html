@@ -7,9 +7,9 @@
 <a href=#7 id=7 data-nosnippet>7</a>    ///
 <a href=#8 id=8 data-nosnippet>8</a>    /// This method should be called whenever settings are changed. It will:
 <a href=#9 id=9 data-nosnippet>9</a>    /// 1. Save settings to disk
-<a href=#10 id=10 data-nosnippet>10</a>    /// 2. Update shared settings in SharedAppState
+<a href=#10 id=10 data-nosnippet>10</a>    /// 2. Update shared settings in `SharedAppState`
 <a href=#11 id=11 data-nosnippet>11</a>    /// 3. Increment the shared settings version (so other windows detect the change)
-<a href=#12 id=12 data-nosnippet>12</a>    /// 4. Set settings_changed flag for this window
+<a href=#12 id=12 data-nosnippet>12</a>    /// 4. Set `settings_changed` flag for this window
 <a href=#13 id=13 data-nosnippet>13</a>    /// 5. Force all windows to re-render immediately
 <a href=#14 id=14 data-nosnippet>14</a>    ///
 <a href=#15 id=15 data-nosnippet>15</a>    /// ### Arguments
@@ -23,10 +23,10 @@
 <a href=#23 id=23 data-nosnippet>23</a>
 <a href=#24 id=24 data-nosnippet>24</a>        <span class="comment">// Save settings to disk
 <a href=#25 id=25 data-nosnippet>25</a>        </span><span class="kw">if let </span><span class="prelude-val">Err</span>(e) = <span class="self">self</span>.settings.save() {
-<a href=#26 id=26 data-nosnippet>26</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to save settings: {}"</span>, e);
+<a href=#26 id=26 data-nosnippet>26</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to save settings: {e}"</span>);
 <a href=#27 id=27 data-nosnippet>27</a>            <span class="self">self</span>.pending_notification = <span class="prelude-val">Some</span>((
 <a href=#28 id=28 data-nosnippet>28</a>                NotificationType::Error,
-<a href=#29 id=29 data-nosnippet>29</a>                <span class="macro">format!</span>(<span class="string">"Failed to save settings: {}"</span>, e).into(),
+<a href=#29 id=29 data-nosnippet>29</a>                <span class="macro">format!</span>(<span class="string">"Failed to save settings: {e}"</span>).into(),
 <a href=#30 id=30 data-nosnippet>30</a>            ));
 <a href=#31 id=31 data-nosnippet>31</a>            <span class="kw">return </span><span class="prelude-val">Err</span>(e);
 <a href=#32 id=32 data-nosnippet>32</a>        }

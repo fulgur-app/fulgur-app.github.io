@@ -278,255 +278,254 @@
 <a href=#278 id=278 data-nosnippet>278</a>    /// ### Returns
 <a href=#279 id=279 data-nosnippet>279</a>    /// - `impl IntoElement`: The rendered path browser.
 <a href=#280 id=280 data-nosnippet>280</a>    </span><span class="kw">fn </span>render(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) -&gt; <span class="kw">impl </span>IntoElement {
-<a href=#281 id=281 data-nosnippet>281</a>        <span class="kw">let </span>input_entity = <span class="self">self</span>.input.clone();
-<a href=#282 id=282 data-nosnippet>282</a>        <span class="kw">let </span><span class="kw-2">mut </span>container = v_flex().w_full().gap_1().child(Input::new(<span class="kw-2">&amp;</span><span class="self">self</span>.input));
-<a href=#283 id=283 data-nosnippet>283</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(list) = render_browser_list(
-<a href=#284 id=284 data-nosnippet>284</a>            <span class="self">self</span>.entries.iter().map(BrowserEntry::from),
-<a href=#285 id=285 data-nosnippet>285</a>            input_entity,
-<a href=#286 id=286 data-nosnippet>286</a>            cx.theme().muted,
-<a href=#287 id=287 data-nosnippet>287</a>            cx.theme().muted_foreground,
-<a href=#288 id=288 data-nosnippet>288</a>        ) {
-<a href=#289 id=289 data-nosnippet>289</a>            container = container.child(list);
-<a href=#290 id=290 data-nosnippet>290</a>        }
-<a href=#291 id=291 data-nosnippet>291</a>        container
-<a href=#292 id=292 data-nosnippet>292</a>    }
-<a href=#293 id=293 data-nosnippet>293</a>}
-<a href=#294 id=294 data-nosnippet>294</a>
-<a href=#295 id=295 data-nosnippet>295</a><span class="attr">#[cfg(test)]
-<a href=#296 id=296 data-nosnippet>296</a></span><span class="kw">mod </span>tests {
-<a href=#297 id=297 data-nosnippet>297</a>    <span class="kw">use </span>super::{parse_input_path, read_and_filter_entries};
-<a href=#298 id=298 data-nosnippet>298</a>    <span class="kw">use </span>core::prelude::v1::test;
-<a href=#299 id=299 data-nosnippet>299</a>    <span class="kw">use </span>std::path::{Path, PathBuf};
-<a href=#300 id=300 data-nosnippet>300</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#301 id=301 data-nosnippet>301</a>    </span><span class="kw">use </span>tempfile::tempdir;
-<a href=#302 id=302 data-nosnippet>302</a>
-<a href=#303 id=303 data-nosnippet>303</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#304 id=304 data-nosnippet>304</a>    </span><span class="kw">use </span>gpui::{AppContext, Entity, TestAppContext, VisualTestContext};
-<a href=#305 id=305 data-nosnippet>305</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#306 id=306 data-nosnippet>306</a>    </span><span class="kw">use </span>gpui_component::input::{InputEvent, InputState};
-<a href=#307 id=307 data-nosnippet>307</a>
-<a href=#308 id=308 data-nosnippet>308</a>    <span class="attr">#[test]
-<a href=#309 id=309 data-nosnippet>309</a>    </span><span class="kw">fn </span>test_empty_input() {
-<a href=#310 id=310 data-nosnippet>310</a>        <span class="macro">assert!</span>(parse_input_path(<span class="string">""</span>).is_none());
-<a href=#311 id=311 data-nosnippet>311</a>        <span class="macro">assert!</span>(parse_input_path(<span class="string">"   "</span>).is_none());
-<a href=#312 id=312 data-nosnippet>312</a>    }
-<a href=#313 id=313 data-nosnippet>313</a>
-<a href=#314 id=314 data-nosnippet>314</a>    <span class="attr">#[test]
-<a href=#315 id=315 data-nosnippet>315</a>    </span><span class="kw">fn </span>test_root_slash() {
-<a href=#316 id=316 data-nosnippet>316</a>        <span class="kw">let </span>result = parse_input_path(<span class="string">"/"</span>);
-<a href=#317 id=317 data-nosnippet>317</a>        <span class="macro">assert!</span>(result.is_some());
-<a href=#318 id=318 data-nosnippet>318</a>        <span class="kw">let </span>(parent, filter) = result.unwrap();
-<a href=#319 id=319 data-nosnippet>319</a>        <span class="macro">assert_eq!</span>(parent, PathBuf::from(<span class="string">"/"</span>));
-<a href=#320 id=320 data-nosnippet>320</a>        <span class="macro">assert_eq!</span>(filter, <span class="string">""</span>);
-<a href=#321 id=321 data-nosnippet>321</a>    }
-<a href=#322 id=322 data-nosnippet>322</a>
-<a href=#323 id=323 data-nosnippet>323</a>    <span class="attr">#[test]
-<a href=#324 id=324 data-nosnippet>324</a>    </span><span class="kw">fn </span>test_directory_with_trailing_slash() {
-<a href=#325 id=325 data-nosnippet>325</a>        <span class="kw">let </span>temp_dir = std::env::temp_dir();
-<a href=#326 id=326 data-nosnippet>326</a>        <span class="kw">let </span>temp_str = temp_dir.to_string_lossy().to_string() + <span class="string">"/"</span>;
-<a href=#327 id=327 data-nosnippet>327</a>        <span class="kw">let </span>result = parse_input_path(<span class="kw-2">&amp;</span>temp_str);
-<a href=#328 id=328 data-nosnippet>328</a>        <span class="macro">assert!</span>(result.is_some());
-<a href=#329 id=329 data-nosnippet>329</a>        <span class="kw">let </span>(parent, filter) = result.unwrap();
-<a href=#330 id=330 data-nosnippet>330</a>        <span class="macro">assert!</span>(parent.is_dir());
-<a href=#331 id=331 data-nosnippet>331</a>        <span class="macro">assert_eq!</span>(filter, <span class="string">""</span>);
-<a href=#332 id=332 data-nosnippet>332</a>    }
-<a href=#333 id=333 data-nosnippet>333</a>
-<a href=#334 id=334 data-nosnippet>334</a>    <span class="attr">#[test]
-<a href=#335 id=335 data-nosnippet>335</a>    </span><span class="kw">fn </span>test_partial_name_filter() {
-<a href=#336 id=336 data-nosnippet>336</a>        <span class="kw">let </span>temp_dir = std::env::temp_dir();
-<a href=#337 id=337 data-nosnippet>337</a>        <span class="kw">let </span>test_path = temp_dir.join(<span class="string">"test_nonexistent_prefix_xyz"</span>);
-<a href=#338 id=338 data-nosnippet>338</a>        <span class="kw">let </span>result = parse_input_path(<span class="kw-2">&amp;</span>test_path.to_string_lossy());
-<a href=#339 id=339 data-nosnippet>339</a>        <span class="macro">assert!</span>(result.is_some());
-<a href=#340 id=340 data-nosnippet>340</a>        <span class="kw">let </span>(parent, filter) = result.unwrap();
-<a href=#341 id=341 data-nosnippet>341</a>        <span class="macro">assert_eq!</span>(parent, temp_dir);
-<a href=#342 id=342 data-nosnippet>342</a>        <span class="macro">assert_eq!</span>(filter, <span class="string">"test_nonexistent_prefix_xyz"</span>);
-<a href=#343 id=343 data-nosnippet>343</a>    }
-<a href=#344 id=344 data-nosnippet>344</a>
-<a href=#345 id=345 data-nosnippet>345</a>    <span class="attr">#[test]
-<a href=#346 id=346 data-nosnippet>346</a>    </span><span class="kw">fn </span>test_nonexistent_parent() {
-<a href=#347 id=347 data-nosnippet>347</a>        <span class="kw">let </span>result = parse_input_path(<span class="string">"/definitely_not_a_real_directory_abc123/foo"</span>);
-<a href=#348 id=348 data-nosnippet>348</a>        <span class="macro">assert!</span>(result.is_none());
-<a href=#349 id=349 data-nosnippet>349</a>    }
-<a href=#350 id=350 data-nosnippet>350</a>
-<a href=#351 id=351 data-nosnippet>351</a>    <span class="attr">#[test]
-<a href=#352 id=352 data-nosnippet>352</a>    </span><span class="kw">fn </span>test_tilde_expansion() {
-<a href=#353 id=353 data-nosnippet>353</a>        <span class="kw">let </span>result = parse_input_path(<span class="string">"~/"</span>);
-<a href=#354 id=354 data-nosnippet>354</a>        <span class="macro">assert!</span>(result.is_some());
-<a href=#355 id=355 data-nosnippet>355</a>        <span class="kw">let </span>(parent, filter) = result.unwrap();
-<a href=#356 id=356 data-nosnippet>356</a>        <span class="comment">// Should expand to home directory, not literally "~/"
-<a href=#357 id=357 data-nosnippet>357</a>        </span><span class="macro">assert_ne!</span>(parent, PathBuf::from(<span class="string">"~/"</span>));
-<a href=#358 id=358 data-nosnippet>358</a>        <span class="macro">assert!</span>(parent.is_dir());
-<a href=#359 id=359 data-nosnippet>359</a>        <span class="macro">assert_eq!</span>(filter, <span class="string">""</span>);
-<a href=#360 id=360 data-nosnippet>360</a>    }
-<a href=#361 id=361 data-nosnippet>361</a>
-<a href=#362 id=362 data-nosnippet>362</a>    <span class="attr">#[test]
-<a href=#363 id=363 data-nosnippet>363</a>    </span><span class="kw">fn </span>test_read_and_filter_entries_nonexistent() {
-<a href=#364 id=364 data-nosnippet>364</a>        <span class="kw">let </span>entries = read_and_filter_entries(Path::new(<span class="string">"/no_such_dir_abc123"</span>), <span class="string">""</span>);
-<a href=#365 id=365 data-nosnippet>365</a>        <span class="macro">assert!</span>(entries.is_empty());
-<a href=#366 id=366 data-nosnippet>366</a>    }
-<a href=#367 id=367 data-nosnippet>367</a>
-<a href=#368 id=368 data-nosnippet>368</a>    <span class="attr">#[test]
-<a href=#369 id=369 data-nosnippet>369</a>    </span><span class="kw">fn </span>test_read_and_filter_entries_root() {
-<a href=#370 id=370 data-nosnippet>370</a>        <span class="kw">let </span>entries = read_and_filter_entries(Path::new(<span class="string">"/"</span>), <span class="string">""</span>);
-<a href=#371 id=371 data-nosnippet>371</a>        <span class="macro">assert!</span>(!entries.is_empty());
-<a href=#372 id=372 data-nosnippet>372</a>        <span class="comment">// Directories should come first
-<a href=#373 id=373 data-nosnippet>373</a>        </span><span class="kw">let </span>first_file_idx = entries.iter().position(|e| !e.is_dir);
-<a href=#374 id=374 data-nosnippet>374</a>        <span class="kw">let </span>last_dir_idx = entries.iter().rposition(|e| e.is_dir);
-<a href=#375 id=375 data-nosnippet>375</a>        <span class="kw">if let </span>(<span class="prelude-val">Some</span>(first_file), <span class="prelude-val">Some</span>(last_dir)) = (first_file_idx, last_dir_idx) {
-<a href=#376 id=376 data-nosnippet>376</a>            <span class="macro">assert!</span>(last_dir &lt; first_file);
-<a href=#377 id=377 data-nosnippet>377</a>        }
-<a href=#378 id=378 data-nosnippet>378</a>    }
-<a href=#379 id=379 data-nosnippet>379</a>
-<a href=#380 id=380 data-nosnippet>380</a>    <span class="attr">#[test]
-<a href=#381 id=381 data-nosnippet>381</a>    </span><span class="kw">fn </span>test_read_and_filter_entries_with_filter() {
-<a href=#382 id=382 data-nosnippet>382</a>        <span class="kw">let </span>entries = read_and_filter_entries(Path::new(<span class="string">"/"</span>), <span class="string">"t"</span>);
-<a href=#383 id=383 data-nosnippet>383</a>        <span class="kw">for </span>entry <span class="kw">in </span><span class="kw-2">&amp;</span>entries {
-<a href=#384 id=384 data-nosnippet>384</a>            <span class="macro">assert!</span>(entry.name.to_lowercase().starts_with(<span class="string">"t"</span>));
-<a href=#385 id=385 data-nosnippet>385</a>        }
-<a href=#386 id=386 data-nosnippet>386</a>    }
-<a href=#387 id=387 data-nosnippet>387</a>
-<a href=#388 id=388 data-nosnippet>388</a>    <span class="attr">#[test]
-<a href=#389 id=389 data-nosnippet>389</a>    </span><span class="kw">fn </span>test_dotfile_filter() {
-<a href=#390 id=390 data-nosnippet>390</a>        <span class="comment">// Test that "/path/." correctly filters for dotfiles
-<a href=#391 id=391 data-nosnippet>391</a>        </span><span class="kw">let </span>temp_dir = std::env::temp_dir();
-<a href=#392 id=392 data-nosnippet>392</a>        <span class="kw">let </span>test_path = temp_dir.to_string_lossy().to_string() + <span class="string">"/."</span>;
-<a href=#393 id=393 data-nosnippet>393</a>        <span class="kw">let </span>result = parse_input_path(<span class="kw-2">&amp;</span>test_path);
-<a href=#394 id=394 data-nosnippet>394</a>        <span class="macro">assert!</span>(result.is_some());
-<a href=#395 id=395 data-nosnippet>395</a>        <span class="kw">let </span>(parent, filter) = result.unwrap();
-<a href=#396 id=396 data-nosnippet>396</a>        <span class="macro">assert!</span>(parent.is_dir());
-<a href=#397 id=397 data-nosnippet>397</a>        <span class="macro">assert_eq!</span>(filter, <span class="string">"."</span>);
-<a href=#398 id=398 data-nosnippet>398</a>    }
-<a href=#399 id=399 data-nosnippet>399</a>
-<a href=#400 id=400 data-nosnippet>400</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#401 id=401 data-nosnippet>401</a>    #[gpui::test]
-<a href=#402 id=402 data-nosnippet>402</a>    </span><span class="kw">fn </span>test_gpui_input_change_updates_entries_list(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
-<a href=#403 id=403 data-nosnippet>403</a>        cx.update(gpui_component::init);
-<a href=#404 id=404 data-nosnippet>404</a>
-<a href=#405 id=405 data-nosnippet>405</a>        <span class="kw">let </span>temp_dir = tempdir().expect(<span class="string">"failed to create temp dir"</span>);
-<a href=#406 id=406 data-nosnippet>406</a>        std::fs::create_dir(temp_dir.path().join(<span class="string">"alpha_dir"</span>))
-<a href=#407 id=407 data-nosnippet>407</a>            .expect(<span class="string">"failed to create alpha_dir fixture"</span>);
-<a href=#408 id=408 data-nosnippet>408</a>        std::fs::write(temp_dir.path().join(<span class="string">"alpha.txt"</span>), <span class="string">"alpha"</span>)
-<a href=#409 id=409 data-nosnippet>409</a>            .expect(<span class="string">"failed to create alpha.txt fixture"</span>);
-<a href=#410 id=410 data-nosnippet>410</a>        std::fs::write(temp_dir.path().join(<span class="string">"beta.txt"</span>), <span class="string">"beta"</span>)
-<a href=#411 id=411 data-nosnippet>411</a>            .expect(<span class="string">"failed to create beta.txt fixture"</span>);
-<a href=#412 id=412 data-nosnippet>412</a>
-<a href=#413 id=413 data-nosnippet>413</a>        <span class="kw">let </span>window = cx.update(|cx| {
-<a href=#414 id=414 data-nosnippet>414</a>            cx.open_window(Default::default(), |window, cx| {
-<a href=#415 id=415 data-nosnippet>415</a>                cx.new(|cx| <span class="kw">super</span>::PathBrowser::new(window, cx))
-<a href=#416 id=416 data-nosnippet>416</a>            })
-<a href=#417 id=417 data-nosnippet>417</a>            .expect(<span class="string">"failed to open test window"</span>)
-<a href=#418 id=418 data-nosnippet>418</a>        });
-<a href=#419 id=419 data-nosnippet>419</a>        <span class="kw">let </span><span class="kw-2">mut </span>visual_cx = VisualTestContext::from_window(window.into(), cx);
-<a href=#420 id=420 data-nosnippet>420</a>        <span class="kw">let </span>browser = window
-<a href=#421 id=421 data-nosnippet>421</a>            .root(<span class="kw-2">&amp;mut </span>visual_cx)
-<a href=#422 id=422 data-nosnippet>422</a>            .expect(<span class="string">"failed to read root view from window"</span>);
-<a href=#423 id=423 data-nosnippet>423</a>        <span class="kw">let </span>input_entity: Entity&lt;InputState&gt; =
-<a href=#424 id=424 data-nosnippet>424</a>            browser.read_with(<span class="kw-2">&amp;</span>visual_cx, |browser, <span class="kw">_</span>| browser.input.clone());
-<a href=#425 id=425 data-nosnippet>425</a>
-<a href=#426 id=426 data-nosnippet>426</a>        <span class="kw">let </span>filter_input = temp_dir.path().join(<span class="string">"al"</span>).to_string_lossy().to_string();
-<a href=#427 id=427 data-nosnippet>427</a>        visual_cx.update(|window, cx| {
-<a href=#428 id=428 data-nosnippet>428</a>            input_entity.update(cx, |state, cx| {
-<a href=#429 id=429 data-nosnippet>429</a>                state.set_value(<span class="kw-2">&amp;</span>filter_input, window, cx);
-<a href=#430 id=430 data-nosnippet>430</a>                cx.emit(InputEvent::Change);
-<a href=#431 id=431 data-nosnippet>431</a>            });
-<a href=#432 id=432 data-nosnippet>432</a>        });
-<a href=#433 id=433 data-nosnippet>433</a>        visual_cx
-<a href=#434 id=434 data-nosnippet>434</a>            .background_executor
-<a href=#435 id=435 data-nosnippet>435</a>            .advance_clock(<span class="kw">super</span>::PATH_BROWSER_REFRESH_DEBOUNCE);
-<a href=#436 id=436 data-nosnippet>436</a>        visual_cx.run_until_parked();
-<a href=#437 id=437 data-nosnippet>437</a>
-<a href=#438 id=438 data-nosnippet>438</a>        <span class="kw">let </span>entries: Vec&lt;(String, bool)&gt; = browser.read_with(<span class="kw-2">&amp;</span>visual_cx, |browser, <span class="kw">_</span>| {
-<a href=#439 id=439 data-nosnippet>439</a>            browser
-<a href=#440 id=440 data-nosnippet>440</a>                .entries
-<a href=#441 id=441 data-nosnippet>441</a>                .iter()
-<a href=#442 id=442 data-nosnippet>442</a>                .map(|entry| (entry.name.clone(), entry.is_dir))
-<a href=#443 id=443 data-nosnippet>443</a>                .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
-<a href=#444 id=444 data-nosnippet>444</a>        });
-<a href=#445 id=445 data-nosnippet>445</a>
-<a href=#446 id=446 data-nosnippet>446</a>        <span class="macro">assert!</span>(
-<a href=#447 id=447 data-nosnippet>447</a>            !entries.is_empty(),
-<a href=#448 id=448 data-nosnippet>448</a>            <span class="string">"entries should be populated after input change"
-<a href=#449 id=449 data-nosnippet>449</a>        </span>);
-<a href=#450 id=450 data-nosnippet>450</a>        <span class="macro">assert!</span>(
-<a href=#451 id=451 data-nosnippet>451</a>            entries
-<a href=#452 id=452 data-nosnippet>452</a>                .iter()
-<a href=#453 id=453 data-nosnippet>453</a>                .all(|(name, <span class="kw">_</span>)| name.to_lowercase().starts_with(<span class="string">"al"</span>)),
-<a href=#454 id=454 data-nosnippet>454</a>            <span class="string">"every entry should match the typed prefix"
-<a href=#455 id=455 data-nosnippet>455</a>        </span>);
-<a href=#456 id=456 data-nosnippet>456</a>        <span class="macro">assert!</span>(
-<a href=#457 id=457 data-nosnippet>457</a>            entries.iter().any(|(name, <span class="kw">_</span>)| name == <span class="string">"alpha_dir"</span>),
-<a href=#458 id=458 data-nosnippet>458</a>            <span class="string">"directory match should be present"
-<a href=#459 id=459 data-nosnippet>459</a>        </span>);
-<a href=#460 id=460 data-nosnippet>460</a>        <span class="macro">assert!</span>(
-<a href=#461 id=461 data-nosnippet>461</a>            entries.iter().any(|(name, <span class="kw">_</span>)| name == <span class="string">"alpha.txt"</span>),
-<a href=#462 id=462 data-nosnippet>462</a>            <span class="string">"file match should be present"
-<a href=#463 id=463 data-nosnippet>463</a>        </span>);
-<a href=#464 id=464 data-nosnippet>464</a>
-<a href=#465 id=465 data-nosnippet>465</a>        <span class="kw">let </span>first_file_idx = entries.iter().position(|(<span class="kw">_</span>, is_dir)| !<span class="kw-2">*</span>is_dir);
-<a href=#466 id=466 data-nosnippet>466</a>        <span class="kw">let </span>last_dir_idx = entries.iter().rposition(|(<span class="kw">_</span>, is_dir)| <span class="kw-2">*</span>is_dir);
-<a href=#467 id=467 data-nosnippet>467</a>        <span class="kw">if let </span>(<span class="prelude-val">Some</span>(first_file), <span class="prelude-val">Some</span>(last_dir)) = (first_file_idx, last_dir_idx) {
-<a href=#468 id=468 data-nosnippet>468</a>            <span class="macro">assert!</span>(
-<a href=#469 id=469 data-nosnippet>469</a>                last_dir &lt; first_file,
-<a href=#470 id=470 data-nosnippet>470</a>                <span class="string">"directories should be listed before files"
-<a href=#471 id=471 data-nosnippet>471</a>            </span>);
-<a href=#472 id=472 data-nosnippet>472</a>        }
-<a href=#473 id=473 data-nosnippet>473</a>    }
-<a href=#474 id=474 data-nosnippet>474</a>
-<a href=#475 id=475 data-nosnippet>475</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#476 id=476 data-nosnippet>476</a>    #[gpui::test]
-<a href=#477 id=477 data-nosnippet>477</a>    </span><span class="kw">fn </span>test_gpui_input_change_to_invalid_path_clears_entries(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
-<a href=#478 id=478 data-nosnippet>478</a>        cx.update(gpui_component::init);
-<a href=#479 id=479 data-nosnippet>479</a>
-<a href=#480 id=480 data-nosnippet>480</a>        <span class="kw">let </span>temp_dir = tempdir().expect(<span class="string">"failed to create temp dir"</span>);
-<a href=#481 id=481 data-nosnippet>481</a>        std::fs::write(temp_dir.path().join(<span class="string">"alpha.txt"</span>), <span class="string">"alpha"</span>)
-<a href=#482 id=482 data-nosnippet>482</a>            .expect(<span class="string">"failed to create alpha.txt fixture"</span>);
-<a href=#483 id=483 data-nosnippet>483</a>
-<a href=#484 id=484 data-nosnippet>484</a>        <span class="kw">let </span>window = cx.update(|cx| {
-<a href=#485 id=485 data-nosnippet>485</a>            cx.open_window(Default::default(), |window, cx| {
-<a href=#486 id=486 data-nosnippet>486</a>                cx.new(|cx| <span class="kw">super</span>::PathBrowser::new(window, cx))
-<a href=#487 id=487 data-nosnippet>487</a>            })
-<a href=#488 id=488 data-nosnippet>488</a>            .expect(<span class="string">"failed to open test window"</span>)
-<a href=#489 id=489 data-nosnippet>489</a>        });
-<a href=#490 id=490 data-nosnippet>490</a>        <span class="kw">let </span><span class="kw-2">mut </span>visual_cx = VisualTestContext::from_window(window.into(), cx);
-<a href=#491 id=491 data-nosnippet>491</a>        <span class="kw">let </span>browser = window
-<a href=#492 id=492 data-nosnippet>492</a>            .root(<span class="kw-2">&amp;mut </span>visual_cx)
-<a href=#493 id=493 data-nosnippet>493</a>            .expect(<span class="string">"failed to read root view from window"</span>);
-<a href=#494 id=494 data-nosnippet>494</a>        <span class="kw">let </span>input_entity: Entity&lt;InputState&gt; =
-<a href=#495 id=495 data-nosnippet>495</a>            browser.read_with(<span class="kw-2">&amp;</span>visual_cx, |browser, <span class="kw">_</span>| browser.input.clone());
-<a href=#496 id=496 data-nosnippet>496</a>
-<a href=#497 id=497 data-nosnippet>497</a>        <span class="kw">let </span>valid_input = temp_dir.path().join(<span class="string">"al"</span>).to_string_lossy().to_string();
-<a href=#498 id=498 data-nosnippet>498</a>        visual_cx.update(|window, cx| {
-<a href=#499 id=499 data-nosnippet>499</a>            input_entity.update(cx, |state, cx| {
-<a href=#500 id=500 data-nosnippet>500</a>                state.set_value(<span class="kw-2">&amp;</span>valid_input, window, cx);
-<a href=#501 id=501 data-nosnippet>501</a>                cx.emit(InputEvent::Change);
-<a href=#502 id=502 data-nosnippet>502</a>            });
-<a href=#503 id=503 data-nosnippet>503</a>        });
-<a href=#504 id=504 data-nosnippet>504</a>        visual_cx
-<a href=#505 id=505 data-nosnippet>505</a>            .background_executor
-<a href=#506 id=506 data-nosnippet>506</a>            .advance_clock(<span class="kw">super</span>::PATH_BROWSER_REFRESH_DEBOUNCE);
-<a href=#507 id=507 data-nosnippet>507</a>        visual_cx.run_until_parked();
-<a href=#508 id=508 data-nosnippet>508</a>        <span class="kw">let </span>has_entries = browser.read_with(<span class="kw-2">&amp;</span>visual_cx, |browser, <span class="kw">_</span>| !browser.entries.is_empty());
-<a href=#509 id=509 data-nosnippet>509</a>        <span class="macro">assert!</span>(has_entries, <span class="string">"valid input should populate entries"</span>);
-<a href=#510 id=510 data-nosnippet>510</a>
-<a href=#511 id=511 data-nosnippet>511</a>        <span class="kw">let </span>invalid_input = temp_dir
-<a href=#512 id=512 data-nosnippet>512</a>            .path()
-<a href=#513 id=513 data-nosnippet>513</a>            .join(<span class="string">"missing_parent"</span>)
-<a href=#514 id=514 data-nosnippet>514</a>            .join(<span class="string">"x"</span>)
-<a href=#515 id=515 data-nosnippet>515</a>            .to_string_lossy()
-<a href=#516 id=516 data-nosnippet>516</a>            .to_string();
-<a href=#517 id=517 data-nosnippet>517</a>        visual_cx.update(|window, cx| {
-<a href=#518 id=518 data-nosnippet>518</a>            input_entity.update(cx, |state, cx| {
-<a href=#519 id=519 data-nosnippet>519</a>                state.set_value(<span class="kw-2">&amp;</span>invalid_input, window, cx);
-<a href=#520 id=520 data-nosnippet>520</a>                cx.emit(InputEvent::Change);
-<a href=#521 id=521 data-nosnippet>521</a>            });
-<a href=#522 id=522 data-nosnippet>522</a>        });
-<a href=#523 id=523 data-nosnippet>523</a>        visual_cx
-<a href=#524 id=524 data-nosnippet>524</a>            .background_executor
-<a href=#525 id=525 data-nosnippet>525</a>            .advance_clock(<span class="kw">super</span>::PATH_BROWSER_REFRESH_DEBOUNCE);
-<a href=#526 id=526 data-nosnippet>526</a>        visual_cx.run_until_parked();
-<a href=#527 id=527 data-nosnippet>527</a>
-<a href=#528 id=528 data-nosnippet>528</a>        <span class="kw">let </span>is_empty = browser.read_with(<span class="kw-2">&amp;</span>visual_cx, |browser, <span class="kw">_</span>| browser.entries.is_empty());
-<a href=#529 id=529 data-nosnippet>529</a>        <span class="macro">assert!</span>(is_empty, <span class="string">"invalid path should clear entries"</span>);
-<a href=#530 id=530 data-nosnippet>530</a>    }
-<a href=#531 id=531 data-nosnippet>531</a>}
+<a href=#281 id=281 data-nosnippet>281</a>        <span class="kw">let </span><span class="kw-2">mut </span>container = v_flex().w_full().gap_1().child(Input::new(<span class="kw-2">&amp;</span><span class="self">self</span>.input));
+<a href=#282 id=282 data-nosnippet>282</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(list) = render_browser_list(
+<a href=#283 id=283 data-nosnippet>283</a>            <span class="self">self</span>.entries.iter().map(BrowserEntry::from),
+<a href=#284 id=284 data-nosnippet>284</a>            <span class="kw-2">&amp;</span><span class="self">self</span>.input,
+<a href=#285 id=285 data-nosnippet>285</a>            cx.theme().muted,
+<a href=#286 id=286 data-nosnippet>286</a>            cx.theme().muted_foreground,
+<a href=#287 id=287 data-nosnippet>287</a>        ) {
+<a href=#288 id=288 data-nosnippet>288</a>            container = container.child(list);
+<a href=#289 id=289 data-nosnippet>289</a>        }
+<a href=#290 id=290 data-nosnippet>290</a>        container
+<a href=#291 id=291 data-nosnippet>291</a>    }
+<a href=#292 id=292 data-nosnippet>292</a>}
+<a href=#293 id=293 data-nosnippet>293</a>
+<a href=#294 id=294 data-nosnippet>294</a><span class="attr">#[cfg(test)]
+<a href=#295 id=295 data-nosnippet>295</a></span><span class="kw">mod </span>tests {
+<a href=#296 id=296 data-nosnippet>296</a>    <span class="kw">use </span>super::{parse_input_path, read_and_filter_entries};
+<a href=#297 id=297 data-nosnippet>297</a>    <span class="kw">use </span>core::prelude::v1::test;
+<a href=#298 id=298 data-nosnippet>298</a>    <span class="kw">use </span>std::path::{Path, PathBuf};
+<a href=#299 id=299 data-nosnippet>299</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
+<a href=#300 id=300 data-nosnippet>300</a>    </span><span class="kw">use </span>tempfile::tempdir;
+<a href=#301 id=301 data-nosnippet>301</a>
+<a href=#302 id=302 data-nosnippet>302</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
+<a href=#303 id=303 data-nosnippet>303</a>    </span><span class="kw">use </span>gpui::{AppContext, Entity, TestAppContext, VisualTestContext};
+<a href=#304 id=304 data-nosnippet>304</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
+<a href=#305 id=305 data-nosnippet>305</a>    </span><span class="kw">use </span>gpui_component::input::{InputEvent, InputState};
+<a href=#306 id=306 data-nosnippet>306</a>
+<a href=#307 id=307 data-nosnippet>307</a>    <span class="attr">#[test]
+<a href=#308 id=308 data-nosnippet>308</a>    </span><span class="kw">fn </span>test_empty_input() {
+<a href=#309 id=309 data-nosnippet>309</a>        <span class="macro">assert!</span>(parse_input_path(<span class="string">""</span>).is_none());
+<a href=#310 id=310 data-nosnippet>310</a>        <span class="macro">assert!</span>(parse_input_path(<span class="string">"   "</span>).is_none());
+<a href=#311 id=311 data-nosnippet>311</a>    }
+<a href=#312 id=312 data-nosnippet>312</a>
+<a href=#313 id=313 data-nosnippet>313</a>    <span class="attr">#[test]
+<a href=#314 id=314 data-nosnippet>314</a>    </span><span class="kw">fn </span>test_root_slash() {
+<a href=#315 id=315 data-nosnippet>315</a>        <span class="kw">let </span>result = parse_input_path(<span class="string">"/"</span>);
+<a href=#316 id=316 data-nosnippet>316</a>        <span class="macro">assert!</span>(result.is_some());
+<a href=#317 id=317 data-nosnippet>317</a>        <span class="kw">let </span>(parent, filter) = result.unwrap();
+<a href=#318 id=318 data-nosnippet>318</a>        <span class="macro">assert_eq!</span>(parent, PathBuf::from(<span class="string">"/"</span>));
+<a href=#319 id=319 data-nosnippet>319</a>        <span class="macro">assert_eq!</span>(filter, <span class="string">""</span>);
+<a href=#320 id=320 data-nosnippet>320</a>    }
+<a href=#321 id=321 data-nosnippet>321</a>
+<a href=#322 id=322 data-nosnippet>322</a>    <span class="attr">#[test]
+<a href=#323 id=323 data-nosnippet>323</a>    </span><span class="kw">fn </span>test_directory_with_trailing_slash() {
+<a href=#324 id=324 data-nosnippet>324</a>        <span class="kw">let </span>temp_dir = std::env::temp_dir();
+<a href=#325 id=325 data-nosnippet>325</a>        <span class="kw">let </span>temp_str = temp_dir.to_string_lossy().to_string() + <span class="string">"/"</span>;
+<a href=#326 id=326 data-nosnippet>326</a>        <span class="kw">let </span>result = parse_input_path(<span class="kw-2">&amp;</span>temp_str);
+<a href=#327 id=327 data-nosnippet>327</a>        <span class="macro">assert!</span>(result.is_some());
+<a href=#328 id=328 data-nosnippet>328</a>        <span class="kw">let </span>(parent, filter) = result.unwrap();
+<a href=#329 id=329 data-nosnippet>329</a>        <span class="macro">assert!</span>(parent.is_dir());
+<a href=#330 id=330 data-nosnippet>330</a>        <span class="macro">assert_eq!</span>(filter, <span class="string">""</span>);
+<a href=#331 id=331 data-nosnippet>331</a>    }
+<a href=#332 id=332 data-nosnippet>332</a>
+<a href=#333 id=333 data-nosnippet>333</a>    <span class="attr">#[test]
+<a href=#334 id=334 data-nosnippet>334</a>    </span><span class="kw">fn </span>test_partial_name_filter() {
+<a href=#335 id=335 data-nosnippet>335</a>        <span class="kw">let </span>temp_dir = std::env::temp_dir();
+<a href=#336 id=336 data-nosnippet>336</a>        <span class="kw">let </span>test_path = temp_dir.join(<span class="string">"test_nonexistent_prefix_xyz"</span>);
+<a href=#337 id=337 data-nosnippet>337</a>        <span class="kw">let </span>result = parse_input_path(<span class="kw-2">&amp;</span>test_path.to_string_lossy());
+<a href=#338 id=338 data-nosnippet>338</a>        <span class="macro">assert!</span>(result.is_some());
+<a href=#339 id=339 data-nosnippet>339</a>        <span class="kw">let </span>(parent, filter) = result.unwrap();
+<a href=#340 id=340 data-nosnippet>340</a>        <span class="macro">assert_eq!</span>(parent, temp_dir);
+<a href=#341 id=341 data-nosnippet>341</a>        <span class="macro">assert_eq!</span>(filter, <span class="string">"test_nonexistent_prefix_xyz"</span>);
+<a href=#342 id=342 data-nosnippet>342</a>    }
+<a href=#343 id=343 data-nosnippet>343</a>
+<a href=#344 id=344 data-nosnippet>344</a>    <span class="attr">#[test]
+<a href=#345 id=345 data-nosnippet>345</a>    </span><span class="kw">fn </span>test_nonexistent_parent() {
+<a href=#346 id=346 data-nosnippet>346</a>        <span class="kw">let </span>result = parse_input_path(<span class="string">"/definitely_not_a_real_directory_abc123/foo"</span>);
+<a href=#347 id=347 data-nosnippet>347</a>        <span class="macro">assert!</span>(result.is_none());
+<a href=#348 id=348 data-nosnippet>348</a>    }
+<a href=#349 id=349 data-nosnippet>349</a>
+<a href=#350 id=350 data-nosnippet>350</a>    <span class="attr">#[test]
+<a href=#351 id=351 data-nosnippet>351</a>    </span><span class="kw">fn </span>test_tilde_expansion() {
+<a href=#352 id=352 data-nosnippet>352</a>        <span class="kw">let </span>result = parse_input_path(<span class="string">"~/"</span>);
+<a href=#353 id=353 data-nosnippet>353</a>        <span class="macro">assert!</span>(result.is_some());
+<a href=#354 id=354 data-nosnippet>354</a>        <span class="kw">let </span>(parent, filter) = result.unwrap();
+<a href=#355 id=355 data-nosnippet>355</a>        <span class="comment">// Should expand to home directory, not literally "~/"
+<a href=#356 id=356 data-nosnippet>356</a>        </span><span class="macro">assert_ne!</span>(parent, PathBuf::from(<span class="string">"~/"</span>));
+<a href=#357 id=357 data-nosnippet>357</a>        <span class="macro">assert!</span>(parent.is_dir());
+<a href=#358 id=358 data-nosnippet>358</a>        <span class="macro">assert_eq!</span>(filter, <span class="string">""</span>);
+<a href=#359 id=359 data-nosnippet>359</a>    }
+<a href=#360 id=360 data-nosnippet>360</a>
+<a href=#361 id=361 data-nosnippet>361</a>    <span class="attr">#[test]
+<a href=#362 id=362 data-nosnippet>362</a>    </span><span class="kw">fn </span>test_read_and_filter_entries_nonexistent() {
+<a href=#363 id=363 data-nosnippet>363</a>        <span class="kw">let </span>entries = read_and_filter_entries(Path::new(<span class="string">"/no_such_dir_abc123"</span>), <span class="string">""</span>);
+<a href=#364 id=364 data-nosnippet>364</a>        <span class="macro">assert!</span>(entries.is_empty());
+<a href=#365 id=365 data-nosnippet>365</a>    }
+<a href=#366 id=366 data-nosnippet>366</a>
+<a href=#367 id=367 data-nosnippet>367</a>    <span class="attr">#[test]
+<a href=#368 id=368 data-nosnippet>368</a>    </span><span class="kw">fn </span>test_read_and_filter_entries_root() {
+<a href=#369 id=369 data-nosnippet>369</a>        <span class="kw">let </span>entries = read_and_filter_entries(Path::new(<span class="string">"/"</span>), <span class="string">""</span>);
+<a href=#370 id=370 data-nosnippet>370</a>        <span class="macro">assert!</span>(!entries.is_empty());
+<a href=#371 id=371 data-nosnippet>371</a>        <span class="comment">// Directories should come first
+<a href=#372 id=372 data-nosnippet>372</a>        </span><span class="kw">let </span>first_file_idx = entries.iter().position(|e| !e.is_dir);
+<a href=#373 id=373 data-nosnippet>373</a>        <span class="kw">let </span>last_dir_idx = entries.iter().rposition(|e| e.is_dir);
+<a href=#374 id=374 data-nosnippet>374</a>        <span class="kw">if let </span>(<span class="prelude-val">Some</span>(first_file), <span class="prelude-val">Some</span>(last_dir)) = (first_file_idx, last_dir_idx) {
+<a href=#375 id=375 data-nosnippet>375</a>            <span class="macro">assert!</span>(last_dir &lt; first_file);
+<a href=#376 id=376 data-nosnippet>376</a>        }
+<a href=#377 id=377 data-nosnippet>377</a>    }
+<a href=#378 id=378 data-nosnippet>378</a>
+<a href=#379 id=379 data-nosnippet>379</a>    <span class="attr">#[test]
+<a href=#380 id=380 data-nosnippet>380</a>    </span><span class="kw">fn </span>test_read_and_filter_entries_with_filter() {
+<a href=#381 id=381 data-nosnippet>381</a>        <span class="kw">let </span>entries = read_and_filter_entries(Path::new(<span class="string">"/"</span>), <span class="string">"t"</span>);
+<a href=#382 id=382 data-nosnippet>382</a>        <span class="kw">for </span>entry <span class="kw">in </span><span class="kw-2">&amp;</span>entries {
+<a href=#383 id=383 data-nosnippet>383</a>            <span class="macro">assert!</span>(entry.name.to_lowercase().starts_with(<span class="string">"t"</span>));
+<a href=#384 id=384 data-nosnippet>384</a>        }
+<a href=#385 id=385 data-nosnippet>385</a>    }
+<a href=#386 id=386 data-nosnippet>386</a>
+<a href=#387 id=387 data-nosnippet>387</a>    <span class="attr">#[test]
+<a href=#388 id=388 data-nosnippet>388</a>    </span><span class="kw">fn </span>test_dotfile_filter() {
+<a href=#389 id=389 data-nosnippet>389</a>        <span class="comment">// Test that "/path/." correctly filters for dotfiles
+<a href=#390 id=390 data-nosnippet>390</a>        </span><span class="kw">let </span>temp_dir = std::env::temp_dir();
+<a href=#391 id=391 data-nosnippet>391</a>        <span class="kw">let </span>test_path = temp_dir.to_string_lossy().to_string() + <span class="string">"/."</span>;
+<a href=#392 id=392 data-nosnippet>392</a>        <span class="kw">let </span>result = parse_input_path(<span class="kw-2">&amp;</span>test_path);
+<a href=#393 id=393 data-nosnippet>393</a>        <span class="macro">assert!</span>(result.is_some());
+<a href=#394 id=394 data-nosnippet>394</a>        <span class="kw">let </span>(parent, filter) = result.unwrap();
+<a href=#395 id=395 data-nosnippet>395</a>        <span class="macro">assert!</span>(parent.is_dir());
+<a href=#396 id=396 data-nosnippet>396</a>        <span class="macro">assert_eq!</span>(filter, <span class="string">"."</span>);
+<a href=#397 id=397 data-nosnippet>397</a>    }
+<a href=#398 id=398 data-nosnippet>398</a>
+<a href=#399 id=399 data-nosnippet>399</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
+<a href=#400 id=400 data-nosnippet>400</a>    #[gpui::test]
+<a href=#401 id=401 data-nosnippet>401</a>    </span><span class="kw">fn </span>test_gpui_input_change_updates_entries_list(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
+<a href=#402 id=402 data-nosnippet>402</a>        cx.update(gpui_component::init);
+<a href=#403 id=403 data-nosnippet>403</a>
+<a href=#404 id=404 data-nosnippet>404</a>        <span class="kw">let </span>temp_dir = tempdir().expect(<span class="string">"failed to create temp dir"</span>);
+<a href=#405 id=405 data-nosnippet>405</a>        std::fs::create_dir(temp_dir.path().join(<span class="string">"alpha_dir"</span>))
+<a href=#406 id=406 data-nosnippet>406</a>            .expect(<span class="string">"failed to create alpha_dir fixture"</span>);
+<a href=#407 id=407 data-nosnippet>407</a>        std::fs::write(temp_dir.path().join(<span class="string">"alpha.txt"</span>), <span class="string">"alpha"</span>)
+<a href=#408 id=408 data-nosnippet>408</a>            .expect(<span class="string">"failed to create alpha.txt fixture"</span>);
+<a href=#409 id=409 data-nosnippet>409</a>        std::fs::write(temp_dir.path().join(<span class="string">"beta.txt"</span>), <span class="string">"beta"</span>)
+<a href=#410 id=410 data-nosnippet>410</a>            .expect(<span class="string">"failed to create beta.txt fixture"</span>);
+<a href=#411 id=411 data-nosnippet>411</a>
+<a href=#412 id=412 data-nosnippet>412</a>        <span class="kw">let </span>window = cx.update(|cx| {
+<a href=#413 id=413 data-nosnippet>413</a>            cx.open_window(Default::default(), |window, cx| {
+<a href=#414 id=414 data-nosnippet>414</a>                cx.new(|cx| <span class="kw">super</span>::PathBrowser::new(window, cx))
+<a href=#415 id=415 data-nosnippet>415</a>            })
+<a href=#416 id=416 data-nosnippet>416</a>            .expect(<span class="string">"failed to open test window"</span>)
+<a href=#417 id=417 data-nosnippet>417</a>        });
+<a href=#418 id=418 data-nosnippet>418</a>        <span class="kw">let </span><span class="kw-2">mut </span>visual_cx = VisualTestContext::from_window(window.into(), cx);
+<a href=#419 id=419 data-nosnippet>419</a>        <span class="kw">let </span>browser = window
+<a href=#420 id=420 data-nosnippet>420</a>            .root(<span class="kw-2">&amp;mut </span>visual_cx)
+<a href=#421 id=421 data-nosnippet>421</a>            .expect(<span class="string">"failed to read root view from window"</span>);
+<a href=#422 id=422 data-nosnippet>422</a>        <span class="kw">let </span>input_entity: Entity&lt;InputState&gt; =
+<a href=#423 id=423 data-nosnippet>423</a>            browser.read_with(<span class="kw-2">&amp;</span>visual_cx, |browser, <span class="kw">_</span>| browser.input.clone());
+<a href=#424 id=424 data-nosnippet>424</a>
+<a href=#425 id=425 data-nosnippet>425</a>        <span class="kw">let </span>filter_input = temp_dir.path().join(<span class="string">"al"</span>).to_string_lossy().to_string();
+<a href=#426 id=426 data-nosnippet>426</a>        visual_cx.update(|window, cx| {
+<a href=#427 id=427 data-nosnippet>427</a>            input_entity.update(cx, |state, cx| {
+<a href=#428 id=428 data-nosnippet>428</a>                state.set_value(<span class="kw-2">&amp;</span>filter_input, window, cx);
+<a href=#429 id=429 data-nosnippet>429</a>                cx.emit(InputEvent::Change);
+<a href=#430 id=430 data-nosnippet>430</a>            });
+<a href=#431 id=431 data-nosnippet>431</a>        });
+<a href=#432 id=432 data-nosnippet>432</a>        visual_cx
+<a href=#433 id=433 data-nosnippet>433</a>            .background_executor
+<a href=#434 id=434 data-nosnippet>434</a>            .advance_clock(<span class="kw">super</span>::PATH_BROWSER_REFRESH_DEBOUNCE);
+<a href=#435 id=435 data-nosnippet>435</a>        visual_cx.run_until_parked();
+<a href=#436 id=436 data-nosnippet>436</a>
+<a href=#437 id=437 data-nosnippet>437</a>        <span class="kw">let </span>entries: Vec&lt;(String, bool)&gt; = browser.read_with(<span class="kw-2">&amp;</span>visual_cx, |browser, <span class="kw">_</span>| {
+<a href=#438 id=438 data-nosnippet>438</a>            browser
+<a href=#439 id=439 data-nosnippet>439</a>                .entries
+<a href=#440 id=440 data-nosnippet>440</a>                .iter()
+<a href=#441 id=441 data-nosnippet>441</a>                .map(|entry| (entry.name.clone(), entry.is_dir))
+<a href=#442 id=442 data-nosnippet>442</a>                .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()
+<a href=#443 id=443 data-nosnippet>443</a>        });
+<a href=#444 id=444 data-nosnippet>444</a>
+<a href=#445 id=445 data-nosnippet>445</a>        <span class="macro">assert!</span>(
+<a href=#446 id=446 data-nosnippet>446</a>            !entries.is_empty(),
+<a href=#447 id=447 data-nosnippet>447</a>            <span class="string">"entries should be populated after input change"
+<a href=#448 id=448 data-nosnippet>448</a>        </span>);
+<a href=#449 id=449 data-nosnippet>449</a>        <span class="macro">assert!</span>(
+<a href=#450 id=450 data-nosnippet>450</a>            entries
+<a href=#451 id=451 data-nosnippet>451</a>                .iter()
+<a href=#452 id=452 data-nosnippet>452</a>                .all(|(name, <span class="kw">_</span>)| name.to_lowercase().starts_with(<span class="string">"al"</span>)),
+<a href=#453 id=453 data-nosnippet>453</a>            <span class="string">"every entry should match the typed prefix"
+<a href=#454 id=454 data-nosnippet>454</a>        </span>);
+<a href=#455 id=455 data-nosnippet>455</a>        <span class="macro">assert!</span>(
+<a href=#456 id=456 data-nosnippet>456</a>            entries.iter().any(|(name, <span class="kw">_</span>)| name == <span class="string">"alpha_dir"</span>),
+<a href=#457 id=457 data-nosnippet>457</a>            <span class="string">"directory match should be present"
+<a href=#458 id=458 data-nosnippet>458</a>        </span>);
+<a href=#459 id=459 data-nosnippet>459</a>        <span class="macro">assert!</span>(
+<a href=#460 id=460 data-nosnippet>460</a>            entries.iter().any(|(name, <span class="kw">_</span>)| name == <span class="string">"alpha.txt"</span>),
+<a href=#461 id=461 data-nosnippet>461</a>            <span class="string">"file match should be present"
+<a href=#462 id=462 data-nosnippet>462</a>        </span>);
+<a href=#463 id=463 data-nosnippet>463</a>
+<a href=#464 id=464 data-nosnippet>464</a>        <span class="kw">let </span>first_file_idx = entries.iter().position(|(<span class="kw">_</span>, is_dir)| !<span class="kw-2">*</span>is_dir);
+<a href=#465 id=465 data-nosnippet>465</a>        <span class="kw">let </span>last_dir_idx = entries.iter().rposition(|(<span class="kw">_</span>, is_dir)| <span class="kw-2">*</span>is_dir);
+<a href=#466 id=466 data-nosnippet>466</a>        <span class="kw">if let </span>(<span class="prelude-val">Some</span>(first_file), <span class="prelude-val">Some</span>(last_dir)) = (first_file_idx, last_dir_idx) {
+<a href=#467 id=467 data-nosnippet>467</a>            <span class="macro">assert!</span>(
+<a href=#468 id=468 data-nosnippet>468</a>                last_dir &lt; first_file,
+<a href=#469 id=469 data-nosnippet>469</a>                <span class="string">"directories should be listed before files"
+<a href=#470 id=470 data-nosnippet>470</a>            </span>);
+<a href=#471 id=471 data-nosnippet>471</a>        }
+<a href=#472 id=472 data-nosnippet>472</a>    }
+<a href=#473 id=473 data-nosnippet>473</a>
+<a href=#474 id=474 data-nosnippet>474</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
+<a href=#475 id=475 data-nosnippet>475</a>    #[gpui::test]
+<a href=#476 id=476 data-nosnippet>476</a>    </span><span class="kw">fn </span>test_gpui_input_change_to_invalid_path_clears_entries(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
+<a href=#477 id=477 data-nosnippet>477</a>        cx.update(gpui_component::init);
+<a href=#478 id=478 data-nosnippet>478</a>
+<a href=#479 id=479 data-nosnippet>479</a>        <span class="kw">let </span>temp_dir = tempdir().expect(<span class="string">"failed to create temp dir"</span>);
+<a href=#480 id=480 data-nosnippet>480</a>        std::fs::write(temp_dir.path().join(<span class="string">"alpha.txt"</span>), <span class="string">"alpha"</span>)
+<a href=#481 id=481 data-nosnippet>481</a>            .expect(<span class="string">"failed to create alpha.txt fixture"</span>);
+<a href=#482 id=482 data-nosnippet>482</a>
+<a href=#483 id=483 data-nosnippet>483</a>        <span class="kw">let </span>window = cx.update(|cx| {
+<a href=#484 id=484 data-nosnippet>484</a>            cx.open_window(Default::default(), |window, cx| {
+<a href=#485 id=485 data-nosnippet>485</a>                cx.new(|cx| <span class="kw">super</span>::PathBrowser::new(window, cx))
+<a href=#486 id=486 data-nosnippet>486</a>            })
+<a href=#487 id=487 data-nosnippet>487</a>            .expect(<span class="string">"failed to open test window"</span>)
+<a href=#488 id=488 data-nosnippet>488</a>        });
+<a href=#489 id=489 data-nosnippet>489</a>        <span class="kw">let </span><span class="kw-2">mut </span>visual_cx = VisualTestContext::from_window(window.into(), cx);
+<a href=#490 id=490 data-nosnippet>490</a>        <span class="kw">let </span>browser = window
+<a href=#491 id=491 data-nosnippet>491</a>            .root(<span class="kw-2">&amp;mut </span>visual_cx)
+<a href=#492 id=492 data-nosnippet>492</a>            .expect(<span class="string">"failed to read root view from window"</span>);
+<a href=#493 id=493 data-nosnippet>493</a>        <span class="kw">let </span>input_entity: Entity&lt;InputState&gt; =
+<a href=#494 id=494 data-nosnippet>494</a>            browser.read_with(<span class="kw-2">&amp;</span>visual_cx, |browser, <span class="kw">_</span>| browser.input.clone());
+<a href=#495 id=495 data-nosnippet>495</a>
+<a href=#496 id=496 data-nosnippet>496</a>        <span class="kw">let </span>valid_input = temp_dir.path().join(<span class="string">"al"</span>).to_string_lossy().to_string();
+<a href=#497 id=497 data-nosnippet>497</a>        visual_cx.update(|window, cx| {
+<a href=#498 id=498 data-nosnippet>498</a>            input_entity.update(cx, |state, cx| {
+<a href=#499 id=499 data-nosnippet>499</a>                state.set_value(<span class="kw-2">&amp;</span>valid_input, window, cx);
+<a href=#500 id=500 data-nosnippet>500</a>                cx.emit(InputEvent::Change);
+<a href=#501 id=501 data-nosnippet>501</a>            });
+<a href=#502 id=502 data-nosnippet>502</a>        });
+<a href=#503 id=503 data-nosnippet>503</a>        visual_cx
+<a href=#504 id=504 data-nosnippet>504</a>            .background_executor
+<a href=#505 id=505 data-nosnippet>505</a>            .advance_clock(<span class="kw">super</span>::PATH_BROWSER_REFRESH_DEBOUNCE);
+<a href=#506 id=506 data-nosnippet>506</a>        visual_cx.run_until_parked();
+<a href=#507 id=507 data-nosnippet>507</a>        <span class="kw">let </span>has_entries = browser.read_with(<span class="kw-2">&amp;</span>visual_cx, |browser, <span class="kw">_</span>| !browser.entries.is_empty());
+<a href=#508 id=508 data-nosnippet>508</a>        <span class="macro">assert!</span>(has_entries, <span class="string">"valid input should populate entries"</span>);
+<a href=#509 id=509 data-nosnippet>509</a>
+<a href=#510 id=510 data-nosnippet>510</a>        <span class="kw">let </span>invalid_input = temp_dir
+<a href=#511 id=511 data-nosnippet>511</a>            .path()
+<a href=#512 id=512 data-nosnippet>512</a>            .join(<span class="string">"missing_parent"</span>)
+<a href=#513 id=513 data-nosnippet>513</a>            .join(<span class="string">"x"</span>)
+<a href=#514 id=514 data-nosnippet>514</a>            .to_string_lossy()
+<a href=#515 id=515 data-nosnippet>515</a>            .to_string();
+<a href=#516 id=516 data-nosnippet>516</a>        visual_cx.update(|window, cx| {
+<a href=#517 id=517 data-nosnippet>517</a>            input_entity.update(cx, |state, cx| {
+<a href=#518 id=518 data-nosnippet>518</a>                state.set_value(<span class="kw-2">&amp;</span>invalid_input, window, cx);
+<a href=#519 id=519 data-nosnippet>519</a>                cx.emit(InputEvent::Change);
+<a href=#520 id=520 data-nosnippet>520</a>            });
+<a href=#521 id=521 data-nosnippet>521</a>        });
+<a href=#522 id=522 data-nosnippet>522</a>        visual_cx
+<a href=#523 id=523 data-nosnippet>523</a>            .background_executor
+<a href=#524 id=524 data-nosnippet>524</a>            .advance_clock(<span class="kw">super</span>::PATH_BROWSER_REFRESH_DEBOUNCE);
+<a href=#525 id=525 data-nosnippet>525</a>        visual_cx.run_until_parked();
+<a href=#526 id=526 data-nosnippet>526</a>
+<a href=#527 id=527 data-nosnippet>527</a>        <span class="kw">let </span>is_empty = browser.read_with(<span class="kw-2">&amp;</span>visual_cx, |browser, <span class="kw">_</span>| browser.entries.is_empty());
+<a href=#528 id=528 data-nosnippet>528</a>        <span class="macro">assert!</span>(is_empty, <span class="string">"invalid path should clear entries"</span>);
+<a href=#529 id=529 data-nosnippet>529</a>    }
+<a href=#530 id=530 data-nosnippet>530</a>}
 </code></pre></div></section></main></body></html>

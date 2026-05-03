@@ -70,13 +70,13 @@
 <a href=#70 id=70 data-nosnippet>70</a>    Zig,
 <a href=#71 id=71 data-nosnippet>71</a>}
 <a href=#72 id=72 data-nosnippet>72</a>
-<a href=#73 id=73 data-nosnippet>73</a><span class="doccomment">/// Convert a Language to a SupportedLanguage
+<a href=#73 id=73 data-nosnippet>73</a><span class="doccomment">/// Convert a Language to a `SupportedLanguage`
 <a href=#74 id=74 data-nosnippet>74</a>///
 <a href=#75 id=75 data-nosnippet>75</a>/// ### Arguments
 <a href=#76 id=76 data-nosnippet>76</a>/// - `language`: The Language enum
 <a href=#77 id=77 data-nosnippet>77</a>///
 <a href=#78 id=78 data-nosnippet>78</a>/// ### Returns
-<a href=#79 id=79 data-nosnippet>79</a>/// - `SupportedLanguage`: The corresponding SupportedLanguage
+<a href=#79 id=79 data-nosnippet>79</a>/// - `SupportedLanguage`: The corresponding `SupportedLanguage`
 <a href=#80 id=80 data-nosnippet>80</a></span><span class="kw">pub fn </span>from_language(language: Language) -&gt; SupportedLanguage {
 <a href=#81 id=81 data-nosnippet>81</a>    <span class="kw">match </span>language {
 <a href=#82 id=82 data-nosnippet>82</a>        Language::Astro =&gt; SupportedLanguage::Astro,
@@ -198,10 +198,10 @@
 <a href=#198 id=198 data-nosnippet>198</a>    }
 <a href=#199 id=199 data-nosnippet>199</a>}
 <a href=#200 id=200 data-nosnippet>200</a>
-<a href=#201 id=201 data-nosnippet>201</a><span class="doccomment">/// Get the pretty name (human-readable) of a SupportedLanguage
+<a href=#201 id=201 data-nosnippet>201</a><span class="doccomment">/// Get the pretty name (human-readable) of a `SupportedLanguage`
 <a href=#202 id=202 data-nosnippet>202</a>///
 <a href=#203 id=203 data-nosnippet>203</a>/// ### Arguments
-<a href=#204 id=204 data-nosnippet>204</a>/// - `language`: The SupportedLanguage enum
+<a href=#204 id=204 data-nosnippet>204</a>/// - `language`: The `SupportedLanguage` enum
 <a href=#205 id=205 data-nosnippet>205</a>///
 <a href=#206 id=206 data-nosnippet>206</a>/// ### Returns
 <a href=#207 id=207 data-nosnippet>207</a>/// - `String`: The human-readable name of the language
@@ -274,7 +274,7 @@
 <a href=#274 id=274 data-nosnippet>274</a>    }
 <a href=#275 id=275 data-nosnippet>275</a>}
 <a href=#276 id=276 data-nosnippet>276</a>
-<a href=#277 id=277 data-nosnippet>277</a><span class="doccomment">/// Get the language registry name for a SupportedLanguage.
+<a href=#277 id=277 data-nosnippet>277</a><span class="doccomment">/// Get the language registry name for a `SupportedLanguage`.
 <a href=#278 id=278 data-nosnippet>278</a>/// For languages built into gpui-component, this delegates to `to_language().name()`.
 <a href=#279 id=279 data-nosnippet>279</a>/// For custom-registered languages (e.g. Perl), this returns the registered name directly.
 <a href=#280 id=280 data-nosnippet>280</a>///
@@ -282,7 +282,7 @@
 <a href=#282 id=282 data-nosnippet>282</a>/// - `supported_language`: The supported language to convert
 <a href=#283 id=283 data-nosnippet>283</a>///
 <a href=#284 id=284 data-nosnippet>284</a>/// ### Returns
-<a href=#285 id=285 data-nosnippet>285</a>/// - `&amp;'static str`: The language name as registered in the LanguageRegistry
+<a href=#285 id=285 data-nosnippet>285</a>/// - `&amp;'static str`: The language name as registered in the `LanguageRegistry`
 <a href=#286 id=286 data-nosnippet>286</a></span><span class="kw">pub fn </span>language_registry_name(supported_language: <span class="kw-2">&amp;</span>SupportedLanguage) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
 <a href=#287 id=287 data-nosnippet>287</a>    <span class="kw">match </span>supported_language {
 <a href=#288 id=288 data-nosnippet>288</a>        SupportedLanguage::Ada =&gt; <span class="string">"ada"</span>,

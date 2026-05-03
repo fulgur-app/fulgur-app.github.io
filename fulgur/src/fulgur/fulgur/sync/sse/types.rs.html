@@ -21,20 +21,20 @@
 <a href=#21 id=21 data-nosnippet>21</a>}
 <a href=#22 id=22 data-nosnippet>22</a>
 <a href=#23 id=23 data-nosnippet>23</a><span class="kw">impl </span>Default <span class="kw">for </span>SseState {
-<a href=#24 id=24 data-nosnippet>24</a>    <span class="doccomment">/// Create a new SseState with all fields initialized to default/empty values
+<a href=#24 id=24 data-nosnippet>24</a>    <span class="doccomment">/// Create a new `SseState` with all fields initialized to default/empty values
 <a href=#25 id=25 data-nosnippet>25</a>    ///
 <a href=#26 id=26 data-nosnippet>26</a>    /// ### Returns
-<a href=#27 id=27 data-nosnippet>27</a>    /// `Self`: A new SseState
+<a href=#27 id=27 data-nosnippet>27</a>    /// `Self`: A new `SseState`
 <a href=#28 id=28 data-nosnippet>28</a>    </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
 <a href=#29 id=29 data-nosnippet>29</a>        <span class="self">Self</span>::new()
 <a href=#30 id=30 data-nosnippet>30</a>    }
 <a href=#31 id=31 data-nosnippet>31</a>}
 <a href=#32 id=32 data-nosnippet>32</a>
 <a href=#33 id=33 data-nosnippet>33</a><span class="kw">impl </span>SseState {
-<a href=#34 id=34 data-nosnippet>34</a>    <span class="doccomment">/// Create a new SseState with all fields initialized to None
+<a href=#34 id=34 data-nosnippet>34</a>    <span class="doccomment">/// Create a new `SseState` with all fields initialized to None
 <a href=#35 id=35 data-nosnippet>35</a>    ///
 <a href=#36 id=36 data-nosnippet>36</a>    /// ### Returns
-<a href=#37 id=37 data-nosnippet>37</a>    /// `Self`: a new SseState
+<a href=#37 id=37 data-nosnippet>37</a>    /// `Self`: a new `SseState`
 <a href=#38 id=38 data-nosnippet>38</a>    </span><span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
 <a href=#39 id=39 data-nosnippet>39</a>        <span class="self">Self </span>{
 <a href=#40 id=40 data-nosnippet>40</a>            sse_events: <span class="prelude-val">None</span>,
@@ -73,7 +73,7 @@
 <a href=#73 id=73 data-nosnippet>73</a>    <span class="doccomment">/// Parse an SSE event from the event type and data
 <a href=#74 id=74 data-nosnippet>74</a>    ///
 <a href=#75 id=75 data-nosnippet>75</a>    /// ### Arguments
-<a href=#76 id=76 data-nosnippet>76</a>    /// - `event_type`: The SSE event type (e.g., "heartbeat", "share_available")
+<a href=#76 id=76 data-nosnippet>76</a>    /// - `event_type`: The SSE event type (e.g., "heartbeat", "`share_available`")
 <a href=#77 id=77 data-nosnippet>77</a>    /// - `data`: The JSON data for the event
 <a href=#78 id=78 data-nosnippet>78</a>    ///
 <a href=#79 id=79 data-nosnippet>79</a>    /// ### Returns
@@ -85,7 +85,7 @@
 <a href=#85 id=85 data-nosnippet>85</a>                    timestamp: hb.timestamp,
 <a href=#86 id=86 data-nosnippet>86</a>                },
 <a href=#87 id=87 data-nosnippet>87</a>                <span class="prelude-val">Err</span>(e) =&gt; {
-<a href=#88 id=88 data-nosnippet>88</a>                    <span class="macro">log::warn!</span>(<span class="string">"Failed to parse heartbeat: {}"</span>, e);
+<a href=#88 id=88 data-nosnippet>88</a>                    <span class="macro">log::warn!</span>(<span class="string">"Failed to parse heartbeat: {e}"</span>);
 <a href=#89 id=89 data-nosnippet>89</a>                    SseEvent::Heartbeat {
 <a href=#90 id=90 data-nosnippet>90</a>                        timestamp: String::new(),
 <a href=#91 id=91 data-nosnippet>91</a>                    }
@@ -94,8 +94,8 @@
 <a href=#94 id=94 data-nosnippet>94</a>            <span class="string">"share_available" </span>=&gt; <span class="kw">match </span>serde_json::from_str::&lt;ShareNotification&gt;(data) {
 <a href=#95 id=95 data-nosnippet>95</a>                <span class="prelude-val">Ok</span>(notification) =&gt; SseEvent::ShareAvailable(notification),
 <a href=#96 id=96 data-nosnippet>96</a>                <span class="prelude-val">Err</span>(e) =&gt; {
-<a href=#97 id=97 data-nosnippet>97</a>                    <span class="macro">log::error!</span>(<span class="string">"Failed to parse share notification: {}"</span>, e);
-<a href=#98 id=98 data-nosnippet>98</a>                    SseEvent::Error(<span class="macro">format!</span>(<span class="string">"Invalid share notification: {}"</span>, e))
+<a href=#97 id=97 data-nosnippet>97</a>                    <span class="macro">log::error!</span>(<span class="string">"Failed to parse share notification: {e}"</span>);
+<a href=#98 id=98 data-nosnippet>98</a>                    SseEvent::Error(<span class="macro">format!</span>(<span class="string">"Invalid share notification: {e}"</span>))
 <a href=#99 id=99 data-nosnippet>99</a>                }
 <a href=#100 id=100 data-nosnippet>100</a>            },
 <a href=#101 id=101 data-nosnippet>101</a>            <span class="string">"" </span>=&gt; {
@@ -103,8 +103,8 @@
 <a href=#103 id=103 data-nosnippet>103</a>                SseEvent::Error(<span class="string">"Unknown event with no event type"</span>.to_string())
 <a href=#104 id=104 data-nosnippet>104</a>            }
 <a href=#105 id=105 data-nosnippet>105</a>            <span class="kw">_ </span>=&gt; {
-<a href=#106 id=106 data-nosnippet>106</a>                <span class="macro">log::warn!</span>(<span class="string">"Unknown SSE event type: {}"</span>, event_type);
-<a href=#107 id=107 data-nosnippet>107</a>                SseEvent::Error(<span class="macro">format!</span>(<span class="string">"Unknown event type: {}"</span>, event_type))
+<a href=#106 id=106 data-nosnippet>106</a>                <span class="macro">log::warn!</span>(<span class="string">"Unknown SSE event type: {event_type}"</span>);
+<a href=#107 id=107 data-nosnippet>107</a>                SseEvent::Error(<span class="macro">format!</span>(<span class="string">"Unknown event type: {event_type}"</span>))
 <a href=#108 id=108 data-nosnippet>108</a>            }
 <a href=#109 id=109 data-nosnippet>109</a>        }
 <a href=#110 id=110 data-nosnippet>110</a>    }

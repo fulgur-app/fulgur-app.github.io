@@ -12,7 +12,7 @@
 <a href=#12 id=12 data-nosnippet>12</a>
 <a href=#13 id=13 data-nosnippet>13</a><span class="doccomment">/// Window manager tracks all open Fulgur windows and provides cross-window operations
 <a href=#14 id=14 data-nosnippet>14</a></span><span class="kw">pub struct </span>WindowManager {
-<a href=#15 id=15 data-nosnippet>15</a>    <span class="doccomment">/// All open windows mapped by their window_id
+<a href=#15 id=15 data-nosnippet>15</a>    <span class="doccomment">/// All open windows mapped by their `window_id`
 <a href=#16 id=16 data-nosnippet>16</a>    </span>windows: HashMap&lt;WindowId, WeakEntity&lt;Fulgur&gt;&gt;,
 <a href=#17 id=17 data-nosnippet>17</a>    <span class="doccomment">/// The last focused window for file opening
 <a href=#18 id=18 data-nosnippet>18</a>    </span>last_focused: <span class="prelude-ty">Option</span>&lt;WindowId&gt;,
@@ -80,7 +80,7 @@
 <a href=#80 id=80 data-nosnippet>80</a>    /// - `window_id`: The ID of the window to register
 <a href=#81 id=81 data-nosnippet>81</a>    /// - `entity`: The entity of the window to register
 <a href=#82 id=82 data-nosnippet>82</a>    </span><span class="kw">pub fn </span>register(<span class="kw-2">&amp;mut </span><span class="self">self</span>, window_id: WindowId, entity: WeakEntity&lt;Fulgur&gt;) {
-<a href=#83 id=83 data-nosnippet>83</a>        <span class="macro">log::debug!</span>(<span class="string">"Registering window {:?}"</span>, window_id);
+<a href=#83 id=83 data-nosnippet>83</a>        <span class="macro">log::debug!</span>(<span class="string">"Registering window {window_id:?}"</span>);
 <a href=#84 id=84 data-nosnippet>84</a>        <span class="self">self</span>.windows.insert(window_id, entity);
 <a href=#85 id=85 data-nosnippet>85</a>        <span class="self">self</span>.last_focused = <span class="prelude-val">Some</span>(window_id);
 <a href=#86 id=86 data-nosnippet>86</a>        <span class="kw">let </span>name = index_to_name(<span class="self">self</span>.next_name_index);
@@ -94,7 +94,7 @@
 <a href=#94 id=94 data-nosnippet>94</a>    /// ### Arguments
 <a href=#95 id=95 data-nosnippet>95</a>    /// - `window_id`: The ID of the window to unregister
 <a href=#96 id=96 data-nosnippet>96</a>    </span><span class="kw">pub fn </span>unregister(<span class="kw-2">&amp;mut </span><span class="self">self</span>, window_id: WindowId) {
-<a href=#97 id=97 data-nosnippet>97</a>        <span class="macro">log::debug!</span>(<span class="string">"Unregistering window {:?}"</span>, window_id);
+<a href=#97 id=97 data-nosnippet>97</a>        <span class="macro">log::debug!</span>(<span class="string">"Unregistering window {window_id:?}"</span>);
 <a href=#98 id=98 data-nosnippet>98</a>        <span class="self">self</span>.windows.remove(<span class="kw-2">&amp;</span>window_id);
 <a href=#99 id=99 data-nosnippet>99</a>        <span class="self">self</span>.window_names.remove(<span class="kw-2">&amp;</span>window_id);
 <a href=#100 id=100 data-nosnippet>100</a>        <span class="self">self</span>.window_menu_fingerprints.remove(<span class="kw-2">&amp;</span>window_id);

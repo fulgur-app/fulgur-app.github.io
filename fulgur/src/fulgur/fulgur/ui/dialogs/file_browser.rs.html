@@ -78,7 +78,7 @@
 <a href=#78 id=78 data-nosnippet>78</a>/// - `None`: When the iterator is empty, so callers can skip appending.
 <a href=#79 id=79 data-nosnippet>79</a></span><span class="kw">pub fn </span>render_browser_list(
 <a href=#80 id=80 data-nosnippet>80</a>    entries: <span class="kw">impl </span>IntoIterator&lt;Item = BrowserEntry&gt;,
-<a href=#81 id=81 data-nosnippet>81</a>    input_entity: Entity&lt;InputState&gt;,
+<a href=#81 id=81 data-nosnippet>81</a>    input_entity: <span class="kw-2">&amp;</span>Entity&lt;InputState&gt;,
 <a href=#82 id=82 data-nosnippet>82</a>    hover_bg: Hsla,
 <a href=#83 id=83 data-nosnippet>83</a>    icon_color: Hsla,
 <a href=#84 id=84 data-nosnippet>84</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>IntoElement&gt; {

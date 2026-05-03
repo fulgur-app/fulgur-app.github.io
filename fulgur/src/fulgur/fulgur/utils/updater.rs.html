@@ -88,7 +88,7 @@
 <a href=#88 id=88 data-nosnippet>88</a>/// - `Ok(Some(UpdateInfo))`: The update information if an update is available
 <a href=#89 id=89 data-nosnippet>89</a>/// - `Ok(None)`: If no update is available
 <a href=#90 id=90 data-nosnippet>90</a>/// - `Err(anyhow::Error)`: If the update check could not be performed
-<a href=#91 id=91 data-nosnippet>91</a></span><span class="kw">pub fn </span>check_for_updates(current_version: String) -&gt; anyhow::Result&lt;<span class="prelude-ty">Option</span>&lt;UpdateInfo&gt;&gt; {
+<a href=#91 id=91 data-nosnippet>91</a></span><span class="kw">pub fn </span>check_for_updates(current_version: <span class="kw-2">&amp;</span>str) -&gt; anyhow::Result&lt;<span class="prelude-ty">Option</span>&lt;UpdateInfo&gt;&gt; {
 <a href=#92 id=92 data-nosnippet>92</a>    <span class="kw">let </span>agent = ureq::Agent::new_with_config(
 <a href=#93 id=93 data-nosnippet>93</a>        ureq::config::Config::builder()
 <a href=#94 id=94 data-nosnippet>94</a>            .timeout_connect(<span class="prelude-val">Some</span>(std::time::Duration::from_secs(<span class="number">5</span>)))
@@ -103,10 +103,10 @@
 <a href=#103 id=103 data-nosnippet>103</a>        <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">anyhow::anyhow!</span>(<span class="string">"GitHub API error: {}"</span>, response.status()));
 <a href=#104 id=104 data-nosnippet>104</a>    }
 <a href=#105 id=105 data-nosnippet>105</a>    <span class="kw">let </span>release: GitHubRelease = response.body_mut().read_json()<span class="question-mark">?</span>;
-<a href=#106 id=106 data-nosnippet>106</a>    <span class="kw">let </span>current = parse_version(current_version.as_str())<span class="question-mark">?</span>;
+<a href=#106 id=106 data-nosnippet>106</a>    <span class="kw">let </span>current = parse_version(current_version)<span class="question-mark">?</span>;
 <a href=#107 id=107 data-nosnippet>107</a>    <span class="kw">let </span>latest = parse_version(<span class="kw-2">&amp;</span>release.tag_name)<span class="question-mark">?</span>;
 <a href=#108 id=108 data-nosnippet>108</a>    <span class="kw">if </span>latest &gt; current {
-<a href=#109 id=109 data-nosnippet>109</a>        <span class="macro">log::info!</span>(<span class="string">"New version available: {} -&gt; {}"</span>, current, latest);
+<a href=#109 id=109 data-nosnippet>109</a>        <span class="macro">log::info!</span>(<span class="string">"New version available: {current} -&gt; {latest}"</span>);
 <a href=#110 id=110 data-nosnippet>110</a>        <span class="kw">let </span>download_url = release_page_url(<span class="kw-2">&amp;</span>release)<span class="question-mark">?</span>;
 <a href=#111 id=111 data-nosnippet>111</a>        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(UpdateInfo {
 <a href=#112 id=112 data-nosnippet>112</a>            current_version: current.to_string(),
@@ -116,7 +116,7 @@
 <a href=#116 id=116 data-nosnippet>116</a>            release_notes: release.body.unwrap_or_default(),
 <a href=#117 id=117 data-nosnippet>117</a>        }))
 <a href=#118 id=118 data-nosnippet>118</a>    } <span class="kw">else </span>{
-<a href=#119 id=119 data-nosnippet>119</a>        <span class="macro">log::info!</span>(<span class="string">"Already on latest version: {}"</span>, current);
+<a href=#119 id=119 data-nosnippet>119</a>        <span class="macro">log::info!</span>(<span class="string">"Already on latest version: {current}"</span>);
 <a href=#120 id=120 data-nosnippet>120</a>        <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
 <a href=#121 id=121 data-nosnippet>121</a>    }
 <a href=#122 id=122 data-nosnippet>122</a>}

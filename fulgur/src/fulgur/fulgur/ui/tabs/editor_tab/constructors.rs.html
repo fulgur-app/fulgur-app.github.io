@@ -71,20 +71,20 @@
 <a href=#71 id=71 data-nosnippet>71</a>    /// - `EditorTab`: The new tab
 <a href=#72 id=72 data-nosnippet>72</a>    </span><span class="kw">pub fn </span>from_content(
 <a href=#73 id=73 data-nosnippet>73</a>        id: usize,
-<a href=#74 id=74 data-nosnippet>74</a>        contents: String,
+<a href=#74 id=74 data-nosnippet>74</a>        contents: <span class="kw-2">&amp;</span>str,
 <a href=#75 id=75 data-nosnippet>75</a>        file_name: String,
 <a href=#76 id=76 data-nosnippet>76</a>        window: <span class="kw-2">&amp;mut </span>Window,
 <a href=#77 id=77 data-nosnippet>77</a>        cx: <span class="kw-2">&amp;mut </span>App,
 <a href=#78 id=78 data-nosnippet>78</a>        settings: <span class="kw-2">&amp;</span>EditorSettings,
 <a href=#79 id=79 data-nosnippet>79</a>    ) -&gt; <span class="self">Self </span>{
-<a href=#80 id=80 data-nosnippet>80</a>        <span class="kw">let </span>language = language_from_content(<span class="kw-2">&amp;</span>file_name, <span class="kw-2">&amp;</span>contents);
+<a href=#80 id=80 data-nosnippet>80</a>        <span class="kw">let </span>language = language_from_content(<span class="kw-2">&amp;</span>file_name, contents);
 <a href=#81 id=81 data-nosnippet>81</a>        <span class="kw">let </span>(original_content_hash, original_content_len) = <span class="kw">super</span>::content_fingerprint_from_str(<span class="string">""</span>);
 <a href=#82 id=82 data-nosnippet>82</a>        <span class="kw">let </span>content = cx.new(|cx| {
 <a href=#83 id=83 data-nosnippet>83</a>            <span class="kw">super</span>::make_input_state(
 <a href=#84 id=84 data-nosnippet>84</a>                window,
 <a href=#85 id=85 data-nosnippet>85</a>                cx,
 <a href=#86 id=86 data-nosnippet>86</a>                language_registry_name(<span class="kw-2">&amp;</span>language),
-<a href=#87 id=87 data-nosnippet>87</a>                <span class="prelude-val">Some</span>(contents.clone()),
+<a href=#87 id=87 data-nosnippet>87</a>                <span class="prelude-val">Some</span>(contents.to_string()),
 <a href=#88 id=88 data-nosnippet>88</a>                settings,
 <a href=#89 id=89 data-nosnippet>89</a>            )
 <a href=#90 id=90 data-nosnippet>90</a>        });

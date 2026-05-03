@@ -152,7 +152,7 @@
 <a href=#152 id=152 data-nosnippet>152</a>                    .and_then(|p| p.file_name())
 <a href=#153 id=153 data-nosnippet>153</a>                    .and_then(|n| n.to_str())
 <a href=#154 id=154 data-nosnippet>154</a>            {
-<a href=#155 id=155 data-nosnippet>155</a>                <span class="kw">return </span>SharedString::from(<span class="macro">format!</span>(<span class="string">"{} (../{})"</span>, filename, parent_name));
+<a href=#155 id=155 data-nosnippet>155</a>                <span class="kw">return </span>SharedString::from(<span class="macro">format!</span>(<span class="string">"{filename} (../{parent_name})"</span>));
 <a href=#156 id=156 data-nosnippet>156</a>            }
 <a href=#157 id=157 data-nosnippet>157</a>            SharedString::from(filename.to_string())
 <a href=#158 id=158 data-nosnippet>158</a>        };
@@ -276,7 +276,7 @@
 <a href=#276 id=276 data-nosnippet>276</a>                    .and_then(|p| p.file_name())
 <a href=#277 id=277 data-nosnippet>277</a>                    .and_then(|n| n.to_str())
 <a href=#278 id=278 data-nosnippet>278</a>            {
-<a href=#279 id=279 data-nosnippet>279</a>                <span class="kw">return </span>SharedString::from(<span class="macro">format!</span>(<span class="string">"{} (../{})"</span>, filename, parent_name));
+<a href=#279 id=279 data-nosnippet>279</a>                <span class="kw">return </span>SharedString::from(<span class="macro">format!</span>(<span class="string">"{filename} (../{parent_name})"</span>));
 <a href=#280 id=280 data-nosnippet>280</a>            }
 <a href=#281 id=281 data-nosnippet>281</a>            SharedString::from(filename.to_string())
 <a href=#282 id=282 data-nosnippet>282</a>        };
@@ -301,11 +301,11 @@
 <a href=#301 id=301 data-nosnippet>301</a>        update_windows_jump_list(<span class="kw-2">&amp;</span>windows_data, <span class="kw-2">&amp;</span>recent_files);
 <a href=#302 id=302 data-nosnippet>302</a>    }
 <a href=#303 id=303 data-nosnippet>303</a>
-<a href=#304 id=304 data-nosnippet>304</a>    <span class="doccomment">/// Handle the DockActivateTab action: focus the tab with the given file path,
+<a href=#304 id=304 data-nosnippet>304</a>    <span class="doccomment">/// Handle the `DockActivateTab` action: focus the tab with the given file path,
 <a href=#305 id=305 data-nosnippet>305</a>    /// switching to the correct window if necessary.
 <a href=#306 id=306 data-nosnippet>306</a>    ///
 <a href=#307 id=307 data-nosnippet>307</a>    /// ### Arguments
-<a href=#308 id=308 data-nosnippet>308</a>    /// - `action`: The DockActivateTab action containing the file path
+<a href=#308 id=308 data-nosnippet>308</a>    /// - `action`: The `DockActivateTab` action containing the file path
 <a href=#309 id=309 data-nosnippet>309</a>    /// - `window`: The current window
 <a href=#310 id=310 data-nosnippet>310</a>    /// - `cx`: The application context
 <a href=#311 id=311 data-nosnippet>311</a>    </span><span class="kw">pub fn </span>handle_dock_activate_tab(
@@ -369,11 +369,11 @@
 <a href=#369 id=369 data-nosnippet>369</a>        }
 <a href=#370 id=370 data-nosnippet>370</a>    }
 <a href=#371 id=371 data-nosnippet>371</a>
-<a href=#372 id=372 data-nosnippet>372</a>    <span class="doccomment">/// Handle the DockActivateTabByTitle action: focus the tab with the given title,
+<a href=#372 id=372 data-nosnippet>372</a>    <span class="doccomment">/// Handle the `DockActivateTabByTitle` action: focus the tab with the given title,
 <a href=#373 id=373 data-nosnippet>373</a>    /// switching to the correct window if necessary.
 <a href=#374 id=374 data-nosnippet>374</a>    ///
 <a href=#375 id=375 data-nosnippet>375</a>    /// ### Arguments
-<a href=#376 id=376 data-nosnippet>376</a>    /// - `action`: The DockActivateTabByTitle action containing the tab title
+<a href=#376 id=376 data-nosnippet>376</a>    /// - `action`: The `DockActivateTabByTitle` action containing the tab title
 <a href=#377 id=377 data-nosnippet>377</a>    /// - `window`: The current window
 <a href=#378 id=378 data-nosnippet>378</a>    /// - `cx`: The application context
 <a href=#379 id=379 data-nosnippet>379</a>    </span><span class="kw">pub fn </span>handle_dock_activate_tab_by_title(

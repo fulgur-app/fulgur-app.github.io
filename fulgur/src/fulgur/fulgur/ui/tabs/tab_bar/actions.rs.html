@@ -113,7 +113,7 @@
 <a href=#113 id=113 data-nosnippet>113</a>
 <a href=#114 id=114 data-nosnippet>114</a>        <span class="kw">let </span>result = reveal_file_in_file_manager(file_path);
 <a href=#115 id=115 data-nosnippet>115</a>        <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = result {
-<a href=#116 id=116 data-nosnippet>116</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to open file manager: {}"</span>, e);
+<a href=#116 id=116 data-nosnippet>116</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to open file manager: {e}"</span>);
 <a href=#117 id=117 data-nosnippet>117</a>        }
 <a href=#118 id=118 data-nosnippet>118</a>    }
 <a href=#119 id=119 data-nosnippet>119</a>
@@ -161,7 +161,7 @@
 <a href=#161 id=161 data-nosnippet>161</a>    /// Applies the selected theme, updates settings, refreshes windows, and rebuilds menus.
 <a href=#162 id=162 data-nosnippet>162</a>    ///
 <a href=#163 id=163 data-nosnippet>163</a>    /// ### Arguments
-<a href=#164 id=164 data-nosnippet>164</a>    /// - `theme_name`: The name of the theme to switch to (as SharedString from action)
+<a href=#164 id=164 data-nosnippet>164</a>    /// - `theme_name`: The name of the theme to switch to (as `SharedString` from action)
 <a href=#165 id=165 data-nosnippet>165</a>    /// - `cx`: The application context
 <a href=#166 id=166 data-nosnippet>166</a>    </span><span class="kw">pub fn </span>switch_to_theme(<span class="kw-2">&amp;mut </span><span class="self">self</span>, theme_name: gpui::SharedString, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
 <a href=#167 id=167 data-nosnippet>167</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(theme_config) = ThemeRegistry::global(cx)
@@ -183,8 +183,8 @@
 <a href=#183 id=183 data-nosnippet>183</a>
 <a href=#184 id=184 data-nosnippet>184</a><span class="doccomment">/// Reveals a file in the platform's native file manager with the file selected.
 <a href=#185 id=185 data-nosnippet>185</a>///
-<a href=#186 id=186 data-nosnippet>186</a>/// - **macOS**: `open -R &lt;path&gt;` — reveals and selects the file in Finder
-<a href=#187 id=187 data-nosnippet>187</a>/// - **Windows**: `explorer /select,&lt;path&gt;` — selects the file in Explorer
+<a href=#186 id=186 data-nosnippet>186</a>/// - **macOS**: `open -R &lt;path&gt;`: reveals and selects the file in Finder
+<a href=#187 id=187 data-nosnippet>187</a>/// - **Windows**: `explorer /select,&lt;path&gt;`: selects the file in Explorer
 <a href=#188 id=188 data-nosnippet>188</a>/// - **Linux**: falls back to opening the parent directory via the `open` crate,
 <a href=#189 id=189 data-nosnippet>189</a>///   as there is no universal "reveal" command across desktop environments
 <a href=#190 id=190 data-nosnippet>190</a>///

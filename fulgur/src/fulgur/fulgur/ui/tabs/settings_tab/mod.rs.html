@@ -103,12 +103,12 @@
 <a href=#103 id=103 data-nosnippet>103</a>            })
 <a href=#104 id=104 data-nosnippet>104</a>            .expect(<span class="string">"create_settings_pages called without a settings tab in self.tabs"</span>);
 <a href=#105 id=105 data-nosnippet>105</a>        <span class="kw">let </span><span class="kw-2">mut </span>pages = <span class="macro">vec!</span>[
-<a href=#106 id=106 data-nosnippet>106</a>            editor_page::create_editor_page(entity.clone(), font_family_select),
-<a href=#107 id=107 data-nosnippet>107</a>            application_page::create_application_page(entity.clone()),
+<a href=#106 id=106 data-nosnippet>106</a>            editor_page::create_editor_page(<span class="kw-2">&amp;</span>entity, font_family_select),
+<a href=#107 id=107 data-nosnippet>107</a>            application_page::create_application_page(<span class="kw-2">&amp;</span>entity),
 <a href=#108 id=108 data-nosnippet>108</a>        ];
 <a href=#109 id=109 data-nosnippet>109</a>        <span class="kw">let </span>themes = <span class="self">self</span>.shared_state(cx).themes.lock().clone();
 <a href=#110 id=110 data-nosnippet>110</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>themes) = themes {
-<a href=#111 id=111 data-nosnippet>111</a>            pages.push(<span class="self">Self</span>::create_themes_page(entity, themes));
+<a href=#111 id=111 data-nosnippet>111</a>            pages.push(<span class="self">Self</span>::create_themes_page(<span class="kw-2">&amp;</span>entity, themes));
 <a href=#112 id=112 data-nosnippet>112</a>        }
 <a href=#113 id=113 data-nosnippet>113</a>        pages
 <a href=#114 id=114 data-nosnippet>114</a>    }
@@ -156,15 +156,15 @@
 <a href=#156 id=156 data-nosnippet>156</a>    </span><span class="kw">pub fn </span>clear_recent_files(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
 <a href=#157 id=157 data-nosnippet>157</a>        <span class="self">self</span>.settings.recent_files.clear();
 <a href=#158 id=158 data-nosnippet>158</a>        <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = <span class="self">self</span>.update_and_propagate_settings(cx) {
-<a href=#159 id=159 data-nosnippet>159</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to save settings: {}"</span>, e);
+<a href=#159 id=159 data-nosnippet>159</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to save settings: {e}"</span>);
 <a href=#160 id=160 data-nosnippet>160</a>        }
 <a href=#161 id=161 data-nosnippet>161</a>        <span class="kw">let </span>menus = <span class="kw">crate</span>::fulgur::ui::menus::build_menus(
 <a href=#162 id=162 data-nosnippet>162</a>            <span class="self">self</span>.settings.recent_files.get_files(),
-<a href=#163 id=163 data-nosnippet>163</a>            <span class="kw">if let </span><span class="prelude-val">Some</span>(info) = <span class="self">self</span>.shared_state(cx).update_info.lock().clone() {
-<a href=#164 id=164 data-nosnippet>164</a>                <span class="prelude-val">Some</span>(info.download_url)
-<a href=#165 id=165 data-nosnippet>165</a>            } <span class="kw">else </span>{
-<a href=#166 id=166 data-nosnippet>166</a>                <span class="prelude-val">None
-<a href=#167 id=167 data-nosnippet>167</a>            </span>},
+<a href=#163 id=163 data-nosnippet>163</a>            <span class="self">self</span>.shared_state(cx)
+<a href=#164 id=164 data-nosnippet>164</a>                .update_info
+<a href=#165 id=165 data-nosnippet>165</a>                .lock()
+<a href=#166 id=166 data-nosnippet>166</a>                .as_ref()
+<a href=#167 id=167 data-nosnippet>167</a>                .map(|info| info.download_url.as_str()),
 <a href=#168 id=168 data-nosnippet>168</a>        );
 <a href=#169 id=169 data-nosnippet>169</a>        <span class="self">self</span>.update_menus(menus, cx);
 <a href=#170 id=170 data-nosnippet>170</a>    }

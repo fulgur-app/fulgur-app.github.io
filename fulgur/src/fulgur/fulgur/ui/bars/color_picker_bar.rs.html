@@ -20,7 +20,7 @@
 <a href=#20 id=20 data-nosnippet>20</a>
 <a href=#21 id=21 data-nosnippet>21</a><span class="kw">use </span><span class="kw">super</span>::search_bar::{search_bar_button_factory, search_bar_toggle_button_factory};
 <a href=#22 id=22 data-nosnippet>22</a>
-<a href=#23 id=23 data-nosnippet>23</a><span class="doccomment">/// Convert an HSLA color to OkLCH (Lightness, Chroma, Hue) components.
+<a href=#23 id=23 data-nosnippet>23</a><span class="doccomment">/// Convert an HSLA color to `OkLCH` (Lightness, Chroma, Hue) components.
 <a href=#24 id=24 data-nosnippet>24</a>///
 <a href=#25 id=25 data-nosnippet>25</a>/// ### Arguments
 <a href=#26 id=26 data-nosnippet>26</a>/// - `color`: The HSLA color to convert
@@ -66,7 +66,7 @@
 <a href=#66 id=66 data-nosnippet>66</a>    (ok_l, chroma, hue)
 <a href=#67 id=67 data-nosnippet>67</a>}
 <a href=#68 id=68 data-nosnippet>68</a>
-<a href=#69 id=69 data-nosnippet>69</a><span class="doccomment">/// Convert OkLCH (Lightness, Chroma, Hue) components back to an HSLA color.
+<a href=#69 id=69 data-nosnippet>69</a><span class="doccomment">/// Convert `OkLCH` (Lightness, Chroma, Hue) components back to an HSLA color.
 <a href=#70 id=70 data-nosnippet>70</a>///
 <a href=#71 id=71 data-nosnippet>71</a>/// ### Arguments
 <a href=#72 id=72 data-nosnippet>72</a>/// - `l`: Lightness in 0..1
@@ -117,16 +117,16 @@
 <a href=#117 id=117 data-nosnippet>117</a>    .into()
 <a href=#118 id=118 data-nosnippet>118</a>}
 <a href=#119 id=119 data-nosnippet>119</a>
-<a href=#120 id=120 data-nosnippet>120</a><span class="doccomment">/// Format an HSLA color as an OkLCH CSS string.
+<a href=#120 id=120 data-nosnippet>120</a><span class="doccomment">/// Format an HSLA color as an `OkLCH` CSS string.
 <a href=#121 id=121 data-nosnippet>121</a>///
 <a href=#122 id=122 data-nosnippet>122</a>/// ### Arguments
 <a href=#123 id=123 data-nosnippet>123</a>/// - `color`: The HSLA color to format
 <a href=#124 id=124 data-nosnippet>124</a>///
 <a href=#125 id=125 data-nosnippet>125</a>/// ### Returns
-<a href=#126 id=126 data-nosnippet>126</a>/// `String`: The OkLCH CSS string (e.g. "oklch(0.63 0.26 29.2)")
+<a href=#126 id=126 data-nosnippet>126</a>/// `String`: The `OkLCH` CSS string (e.g. "oklch(0.63 0.26 29.2)")
 <a href=#127 id=127 data-nosnippet>127</a></span><span class="kw">fn </span>format_oklch(color: Hsla) -&gt; String {
 <a href=#128 id=128 data-nosnippet>128</a>    <span class="kw">let </span>(l, c, h) = hsla_to_oklch(color);
-<a href=#129 id=129 data-nosnippet>129</a>    <span class="macro">format!</span>(<span class="string">"oklch({:.2} {:.4} {:.1})"</span>, l, c, h)
+<a href=#129 id=129 data-nosnippet>129</a>    <span class="macro">format!</span>(<span class="string">"oklch({l:.2} {c:.4} {h:.1})"</span>)
 <a href=#130 id=130 data-nosnippet>130</a>}
 <a href=#131 id=131 data-nosnippet>131</a>
 <a href=#132 id=132 data-nosnippet>132</a><span class="doccomment">/// Format an HSLA color as an HSLA CSS string.
@@ -158,10 +158,10 @@
 <a href=#158 id=158 data-nosnippet>158</a>    gpui_component::Colorize::parse_hex(s).ok()
 <a href=#159 id=159 data-nosnippet>159</a>}
 <a href=#160 id=160 data-nosnippet>160</a>
-<a href=#161 id=161 data-nosnippet>161</a><span class="doccomment">/// Parse an OkLCH CSS string into an HSLA color.
+<a href=#161 id=161 data-nosnippet>161</a><span class="doccomment">/// Parse an `OkLCH` CSS string into an HSLA color.
 <a href=#162 id=162 data-nosnippet>162</a>///
 <a href=#163 id=163 data-nosnippet>163</a>/// ### Arguments
-<a href=#164 id=164 data-nosnippet>164</a>/// - `s`: An OkLCH string in the form "oklch(L C H)" (e.g. "oklch(0.63 0.26 29.2)")
+<a href=#164 id=164 data-nosnippet>164</a>/// - `s`: An `OkLCH` string in the form "oklch(L C H)" (e.g. "oklch(0.63 0.26 29.2)")
 <a href=#165 id=165 data-nosnippet>165</a>///
 <a href=#166 id=166 data-nosnippet>166</a>/// ### Returns
 <a href=#167 id=167 data-nosnippet>167</a>/// - `Some&lt;Hsla&gt;`: The parsed color
@@ -198,7 +198,7 @@
 <a href=#198 id=198 data-nosnippet>198</a>
 <a href=#199 id=199 data-nosnippet>199</a><span class="doccomment">/// State for the color picker bar.
 <a href=#200 id=200 data-nosnippet>200</a>///
-<a href=#201 id=201 data-nosnippet>201</a>/// Groups the ColorPickerState entity, input states for each color format,
+<a href=#201 id=201 data-nosnippet>201</a>/// Groups the `ColorPickerState` entity, input states for each color format,
 <a href=#202 id=202 data-nosnippet>202</a>/// cached format strings (kept in sync by the color-picker subscription),
 <a href=#203 id=203 data-nosnippet>203</a>/// and the subscriptions for change events.
 <a href=#204 id=204 data-nosnippet>204</a></span><span class="kw">pub struct </span>ColorPickerBarState {
@@ -217,14 +217,14 @@
 <a href=#217 id=217 data-nosnippet>217</a>}
 <a href=#218 id=218 data-nosnippet>218</a>
 <a href=#219 id=219 data-nosnippet>219</a><span class="kw">impl </span>ColorPickerBarState {
-<a href=#220 id=220 data-nosnippet>220</a>    <span class="doccomment">/// Create a new ColorPickerBarState.
+<a href=#220 id=220 data-nosnippet>220</a>    <span class="doccomment">/// Create a new `ColorPickerBarState`.
 <a href=#221 id=221 data-nosnippet>221</a>    ///
 <a href=#222 id=222 data-nosnippet>222</a>    /// ### Arguments
 <a href=#223 id=223 data-nosnippet>223</a>    /// - `window`: The window context
 <a href=#224 id=224 data-nosnippet>224</a>    /// - `cx`: The application context
 <a href=#225 id=225 data-nosnippet>225</a>    ///
 <a href=#226 id=226 data-nosnippet>226</a>    /// ### Returns
-<a href=#227 id=227 data-nosnippet>227</a>    /// - `Self`: A new ColorPickerBarState initialized to white
+<a href=#227 id=227 data-nosnippet>227</a>    /// - `Self`: A new `ColorPickerBarState` initialized to white
 <a href=#228 id=228 data-nosnippet>228</a>    </span><span class="kw">pub fn </span>new(window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>Context&lt;Fulgur&gt;) -&gt; <span class="self">Self </span>{
 <a href=#229 id=229 data-nosnippet>229</a>        <span class="kw">let </span>color_picker_state =
 <a href=#230 id=230 data-nosnippet>230</a>            cx.new(|cx| ColorPickerState::new(window, cx).default_value(gpui::white()));
@@ -533,7 +533,7 @@
 <a href=#533 id=533 data-nosnippet>533</a>    <span class="doccomment">/// Render a color value section with an editable input and a clipboard copy button.
 <a href=#534 id=534 data-nosnippet>534</a>    ///
 <a href=#535 id=535 data-nosnippet>535</a>    /// ### Arguments
-<a href=#536 id=536 data-nosnippet>536</a>    /// - `label`: The label for the color format (e.g. "Hex", "OkLCH", "HSLA")
+<a href=#536 id=536 data-nosnippet>536</a>    /// - `label`: The label for the color format (e.g. "Hex", "`OkLCH`", "HSLA")
 <a href=#537 id=537 data-nosnippet>537</a>    /// - `value`: The current formatted color value string (used for the clipboard button)
 <a href=#538 id=538 data-nosnippet>538</a>    /// - `input_state`: The input state entity for this field
 <a href=#539 id=539 data-nosnippet>539</a>    /// - `cx`: The application context
@@ -569,7 +569,7 @@
 <a href=#569 id=569 data-nosnippet>569</a>                    .px_0(),
 <a href=#570 id=570 data-nosnippet>570</a>            )
 <a href=#571 id=571 data-nosnippet>571</a>            .child(
-<a href=#572 id=572 data-nosnippet>572</a>                InsertButton::new(SharedString::from(<span class="macro">format!</span>(<span class="string">"color-insert-{}"</span>, label))).on_click(
+<a href=#572 id=572 data-nosnippet>572</a>                InsertButton::new(SharedString::from(<span class="macro">format!</span>(<span class="string">"color-insert-{label}"</span>))).on_click(
 <a href=#573 id=573 data-nosnippet>573</a>                    cx.listener({
 <a href=#574 id=574 data-nosnippet>574</a>                        <span class="kw">let </span>value = value.to_string();
 <a href=#575 id=575 data-nosnippet>575</a>                        <span class="kw">move </span>|this, <span class="kw">_</span>, window, cx| {
@@ -579,7 +579,7 @@
 <a href=#579 id=579 data-nosnippet>579</a>                ),
 <a href=#580 id=580 data-nosnippet>580</a>            )
 <a href=#581 id=581 data-nosnippet>581</a>            .child(
-<a href=#582 id=582 data-nosnippet>582</a>                CopyButton::new(SharedString::from(<span class="macro">format!</span>(<span class="string">"color-copy-{}"</span>, label)))
+<a href=#582 id=582 data-nosnippet>582</a>                CopyButton::new(SharedString::from(<span class="macro">format!</span>(<span class="string">"color-copy-{label}"</span>)))
 <a href=#583 id=583 data-nosnippet>583</a>                    .value(SharedString::from(value.to_string())),
 <a href=#584 id=584 data-nosnippet>584</a>            )
 <a href=#585 id=585 data-nosnippet>585</a>    }
