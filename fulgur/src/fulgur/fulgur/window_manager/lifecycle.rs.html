@@ -99,7 +99,7 @@
 <a href=#99 id=99 data-nosnippet>99</a>                    titlebar: <span class="prelude-val">Some</span>(gpui_component::TitleBar::title_bar_options()),
 <a href=#100 id=100 data-nosnippet>100</a>                    <span class="attr">#[cfg(target_os = <span class="string">"linux"</span>)]
 <a href=#101 id=101 data-nosnippet>101</a>                    </span>window_decorations: <span class="prelude-val">Some</span>(gpui::WindowDecorations::Client),
-<a href=#102 id=102 data-nosnippet>102</a>                    ..Default::default()
+<a href=#102 id=102 data-nosnippet>102</a>                    ..WindowOptions::default()
 <a href=#103 id=103 data-nosnippet>103</a>                };
 <a href=#104 id=104 data-nosnippet>104</a>                <span class="kw">let </span>window = cx.open_window(window_options, |window, cx| {
 <a href=#105 id=105 data-nosnippet>105</a>                    window.set_window_title(<span class="string">"Fulgur"</span>);
@@ -148,7 +148,7 @@
 <a href=#148 id=148 data-nosnippet>148</a>                    titlebar: <span class="prelude-val">Some</span>(gpui_component::TitleBar::title_bar_options()),
 <a href=#149 id=149 data-nosnippet>149</a>                    <span class="attr">#[cfg(target_os = <span class="string">"linux"</span>)]
 <a href=#150 id=150 data-nosnippet>150</a>                    </span>window_decorations: <span class="prelude-val">Some</span>(gpui::WindowDecorations::Client),
-<a href=#151 id=151 data-nosnippet>151</a>                    ..Default::default()
+<a href=#151 id=151 data-nosnippet>151</a>                    ..WindowOptions::default()
 <a href=#152 id=152 data-nosnippet>152</a>                };
 <a href=#153 id=153 data-nosnippet>153</a>                <span class="kw">let </span>window = cx.open_window(window_options, <span class="kw">move </span>|window, cx| {
 <a href=#154 id=154 data-nosnippet>154</a>                    window.set_window_title(<span class="string">"Fulgur"</span>);

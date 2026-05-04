@@ -267,18 +267,18 @@
 <a href=#267 id=267 data-nosnippet>267</a>                }
 <a href=#268 id=268 data-nosnippet>268</a>                <span class="self">self</span>.show_unsaved_changes_dialog(window, cx, <span class="kw">move </span>|this, window, cx| {
 <a href=#269 id=269 data-nosnippet>269</a>                    this.remove_tab_by_id(tab_id, window, cx);
-<a href=#270 id=270 data-nosnippet>270</a>                    <span class="kw">if </span>!this.tabs.is_empty() {
-<a href=#271 id=271 data-nosnippet>271</a>                        this.close_all_tabs(window, cx);
-<a href=#272 id=272 data-nosnippet>272</a>                    } <span class="kw">else </span>{
-<a href=#273 id=273 data-nosnippet>273</a>                        this.active_tab_index = <span class="prelude-val">None</span>;
-<a href=#274 id=274 data-nosnippet>274</a>                        <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = this.save_state(cx, window) {
-<a href=#275 id=275 data-nosnippet>275</a>                            <span class="macro">log::error!</span>(<span class="string">"Failed to save state after closing all tabs: {e}"</span>);
-<a href=#276 id=276 data-nosnippet>276</a>                            this.pending_notification = <span class="prelude-val">Some</span>((
-<a href=#277 id=277 data-nosnippet>277</a>                                gpui_component::notification::NotificationType::Warning,
-<a href=#278 id=278 data-nosnippet>278</a>                                <span class="macro">format!</span>(<span class="string">"Tabs closed but failed to save state: {e}"</span>).into(),
-<a href=#279 id=279 data-nosnippet>279</a>                            ));
-<a href=#280 id=280 data-nosnippet>280</a>                        }
-<a href=#281 id=281 data-nosnippet>281</a>                        cx.notify();
+<a href=#270 id=270 data-nosnippet>270</a>                    <span class="kw">if </span>this.tabs.is_empty() {
+<a href=#271 id=271 data-nosnippet>271</a>                        this.active_tab_index = <span class="prelude-val">None</span>;
+<a href=#272 id=272 data-nosnippet>272</a>                        <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = this.save_state(cx, window) {
+<a href=#273 id=273 data-nosnippet>273</a>                            <span class="macro">log::error!</span>(<span class="string">"Failed to save state after closing all tabs: {e}"</span>);
+<a href=#274 id=274 data-nosnippet>274</a>                            this.pending_notification = <span class="prelude-val">Some</span>((
+<a href=#275 id=275 data-nosnippet>275</a>                                gpui_component::notification::NotificationType::Warning,
+<a href=#276 id=276 data-nosnippet>276</a>                                <span class="macro">format!</span>(<span class="string">"Tabs closed but failed to save state: {e}"</span>).into(),
+<a href=#277 id=277 data-nosnippet>277</a>                            ));
+<a href=#278 id=278 data-nosnippet>278</a>                        }
+<a href=#279 id=279 data-nosnippet>279</a>                        cx.notify();
+<a href=#280 id=280 data-nosnippet>280</a>                    } <span class="kw">else </span>{
+<a href=#281 id=281 data-nosnippet>281</a>                        this.close_all_tabs(window, cx);
 <a href=#282 id=282 data-nosnippet>282</a>                    }
 <a href=#283 id=283 data-nosnippet>283</a>                });
 <a href=#284 id=284 data-nosnippet>284</a>                <span class="kw">return</span>;
@@ -443,11 +443,11 @@
 <a href=#443 id=443 data-nosnippet>443</a>            .iter()
 <a href=#444 id=444 data-nosnippet>444</a>            .enumerate()
 <a href=#445 id=445 data-nosnippet>445</a>            .filter_map(|(idx, tab)| {
-<a href=#446 id=446 data-nosnippet>446</a>                <span class="kw">if </span>idx != active_index {
-<a href=#447 id=447 data-nosnippet>447</a>                    <span class="prelude-val">Some</span>(tab.id())
-<a href=#448 id=448 data-nosnippet>448</a>                } <span class="kw">else </span>{
-<a href=#449 id=449 data-nosnippet>449</a>                    <span class="prelude-val">None
-<a href=#450 id=450 data-nosnippet>450</a>                </span>}
+<a href=#446 id=446 data-nosnippet>446</a>                <span class="kw">if </span>idx == active_index {
+<a href=#447 id=447 data-nosnippet>447</a>                    <span class="prelude-val">None
+<a href=#448 id=448 data-nosnippet>448</a>                </span>} <span class="kw">else </span>{
+<a href=#449 id=449 data-nosnippet>449</a>                    <span class="prelude-val">Some</span>(tab.id())
+<a href=#450 id=450 data-nosnippet>450</a>                }
 <a href=#451 id=451 data-nosnippet>451</a>            })
 <a href=#452 id=452 data-nosnippet>452</a>            .collect();
 <a href=#453 id=453 data-nosnippet>453</a>        <span class="kw">for </span>tab_id <span class="kw">in </span>tab_ids {

@@ -368,7 +368,7 @@
 <a href=#368 id=368 data-nosnippet>368</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
 <a href=#369 id=369 data-nosnippet>369</a>    </span><span class="kw">use </span>core::prelude::v1::test;
 <a href=#370 id=370 data-nosnippet>370</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#371 id=371 data-nosnippet>371</a>    </span><span class="kw">use </span>gpui::{AppContext, Entity, Focusable, TestAppContext, VisualTestContext};
+<a href=#371 id=371 data-nosnippet>371</a>    </span><span class="kw">use </span>gpui::{AppContext, Entity, Focusable, TestAppContext, VisualTestContext, WindowOptions};
 <a href=#372 id=372 data-nosnippet>372</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
 <a href=#373 id=373 data-nosnippet>373</a>    </span><span class="kw">use </span>gpui_component::{Root, input::Position, input::SelectAll};
 <a href=#374 id=374 data-nosnippet>374</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
@@ -390,7 +390,7 @@
 <a href=#390 id=390 data-nosnippet>390</a>        <span class="kw">let </span>fulgur_slot: RefCell&lt;<span class="prelude-ty">Option</span>&lt;Entity&lt;Fulgur&gt;&gt;&gt; = RefCell::new(<span class="prelude-val">None</span>);
 <a href=#391 id=391 data-nosnippet>391</a>        <span class="kw">let </span>window = cx
 <a href=#392 id=392 data-nosnippet>392</a>            .update(|cx| {
-<a href=#393 id=393 data-nosnippet>393</a>                cx.open_window(Default::default(), |window, cx| {
+<a href=#393 id=393 data-nosnippet>393</a>                cx.open_window(WindowOptions::default(), |window, cx| {
 <a href=#394 id=394 data-nosnippet>394</a>                    <span class="kw">let </span>window_id = window.window_handle().window_id();
 <a href=#395 id=395 data-nosnippet>395</a>                    <span class="kw">let </span>fulgur = Fulgur::new(window, cx, window_id, usize::MAX);
 <a href=#396 id=396 data-nosnippet>396</a>                    <span class="kw-2">*</span>fulgur_slot.borrow_mut() = <span class="prelude-val">Some</span>(fulgur.clone());

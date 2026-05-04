@@ -309,7 +309,7 @@
 <a href=#309 id=309 data-nosnippet>309</a>        <span class="macro">assert_eq!</span>(config.max_attempts, <span class="number">3</span>);
 <a href=#310 id=310 data-nosnippet>310</a>        <span class="macro">assert_eq!</span>(config.initial_delay, Duration::from_secs(<span class="number">1</span>));
 <a href=#311 id=311 data-nosnippet>311</a>        <span class="macro">assert_eq!</span>(config.max_delay, Duration::from_secs(<span class="number">30</span>));
-<a href=#312 id=312 data-nosnippet>312</a>        <span class="macro">assert_eq!</span>(config.backoff_multiplier, <span class="number">2.0</span>);
+<a href=#312 id=312 data-nosnippet>312</a>        <span class="macro">assert!</span>((config.backoff_multiplier - <span class="number">2.0_f64</span>).abs() &lt; f64::EPSILON);
 <a href=#313 id=313 data-nosnippet>313</a>    }
 <a href=#314 id=314 data-nosnippet>314</a>
 <a href=#315 id=315 data-nosnippet>315</a>    <span class="attr">#[test]

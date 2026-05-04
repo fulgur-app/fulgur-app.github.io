@@ -90,7 +90,7 @@
 <a href=#90 id=90 data-nosnippet>90</a>        .map_err(|<span class="kw">_</span>| <span class="macro">anyhow!</span>(<span class="string">"logger already initialized"</span>))<span class="question-mark">?</span>;
 <a href=#91 id=91 data-nosnippet>91</a>    <span class="attr">#[cfg(not(debug_assertions))]
 <a href=#92 id=92 data-nosnippet>92</a>    </span>log::set_max_level(LevelFilter::Info);
-<a href=#93 id=93 data-nosnippet>93</a>    <span class="macro">log::info!</span>(<span class="string">"Logger initialized in: {log_dir:?}"</span>);
+<a href=#93 id=93 data-nosnippet>93</a>    <span class="macro">log::info!</span>(<span class="string">"Logger initialized in: {}"</span>, log_dir.display());
 <a href=#94 id=94 data-nosnippet>94</a>    <span class="prelude-val">Ok</span>(())
 <a href=#95 id=95 data-nosnippet>95</a>}
 <a href=#96 id=96 data-nosnippet>96</a>

@@ -308,11 +308,11 @@
 <a href=#308 id=308 data-nosnippet>308</a>            .filter_map(|entry| {
 <a href=#309 id=309 data-nosnippet>309</a>                entry.ok().and_then(|entry| {
 <a href=#310 id=310 data-nosnippet>310</a>                    <span class="kw">let </span>filename = entry.file_name().to_string_lossy().to_string();
-<a href=#311 id=311 data-nosnippet>311</a>                    <span class="kw">if </span>!default_themes_names.contains(<span class="kw-2">&amp;</span>filename) {
-<a href=#312 id=312 data-nosnippet>312</a>                        <span class="prelude-val">Some</span>(entry)
-<a href=#313 id=313 data-nosnippet>313</a>                    } <span class="kw">else </span>{
-<a href=#314 id=314 data-nosnippet>314</a>                        <span class="prelude-val">None
-<a href=#315 id=315 data-nosnippet>315</a>                    </span>}
+<a href=#311 id=311 data-nosnippet>311</a>                    <span class="kw">if </span>default_themes_names.contains(<span class="kw-2">&amp;</span>filename) {
+<a href=#312 id=312 data-nosnippet>312</a>                        <span class="prelude-val">None
+<a href=#313 id=313 data-nosnippet>313</a>                    </span>} <span class="kw">else </span>{
+<a href=#314 id=314 data-nosnippet>314</a>                        <span class="prelude-val">Some</span>(entry)
+<a href=#315 id=315 data-nosnippet>315</a>                    }
 <a href=#316 id=316 data-nosnippet>316</a>                })
 <a href=#317 id=317 data-nosnippet>317</a>            })
 <a href=#318 id=318 data-nosnippet>318</a>            .filter_map(|entry| ThemeFile::load(entry.path()).ok())

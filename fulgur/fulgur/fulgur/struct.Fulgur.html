@@ -9,7 +9,7 @@
     pub pending_notification: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;(NotificationType, SharedString)&gt;,
     pub pending_tab_transfer: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;TabTransferData&gt;,
     <span class="comment">/* private fields */</span>
-}</code></pre><h2 id="fields" class="fields section-header">Fields<a href="#fields" class="anchor">§</a></h2><span id="structfield.window_id" class="structfield section-header"><a href="#structfield.window_id" class="anchor field">§</a><code>window_id: WindowId</code></span><span id="structfield.search_state" class="structfield section-header"><a href="#structfield.search_state" class="anchor field">§</a><code>search_state: <a class="struct" href="struct.SearchState.html" title="struct fulgur::fulgur::SearchState">SearchState</a></code></span><span id="structfield.color_picker_bar_state" class="structfield section-header"><a href="#structfield.color_picker_bar_state" class="anchor field">§</a><code>color_picker_bar_state: ColorPickerBarState</code></span><span id="structfield.jump_to_line_input" class="structfield section-header"><a href="#structfield.jump_to_line_input" class="anchor field">§</a><code>jump_to_line_input: Entity&lt;InputState&gt;</code></span><span id="structfield.settings" class="structfield section-header"><a href="#structfield.settings" class="anchor field">§</a><code>settings: <a class="struct" href="settings/struct.Settings.html" title="struct fulgur::fulgur::settings::Settings">Settings</a></code></span><span id="structfield.file_watch_state" class="structfield section-header"><a href="#structfield.file_watch_state" class="anchor field">§</a><code>file_watch_state: <a class="struct" href="files/file_watcher/struct.FileWatchState.html" title="struct fulgur::fulgur::files::file_watcher::FileWatchState">FileWatchState</a></code></span><span id="structfield.sse_state" class="structfield section-header"><a href="#structfield.sse_state" class="anchor field">§</a><code>sse_state: <a class="struct" href="sync/sse/struct.SseState.html" title="struct fulgur::fulgur::sync::sse::SseState">SseState</a></code></span><span id="structfield.pending_notification" class="structfield section-header"><a href="#structfield.pending_notification" class="anchor field">§</a><code>pending_notification: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;(NotificationType, SharedString)&gt;</code></span><span id="structfield.pending_tab_transfer" class="structfield section-header"><a href="#structfield.pending_tab_transfer" class="anchor field">§</a><code>pending_tab_transfer: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;TabTransferData&gt;</code></span><h2 id="implementations" class="section-header">Implementations<a href="#implementations" class="anchor">§</a></h2><div id="implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/open_ops.rs.html#16-432">Source</a><a href="#impl-Fulgur" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.find_tab_by_path" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/open_ops.rs.html#25-33">Source</a><h4 class="code-header">pub fn <a href="#method.find_tab_by_path" class="fn">find_tab_by_path</a>(&amp;self, path: &amp;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>&gt;</h4></section></summary><div class="docblock"><p>Find the index of a tab with the given file path</p>
+}</code></pre><h2 id="fields" class="fields section-header">Fields<a href="#fields" class="anchor">§</a></h2><span id="structfield.window_id" class="structfield section-header"><a href="#structfield.window_id" class="anchor field">§</a><code>window_id: WindowId</code></span><span id="structfield.search_state" class="structfield section-header"><a href="#structfield.search_state" class="anchor field">§</a><code>search_state: <a class="struct" href="struct.SearchState.html" title="struct fulgur::fulgur::SearchState">SearchState</a></code></span><span id="structfield.color_picker_bar_state" class="structfield section-header"><a href="#structfield.color_picker_bar_state" class="anchor field">§</a><code>color_picker_bar_state: ColorPickerBarState</code></span><span id="structfield.jump_to_line_input" class="structfield section-header"><a href="#structfield.jump_to_line_input" class="anchor field">§</a><code>jump_to_line_input: Entity&lt;InputState&gt;</code></span><span id="structfield.settings" class="structfield section-header"><a href="#structfield.settings" class="anchor field">§</a><code>settings: <a class="struct" href="settings/struct.Settings.html" title="struct fulgur::fulgur::settings::Settings">Settings</a></code></span><span id="structfield.file_watch_state" class="structfield section-header"><a href="#structfield.file_watch_state" class="anchor field">§</a><code>file_watch_state: <a class="struct" href="files/file_watcher/struct.FileWatchState.html" title="struct fulgur::fulgur::files::file_watcher::FileWatchState">FileWatchState</a></code></span><span id="structfield.sse_state" class="structfield section-header"><a href="#structfield.sse_state" class="anchor field">§</a><code>sse_state: <a class="struct" href="sync/sse/struct.SseState.html" title="struct fulgur::fulgur::sync::sse::SseState">SseState</a></code></span><span id="structfield.pending_notification" class="structfield section-header"><a href="#structfield.pending_notification" class="anchor field">§</a><code>pending_notification: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;(NotificationType, SharedString)&gt;</code></span><span id="structfield.pending_tab_transfer" class="structfield section-header"><a href="#structfield.pending_tab_transfer" class="anchor field">§</a><code>pending_tab_transfer: <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;TabTransferData&gt;</code></span><h2 id="implementations" class="section-header">Implementations<a href="#implementations" class="anchor">§</a></h2><div id="implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/open_ops.rs.html#16-440">Source</a><a href="#impl-Fulgur" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.find_tab_by_path" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/open_ops.rs.html#25-33">Source</a><h4 class="code-header">pub fn <a href="#method.find_tab_by_path" class="fn">find_tab_by_path</a>(&amp;self, path: &amp;<a class="struct" href="https://doc.rust-lang.org/1.95.0/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>&gt;</h4></section></summary><div class="docblock"><p>Find the index of a tab with the given file path</p>
 <h6 id="arguments"><a class="doc-anchor" href="#arguments">§</a>Arguments</h6>
 <ul>
 <li><code>path</code>: The path to search for</li>
@@ -41,13 +41,13 @@
 <li><code>window</code>: The window context</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.open_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/open_ops.rs.html#184-230">Source</a><h4 class="code-header">pub fn <a href="#method.open_file" class="fn">open_file</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Open a file</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.open_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/open_ops.rs.html#188-234">Source</a><h4 class="code-header">pub fn <a href="#method.open_file" class="fn">open_file</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Open a file</p>
 <h6 id="arguments-3"><a class="doc-anchor" href="#arguments-3">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window to open the file in</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.do_open_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/open_ops.rs.html#241-276">Source</a><h4 class="code-header">pub fn <a href="#method.do_open_file" class="fn">do_open_file</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.do_open_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/open_ops.rs.html#245-284">Source</a><h4 class="code-header">pub fn <a href="#method.do_open_file" class="fn">do_open_file</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
@@ -61,7 +61,7 @@
 <li><code>cx</code>: The application context</li>
 <li><code>path</code>: The path to the file to open</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.do_open_recent_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/open_ops.rs.html#284-309">Source</a><h4 class="code-header">pub fn <a href="#method.do_open_recent_file" class="fn">do_open_recent_file</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.do_open_recent_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/open_ops.rs.html#292-317">Source</a><h4 class="code-header">pub fn <a href="#method.do_open_recent_file" class="fn">do_open_recent_file</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
@@ -73,7 +73,7 @@
 <li><code>cx</code>: The application context</li>
 <li><code>path</code>: The recent entry payload</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_open_file_from_cli" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/open_ops.rs.html#322-330">Source</a><h4 class="code-header">pub fn <a href="#method.handle_open_file_from_cli" class="fn">handle_open_file_from_cli</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_open_file_from_cli" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/open_ops.rs.html#330-338">Source</a><h4 class="code-header">pub fn <a href="#method.handle_open_file_from_cli" class="fn">handle_open_file_from_cli</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
@@ -91,7 +91,7 @@
 <li><code>cx</code>: The application context</li>
 <li><code>path</code>: The path to the file to open</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_external_paths_drop" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/open_ops.rs.html#343-392">Source</a><h4 class="code-header">pub fn <a href="#method.handle_external_paths_drop" class="fn">handle_external_paths_drop</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_external_paths_drop" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/open_ops.rs.html#351-400">Source</a><h4 class="code-header">pub fn <a href="#method.handle_external_paths_drop" class="fn">handle_external_paths_drop</a>(
     &amp;mut self,
     paths: &amp;ExternalPaths,
     window: &amp;mut Window,
@@ -109,7 +109,7 @@
 <li><code>window</code>: The target window</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.process_pending_files_from_macos" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/open_ops.rs.html#399-431">Source</a><h4 class="code-header">pub fn <a href="#method.process_pending_files_from_macos" class="fn">process_pending_files_from_macos</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.process_pending_files_from_macos" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/open_ops.rs.html#407-439">Source</a><h4 class="code-header">pub fn <a href="#method.process_pending_files_from_macos" class="fn">process_pending_files_from_macos</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
@@ -145,19 +145,19 @@
 <li><code>tab_id</code>: Stable tab id to refresh</li>
 <li><code>spec</code>: Remote location spec for the tab</li>
 </ul>
-</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-2" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#9-307">Source</a><a href="#impl-Fulgur-2" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.save_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#15-66">Source</a><h4 class="code-header">pub fn <a href="#method.save_file" class="fn">save_file</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Save a file</p>
+</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-2" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#9-311">Source</a><a href="#impl-Fulgur-2" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.save_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#15-66">Source</a><h4 class="code-header">pub fn <a href="#method.save_file" class="fn">save_file</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Save a file</p>
 <h6 id="arguments-11"><a class="doc-anchor" href="#arguments-11">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window to save the file in</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.save_file_as" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#73-152">Source</a><h4 class="code-header">pub fn <a href="#method.save_file_as" class="fn">save_file_as</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Save a file as</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.save_file_as" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#73-156">Source</a><h4 class="code-header">pub fn <a href="#method.save_file_as" class="fn">save_file_as</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Save a file as</p>
 <h6 id="arguments-12"><a class="doc-anchor" href="#arguments-12">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window to save the file as in</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.update_search_if_needed" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#213-223">Source</a><h4 class="code-header">pub fn <a href="#method.update_search_if_needed" class="fn">update_search_if_needed</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.update_search_if_needed" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#217-227">Source</a><h4 class="code-header">pub fn <a href="#method.update_search_if_needed" class="fn">update_search_if_needed</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
@@ -167,7 +167,7 @@
 <li><code>window</code>: The window containing the search bar and editor</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.print_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#234-292">Source</a><h4 class="code-header">pub fn <a href="#method.print_file" class="fn">print_file</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Open the native OS print dialog for the current document</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.print_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#238-296">Source</a><h4 class="code-header">pub fn <a href="#method.print_file" class="fn">print_file</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Open the native OS print dialog for the current document</p>
 <p>Writes the active tab’s content to a temporary HTML file and opens it with
 the system’s default browser, which automatically triggers the native print dialog.
 This approach works cross-platform without requiring OS-specific print APIs.</p>
@@ -176,7 +176,7 @@ This approach works cross-platform without requiring OS-specific print APIs.</p>
 <li><code>window</code>: The window containing the editor</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_pending_jump_to_line" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#299-306">Source</a><h4 class="code-header">pub fn <a href="#method.handle_pending_jump_to_line" class="fn">handle_pending_jump_to_line</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_pending_jump_to_line" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#303-310">Source</a><h4 class="code-header">pub fn <a href="#method.handle_pending_jump_to_line" class="fn">handle_pending_jump_to_line</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
@@ -379,7 +379,7 @@ in a background thread to avoid blocking the UI.</p>
 <li><code>window</code>: The window to create new tabs in</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-9" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/ui/bars/color_picker_bar.rs.html#410-651">Source</a><a href="#impl-Fulgur-9" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.insert_color_value" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/bars/color_picker_bar.rs.html#418-437">Source</a><h4 class="code-header">pub fn <a href="#method.insert_color_value" class="fn">insert_color_value</a>(
+</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-9" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/ui/bars/color_picker_bar.rs.html#412-653">Source</a><a href="#impl-Fulgur-9" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.insert_color_value" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/bars/color_picker_bar.rs.html#420-439">Source</a><h4 class="code-header">pub fn <a href="#method.insert_color_value" class="fn">insert_color_value</a>(
     &amp;mut self,
     value: <a class="struct" href="https://doc.rust-lang.org/1.95.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>,
     window: &amp;mut Window,
@@ -392,7 +392,7 @@ replacing the current selection if any.</p>
 <li><code>window</code>: The window context</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.toggle_color_picker" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/bars/color_picker_bar.rs.html#444-448">Source</a><h4 class="code-header">pub fn <a href="#method.toggle_color_picker" class="fn">toggle_color_picker</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.toggle_color_picker" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/bars/color_picker_bar.rs.html#446-450">Source</a><h4 class="code-header">pub fn <a href="#method.toggle_color_picker" class="fn">toggle_color_picker</a>(
     &amp;mut self,
     _window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
@@ -402,7 +402,7 @@ replacing the current selection if any.</p>
 <li><code>_window</code>: The window context</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.render_color_picker_bar" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/bars/color_picker_bar.rs.html#458-513">Source</a><h4 class="code-header">pub fn <a href="#method.render_color_picker_bar" class="fn">render_color_picker_bar</a>(&amp;self, cx: &amp;mut Context&lt;'_, Self&gt;) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Div&gt;</h4></section></summary><div class="docblock"><p>Render the color picker bar.</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.render_color_picker_bar" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/bars/color_picker_bar.rs.html#460-515">Source</a><h4 class="code-header">pub fn <a href="#method.render_color_picker_bar" class="fn">render_color_picker_bar</a>(&amp;self, cx: &amp;mut Context&lt;'_, Self&gt;) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Div&gt;</h4></section></summary><div class="docblock"><p>Render the color picker bar.</p>
 <h6 id="arguments-34"><a class="doc-anchor" href="#arguments-34">§</a>Arguments</h6>
 <ul>
 <li><code>cx</code>: The application context</li>
@@ -435,13 +435,13 @@ replacing the current selection if any.</p>
 <ul>
 <li><code>Option&lt;Div&gt;</code>: The rendered markdown bar element</li>
 </ul>
-</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-11" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/ui/bars/search_bar/actions.rs.html#178-461">Source</a><a href="#impl-Fulgur-11" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.find_in_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/bars/search_bar/actions.rs.html#207-217">Source</a><h4 class="code-header">pub fn <a href="#method.find_in_file" class="fn">find_in_file</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Find in file</p>
+</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-11" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/ui/bars/search_bar/actions.rs.html#178-462">Source</a><a href="#impl-Fulgur-11" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.find_in_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/bars/search_bar/actions.rs.html#207-217">Source</a><h4 class="code-header">pub fn <a href="#method.find_in_file" class="fn">find_in_file</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Find in file</p>
 <h6 id="arguments-37"><a class="doc-anchor" href="#arguments-37">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window context</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.perform_search" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/bars/search_bar/actions.rs.html#224-322">Source</a><h4 class="code-header">pub fn <a href="#method.perform_search" class="fn">perform_search</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.perform_search" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/bars/search_bar/actions.rs.html#224-323">Source</a><h4 class="code-header">pub fn <a href="#method.perform_search" class="fn">perform_search</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,

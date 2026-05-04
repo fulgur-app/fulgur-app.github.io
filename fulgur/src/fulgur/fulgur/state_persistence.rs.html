@@ -351,10 +351,10 @@
 <a href=#351 id=351 data-nosnippet>351</a>            | WindowBounds::Maximized(rect)
 <a href=#352 id=352 data-nosnippet>352</a>            | WindowBounds::Fullscreen(rect) =&gt; rect,
 <a href=#353 id=353 data-nosnippet>353</a>        };
-<a href=#354 id=354 data-nosnippet>354</a>        <span class="macro">assert_eq!</span>(f32::from(rect.origin.x), expected_x);
-<a href=#355 id=355 data-nosnippet>355</a>        <span class="macro">assert_eq!</span>(f32::from(rect.origin.y), expected_y);
-<a href=#356 id=356 data-nosnippet>356</a>        <span class="macro">assert_eq!</span>(f32::from(rect.size.width), expected_width);
-<a href=#357 id=357 data-nosnippet>357</a>        <span class="macro">assert_eq!</span>(f32::from(rect.size.height), expected_height);
+<a href=#354 id=354 data-nosnippet>354</a>        <span class="macro">assert!</span>((f32::from(rect.origin.x) - expected_x).abs() &lt; f32::EPSILON);
+<a href=#355 id=355 data-nosnippet>355</a>        <span class="macro">assert!</span>((f32::from(rect.origin.y) - expected_y).abs() &lt; f32::EPSILON);
+<a href=#356 id=356 data-nosnippet>356</a>        <span class="macro">assert!</span>((f32::from(rect.size.width) - expected_width).abs() &lt; f32::EPSILON);
+<a href=#357 id=357 data-nosnippet>357</a>        <span class="macro">assert!</span>((f32::from(rect.size.height) - expected_height).abs() &lt; f32::EPSILON);
 <a href=#358 id=358 data-nosnippet>358</a>    }
 <a href=#359 id=359 data-nosnippet>359</a>
 <a href=#360 id=360 data-nosnippet>360</a>    <span class="doccomment">/// Build a simple file-backed tab state for persistence tests.
@@ -560,10 +560,10 @@
 <a href=#560 id=560 data-nosnippet>560</a>        });
 <a href=#561 id=561 data-nosnippet>561</a>        <span class="kw">let </span>serialized = SerializedWindowBounds::from_gpui_bounds(gpui_bounds, <span class="prelude-val">Some</span>(<span class="number">7</span>));
 <a href=#562 id=562 data-nosnippet>562</a>        <span class="macro">assert_eq!</span>(serialized.state, <span class="string">"Windowed"</span>);
-<a href=#563 id=563 data-nosnippet>563</a>        <span class="macro">assert_eq!</span>(serialized.x, <span class="number">120.0</span>);
-<a href=#564 id=564 data-nosnippet>564</a>        <span class="macro">assert_eq!</span>(serialized.y, <span class="number">80.0</span>);
-<a href=#565 id=565 data-nosnippet>565</a>        <span class="macro">assert_eq!</span>(serialized.width, <span class="number">1440.0</span>);
-<a href=#566 id=566 data-nosnippet>566</a>        <span class="macro">assert_eq!</span>(serialized.height, <span class="number">900.0</span>);
+<a href=#563 id=563 data-nosnippet>563</a>        <span class="macro">assert!</span>((serialized.x - <span class="number">120.0_f32</span>).abs() &lt; f32::EPSILON);
+<a href=#564 id=564 data-nosnippet>564</a>        <span class="macro">assert!</span>((serialized.y - <span class="number">80.0_f32</span>).abs() &lt; f32::EPSILON);
+<a href=#565 id=565 data-nosnippet>565</a>        <span class="macro">assert!</span>((serialized.width - <span class="number">1440.0_f32</span>).abs() &lt; f32::EPSILON);
+<a href=#566 id=566 data-nosnippet>566</a>        <span class="macro">assert!</span>((serialized.height - <span class="number">900.0_f32</span>).abs() &lt; f32::EPSILON);
 <a href=#567 id=567 data-nosnippet>567</a>        <span class="macro">assert_eq!</span>(serialized.display_id, <span class="prelude-val">Some</span>(<span class="number">7</span>));
 <a href=#568 id=568 data-nosnippet>568</a>    }
 <a href=#569 id=569 data-nosnippet>569</a>
@@ -576,10 +576,10 @@
 <a href=#576 id=576 data-nosnippet>576</a>        });
 <a href=#577 id=577 data-nosnippet>577</a>        <span class="kw">let </span>serialized = SerializedWindowBounds::from_gpui_bounds(gpui_bounds, <span class="prelude-val">Some</span>(<span class="number">2</span>));
 <a href=#578 id=578 data-nosnippet>578</a>        <span class="macro">assert_eq!</span>(serialized.state, <span class="string">"Maximized"</span>);
-<a href=#579 id=579 data-nosnippet>579</a>        <span class="macro">assert_eq!</span>(serialized.x, <span class="number">0.0</span>);
-<a href=#580 id=580 data-nosnippet>580</a>        <span class="macro">assert_eq!</span>(serialized.y, <span class="number">0.0</span>);
-<a href=#581 id=581 data-nosnippet>581</a>        <span class="macro">assert_eq!</span>(serialized.width, <span class="number">1920.0</span>);
-<a href=#582 id=582 data-nosnippet>582</a>        <span class="macro">assert_eq!</span>(serialized.height, <span class="number">1080.0</span>);
+<a href=#579 id=579 data-nosnippet>579</a>        <span class="macro">assert!</span>((serialized.x - <span class="number">0.0_f32</span>).abs() &lt; f32::EPSILON);
+<a href=#580 id=580 data-nosnippet>580</a>        <span class="macro">assert!</span>((serialized.y - <span class="number">0.0_f32</span>).abs() &lt; f32::EPSILON);
+<a href=#581 id=581 data-nosnippet>581</a>        <span class="macro">assert!</span>((serialized.width - <span class="number">1920.0_f32</span>).abs() &lt; f32::EPSILON);
+<a href=#582 id=582 data-nosnippet>582</a>        <span class="macro">assert!</span>((serialized.height - <span class="number">1080.0_f32</span>).abs() &lt; f32::EPSILON);
 <a href=#583 id=583 data-nosnippet>583</a>        <span class="macro">assert_eq!</span>(serialized.display_id, <span class="prelude-val">Some</span>(<span class="number">2</span>));
 <a href=#584 id=584 data-nosnippet>584</a>    }
 <a href=#585 id=585 data-nosnippet>585</a>
@@ -592,10 +592,10 @@
 <a href=#592 id=592 data-nosnippet>592</a>        });
 <a href=#593 id=593 data-nosnippet>593</a>        <span class="kw">let </span>serialized = SerializedWindowBounds::from_gpui_bounds(gpui_bounds, <span class="prelude-val">None</span>);
 <a href=#594 id=594 data-nosnippet>594</a>        <span class="macro">assert_eq!</span>(serialized.state, <span class="string">"Fullscreen"</span>);
-<a href=#595 id=595 data-nosnippet>595</a>        <span class="macro">assert_eq!</span>(serialized.x, <span class="number">10.0</span>);
-<a href=#596 id=596 data-nosnippet>596</a>        <span class="macro">assert_eq!</span>(serialized.y, <span class="number">20.0</span>);
-<a href=#597 id=597 data-nosnippet>597</a>        <span class="macro">assert_eq!</span>(serialized.width, <span class="number">2560.0</span>);
-<a href=#598 id=598 data-nosnippet>598</a>        <span class="macro">assert_eq!</span>(serialized.height, <span class="number">1440.0</span>);
+<a href=#595 id=595 data-nosnippet>595</a>        <span class="macro">assert!</span>((serialized.x - <span class="number">10.0_f32</span>).abs() &lt; f32::EPSILON);
+<a href=#596 id=596 data-nosnippet>596</a>        <span class="macro">assert!</span>((serialized.y - <span class="number">20.0_f32</span>).abs() &lt; f32::EPSILON);
+<a href=#597 id=597 data-nosnippet>597</a>        <span class="macro">assert!</span>((serialized.width - <span class="number">2560.0_f32</span>).abs() &lt; f32::EPSILON);
+<a href=#598 id=598 data-nosnippet>598</a>        <span class="macro">assert!</span>((serialized.height - <span class="number">1440.0_f32</span>).abs() &lt; f32::EPSILON);
 <a href=#599 id=599 data-nosnippet>599</a>        <span class="macro">assert_eq!</span>(serialized.display_id, <span class="prelude-val">None</span>);
 <a href=#600 id=600 data-nosnippet>600</a>    }
 <a href=#601 id=601 data-nosnippet>601</a>

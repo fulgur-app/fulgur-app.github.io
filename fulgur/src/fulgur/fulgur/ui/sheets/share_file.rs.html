@@ -483,7 +483,7 @@
 <a href=#483 id=483 data-nosnippet>483</a>    <span class="kw">use </span><span class="kw">crate</span>::fulgur::{
 <a href=#484 id=484 data-nosnippet>484</a>        settings::Settings, shared_state::SharedAppState, window_manager::WindowManager,
 <a href=#485 id=485 data-nosnippet>485</a>    };
-<a href=#486 id=486 data-nosnippet>486</a>    <span class="kw">use </span>gpui::{AppContext, Entity, TestAppContext, VisualTestContext};
+<a href=#486 id=486 data-nosnippet>486</a>    <span class="kw">use </span>gpui::{AppContext, Entity, TestAppContext, VisualTestContext, WindowOptions};
 <a href=#487 id=487 data-nosnippet>487</a>    <span class="kw">use </span>parking_lot::Mutex;
 <a href=#488 id=488 data-nosnippet>488</a>    <span class="kw">use </span>std::{cell::RefCell, path::PathBuf, sync::Arc};
 <a href=#489 id=489 data-nosnippet>489</a>
@@ -500,7 +500,7 @@
 <a href=#500 id=500 data-nosnippet>500</a>        <span class="kw">let </span>fulgur_slot: RefCell&lt;<span class="prelude-ty">Option</span>&lt;Entity&lt;Fulgur&gt;&gt;&gt; = RefCell::new(<span class="prelude-val">None</span>);
 <a href=#501 id=501 data-nosnippet>501</a>        <span class="kw">let </span>window = cx
 <a href=#502 id=502 data-nosnippet>502</a>            .update(|cx| {
-<a href=#503 id=503 data-nosnippet>503</a>                cx.open_window(Default::default(), |window, cx| {
+<a href=#503 id=503 data-nosnippet>503</a>                cx.open_window(WindowOptions::default(), |window, cx| {
 <a href=#504 id=504 data-nosnippet>504</a>                    <span class="kw">let </span>window_id = window.window_handle().window_id();
 <a href=#505 id=505 data-nosnippet>505</a>                    <span class="kw">let </span>fulgur = Fulgur::new(window, cx, window_id, usize::MAX);
 <a href=#506 id=506 data-nosnippet>506</a>                    <span class="kw-2">*</span>fulgur_slot.borrow_mut() = <span class="prelude-val">Some</span>(fulgur.clone());

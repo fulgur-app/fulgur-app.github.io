@@ -39,7 +39,7 @@
 <a href=#39 id=39 data-nosnippet>39</a>                <span class="kw">for </span>byte <span class="kw">in </span>path.as_os_str().as_encoded_bytes() {
 <a href=#40 id=40 data-nosnippet>40</a>                    hash = hash
 <a href=#41 id=41 data-nosnippet>41</a>                        .wrapping_mul(<span class="number">0x0000_0100_0000_01b3</span>)
-<a href=#42 id=42 data-nosnippet>42</a>                        .wrapping_add(<span class="kw-2">*</span>byte <span class="kw">as </span>u64);
+<a href=#42 id=42 data-nosnippet>42</a>                        .wrapping_add(u64::from(<span class="kw-2">*</span>byte));
 <a href=#43 id=43 data-nosnippet>43</a>                }
 <a href=#44 id=44 data-nosnippet>44</a>            }
 <a href=#45 id=45 data-nosnippet>45</a>            hash ^= tab.id() <span class="kw">as </span>u64;
@@ -293,7 +293,7 @@
 <a href=#293 id=293 data-nosnippet>293</a>            <span class="prelude-val">None
 <a href=#294 id=294 data-nosnippet>294</a>        </span>};
 <a href=#295 id=295 data-nosnippet>295</a>        <span class="kw">let </span>filename_counts = <span class="kw-2">&amp;</span><span class="self">self</span>.cached_tab_filename_counts;
-<a href=#296 id=296 data-nosnippet>296</a>        <span class="kw">let </span>capacity = <span class="self">self</span>.tabs.len() + <span class="kw">if </span>ghost.is_some() { <span class="number">1 </span>} <span class="kw">else </span>{ <span class="number">0 </span>};
+<a href=#296 id=296 data-nosnippet>296</a>        <span class="kw">let </span>capacity = <span class="self">self</span>.tabs.len() + usize::from(ghost.is_some());
 <a href=#297 id=297 data-nosnippet>297</a>        <span class="kw">let </span><span class="kw-2">mut </span>elements: Vec&lt;AnyElement&gt; = Vec::with_capacity(capacity);
 <a href=#298 id=298 data-nosnippet>298</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>((<span class="number">0</span>, dragged)) = ghost {
 <a href=#299 id=299 data-nosnippet>299</a>            elements.push(<span class="self">self</span>.render_ghost_tab(<span class="number">0</span>, dragged, cx));

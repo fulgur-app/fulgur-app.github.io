@@ -58,10 +58,10 @@
 <a href=#58 id=58 data-nosnippet>58</a>/// ### Returns:
 <a href=#59 id=59 data-nosnippet>59</a>/// `true` if the given language is the current language, otherwise `false`.
 <a href=#60 id=60 data-nosnippet>60</a></span><span class="kw">fn </span>is_current_language(
-<a href=#61 id=61 data-nosnippet>61</a>    language: <span class="kw-2">&amp;</span>SupportedLanguage,
+<a href=#61 id=61 data-nosnippet>61</a>    language: SupportedLanguage,
 <a href=#62 id=62 data-nosnippet>62</a>    current_language: <span class="prelude-ty">Option</span>&lt;SupportedLanguage&gt;,
 <a href=#63 id=63 data-nosnippet>63</a>) -&gt; bool {
-<a href=#64 id=64 data-nosnippet>64</a>    current_language == <span class="prelude-val">Some</span>(<span class="kw-2">*</span>language)
+<a href=#64 id=64 data-nosnippet>64</a>    current_language == <span class="prelude-val">Some</span>(language)
 <a href=#65 id=65 data-nosnippet>65</a>}
 <a href=#66 id=66 data-nosnippet>66</a>
 <a href=#67 id=67 data-nosnippet>67</a><span class="doccomment">/// Create a select language list.
@@ -85,7 +85,7 @@
 <a href=#85 id=85 data-nosnippet>85</a>                make_select_language_item(
 <a href=#86 id=86 data-nosnippet>86</a>                    entity.clone(),
 <a href=#87 id=87 data-nosnippet>87</a>                    language,
-<a href=#88 id=88 data-nosnippet>88</a>                    is_current_language(<span class="kw-2">&amp;</span>language, current_language),
+<a href=#88 id=88 data-nosnippet>88</a>                    is_current_language(language, current_language),
 <a href=#89 id=89 data-nosnippet>89</a>                    cx,
 <a href=#90 id=90 data-nosnippet>90</a>                )
 <a href=#91 id=91 data-nosnippet>91</a>            })
@@ -166,7 +166,7 @@
 <a href=#166 id=166 data-nosnippet>166</a>    };
 <a href=#167 id=167 data-nosnippet>167</a>    <span class="kw">use </span>core::prelude::v1::test;
 <a href=#168 id=168 data-nosnippet>168</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#169 id=169 data-nosnippet>169</a>    </span><span class="kw">use </span>gpui::{AppContext, Entity, TestAppContext, VisualTestContext};
+<a href=#169 id=169 data-nosnippet>169</a>    </span><span class="kw">use </span>gpui::{AppContext, Entity, TestAppContext, VisualTestContext, WindowOptions};
 <a href=#170 id=170 data-nosnippet>170</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
 <a href=#171 id=171 data-nosnippet>171</a>    </span><span class="kw">use </span>parking_lot::Mutex;
 <a href=#172 id=172 data-nosnippet>172</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
@@ -175,14 +175,14 @@
 <a href=#175 id=175 data-nosnippet>175</a>    <span class="attr">#[test]
 <a href=#176 id=176 data-nosnippet>176</a>    </span><span class="kw">fn </span>test_is_current_language_matches_expected_language() {
 <a href=#177 id=177 data-nosnippet>177</a>        <span class="macro">assert!</span>(is_current_language(
-<a href=#178 id=178 data-nosnippet>178</a>            <span class="kw-2">&amp;</span>SupportedLanguage::Rust,
+<a href=#178 id=178 data-nosnippet>178</a>            SupportedLanguage::Rust,
 <a href=#179 id=179 data-nosnippet>179</a>            <span class="prelude-val">Some</span>(SupportedLanguage::Rust)
 <a href=#180 id=180 data-nosnippet>180</a>        ));
 <a href=#181 id=181 data-nosnippet>181</a>        <span class="macro">assert!</span>(!is_current_language(
-<a href=#182 id=182 data-nosnippet>182</a>            <span class="kw-2">&amp;</span>SupportedLanguage::Rust,
+<a href=#182 id=182 data-nosnippet>182</a>            SupportedLanguage::Rust,
 <a href=#183 id=183 data-nosnippet>183</a>            <span class="prelude-val">Some</span>(SupportedLanguage::Python)
 <a href=#184 id=184 data-nosnippet>184</a>        ));
-<a href=#185 id=185 data-nosnippet>185</a>        <span class="macro">assert!</span>(!is_current_language(<span class="kw-2">&amp;</span>SupportedLanguage::Rust, <span class="prelude-val">None</span>));
+<a href=#185 id=185 data-nosnippet>185</a>        <span class="macro">assert!</span>(!is_current_language(SupportedLanguage::Rust, <span class="prelude-val">None</span>));
 <a href=#186 id=186 data-nosnippet>186</a>    }
 <a href=#187 id=187 data-nosnippet>187</a>
 <a href=#188 id=188 data-nosnippet>188</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
@@ -200,7 +200,7 @@
 <a href=#200 id=200 data-nosnippet>200</a>        <span class="kw">let </span>slot = Rc::clone(<span class="kw-2">&amp;</span>fulgur_slot);
 <a href=#201 id=201 data-nosnippet>201</a>        <span class="kw">let </span>window = cx
 <a href=#202 id=202 data-nosnippet>202</a>            .update(|cx| {
-<a href=#203 id=203 data-nosnippet>203</a>                cx.open_window(Default::default(), |window, cx| {
+<a href=#203 id=203 data-nosnippet>203</a>                cx.open_window(WindowOptions::default(), |window, cx| {
 <a href=#204 id=204 data-nosnippet>204</a>                    <span class="kw">let </span>window_id = window.window_handle().window_id();
 <a href=#205 id=205 data-nosnippet>205</a>                    <span class="kw">let </span>fulgur = Fulgur::new(window, cx, window_id, usize::MAX);
 <a href=#206 id=206 data-nosnippet>206</a>                    <span class="kw-2">*</span>slot.borrow_mut() = <span class="prelude-val">Some</span>(fulgur.clone());

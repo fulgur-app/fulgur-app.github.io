@@ -184,7 +184,7 @@
 <a href=#184 id=184 data-nosnippet>184</a>    <span class="kw">use </span><span class="kw">crate</span>::fulgur::{
 <a href=#185 id=185 data-nosnippet>185</a>        Fulgur, settings::Settings, shared_state::SharedAppState, window_manager::WindowManager,
 <a href=#186 id=186 data-nosnippet>186</a>    };
-<a href=#187 id=187 data-nosnippet>187</a>    <span class="kw">use </span>gpui::{AppContext, Entity, SharedString, TestAppContext, WindowId};
+<a href=#187 id=187 data-nosnippet>187</a>    <span class="kw">use </span>gpui::{AppContext, Entity, SharedString, TestAppContext, WindowId, WindowOptions};
 <a href=#188 id=188 data-nosnippet>188</a>    <span class="kw">use </span>gpui_component::ActiveTheme;
 <a href=#189 id=189 data-nosnippet>189</a>    <span class="kw">use </span>gpui_component::ThemeRegistry;
 <a href=#190 id=190 data-nosnippet>190</a>    <span class="kw">use </span>parking_lot::Mutex;
@@ -252,7 +252,7 @@
 <a href=#252 id=252 data-nosnippet>252</a>        <span class="kw">let </span>window_id_slot: RefCell&lt;<span class="prelude-ty">Option</span>&lt;WindowId&gt;&gt; = RefCell::new(<span class="prelude-val">None</span>);
 <a href=#253 id=253 data-nosnippet>253</a>        <span class="kw">let </span>fulgur_slot: RefCell&lt;<span class="prelude-ty">Option</span>&lt;Entity&lt;Fulgur&gt;&gt;&gt; = RefCell::new(<span class="prelude-val">None</span>);
 <a href=#254 id=254 data-nosnippet>254</a>        cx.update(|cx| {
-<a href=#255 id=255 data-nosnippet>255</a>            cx.open_window(Default::default(), |window, cx| {
+<a href=#255 id=255 data-nosnippet>255</a>            cx.open_window(WindowOptions::default(), |window, cx| {
 <a href=#256 id=256 data-nosnippet>256</a>                <span class="kw">let </span>window_id = window.window_handle().window_id();
 <a href=#257 id=257 data-nosnippet>257</a>                <span class="kw">let </span>fulgur = Fulgur::new(window, cx, window_id, usize::MAX);
 <a href=#258 id=258 data-nosnippet>258</a>                <span class="kw-2">*</span>window_id_slot.borrow_mut() = <span class="prelude-val">Some</span>(window_id);
