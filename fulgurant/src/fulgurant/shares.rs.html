@@ -102,7 +102,7 @@
 <a href=#102 id=102 data-nosnippet>102</a></span><span class="kw">pub fn </span>calculate_file_hash(content: <span class="kw-2">&amp;</span>str) -&gt; String {
 <a href=#103 id=103 data-nosnippet>103</a>    <span class="kw">let </span><span class="kw-2">mut </span>hasher = Sha256::new();
 <a href=#104 id=104 data-nosnippet>104</a>    hasher.update(content.as_bytes());
-<a href=#105 id=105 data-nosnippet>105</a>    <span class="macro">format!</span>(<span class="string">"{:x}"</span>, hasher.finalize())
+<a href=#105 id=105 data-nosnippet>105</a>    hex::encode(hasher.finalize())
 <a href=#106 id=106 data-nosnippet>106</a>}
 <a href=#107 id=107 data-nosnippet>107</a>
 <a href=#108 id=108 data-nosnippet>108</a><span class="attr">#[derive(Clone)]
