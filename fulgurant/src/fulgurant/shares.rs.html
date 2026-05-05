@@ -114,7 +114,7 @@
 <a href=#114 id=114 data-nosnippet>114</a>    <span class="doccomment">/// Create a new share repository
 <a href=#115 id=115 data-nosnippet>115</a>    ///
 <a href=#116 id=116 data-nosnippet>116</a>    /// ### Arguments
-<a href=#117 id=117 data-nosnippet>117</a>    /// - `pool`: The database pool (SQLite or PostgreSQL)
+<a href=#117 id=117 data-nosnippet>117</a>    /// - `pool`: The database pool (`SQLite` or `PostgreSQL`)
 <a href=#118 id=118 data-nosnippet>118</a>    ///
 <a href=#119 id=119 data-nosnippet>119</a>    /// ### Returns
 <a href=#120 id=120 data-nosnippet>120</a>    /// - `ShareRepository`: The share repository
@@ -122,11 +122,11 @@
 <a href=#122 id=122 data-nosnippet>122</a>        <span class="self">Self </span>{ pool }
 <a href=#123 id=123 data-nosnippet>123</a>    }
 <a href=#124 id=124 data-nosnippet>124</a>
-<a href=#125 id=125 data-nosnippet>125</a>    <span class="doccomment">/// Create a new share, or replace an existing one if deduplication_hash matches
+<a href=#125 id=125 data-nosnippet>125</a>    <span class="doccomment">/// Create a new share, or replace an existing one if `deduplication_hash` matches
 <a href=#126 id=126 data-nosnippet>126</a>    ///
 <a href=#127 id=127 data-nosnippet>127</a>    /// When `deduplication_hash` is `Some`, uses UPSERT to replace any existing share
-<a href=#128 id=128 data-nosnippet>128</a>    /// with the same (source_device_id, destination_device_id, deduplication_hash).
-<a href=#129 id=129 data-nosnippet>129</a>    /// When `None`, always inserts a new share (SQLite treats NULLs as distinct).
+<a href=#128 id=128 data-nosnippet>128</a>    /// with the same (`source_device_id`, `destination_device_id`, `deduplication_hash`).
+<a href=#129 id=129 data-nosnippet>129</a>    /// When `None`, always inserts a new share (`SQLite` treats NULLs as distinct).
 <a href=#130 id=130 data-nosnippet>130</a>    ///
 <a href=#131 id=131 data-nosnippet>131</a>    /// ### Arguments
 <a href=#132 id=132 data-nosnippet>132</a>    /// - `user_id`: The ID of the user
@@ -282,7 +282,7 @@
 <a href=#282 id=282 data-nosnippet>282</a>    }
 <a href=#283 id=283 data-nosnippet>283</a>
 <a href=#284 id=284 data-nosnippet>284</a>    <span class="doccomment">/// Get all non-expired shares for a specific device
-<a href=#285 id=285 data-nosnippet>285</a>    /// Returns shares where the device_id matches the destination_device_id
+<a href=#285 id=285 data-nosnippet>285</a>    /// Returns shares where the `device_id` matches the `destination_device_id`
 <a href=#286 id=286 data-nosnippet>286</a>    ///
 <a href=#287 id=287 data-nosnippet>287</a>    /// ### Arguments
 <a href=#288 id=288 data-nosnippet>288</a>    /// - `device_id`: The ID of the device
@@ -304,7 +304,7 @@
 <a href=#304 id=304 data-nosnippet>304</a>    ///
 <a href=#305 id=305 data-nosnippet>305</a>    /// ### Description
 <a href=#306 id=306 data-nosnippet>306</a>    /// This function gets all non-expired shares for a specific device and deletes them in a single atomic operation.
-<a href=#307 id=307 data-nosnippet>307</a>    /// Returns shares where the device_id matches the destination_device_id
+<a href=#307 id=307 data-nosnippet>307</a>    /// Returns shares where the `device_id` matches the `destination_device_id`
 <a href=#308 id=308 data-nosnippet>308</a>    ///
 <a href=#309 id=309 data-nosnippet>309</a>    /// ### Arguments
 <a href=#310 id=310 data-nosnippet>310</a>    /// - `device_id`: The ID of the device

@@ -19,7 +19,7 @@
 <a href=#19 id=19 data-nosnippet>19</a>/// - `Err(AppError::InternalError)`: If session access fails
 <a href=#20 id=20 data-nosnippet>20</a></span><span class="kw">pub async fn </span>get_session_user_id(session: <span class="kw-2">&amp;</span>Session) -&gt; <span class="prelude-ty">Result</span>&lt;i32, AppError&gt; {
 <a href=#21 id=21 data-nosnippet>21</a>    <span class="kw">let </span>user_id: <span class="prelude-ty">Option</span>&lt;i32&gt; = session.get(SESSION_USER_ID).<span class="kw">await</span>.map_err(|e| {
-<a href=#22 id=22 data-nosnippet>22</a>        AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Failed to get user id from session: {}"</span>, e))
+<a href=#22 id=22 data-nosnippet>22</a>        AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Failed to get user id from session: {e}"</span>))
 <a href=#23 id=23 data-nosnippet>23</a>    })<span class="question-mark">?</span>;
 <a href=#24 id=24 data-nosnippet>24</a>
 <a href=#25 id=25 data-nosnippet>25</a>    user_id.ok_or(AppError::Unauthorized)

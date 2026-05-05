@@ -68,7 +68,7 @@
 <a href=#68 id=68 data-nosnippet>68</a>            .nth(rng.random_range(<span class="number">0</span>..SPECIAL.len()))
 <a href=#69 id=69 data-nosnippet>69</a>            .unwrap(),
 <a href=#70 id=70 data-nosnippet>70</a>    ];
-<a href=#71 id=71 data-nosnippet>71</a>    <span class="kw">let </span>all_chars = <span class="macro">format!</span>(<span class="string">"{}{}{}{}"</span>, UPPERCASE, LOWERCASE, DIGITS, SPECIAL);
+<a href=#71 id=71 data-nosnippet>71</a>    <span class="kw">let </span>all_chars = <span class="macro">format!</span>(<span class="string">"{UPPERCASE}{LOWERCASE}{DIGITS}{SPECIAL}"</span>);
 <a href=#72 id=72 data-nosnippet>72</a>    <span class="kw">for _ in </span><span class="number">0</span>..<span class="number">8 </span>{
 <a href=#73 id=73 data-nosnippet>73</a>        password.push(
 <a href=#74 id=74 data-nosnippet>74</a>            all_chars
@@ -87,7 +87,7 @@
 <a href=#87 id=87 data-nosnippet>87</a><span class="doccomment">/// Format timestamp as YYYY-MM-DD HH:MM:SS UTC
 <a href=#88 id=88 data-nosnippet>88</a>///
 <a href=#89 id=89 data-nosnippet>89</a>/// ### Arguments
-<a href=#90 id=90 data-nosnippet>90</a>/// - `dt`: The OffsetDateTime to format
+<a href=#90 id=90 data-nosnippet>90</a>/// - `dt`: The `OffsetDateTime` to format
 <a href=#91 id=91 data-nosnippet>91</a>///
 <a href=#92 id=92 data-nosnippet>92</a>/// ### Returns
 <a href=#93 id=93 data-nosnippet>93</a>/// - Formatted string in the format "YYYY-MM-DD HH:MM:SS"
@@ -107,7 +107,7 @@
 <a href=#107 id=107 data-nosnippet>107</a><span class="doccomment">/// Format timestamp as YYYY-MM-DD UTC
 <a href=#108 id=108 data-nosnippet>108</a>///
 <a href=#109 id=109 data-nosnippet>109</a>/// ### Arguments
-<a href=#110 id=110 data-nosnippet>110</a>/// - `dt`: The OffsetDateTime to format
+<a href=#110 id=110 data-nosnippet>110</a>/// - `dt`: The `OffsetDateTime` to format
 <a href=#111 id=111 data-nosnippet>111</a>///
 <a href=#112 id=112 data-nosnippet>112</a>/// ### Returns
 <a href=#113 id=113 data-nosnippet>113</a>/// - Formatted string in the format "YYYY-MM-DD"
@@ -262,35 +262,33 @@
 <a href=#262 id=262 data-nosnippet>262</a>            <span class="kw">let </span>password = generate_valid_password();
 <a href=#263 id=263 data-nosnippet>263</a>            <span class="macro">assert!</span>(
 <a href=#264 id=264 data-nosnippet>264</a>                is_password_valid(<span class="kw-2">&amp;</span>password),
-<a href=#265 id=265 data-nosnippet>265</a>                <span class="string">"Generated password '{}' does not meet validation requirements"</span>,
-<a href=#266 id=266 data-nosnippet>266</a>                password
-<a href=#267 id=267 data-nosnippet>267</a>            );
-<a href=#268 id=268 data-nosnippet>268</a>        }
-<a href=#269 id=269 data-nosnippet>269</a>    }
-<a href=#270 id=270 data-nosnippet>270</a>
-<a href=#271 id=271 data-nosnippet>271</a>    <span class="attr">#[test]
-<a href=#272 id=272 data-nosnippet>272</a>    </span><span class="kw">fn </span>test_generate_valid_password_length() {
-<a href=#273 id=273 data-nosnippet>273</a>        <span class="kw">let </span>password = generate_valid_password();
-<a href=#274 id=274 data-nosnippet>274</a>        <span class="macro">assert_eq!</span>(
-<a href=#275 id=275 data-nosnippet>275</a>            password.len(),
-<a href=#276 id=276 data-nosnippet>276</a>            <span class="number">12</span>,
-<a href=#277 id=277 data-nosnippet>277</a>            <span class="string">"Generated password should be 12 characters"
-<a href=#278 id=278 data-nosnippet>278</a>        </span>);
-<a href=#279 id=279 data-nosnippet>279</a>    }
-<a href=#280 id=280 data-nosnippet>280</a>
-<a href=#281 id=281 data-nosnippet>281</a>    <span class="attr">#[test]
-<a href=#282 id=282 data-nosnippet>282</a>    </span><span class="kw">fn </span>test_generate_valid_password_uniqueness() {
-<a href=#283 id=283 data-nosnippet>283</a>        <span class="comment">// Generate multiple passwords and verify they are different
-<a href=#284 id=284 data-nosnippet>284</a>        </span><span class="kw">let </span>passwords: Vec&lt;String&gt; = (<span class="number">0</span>..<span class="number">100</span>).map(|<span class="kw">_</span>| generate_valid_password()).collect();
-<a href=#285 id=285 data-nosnippet>285</a>        <span class="kw">let </span>unique_count = passwords
-<a href=#286 id=286 data-nosnippet>286</a>            .iter()
-<a href=#287 id=287 data-nosnippet>287</a>            .collect::&lt;std::collections::HashSet&lt;<span class="kw">_</span>&gt;&gt;()
-<a href=#288 id=288 data-nosnippet>288</a>            .len();
-<a href=#289 id=289 data-nosnippet>289</a>        <span class="macro">assert!</span>(
-<a href=#290 id=290 data-nosnippet>290</a>            unique_count &gt; <span class="number">5</span>,
-<a href=#291 id=291 data-nosnippet>291</a>            <span class="string">"Generated passwords should have high uniqueness (got {} unique out of 10)"</span>,
-<a href=#292 id=292 data-nosnippet>292</a>            unique_count
-<a href=#293 id=293 data-nosnippet>293</a>        );
-<a href=#294 id=294 data-nosnippet>294</a>    }
-<a href=#295 id=295 data-nosnippet>295</a>}
+<a href=#265 id=265 data-nosnippet>265</a>                <span class="string">"Generated password '{password}' does not meet validation requirements"
+<a href=#266 id=266 data-nosnippet>266</a>            </span>);
+<a href=#267 id=267 data-nosnippet>267</a>        }
+<a href=#268 id=268 data-nosnippet>268</a>    }
+<a href=#269 id=269 data-nosnippet>269</a>
+<a href=#270 id=270 data-nosnippet>270</a>    <span class="attr">#[test]
+<a href=#271 id=271 data-nosnippet>271</a>    </span><span class="kw">fn </span>test_generate_valid_password_length() {
+<a href=#272 id=272 data-nosnippet>272</a>        <span class="kw">let </span>password = generate_valid_password();
+<a href=#273 id=273 data-nosnippet>273</a>        <span class="macro">assert_eq!</span>(
+<a href=#274 id=274 data-nosnippet>274</a>            password.len(),
+<a href=#275 id=275 data-nosnippet>275</a>            <span class="number">12</span>,
+<a href=#276 id=276 data-nosnippet>276</a>            <span class="string">"Generated password should be 12 characters"
+<a href=#277 id=277 data-nosnippet>277</a>        </span>);
+<a href=#278 id=278 data-nosnippet>278</a>    }
+<a href=#279 id=279 data-nosnippet>279</a>
+<a href=#280 id=280 data-nosnippet>280</a>    <span class="attr">#[test]
+<a href=#281 id=281 data-nosnippet>281</a>    </span><span class="kw">fn </span>test_generate_valid_password_uniqueness() {
+<a href=#282 id=282 data-nosnippet>282</a>        <span class="comment">// Generate multiple passwords and verify they are different
+<a href=#283 id=283 data-nosnippet>283</a>        </span><span class="kw">let </span>passwords: Vec&lt;String&gt; = (<span class="number">0</span>..<span class="number">100</span>).map(|<span class="kw">_</span>| generate_valid_password()).collect();
+<a href=#284 id=284 data-nosnippet>284</a>        <span class="kw">let </span>unique_count = passwords
+<a href=#285 id=285 data-nosnippet>285</a>            .iter()
+<a href=#286 id=286 data-nosnippet>286</a>            .collect::&lt;std::collections::HashSet&lt;<span class="kw">_</span>&gt;&gt;()
+<a href=#287 id=287 data-nosnippet>287</a>            .len();
+<a href=#288 id=288 data-nosnippet>288</a>        <span class="macro">assert!</span>(
+<a href=#289 id=289 data-nosnippet>289</a>            unique_count &gt; <span class="number">5</span>,
+<a href=#290 id=290 data-nosnippet>290</a>            <span class="string">"Generated passwords should have high uniqueness (got {unique_count} unique out of 10)"
+<a href=#291 id=291 data-nosnippet>291</a>        </span>);
+<a href=#292 id=292 data-nosnippet>292</a>    }
+<a href=#293 id=293 data-nosnippet>293</a>}
 </code></pre></div></section></main></body></html>

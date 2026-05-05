@@ -5,7 +5,7 @@
 <a href=#5 id=5 data-nosnippet>5</a><span class="doccomment">/// JWT claims structure for access tokens
 <a href=#6 id=6 data-nosnippet>6</a>///
 <a href=#7 id=7 data-nosnippet>7</a>/// ### Fields
-<a href=#8 id=8 data-nosnippet>8</a>/// - `sub`: Subject (user_id as string)
+<a href=#8 id=8 data-nosnippet>8</a>/// - `sub`: Subject (`user_id` as string)
 <a href=#9 id=9 data-nosnippet>9</a>/// - `device_id`: UUID of the authenticated device
 <a href=#10 id=10 data-nosnippet>10</a>/// - `device_name`: Human-readable device name
 <a href=#11 id=11 data-nosnippet>11</a>/// - `exp`: Expiration timestamp (Unix epoch)
@@ -55,7 +55,7 @@
 <a href=#55 id=55 data-nosnippet>55</a>        <span class="kw-2">&amp;</span>claims,
 <a href=#56 id=56 data-nosnippet>56</a>        <span class="kw-2">&amp;</span>EncodingKey::from_secret(jwt_secret.as_bytes()),
 <a href=#57 id=57 data-nosnippet>57</a>    )
-<a href=#58 id=58 data-nosnippet>58</a>    .map_err(|e| <span class="macro">anyhow::anyhow!</span>(<span class="string">"Failed to generate JWT: {}"</span>, e))<span class="question-mark">?</span>;
+<a href=#58 id=58 data-nosnippet>58</a>    .map_err(|e| <span class="macro">anyhow::anyhow!</span>(<span class="string">"Failed to generate JWT: {e}"</span>))<span class="question-mark">?</span>;
 <a href=#59 id=59 data-nosnippet>59</a>    <span class="prelude-val">Ok</span>(token)
 <a href=#60 id=60 data-nosnippet>60</a>}
 <a href=#61 id=61 data-nosnippet>61</a>
@@ -76,7 +76,7 @@
 <a href=#76 id=76 data-nosnippet>76</a>        <span class="kw-2">&amp;</span>DecodingKey::from_secret(jwt_secret.as_bytes()),
 <a href=#77 id=77 data-nosnippet>77</a>        <span class="kw-2">&amp;</span>validation,
 <a href=#78 id=78 data-nosnippet>78</a>    )
-<a href=#79 id=79 data-nosnippet>79</a>    .map_err(|e| <span class="macro">anyhow::anyhow!</span>(<span class="string">"JWT validation failed: {}"</span>, e))<span class="question-mark">?</span>;
+<a href=#79 id=79 data-nosnippet>79</a>    .map_err(|e| <span class="macro">anyhow::anyhow!</span>(<span class="string">"JWT validation failed: {e}"</span>))<span class="question-mark">?</span>;
 <a href=#80 id=80 data-nosnippet>80</a>    <span class="prelude-val">Ok</span>(token_data.claims)
 <a href=#81 id=81 data-nosnippet>81</a>}
 <a href=#82 id=82 data-nosnippet>82</a>

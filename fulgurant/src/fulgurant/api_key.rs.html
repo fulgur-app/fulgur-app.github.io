@@ -13,7 +13,7 @@
 <a href=#13 id=13 data-nosnippet>13</a>    <span class="kw">let </span><span class="kw-2">mut </span>key_bytes = [<span class="number">0u8</span>; <span class="number">32</span>];
 <a href=#14 id=14 data-nosnippet>14</a>    rng.fill(<span class="kw-2">&amp;mut </span>key_bytes);
 <a href=#15 id=15 data-nosnippet>15</a>    <span class="kw">let </span>encoded = general_purpose::URL_SAFE_NO_PAD.encode(key_bytes);
-<a href=#16 id=16 data-nosnippet>16</a>    <span class="macro">format!</span>(<span class="string">"fulgur_{}"</span>, encoded)
+<a href=#16 id=16 data-nosnippet>16</a>    <span class="macro">format!</span>(<span class="string">"fulgur_{encoded}"</span>)
 <a href=#17 id=17 data-nosnippet>17</a>}
 <a href=#18 id=18 data-nosnippet>18</a>
 <a href=#19 id=19 data-nosnippet>19</a><span class="doccomment">/// Hash an API key
@@ -30,10 +30,10 @@
 <a href=#30 id=30 data-nosnippet>30</a>    rng.fill(<span class="kw-2">&amp;mut </span>salt_bytes);
 <a href=#31 id=31 data-nosnippet>31</a>
 <a href=#32 id=32 data-nosnippet>32</a>    <span class="kw">let </span>salt = SaltString::encode_b64(<span class="kw-2">&amp;</span>salt_bytes)
-<a href=#33 id=33 data-nosnippet>33</a>        .map_err(|e| <span class="macro">anyhow::anyhow!</span>(<span class="string">"Failed to encode salt: {}"</span>, e))<span class="question-mark">?</span>;
+<a href=#33 id=33 data-nosnippet>33</a>        .map_err(|e| <span class="macro">anyhow::anyhow!</span>(<span class="string">"Failed to encode salt: {e}"</span>))<span class="question-mark">?</span>;
 <a href=#34 id=34 data-nosnippet>34</a>    <span class="kw">let </span>hash = <span class="kw">match </span>Argon2::default().hash_password(api_key.as_bytes(), <span class="kw-2">&amp;</span>salt) {
 <a href=#35 id=35 data-nosnippet>35</a>        <span class="prelude-val">Ok</span>(hash) =&gt; hash,
-<a href=#36 id=36 data-nosnippet>36</a>        <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Failed to hash API key: {}"</span>, e)),
+<a href=#36 id=36 data-nosnippet>36</a>        <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Failed to hash API key: {e}"</span>)),
 <a href=#37 id=37 data-nosnippet>37</a>    };
 <a href=#38 id=38 data-nosnippet>38</a>    <span class="prelude-val">Ok</span>(hash.to_string())
 <a href=#39 id=39 data-nosnippet>39</a>}
@@ -50,7 +50,7 @@
 <a href=#50 id=50 data-nosnippet>50</a></span><span class="kw">pub fn </span>verify_api_key(api_key: <span class="kw-2">&amp;</span>str, hash: <span class="kw-2">&amp;</span>str) -&gt; anyhow::Result&lt;bool&gt; {
 <a href=#51 id=51 data-nosnippet>51</a>    <span class="kw">let </span>hash = <span class="kw">match </span>PasswordHash::new(hash) {
 <a href=#52 id=52 data-nosnippet>52</a>        <span class="prelude-val">Ok</span>(hash) =&gt; hash,
-<a href=#53 id=53 data-nosnippet>53</a>        <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Invalid hash: {}"</span>, e)),
+<a href=#53 id=53 data-nosnippet>53</a>        <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Invalid hash: {e}"</span>)),
 <a href=#54 id=54 data-nosnippet>54</a>    };
 <a href=#55 id=55 data-nosnippet>55</a>    <span class="prelude-val">Ok</span>(Argon2::default()
 <a href=#56 id=56 data-nosnippet>56</a>        .verify_password(api_key.as_bytes(), <span class="kw-2">&amp;</span>hash)
