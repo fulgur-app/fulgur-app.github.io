@@ -699,7 +699,7 @@
 <a href=#699 id=699 data-nosnippet>699</a>        .update_password(user.id, password_hash)
 <a href=#700 id=700 data-nosnippet>700</a>        .<span class="kw">await
 <a href=#701 id=701 data-nosnippet>701</a>    </span>{
-<a href=#702 id=702 data-nosnippet>702</a>        <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; {
+<a href=#702 id=702 data-nosnippet>702</a>        <span class="prelude-val">Ok</span>(()) =&gt; {
 <a href=#703 id=703 data-nosnippet>703</a>            <span class="macro">tracing::info!</span>(<span class="string">"Password reset for user: {}"</span>, user.email);
 <a href=#704 id=704 data-nosnippet>704</a>        }
 <a href=#705 id=705 data-nosnippet>705</a>        <span class="prelude-val">Err</span>(e) =&gt; {
@@ -860,7 +860,7 @@
 <a href=#860 id=860 data-nosnippet>860</a>        VerificationResult::NotFound =&gt; {
 <a href=#861 id=861 data-nosnippet>861</a>            <span class="string">"No verification code found. Please request a new code."</span>.to_string()
 <a href=#862 id=862 data-nosnippet>862</a>        }
-<a href=#863 id=863 data-nosnippet>863</a>        <span class="kw">_ </span>=&gt; <span class="string">"Verification failed"</span>.to_string(),
+<a href=#863 id=863 data-nosnippet>863</a>        VerificationResult::Verified =&gt; <span class="string">"Verification failed"</span>.to_string(),
 <a href=#864 id=864 data-nosnippet>864</a>    }
 <a href=#865 id=865 data-nosnippet>865</a>}
 <a href=#866 id=866 data-nosnippet>866</a>

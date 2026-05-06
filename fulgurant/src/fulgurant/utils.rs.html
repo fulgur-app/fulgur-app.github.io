@@ -29,8 +29,8 @@
 <a href=#29 id=29 data-nosnippet>29</a>/// - `true` if the password is valid, `false` otherwise
 <a href=#30 id=30 data-nosnippet>30</a></span><span class="kw">pub fn </span>is_password_valid(password: <span class="kw-2">&amp;</span>str) -&gt; bool {
 <a href=#31 id=31 data-nosnippet>31</a>    <span class="kw">let </span>right_length = password.len() &gt;= <span class="number">8 </span>&amp;&amp; password.len() &lt;= <span class="number">64</span>;
-<a href=#32 id=32 data-nosnippet>32</a>    <span class="kw">let </span>has_uppercase = password.chars().any(|c| c.is_uppercase());
-<a href=#33 id=33 data-nosnippet>33</a>    <span class="kw">let </span>has_lowercase = password.chars().any(|c| c.is_lowercase());
+<a href=#32 id=32 data-nosnippet>32</a>    <span class="kw">let </span>has_uppercase = password.chars().any(char::is_uppercase);
+<a href=#33 id=33 data-nosnippet>33</a>    <span class="kw">let </span>has_lowercase = password.chars().any(char::is_lowercase);
 <a href=#34 id=34 data-nosnippet>34</a>    <span class="kw">let </span>has_digit = password.chars().any(|c| c.is_ascii_digit());
 <a href=#35 id=35 data-nosnippet>35</a>    <span class="kw">let </span>has_special = password.chars().any(|c| !c.is_alphanumeric());
 <a href=#36 id=36 data-nosnippet>36</a>    <span class="kw">if </span>!right_length || !has_uppercase || !has_lowercase || !has_digit || !has_special {

@@ -111,7 +111,7 @@
 <a href=#111 id=111 data-nosnippet>111</a>                        }
 <a href=#112 id=112 data-nosnippet>112</a>                    }
 <a href=#113 id=113 data-nosnippet>113</a>                },
-<a href=#114 id=114 data-nosnippet>114</a>                <span class="kw">_ </span>= shutdown_token.cancelled() =&gt; {
+<a href=#114 id=114 data-nosnippet>114</a>                () = shutdown_token.cancelled() =&gt; {
 <a href=#115 id=115 data-nosnippet>115</a>                    <span class="kw">if </span>is_prod {
 <a href=#116 id=116 data-nosnippet>116</a>                        <span class="macro">tracing::info!</span>(<span class="string">"Database backup task shutting down - performing final backup"</span>);
 <a href=#117 id=117 data-nosnippet>117</a>                        <span class="kw">match </span>perform_backup(<span class="kw-2">&amp;</span>sqlite_pool).<span class="kw">await </span>{
