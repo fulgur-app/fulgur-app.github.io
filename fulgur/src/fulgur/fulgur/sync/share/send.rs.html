@@ -4,7 +4,7 @@
 <a href=#4 id=4 data-nosnippet>4</a>    types::{ShareFileRequest, ShareResult},
 <a href=#5 id=5 data-nosnippet>5</a>};
 <a href=#6 id=6 data-nosnippet>6</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::{
-<a href=#7 id=7 data-nosnippet>7</a>    settings::SynchronizationSettings,
+<a href=#7 id=7 data-nosnippet>7</a>    settings::ServerProfile,
 <a href=#8 id=8 data-nosnippet>8</a>    sync::{
 <a href=#9 id=9 data-nosnippet>9</a>        access_token::{TokenStateManager, get_valid_token},
 <a href=#10 id=10 data-nosnippet>10</a>        synchronization::{SynchronizationError, handle_ureq_error},
@@ -91,10 +91,10 @@
 <a href=#91 id=91 data-nosnippet>91</a><span class="doccomment">/// Share a file with multiple devices (per-device encryption)
 <a href=#92 id=92 data-nosnippet>92</a>///
 <a href=#93 id=93 data-nosnippet>93</a>/// ### Arguments
-<a href=#94 id=94 data-nosnippet>94</a>/// - `synchronization_settings`: The synchronization settings
+<a href=#94 id=94 data-nosnippet>94</a>/// - `profile`: The server profile to share through (URL, deduplication flag)
 <a href=#95 id=95 data-nosnippet>95</a>/// - `request`: The share request (content, file name, target device IDs, optional path)
 <a href=#96 id=96 data-nosnippet>96</a>/// - `devices`: The list of all devices (with their public keys)
-<a href=#97 id=97 data-nosnippet>97</a>/// - `token_state`: Thread-safe token state manager (with condition variable)
+<a href=#97 id=97 data-nosnippet>97</a>/// - `token_state`: Per-profile token state manager (with condition variable)
 <a href=#98 id=98 data-nosnippet>98</a>/// - `http_agent`: Shared HTTP agent for connection pooling
 <a href=#99 id=99 data-nosnippet>99</a>/// - `max_file_size_bytes`: Server-advertised maximum file size; `u64::MAX` means no limit
 <a href=#100 id=100 data-nosnippet>100</a>///
@@ -102,14 +102,14 @@
 <a href=#102 id=102 data-nosnippet>102</a>/// - `Ok(ShareResult)`: Results of sharing with each device
 <a href=#103 id=103 data-nosnippet>103</a>/// - `Err(SynchronizationError)`: If validation or setup failed
 <a href=#104 id=104 data-nosnippet>104</a></span><span class="kw">pub fn </span>share_file(
-<a href=#105 id=105 data-nosnippet>105</a>    synchronization_settings: <span class="kw-2">&amp;</span>SynchronizationSettings,
+<a href=#105 id=105 data-nosnippet>105</a>    profile: <span class="kw-2">&amp;</span>ServerProfile,
 <a href=#106 id=106 data-nosnippet>106</a>    request: <span class="kw-2">&amp;</span>ShareFileRequest,
 <a href=#107 id=107 data-nosnippet>107</a>    devices: <span class="kw-2">&amp;</span>[Device],
 <a href=#108 id=108 data-nosnippet>108</a>    token_state: <span class="kw-2">&amp;</span>Arc&lt;TokenStateManager&gt;,
 <a href=#109 id=109 data-nosnippet>109</a>    http_agent: <span class="kw-2">&amp;</span>ureq::Agent,
 <a href=#110 id=110 data-nosnippet>110</a>    max_file_size_bytes: u64,
 <a href=#111 id=111 data-nosnippet>111</a>) -&gt; <span class="prelude-ty">Result</span>&lt;ShareResult, SynchronizationError&gt; {
-<a href=#112 id=112 data-nosnippet>112</a>    <span class="kw">let </span>server_url = synchronization_settings
+<a href=#112 id=112 data-nosnippet>112</a>    <span class="kw">let </span>server_url = profile
 <a href=#113 id=113 data-nosnippet>113</a>        .server_url
 <a href=#114 id=114 data-nosnippet>114</a>        .as_ref()
 <a href=#115 id=115 data-nosnippet>115</a>        .ok_or(SynchronizationError::ServerUrlMissing)<span class="question-mark">?</span>;
@@ -144,9 +144,9 @@
 <a href=#144 id=144 data-nosnippet>144</a>            <span class="kw">_ </span>=&gt; {}
 <a href=#145 id=145 data-nosnippet>145</a>        }
 <a href=#146 id=146 data-nosnippet>146</a>    }
-<a href=#147 id=147 data-nosnippet>147</a>    <span class="kw">let </span>token = get_valid_token(synchronization_settings, token_state, http_agent)<span class="question-mark">?</span>;
+<a href=#147 id=147 data-nosnippet>147</a>    <span class="kw">let </span>token = get_valid_token(profile, token_state, http_agent)<span class="question-mark">?</span>;
 <a href=#148 id=148 data-nosnippet>148</a>    <span class="kw">let </span>share_url = <span class="macro">format!</span>(<span class="string">"{server_url}/api/share"</span>);
-<a href=#149 id=149 data-nosnippet>149</a>    <span class="kw">let </span>deduplication_hash = <span class="kw">if </span>synchronization_settings.is_deduplication {
+<a href=#149 id=149 data-nosnippet>149</a>    <span class="kw">let </span>deduplication_hash = <span class="kw">if </span>profile.is_deduplication {
 <a href=#150 id=150 data-nosnippet>150</a>        request.file_path.as_ref().map(|path| {
 <a href=#151 id=151 data-nosnippet>151</a>            <span class="kw">let </span>hash = Sha256::digest(path.to_string_lossy().as_bytes());
 <a href=#152 id=152 data-nosnippet>152</a>            <span class="macro">format!</span>(<span class="string">"{hash:x}"</span>)
@@ -268,7 +268,7 @@
 <a href=#268 id=268 data-nosnippet>268</a><span class="attr">#[cfg(test)]
 <a href=#269 id=269 data-nosnippet>269</a></span><span class="kw">mod </span>tests {
 <a href=#270 id=270 data-nosnippet>270</a>    <span class="kw">use </span>super::{MAX_SYNC_SHARE_PAYLOAD_BYTES, share_file};
-<a href=#271 id=271 data-nosnippet>271</a>    <span class="kw">use </span><span class="kw">crate</span>::fulgur::settings::SynchronizationSettings;
+<a href=#271 id=271 data-nosnippet>271</a>    <span class="kw">use </span><span class="kw">crate</span>::fulgur::settings::ServerProfile;
 <a href=#272 id=272 data-nosnippet>272</a>    <span class="kw">use </span><span class="kw">crate</span>::fulgur::sync::share::{Device, ShareFileRequest};
 <a href=#273 id=273 data-nosnippet>273</a>    <span class="kw">use </span><span class="kw">crate</span>::fulgur::sync::{
 <a href=#274 id=274 data-nosnippet>274</a>        access_token::TokenStateManager, synchronization::SynchronizationError,
@@ -280,12 +280,12 @@
 <a href=#280 id=280 data-nosnippet>280</a>        ureq::Agent::new_with_config(ureq::config::Config::builder().build())
 <a href=#281 id=281 data-nosnippet>281</a>    }
 <a href=#282 id=282 data-nosnippet>282</a>
-<a href=#283 id=283 data-nosnippet>283</a>    <span class="doccomment">/// Build a `SynchronizationSettings` whose server URL points at a port that
+<a href=#283 id=283 data-nosnippet>283</a>    <span class="doccomment">/// Build a `ServerProfile` whose server URL points at a port that
 <a href=#284 id=284 data-nosnippet>284</a>    /// is guaranteed to refuse connections immediately (no real network needed).
-<a href=#285 id=285 data-nosnippet>285</a>    </span><span class="kw">fn </span>make_settings_with_server_url() -&gt; SynchronizationSettings {
-<a href=#286 id=286 data-nosnippet>286</a>        <span class="kw">let </span><span class="kw-2">mut </span>s = SynchronizationSettings::new();
-<a href=#287 id=287 data-nosnippet>287</a>        s.server_url = <span class="prelude-val">Some</span>(<span class="string">"http://127.0.0.1:19999"</span>.to_string());
-<a href=#288 id=288 data-nosnippet>288</a>        s
+<a href=#285 id=285 data-nosnippet>285</a>    </span><span class="kw">fn </span>make_profile_with_server_url() -&gt; ServerProfile {
+<a href=#286 id=286 data-nosnippet>286</a>        <span class="kw">let </span><span class="kw-2">mut </span>p = ServerProfile::new(<span class="string">"Test"</span>);
+<a href=#287 id=287 data-nosnippet>287</a>        p.server_url = <span class="prelude-val">Some</span>(<span class="string">"http://127.0.0.1:19999"</span>.to_string());
+<a href=#288 id=288 data-nosnippet>288</a>        p
 <a href=#289 id=289 data-nosnippet>289</a>    }
 <a href=#290 id=290 data-nosnippet>290</a>
 <a href=#291 id=291 data-nosnippet>291</a>    <span class="kw">fn </span>make_token_manager_with_valid_token() -&gt; Arc&lt;TokenStateManager&gt; {
@@ -319,8 +319,8 @@
 <a href=#319 id=319 data-nosnippet>319</a>
 <a href=#320 id=320 data-nosnippet>320</a>    </span><span class="attr">#[test]
 <a href=#321 id=321 data-nosnippet>321</a>    </span><span class="kw">fn </span>test_share_file_rejects_content_larger_than_limit() {
-<a href=#322 id=322 data-nosnippet>322</a>        <span class="kw">let </span><span class="kw-2">mut </span>settings = SynchronizationSettings::new();
-<a href=#323 id=323 data-nosnippet>323</a>        settings.server_url = <span class="prelude-val">Some</span>(<span class="string">"https://example.com"</span>.to_string());
+<a href=#322 id=322 data-nosnippet>322</a>        <span class="kw">let </span><span class="kw-2">mut </span>profile = ServerProfile::new(<span class="string">"Test"</span>);
+<a href=#323 id=323 data-nosnippet>323</a>        profile.server_url = <span class="prelude-val">Some</span>(<span class="string">"https://example.com"</span>.to_string());
 <a href=#324 id=324 data-nosnippet>324</a>
 <a href=#325 id=325 data-nosnippet>325</a>        <span class="kw">let </span>request = ShareFileRequest {
 <a href=#326 id=326 data-nosnippet>326</a>            content: Arc::from(<span class="string">"A"</span>.repeat(MAX_SYNC_SHARE_PAYLOAD_BYTES + <span class="number">1</span>)),
@@ -330,7 +330,7 @@
 <a href=#330 id=330 data-nosnippet>330</a>        };
 <a href=#331 id=331 data-nosnippet>331</a>
 <a href=#332 id=332 data-nosnippet>332</a>        <span class="kw">let </span>result = share_file(
-<a href=#333 id=333 data-nosnippet>333</a>            <span class="kw-2">&amp;</span>settings,
+<a href=#333 id=333 data-nosnippet>333</a>            <span class="kw-2">&amp;</span>profile,
 <a href=#334 id=334 data-nosnippet>334</a>            <span class="kw-2">&amp;</span>request,
 <a href=#335 id=335 data-nosnippet>335</a>            <span class="kw-2">&amp;</span>[],
 <a href=#336 id=336 data-nosnippet>336</a>            <span class="kw-2">&amp;</span>Arc::new(TokenStateManager::new()),
@@ -346,11 +346,11 @@
 <a href=#346 id=346 data-nosnippet>346</a>
 <a href=#347 id=347 data-nosnippet>347</a>    <span class="attr">#[test]
 <a href=#348 id=348 data-nosnippet>348</a>    </span><span class="kw">fn </span>test_share_file_accepts_content_at_exact_limit() {
-<a href=#349 id=349 data-nosnippet>349</a>        <span class="kw">let </span><span class="kw-2">mut </span>settings = SynchronizationSettings::new();
-<a href=#350 id=350 data-nosnippet>350</a>        settings.server_url = <span class="prelude-val">Some</span>(<span class="string">"https://example.com"</span>.to_string());
+<a href=#349 id=349 data-nosnippet>349</a>        <span class="kw">let </span><span class="kw-2">mut </span>profile = ServerProfile::new(<span class="string">"Test"</span>);
+<a href=#350 id=350 data-nosnippet>350</a>        profile.server_url = <span class="prelude-val">Some</span>(<span class="string">"https://example.com"</span>.to_string());
 <a href=#351 id=351 data-nosnippet>351</a>        <span class="comment">// Keep email unset so the flow fails deterministically at validation/network setup,
 <a href=#352 id=352 data-nosnippet>352</a>        // after content-size checks have already passed.
-<a href=#353 id=353 data-nosnippet>353</a>        </span>settings.email = <span class="prelude-val">None</span>;
+<a href=#353 id=353 data-nosnippet>353</a>        </span>profile.email = <span class="prelude-val">None</span>;
 <a href=#354 id=354 data-nosnippet>354</a>
 <a href=#355 id=355 data-nosnippet>355</a>        <span class="kw">let </span>request = ShareFileRequest {
 <a href=#356 id=356 data-nosnippet>356</a>            content: Arc::from(<span class="string">"A"</span>.repeat(MAX_SYNC_SHARE_PAYLOAD_BYTES)),
@@ -360,7 +360,7 @@
 <a href=#360 id=360 data-nosnippet>360</a>        };
 <a href=#361 id=361 data-nosnippet>361</a>
 <a href=#362 id=362 data-nosnippet>362</a>        <span class="kw">let </span>result = share_file(
-<a href=#363 id=363 data-nosnippet>363</a>            <span class="kw-2">&amp;</span>settings,
+<a href=#363 id=363 data-nosnippet>363</a>            <span class="kw-2">&amp;</span>profile,
 <a href=#364 id=364 data-nosnippet>364</a>            <span class="kw-2">&amp;</span>request,
 <a href=#365 id=365 data-nosnippet>365</a>            <span class="kw-2">&amp;</span>[],
 <a href=#366 id=366 data-nosnippet>366</a>            <span class="kw-2">&amp;</span>Arc::new(TokenStateManager::new()),
@@ -378,7 +378,7 @@
 <a href=#378 id=378 data-nosnippet>378</a>
 <a href=#379 id=379 data-nosnippet>379</a>    </span><span class="attr">#[test]
 <a href=#380 id=380 data-nosnippet>380</a>    </span><span class="kw">fn </span>test_share_file_rejects_missing_server_url() {
-<a href=#381 id=381 data-nosnippet>381</a>        <span class="kw">let </span>settings = SynchronizationSettings::new(); <span class="comment">// server_url = None
+<a href=#381 id=381 data-nosnippet>381</a>        <span class="kw">let </span>profile = ServerProfile::new(<span class="string">"Test"</span>); <span class="comment">// server_url = None
 <a href=#382 id=382 data-nosnippet>382</a>        </span><span class="kw">let </span>request = ShareFileRequest {
 <a href=#383 id=383 data-nosnippet>383</a>            content: Arc::from(<span class="string">"hello"</span>),
 <a href=#384 id=384 data-nosnippet>384</a>            file_name: <span class="string">"test.txt"</span>.to_string(),
@@ -386,7 +386,7 @@
 <a href=#386 id=386 data-nosnippet>386</a>            file_path: <span class="prelude-val">None</span>,
 <a href=#387 id=387 data-nosnippet>387</a>        };
 <a href=#388 id=388 data-nosnippet>388</a>        <span class="kw">let </span>result = share_file(
-<a href=#389 id=389 data-nosnippet>389</a>            <span class="kw-2">&amp;</span>settings,
+<a href=#389 id=389 data-nosnippet>389</a>            <span class="kw-2">&amp;</span>profile,
 <a href=#390 id=390 data-nosnippet>390</a>            <span class="kw-2">&amp;</span>request,
 <a href=#391 id=391 data-nosnippet>391</a>            <span class="kw-2">&amp;</span>[],
 <a href=#392 id=392 data-nosnippet>392</a>            <span class="kw-2">&amp;</span>Arc::new(TokenStateManager::new()),
@@ -402,8 +402,8 @@
 <a href=#402 id=402 data-nosnippet>402</a>
 <a href=#403 id=403 data-nosnippet>403</a>    <span class="attr">#[test]
 <a href=#404 id=404 data-nosnippet>404</a>    </span><span class="kw">fn </span>test_share_file_rejects_empty_content() {
-<a href=#405 id=405 data-nosnippet>405</a>        <span class="kw">let </span><span class="kw-2">mut </span>settings = SynchronizationSettings::new();
-<a href=#406 id=406 data-nosnippet>406</a>        settings.server_url = <span class="prelude-val">Some</span>(<span class="string">"https://example.com"</span>.to_string());
+<a href=#405 id=405 data-nosnippet>405</a>        <span class="kw">let </span><span class="kw-2">mut </span>profile = ServerProfile::new(<span class="string">"Test"</span>);
+<a href=#406 id=406 data-nosnippet>406</a>        profile.server_url = <span class="prelude-val">Some</span>(<span class="string">"https://example.com"</span>.to_string());
 <a href=#407 id=407 data-nosnippet>407</a>        <span class="kw">let </span>request = ShareFileRequest {
 <a href=#408 id=408 data-nosnippet>408</a>            content: Arc::from(<span class="string">""</span>),
 <a href=#409 id=409 data-nosnippet>409</a>            file_name: <span class="string">"test.txt"</span>.to_string(),
@@ -411,7 +411,7 @@
 <a href=#411 id=411 data-nosnippet>411</a>            file_path: <span class="prelude-val">None</span>,
 <a href=#412 id=412 data-nosnippet>412</a>        };
 <a href=#413 id=413 data-nosnippet>413</a>        <span class="kw">let </span>result = share_file(
-<a href=#414 id=414 data-nosnippet>414</a>            <span class="kw-2">&amp;</span>settings,
+<a href=#414 id=414 data-nosnippet>414</a>            <span class="kw-2">&amp;</span>profile,
 <a href=#415 id=415 data-nosnippet>415</a>            <span class="kw-2">&amp;</span>request,
 <a href=#416 id=416 data-nosnippet>416</a>            <span class="kw-2">&amp;</span>[],
 <a href=#417 id=417 data-nosnippet>417</a>            <span class="kw-2">&amp;</span>Arc::new(TokenStateManager::new()),
@@ -427,8 +427,8 @@
 <a href=#427 id=427 data-nosnippet>427</a>
 <a href=#428 id=428 data-nosnippet>428</a>    <span class="attr">#[test]
 <a href=#429 id=429 data-nosnippet>429</a>    </span><span class="kw">fn </span>test_share_file_rejects_empty_file_name() {
-<a href=#430 id=430 data-nosnippet>430</a>        <span class="kw">let </span><span class="kw-2">mut </span>settings = SynchronizationSettings::new();
-<a href=#431 id=431 data-nosnippet>431</a>        settings.server_url = <span class="prelude-val">Some</span>(<span class="string">"https://example.com"</span>.to_string());
+<a href=#430 id=430 data-nosnippet>430</a>        <span class="kw">let </span><span class="kw-2">mut </span>profile = ServerProfile::new(<span class="string">"Test"</span>);
+<a href=#431 id=431 data-nosnippet>431</a>        profile.server_url = <span class="prelude-val">Some</span>(<span class="string">"https://example.com"</span>.to_string());
 <a href=#432 id=432 data-nosnippet>432</a>        <span class="kw">let </span>request = ShareFileRequest {
 <a href=#433 id=433 data-nosnippet>433</a>            content: Arc::from(<span class="string">"hello"</span>),
 <a href=#434 id=434 data-nosnippet>434</a>            file_name: String::new(),
@@ -436,7 +436,7 @@
 <a href=#436 id=436 data-nosnippet>436</a>            file_path: <span class="prelude-val">None</span>,
 <a href=#437 id=437 data-nosnippet>437</a>        };
 <a href=#438 id=438 data-nosnippet>438</a>        <span class="kw">let </span>result = share_file(
-<a href=#439 id=439 data-nosnippet>439</a>            <span class="kw-2">&amp;</span>settings,
+<a href=#439 id=439 data-nosnippet>439</a>            <span class="kw-2">&amp;</span>profile,
 <a href=#440 id=440 data-nosnippet>440</a>            <span class="kw-2">&amp;</span>request,
 <a href=#441 id=441 data-nosnippet>441</a>            <span class="kw-2">&amp;</span>[],
 <a href=#442 id=442 data-nosnippet>442</a>            <span class="kw-2">&amp;</span>Arc::new(TokenStateManager::new()),
@@ -452,8 +452,8 @@
 <a href=#452 id=452 data-nosnippet>452</a>
 <a href=#453 id=453 data-nosnippet>453</a>    <span class="attr">#[test]
 <a href=#454 id=454 data-nosnippet>454</a>    </span><span class="kw">fn </span>test_share_file_rejects_empty_device_ids() {
-<a href=#455 id=455 data-nosnippet>455</a>        <span class="kw">let </span><span class="kw-2">mut </span>settings = SynchronizationSettings::new();
-<a href=#456 id=456 data-nosnippet>456</a>        settings.server_url = <span class="prelude-val">Some</span>(<span class="string">"https://example.com"</span>.to_string());
+<a href=#455 id=455 data-nosnippet>455</a>        <span class="kw">let </span><span class="kw-2">mut </span>profile = ServerProfile::new(<span class="string">"Test"</span>);
+<a href=#456 id=456 data-nosnippet>456</a>        profile.server_url = <span class="prelude-val">Some</span>(<span class="string">"https://example.com"</span>.to_string());
 <a href=#457 id=457 data-nosnippet>457</a>        <span class="kw">let </span>request = ShareFileRequest {
 <a href=#458 id=458 data-nosnippet>458</a>            content: Arc::from(<span class="string">"hello"</span>),
 <a href=#459 id=459 data-nosnippet>459</a>            file_name: <span class="string">"test.txt"</span>.to_string(),
@@ -461,7 +461,7 @@
 <a href=#461 id=461 data-nosnippet>461</a>            file_path: <span class="prelude-val">None</span>,
 <a href=#462 id=462 data-nosnippet>462</a>        };
 <a href=#463 id=463 data-nosnippet>463</a>        <span class="kw">let </span>result = share_file(
-<a href=#464 id=464 data-nosnippet>464</a>            <span class="kw-2">&amp;</span>settings,
+<a href=#464 id=464 data-nosnippet>464</a>            <span class="kw-2">&amp;</span>profile,
 <a href=#465 id=465 data-nosnippet>465</a>            <span class="kw-2">&amp;</span>request,
 <a href=#466 id=466 data-nosnippet>466</a>            <span class="kw-2">&amp;</span>[],
 <a href=#467 id=467 data-nosnippet>467</a>            <span class="kw-2">&amp;</span>Arc::new(TokenStateManager::new()),
@@ -482,10 +482,10 @@
 <a href=#482 id=482 data-nosnippet>482</a>    </span><span class="attr">#[test]
 <a href=#483 id=483 data-nosnippet>483</a>    </span><span class="kw">fn </span>test_share_file_fails_for_unknown_device_id() {
 <a href=#484 id=484 data-nosnippet>484</a>        <span class="comment">// Upfront validation: an unknown device ID must fail the whole request.
-<a href=#485 id=485 data-nosnippet>485</a>        </span><span class="kw">let </span>settings = make_settings_with_server_url();
+<a href=#485 id=485 data-nosnippet>485</a>        </span><span class="kw">let </span>profile = make_profile_with_server_url();
 <a href=#486 id=486 data-nosnippet>486</a>        <span class="kw">let </span>token_manager = make_token_manager_with_valid_token();
 <a href=#487 id=487 data-nosnippet>487</a>        <span class="kw">let </span>err = share_file(
-<a href=#488 id=488 data-nosnippet>488</a>            <span class="kw-2">&amp;</span>settings,
+<a href=#488 id=488 data-nosnippet>488</a>            <span class="kw-2">&amp;</span>profile,
 <a href=#489 id=489 data-nosnippet>489</a>            <span class="kw-2">&amp;</span>make_basic_request(<span class="string">"nonexistent-device"</span>),
 <a href=#490 id=490 data-nosnippet>490</a>            <span class="kw-2">&amp;</span>[], <span class="comment">// no devices provided
 <a href=#491 id=491 data-nosnippet>491</a>            </span><span class="kw-2">&amp;</span>token_manager,
@@ -502,11 +502,11 @@
 <a href=#502 id=502 data-nosnippet>502</a>    <span class="attr">#[test]
 <a href=#503 id=503 data-nosnippet>503</a>    </span><span class="kw">fn </span>test_share_file_fails_when_device_has_no_public_key() {
 <a href=#504 id=504 data-nosnippet>504</a>        <span class="comment">// Upfront validation: a device with no public key must fail before any work.
-<a href=#505 id=505 data-nosnippet>505</a>        </span><span class="kw">let </span>settings = make_settings_with_server_url();
+<a href=#505 id=505 data-nosnippet>505</a>        </span><span class="kw">let </span>profile = make_profile_with_server_url();
 <a href=#506 id=506 data-nosnippet>506</a>        <span class="kw">let </span>token_manager = make_token_manager_with_valid_token();
 <a href=#507 id=507 data-nosnippet>507</a>        <span class="kw">let </span>device = make_device(<span class="string">"device-no-key"</span>, <span class="string">"desktop"</span>, <span class="prelude-val">None</span>);
 <a href=#508 id=508 data-nosnippet>508</a>        <span class="kw">let </span>err = share_file(
-<a href=#509 id=509 data-nosnippet>509</a>            <span class="kw-2">&amp;</span>settings,
+<a href=#509 id=509 data-nosnippet>509</a>            <span class="kw-2">&amp;</span>profile,
 <a href=#510 id=510 data-nosnippet>510</a>            <span class="kw-2">&amp;</span>make_basic_request(<span class="string">"device-no-key"</span>),
 <a href=#511 id=511 data-nosnippet>511</a>            <span class="kw-2">&amp;</span>[device],
 <a href=#512 id=512 data-nosnippet>512</a>            <span class="kw-2">&amp;</span>token_manager,
@@ -523,7 +523,7 @@
 <a href=#523 id=523 data-nosnippet>523</a>    <span class="attr">#[test]
 <a href=#524 id=524 data-nosnippet>524</a>    </span><span class="kw">fn </span>test_share_file_fails_when_device_has_invalid_public_key() {
 <a href=#525 id=525 data-nosnippet>525</a>        <span class="comment">// Upfront validation: a malformed key must fail before encryption is attempted.
-<a href=#526 id=526 data-nosnippet>526</a>        </span><span class="kw">let </span>settings = make_settings_with_server_url();
+<a href=#526 id=526 data-nosnippet>526</a>        </span><span class="kw">let </span>profile = make_profile_with_server_url();
 <a href=#527 id=527 data-nosnippet>527</a>        <span class="kw">let </span>token_manager = make_token_manager_with_valid_token();
 <a href=#528 id=528 data-nosnippet>528</a>        <span class="kw">let </span>device = make_device(
 <a href=#529 id=529 data-nosnippet>529</a>            <span class="string">"device-bad-key"</span>,
@@ -531,7 +531,7 @@
 <a href=#531 id=531 data-nosnippet>531</a>            <span class="prelude-val">Some</span>(<span class="string">"not-a-valid-age-public-key"</span>),
 <a href=#532 id=532 data-nosnippet>532</a>        );
 <a href=#533 id=533 data-nosnippet>533</a>        <span class="kw">let </span>err = share_file(
-<a href=#534 id=534 data-nosnippet>534</a>            <span class="kw-2">&amp;</span>settings,
+<a href=#534 id=534 data-nosnippet>534</a>            <span class="kw-2">&amp;</span>profile,
 <a href=#535 id=535 data-nosnippet>535</a>            <span class="kw-2">&amp;</span>make_basic_request(<span class="string">"device-bad-key"</span>),
 <a href=#536 id=536 data-nosnippet>536</a>            <span class="kw-2">&amp;</span>[device],
 <a href=#537 id=537 data-nosnippet>537</a>            <span class="kw-2">&amp;</span>token_manager,
@@ -549,12 +549,12 @@
 <a href=#549 id=549 data-nosnippet>549</a>    </span><span class="kw">fn </span>test_share_file_with_valid_device_key_fails_at_network() {
 <a href=#550 id=550 data-nosnippet>550</a>        <span class="comment">// Encryption succeeds; the failure comes from the network call to a
 <a href=#551 id=551 data-nosnippet>551</a>        // non-listening port (ConnectionRefused, immediate).
-<a href=#552 id=552 data-nosnippet>552</a>        </span><span class="kw">let </span>settings = make_settings_with_server_url(); <span class="comment">// 127.0.0.1:19999
+<a href=#552 id=552 data-nosnippet>552</a>        </span><span class="kw">let </span>profile = make_profile_with_server_url(); <span class="comment">// 127.0.0.1:19999
 <a href=#553 id=553 data-nosnippet>553</a>        </span><span class="kw">let </span>token_manager = make_token_manager_with_valid_token();
 <a href=#554 id=554 data-nosnippet>554</a>        <span class="kw">let </span>(<span class="kw">_</span>, public_key) = generate_key_pair();
 <a href=#555 id=555 data-nosnippet>555</a>        <span class="kw">let </span>device = make_device(<span class="string">"device-valid-key"</span>, <span class="string">"server"</span>, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>public_key.to_string()));
 <a href=#556 id=556 data-nosnippet>556</a>        <span class="kw">let </span>result = share_file(
-<a href=#557 id=557 data-nosnippet>557</a>            <span class="kw-2">&amp;</span>settings,
+<a href=#557 id=557 data-nosnippet>557</a>            <span class="kw-2">&amp;</span>profile,
 <a href=#558 id=558 data-nosnippet>558</a>            <span class="kw-2">&amp;</span>make_basic_request(<span class="string">"device-valid-key"</span>),
 <a href=#559 id=559 data-nosnippet>559</a>            <span class="kw-2">&amp;</span>[device],
 <a href=#560 id=560 data-nosnippet>560</a>            <span class="kw-2">&amp;</span>token_manager,
@@ -584,7 +584,7 @@
 <a href=#584 id=584 data-nosnippet>584</a>    </span><span class="kw">fn </span>test_share_file_fails_fast_on_first_invalid_device() {
 <a href=#585 id=585 data-nosnippet>585</a>        <span class="comment">// Upfront validation iterates device_ids in order; the first invalid one
 <a href=#586 id=586 data-nosnippet>586</a>        // fails the whole request before any compression or encryption occurs.
-<a href=#587 id=587 data-nosnippet>587</a>        </span><span class="kw">let </span>settings = make_settings_with_server_url();
+<a href=#587 id=587 data-nosnippet>587</a>        </span><span class="kw">let </span>profile = make_profile_with_server_url();
 <a href=#588 id=588 data-nosnippet>588</a>        <span class="kw">let </span>token_manager = make_token_manager_with_valid_token();
 <a href=#589 id=589 data-nosnippet>589</a>        <span class="kw">let </span>device_no_key = make_device(<span class="string">"device-no-key"</span>, <span class="string">"desktop"</span>, <span class="prelude-val">None</span>);
 <a href=#590 id=590 data-nosnippet>590</a>        <span class="kw">let </span>request = ShareFileRequest {
@@ -594,7 +594,7 @@
 <a href=#594 id=594 data-nosnippet>594</a>            file_path: <span class="prelude-val">None</span>,
 <a href=#595 id=595 data-nosnippet>595</a>        };
 <a href=#596 id=596 data-nosnippet>596</a>        <span class="kw">let </span>err = share_file(
-<a href=#597 id=597 data-nosnippet>597</a>            <span class="kw-2">&amp;</span>settings,
+<a href=#597 id=597 data-nosnippet>597</a>            <span class="kw-2">&amp;</span>profile,
 <a href=#598 id=598 data-nosnippet>598</a>            <span class="kw-2">&amp;</span>request,
 <a href=#599 id=599 data-nosnippet>599</a>            <span class="kw-2">&amp;</span>[device_no_key],
 <a href=#600 id=600 data-nosnippet>600</a>            <span class="kw-2">&amp;</span>token_manager,

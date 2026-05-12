@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["MarkdownPreviewMode"],"struct":["AppSettings","EditorSettings","MarkdownSettings","RecentFiles","Settings","SynchronizationSettings","ThemeFile","ThemeInfo","Themes"]};
+window.SIDEBAR_ITEMS = {"constant":["DEFAULT_LEGACY_PROFILE_NAME","MAX_PROFILES"],"enum":["MarkdownPreviewMode"],"fn":["new_profile_id"],"struct":["AppSettings","EditorSettings","MarkdownSettings","RecentFiles","ServerProfile","Settings","SynchronizationSettings","ThemeFile","ThemeInfo","Themes"],"type":["ProfileId"]};

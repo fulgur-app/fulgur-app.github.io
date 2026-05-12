@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["access_token","share","sse","ssh","synchronization"]};
+window.SIDEBAR_ITEMS = {"mod":["access_token","profile_lifecycle","share","sse","ssh","synchronization"]};

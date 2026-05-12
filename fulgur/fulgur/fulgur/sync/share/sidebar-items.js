@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"constant":["MAX_SYNC_SHARE_PAYLOAD_BYTES"],"fn":["decompress_content","fetch_pending_shares","get_devices","get_icon","share_file"],"struct":["ShareFileRequest","ShareResult"],"type":["Device"]};
+window.SIDEBAR_ITEMS = {"constant":["MAX_SYNC_SHARE_PAYLOAD_BYTES"],"enum":["ProfileShareOutcome"],"fn":["decompress_content","fetch_pending_shares","format_multi_profile_summary","get_devices","get_icon","share_file"],"struct":["ShareFileRequest","ShareResult"],"type":["Device"]};
