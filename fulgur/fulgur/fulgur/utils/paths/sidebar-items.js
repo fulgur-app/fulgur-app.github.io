@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["config_dir","config_file","config_subdir"]};
+window.SIDEBAR_ITEMS = {"fn":["config_dir","config_file","config_subdir","set_config_dir_override"]};
