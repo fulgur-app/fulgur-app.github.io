@@ -147,7 +147,7 @@
 <a href=#147 id=147 data-nosnippet>147</a>                    this.active_tab_index = <span class="prelude-val">Some</span>(editor_tab_index);
 <a href=#148 id=148 data-nosnippet>148</a>                    this.pending_tab_scroll = <span class="prelude-val">Some</span>(editor_tab_index);
 <a href=#149 id=149 data-nosnippet>149</a>                    this.next_tab_id += <span class="number">1</span>;
-<a href=#150 id=150 data-nosnippet>150</a>                    this.maybe_open_markdown_preview_for_editor(editor_tab_index);
+<a href=#150 id=150 data-nosnippet>150</a>                    this.maybe_open_markdown_preview_for_editor(editor_tab_index, cx);
 <a href=#151 id=151 data-nosnippet>151</a>                    this.watch_file(<span class="kw-2">&amp;</span>path);
 <a href=#152 id=152 data-nosnippet>152</a>                    this.focus_active_tab(window, cx);
 <a href=#153 id=153 data-nosnippet>153</a>                    <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = this.settings.add_file(path.clone()) {

@@ -171,7 +171,7 @@
 <a href=#171 id=171 data-nosnippet>171</a>                    .and_then(|t| t.as_editor())
 <a href=#172 id=172 data-nosnippet>172</a>                    .map(|et| et.id);
 <a href=#173 id=173 data-nosnippet>173</a>                <span class="self">self</span>.next_tab_id = tab_id;
-<a href=#174 id=174 data-nosnippet>174</a>                <span class="self">self</span>.insert_preview_tabs_for_markdown();
+<a href=#174 id=174 data-nosnippet>174</a>                <span class="self">self</span>.insert_preview_tabs_for_markdown(cx);
 <a href=#175 id=175 data-nosnippet>175</a>                <span class="self">self</span>.active_tab_index = <span class="kw">if let </span><span class="prelude-val">Some</span>(target_id) = saved_active_editor_id {
 <a href=#176 id=176 data-nosnippet>176</a>                    <span class="self">self</span>.tabs
 <a href=#177 id=177 data-nosnippet>177</a>                        .iter()

@@ -1040,7 +1040,7 @@ with the index of a non-editor tab is a no-op.</p>
 <li><code>window</code>: The window to quit the application in</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-32" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/markdown_preview.rs.html#7-116">Source</a><a href="#impl-Fulgur-32" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.open_markdown_preview_tab" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/markdown_preview.rs.html#13-48">Source</a><h4 class="code-header">pub fn <a href="#method.open_markdown_preview_tab" class="fn">open_markdown_preview_tab</a>(
+</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-32" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/markdown_preview.rs.html#8-131">Source</a><a href="#impl-Fulgur-32" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.open_markdown_preview_tab" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/markdown_preview.rs.html#14-51">Source</a><h4 class="code-header">pub fn <a href="#method.open_markdown_preview_tab" class="fn">open_markdown_preview_tab</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
@@ -1050,19 +1050,25 @@ with the index of a non-editor tab is a no-op.</p>
 <li><code>window</code>: The window context</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.insert_preview_tabs_for_markdown" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/markdown_preview.rs.html#51-83">Source</a><h4 class="code-header">pub fn <a href="#method.insert_preview_tabs_for_markdown" class="fn">insert_preview_tabs_for_markdown</a>(&amp;mut self)</h4></section></summary><div class="docblock"><p>Insert Markdown preview tabs for all eligible editor tabs.</p>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.maybe_open_markdown_preview_for_editor" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/markdown_preview.rs.html#89-115">Source</a><h4 class="code-header">pub fn <a href="#method.maybe_open_markdown_preview_for_editor" class="fn">maybe_open_markdown_preview_for_editor</a>(
-    &amp;mut self,
-    editor_tab_index: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>,
-)</h4></section></summary><div class="docblock"><p>Insert a Markdown preview tab after the given editor tab if conditions are met.</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.insert_preview_tabs_for_markdown" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/markdown_preview.rs.html#57-91">Source</a><h4 class="code-header">pub fn <a href="#method.insert_preview_tabs_for_markdown" class="fn">insert_preview_tabs_for_markdown</a>(&amp;mut self, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Insert Markdown preview tabs for all eligible editor tabs.</p>
 <h6 id="arguments-90"><a class="doc-anchor" href="#arguments-90">§</a>Arguments</h6>
 <ul>
+<li><code>cx</code>: The application context, used to allocate per-preview view state</li>
+</ul>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.maybe_open_markdown_preview_for_editor" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/markdown_preview.rs.html#98-130">Source</a><h4 class="code-header">pub fn <a href="#method.maybe_open_markdown_preview_for_editor" class="fn">maybe_open_markdown_preview_for_editor</a>(
+    &amp;mut self,
+    editor_tab_index: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>,
+    cx: &amp;mut Context&lt;'_, Self&gt;,
+)</h4></section></summary><div class="docblock"><p>Insert a Markdown preview tab after the given editor tab if conditions are met.</p>
+<h6 id="arguments-91"><a class="doc-anchor" href="#arguments-91">§</a>Arguments</h6>
+<ul>
 <li><code>editor_tab_index</code>: Index of the editor tab in <code>self.tabs</code></li>
+<li><code>cx</code>: The application context, used to allocate per-preview view state</li>
 </ul>
 </div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-33" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/operations.rs.html#6-129">Source</a><a href="#impl-Fulgur-33" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.update_modified_status" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/operations.rs.html#14-60">Source</a><h4 class="code-header">pub fn <a href="#method.update_modified_status" class="fn">update_modified_status</a>(&amp;mut self, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Update the modified status of the tabs</p>
 <p>Uses per-editor input subscriptions so modified state is updated only when
 text changes, avoiding a full tab scan on every frame.</p>
-<h6 id="arguments-91"><a class="doc-anchor" href="#arguments-91">§</a>Arguments</h6>
+<h6 id="arguments-92"><a class="doc-anchor" href="#arguments-92">§</a>Arguments</h6>
 <ul>
 <li><code>cx</code>: The application context</li>
 </ul>
@@ -1075,7 +1081,7 @@ text changes, avoiding a full tab scan on every frame.</p>
 )</h4></section></summary><div class="docblock"><p>Reorder a tab from one index to another within this window.</p>
 <p><code>to</code> is the logical insertion slot (0 = before all tabs, N = after all tabs).
 No-op when the operation would leave the tab in its current position.</p>
-<h6 id="arguments-92"><a class="doc-anchor" href="#arguments-92">§</a>Arguments</h6>
+<h6 id="arguments-93"><a class="doc-anchor" href="#arguments-93">§</a>Arguments</h6>
 <ul>
 <li><code>from</code>: The current index of the tab to move</li>
 <li><code>to</code>: The insertion slot index (<code>0..=tabs.len()</code>)</li>
@@ -1090,7 +1096,7 @@ No-op when the operation would leave the tab in its current position.</p>
     cx: &amp;mut Context&lt;'_, Self&gt;,
 )</h4></section></summary><div class="docblock"><p>Handle a tab drop onto an insertion slot.</p>
 <p>Called by <code>on_drop</code> handlers on the slot divs in the tab bar.</p>
-<h6 id="arguments-93"><a class="doc-anchor" href="#arguments-93">§</a>Arguments</h6>
+<h6 id="arguments-94"><a class="doc-anchor" href="#arguments-94">§</a>Arguments</h6>
 <ul>
 <li><code>dragged</code>: The drag payload</li>
 <li><code>slot_index</code>: The insertion slot (0 = before first tab, N = after last tab)</li>
@@ -1102,7 +1108,7 @@ No-op when the operation would leave the tab in its current position.</p>
     tab_id: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>,
     cx: &amp;App,
 ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.95.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;TabTransferData&gt;</h4></section></summary><div class="docblock"><p>Extract all transferable state from an editor tab identified by <code>tab_id</code>.</p>
-<h6 id="arguments-94"><a class="doc-anchor" href="#arguments-94">§</a>Arguments</h6>
+<h6 id="arguments-95"><a class="doc-anchor" href="#arguments-95">§</a>Arguments</h6>
 <ul>
 <li><code>tab_id</code>: The unique ID of the tab to snapshot</li>
 <li><code>cx</code>: The application context (read-only)</li>
@@ -1120,7 +1126,7 @@ No-op when the operation would leave the tab in its current position.</p>
 <p>Called from the render loop when <code>pending_tab_transfer</code> is set. Creates
 the <code>EditorTab</code>, starts file-watching if applicable, scrolls to and
 focuses the new tab, then persists state.</p>
-<h6 id="arguments-95"><a class="doc-anchor" href="#arguments-95">§</a>Arguments</h6>
+<h6 id="arguments-96"><a class="doc-anchor" href="#arguments-96">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The target window context</li>
 <li><code>cx</code>: The application context</li>
@@ -1134,7 +1140,7 @@ focuses the new tab, then persists state.</p>
 ensuring the <code>InputState</code> has gone through layout so <code>scroll_to</code> can
 compute pixel offsets. The field is set by <code>handle_pending_tab_transfer</code>
 and consumed here on the following render cycle.</p>
-<h6 id="arguments-96"><a class="doc-anchor" href="#arguments-96">§</a>Arguments</h6>
+<h6 id="arguments-97"><a class="doc-anchor" href="#arguments-97">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The target window context</li>
 <li><code>cx</code>: The application context</li>
@@ -1148,7 +1154,7 @@ and consumed here on the following render cycle.</p>
 <code>remove_tab_by_id</code> so focus management, file-unwatching, and linked
 markdown-preview cleanup all happen correctly. If the removed tab was
 the last one in this window, the window itself is closed.</p>
-<h6 id="arguments-97"><a class="doc-anchor" href="#arguments-97">§</a>Arguments</h6>
+<h6 id="arguments-98"><a class="doc-anchor" href="#arguments-98">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The source window context</li>
 <li><code>cx</code>: The application context</li>
@@ -1160,7 +1166,7 @@ the last one in this window, the window itself is closed.</p>
     cx: &amp;mut Context&lt;'_, Self&gt;,
 )</h4></section></summary><div class="docblock"><p>Handle the <code>DockActivateTab</code> action: focus the tab with the given file path,
 switching to the correct window if necessary.</p>
-<h6 id="arguments-98"><a class="doc-anchor" href="#arguments-98">§</a>Arguments</h6>
+<h6 id="arguments-99"><a class="doc-anchor" href="#arguments-99">§</a>Arguments</h6>
 <ul>
 <li><code>action</code>: The <code>DockActivateTab</code> action containing the file path</li>
 <li><code>window</code>: The current window</li>
@@ -1173,7 +1179,7 @@ switching to the correct window if necessary.</p>
     cx: &amp;mut Context&lt;'_, Self&gt;,
 )</h4></section></summary><div class="docblock"><p>Handle the <code>DockActivateTabByTitle</code> action: focus the tab with the given title,
 switching to the correct window if necessary.</p>
-<h6 id="arguments-99"><a class="doc-anchor" href="#arguments-99">§</a>Arguments</h6>
+<h6 id="arguments-100"><a class="doc-anchor" href="#arguments-100">§</a>Arguments</h6>
 <ul>
 <li><code>action</code>: The <code>DockActivateTabByTitle</code> action containing the tab title</li>
 <li><code>window</code>: The current window</li>
@@ -1189,7 +1195,7 @@ switching to the correct window if necessary.</p>
 <li>If this is the last window: treat as quit (show confirm dialog if enabled)</li>
 <li>If multiple windows exist: just close this window (after saving state)</li>
 </ul>
-<h6 id="arguments-100"><a class="doc-anchor" href="#arguments-100">§</a>Arguments</h6>
+<h6 id="arguments-101"><a class="doc-anchor" href="#arguments-101">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window being closed</li>
 <li><code>cx</code>: The application context</li>
@@ -1200,7 +1206,7 @@ switching to the correct window if necessary.</p>
 <li><code>false</code>: Prevent window from closing (e.g., waiting for user confirmation)</li>
 </ul>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.open_new_window" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/window_manager/lifecycle.rs.html#94-132">Source</a><h4 class="code-header">pub fn <a href="#method.open_new_window" class="fn">open_new_window</a>(&amp;self, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Open a new Fulgur window (completely empty)</p>
-<h6 id="arguments-101"><a class="doc-anchor" href="#arguments-101">§</a>Arguments</h6>
+<h6 id="arguments-102"><a class="doc-anchor" href="#arguments-102">§</a>Arguments</h6>
 <ul>
 <li><code>cx</code> - The context for the application</li>
 </ul>
@@ -1212,7 +1218,7 @@ switching to the correct window if necessary.</p>
 <p>Behaves like <code>open_new_window</code> but sets <code>pending_tab_transfer</code> on the new
 window entity before the first render cycle, so the tab lands in the new
 window as if it had been sent via the normal cross-window transfer path.</p>
-<h6 id="arguments-102"><a class="doc-anchor" href="#arguments-102">§</a>Arguments</h6>
+<h6 id="arguments-103"><a class="doc-anchor" href="#arguments-103">§</a>Arguments</h6>
 <ul>
 <li><code>data</code> - The serialized tab state to transfer</li>
 <li><code>cx</code> - The context for the application</li>
@@ -1227,7 +1233,7 @@ window as if it had been sent via the normal cross-window transfer path.</p>
 <li>Update the global <code>WindowManager</code> to track this window as focused</li>
 <li>Display any pending notifications that were queued during event processing</li>
 </ol>
-<h6 id="arguments-103"><a class="doc-anchor" href="#arguments-103">§</a>Arguments</h6>
+<h6 id="arguments-104"><a class="doc-anchor" href="#arguments-104">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window being rendered</li>
 <li><code>cx</code>: The application context</li>
@@ -1238,7 +1244,7 @@ window as if it had been sent via the normal cross-window transfer path.</p>
     window_id: WindowId,
     window_index: <a class="primitive" href="https://doc.rust-lang.org/1.95.0/std/primitive.usize.html">usize</a>,
 ) -&gt; Entity&lt;Self&gt;</h4></section></summary><div class="docblock"><p>Create a new Fulgur instance</p>
-<h6 id="arguments-104"><a class="doc-anchor" href="#arguments-104">§</a>Arguments</h6>
+<h6 id="arguments-105"><a class="doc-anchor" href="#arguments-105">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window to create the Fulgur instance in</li>
 <li><code>cx</code>: The application context</li>
@@ -1250,13 +1256,13 @@ window as if it had been sent via the normal cross-window transfer path.</p>
 <li><code>Entity&lt;Self&gt;</code>: The new Fulgur instance</li>
 </ul>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.init" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/mod.rs.html#346-358">Source</a><h4 class="code-header">pub fn <a href="#method.init" class="fn">init</a>(cx: &amp;mut App, settings: &amp;mut <a class="struct" href="settings/struct.Settings.html" title="struct fulgur::fulgur::settings::Settings">Settings</a>)</h4></section></summary><div class="docblock"><p>Initialize the Fulgur instance</p>
-<h6 id="arguments-105"><a class="doc-anchor" href="#arguments-105">§</a>Arguments</h6>
+<h6 id="arguments-106"><a class="doc-anchor" href="#arguments-106">§</a>Arguments</h6>
 <ul>
 <li><code>cx</code>: The application context</li>
 <li><code>settings</code>: The application settings (already loaded and resolved, including first-run overrides)</li>
 </ul>
 </div></details></div></details></div><h2 id="trait-implementations" class="section-header">Trait Implementations<a href="#trait-implementations" class="anchor">§</a></h2><div id="trait-implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Focusable-for-Fulgur" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/mod.rs.html#504-515">Source</a><a href="#impl-Focusable-for-Fulgur" class="anchor">§</a><h3 class="code-header">impl Focusable for <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.focus_handle" class="method trait-impl"><a class="src rightside" href="../../src/fulgur/fulgur/mod.rs.html#512-514">Source</a><a href="#method.focus_handle" class="anchor">§</a><h4 class="code-header">fn <a class="fn">focus_handle</a>(&amp;self, _cx: &amp;App) -&gt; FocusHandle</h4></section></summary><div class="docblock"><p>Get the focus handle for the Fulgur instance</p>
-<h6 id="arguments-106"><a class="doc-anchor" href="#arguments-106">§</a>Arguments</h6>
+<h6 id="arguments-107"><a class="doc-anchor" href="#arguments-107">§</a>Arguments</h6>
 <ul>
 <li><code>_cx</code>: The application context</li>
 </ul>
@@ -1269,7 +1275,7 @@ window as if it had been sent via the normal cross-window transfer path.</p>
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
 ) -&gt; impl IntoElement</h4></section></summary><div class="docblock"><p>Render the Fulgur instance</p>
-<h6 id="arguments-107"><a class="doc-anchor" href="#arguments-107">§</a>Arguments</h6>
+<h6 id="arguments-108"><a class="doc-anchor" href="#arguments-108">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window to render the Fulgur instance in</li>
 <li><code>cx</code>: The application context</li>
