@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["begin","get_devices","get_shares","obtain_access_token","ping","share_file"]};
+window.SIDEBAR_ITEMS = {"fn":["begin","begin_v2","get_devices","get_share","get_shares","obtain_access_token","ping","share_file"]};
