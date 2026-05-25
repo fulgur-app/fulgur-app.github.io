@@ -197,7 +197,7 @@
 <a href=#197 id=197 data-nosnippet>197</a>            <span class="macro">tracing::info!</span>(
 <a href=#198 id=198 data-nosnippet>198</a>                <span class="string">"Created new share {} for user {} for device {}"</span>,
 <a href=#199 id=199 data-nosnippet>199</a>                share.id,
-<a href=#200 id=200 data-nosnippet>200</a>                auth_user.user.email,
+<a href=#200 id=200 data-nosnippet>200</a>                auth_user.user.id,
 <a href=#201 id=201 data-nosnippet>201</a>                payload.device_id
 <a href=#202 id=202 data-nosnippet>202</a>            );
 <a href=#203 id=203 data-nosnippet>203</a>            share
@@ -286,7 +286,7 @@
 <a href=#286 id=286 data-nosnippet>286</a>                <span class="string">"Retrieved {} shares for device {} (user: {})"</span>,
 <a href=#287 id=287 data-nosnippet>287</a>                shares.len(),
 <a href=#288 id=288 data-nosnippet>288</a>                auth_user.device_id,
-<a href=#289 id=289 data-nosnippet>289</a>                auth_user.user.email
+<a href=#289 id=289 data-nosnippet>289</a>                auth_user.user.id
 <a href=#290 id=290 data-nosnippet>290</a>            );
 <a href=#291 id=291 data-nosnippet>291</a>            <span class="kw">let </span>share_infos: Vec&lt;SharedFileResponse&gt; =
 <a href=#292 id=292 data-nosnippet>292</a>                shares.into_iter().map(SharedFileResponse::from).collect();
@@ -330,7 +330,7 @@
 <a href=#330 id=330 data-nosnippet>330</a>                <span class="string">"Retrieved share {} for device {} (user: {})"</span>,
 <a href=#331 id=331 data-nosnippet>331</a>                share.id,
 <a href=#332 id=332 data-nosnippet>332</a>                auth_user.device_id,
-<a href=#333 id=333 data-nosnippet>333</a>                auth_user.user.email
+<a href=#333 id=333 data-nosnippet>333</a>                auth_user.user.id
 <a href=#334 id=334 data-nosnippet>334</a>            );
 <a href=#335 id=335 data-nosnippet>335</a>            <span class="prelude-val">Ok</span>(Json(SharedFileResponse::from(share)))
 <a href=#336 id=336 data-nosnippet>336</a>        }
@@ -339,7 +339,7 @@
 <a href=#339 id=339 data-nosnippet>339</a>                <span class="string">"Share {} not found for device {} (user: {})"</span>,
 <a href=#340 id=340 data-nosnippet>340</a>                id,
 <a href=#341 id=341 data-nosnippet>341</a>                auth_user.device_id,
-<a href=#342 id=342 data-nosnippet>342</a>                auth_user.user.email
+<a href=#342 id=342 data-nosnippet>342</a>                auth_user.user.id
 <a href=#343 id=343 data-nosnippet>343</a>            );
 <a href=#344 id=344 data-nosnippet>344</a>            <span class="prelude-val">Err</span>((
 <a href=#345 id=345 data-nosnippet>345</a>                StatusCode::NOT_FOUND,
@@ -413,7 +413,7 @@
 <a href=#413 id=413 data-nosnippet>413</a>        <span class="macro">tracing::debug!</span>(
 <a href=#414 id=414 data-nosnippet>414</a>            <span class="string">"Updated encryption key for device {} (user: {})"</span>,
 <a href=#415 id=415 data-nosnippet>415</a>            auth_user.device_id,
-<a href=#416 id=416 data-nosnippet>416</a>            auth_user.user.email
+<a href=#416 id=416 data-nosnippet>416</a>            auth_user.user.id
 <a href=#417 id=417 data-nosnippet>417</a>        );
 <a href=#418 id=418 data-nosnippet>418</a>    }
 <a href=#419 id=419 data-nosnippet>419</a>    <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = state
@@ -498,7 +498,7 @@
 <a href=#498 id=498 data-nosnippet>498</a>        <span class="macro">tracing::debug!</span>(
 <a href=#499 id=499 data-nosnippet>499</a>            <span class="string">"Updated encryption key for device {} (user: {})"</span>,
 <a href=#500 id=500 data-nosnippet>500</a>            auth_user.device_id,
-<a href=#501 id=501 data-nosnippet>501</a>            auth_user.user.email
+<a href=#501 id=501 data-nosnippet>501</a>            auth_user.user.id
 <a href=#502 id=502 data-nosnippet>502</a>        );
 <a href=#503 id=503 data-nosnippet>503</a>    }
 <a href=#504 id=504 data-nosnippet>504</a>    <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = state
@@ -589,7 +589,7 @@
 <a href=#589 id=589 data-nosnippet>589</a>    <span class="kw">let </span>user = <span class="kw">match </span>state.user_repository.get_by_email(email.clone()).<span class="kw">await </span>{
 <a href=#590 id=590 data-nosnippet>590</a>        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(user)) =&gt; user,
 <a href=#591 id=591 data-nosnippet>591</a>        <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) =&gt; {
-<a href=#592 id=592 data-nosnippet>592</a>            <span class="macro">tracing::warn!</span>(<span class="string">"Token request for non-existent user: {}"</span>, email);
+<a href=#592 id=592 data-nosnippet>592</a>            <span class="macro">tracing::warn!</span>(<span class="string">"Token request for non-existent user"</span>);
 <a href=#593 id=593 data-nosnippet>593</a>            <span class="kw">return </span><span class="prelude-val">Err</span>((
 <a href=#594 id=594 data-nosnippet>594</a>                StatusCode::UNAUTHORIZED,
 <a href=#595 id=595 data-nosnippet>595</a>                Json(ErrorResponse {
@@ -701,7 +701,7 @@
 <a href=#701 id=701 data-nosnippet>701</a>        }
 <a href=#702 id=702 data-nosnippet>702</a>    }
 <a href=#703 id=703 data-nosnippet>703</a>    <span class="kw">let </span>(device_id, device_name) = authenticated_device.ok_or_else(|| {
-<a href=#704 id=704 data-nosnippet>704</a>        <span class="macro">tracing::warn!</span>(<span class="string">"Invalid device key for user: {}"</span>, email);
+<a href=#704 id=704 data-nosnippet>704</a>        <span class="macro">tracing::warn!</span>(<span class="string">"Invalid device key for user {}"</span>, user.id);
 <a href=#705 id=705 data-nosnippet>705</a>        (
 <a href=#706 id=706 data-nosnippet>706</a>            StatusCode::UNAUTHORIZED,
 <a href=#707 id=707 data-nosnippet>707</a>            Json(ErrorResponse {
