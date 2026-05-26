@@ -29,7 +29,7 @@
 <a href=#29 id=29 data-nosnippet>29</a>    </span><span class="kw">pub </span>device_key_fast_hash: <span class="prelude-ty">Option</span>&lt;String&gt;, <span class="comment">// SHA256 for fast lookup
 <a href=#30 id=30 data-nosnippet>30</a>    </span><span class="kw">pub </span>name: String,
 <a href=#31 id=31 data-nosnippet>31</a>    <span class="kw">pub </span>device_type: String,
-<a href=#32 id=32 data-nosnippet>32</a>    <span class="kw">pub </span>encryption_key: <span class="prelude-ty">Option</span>&lt;String&gt;, <span class="comment">// Base64-encoded 256-bit AES key for encrypting shared files (nullable)
+<a href=#32 id=32 data-nosnippet>32</a>    <span class="kw">pub </span>public_key: <span class="prelude-ty">Option</span>&lt;String&gt;, <span class="comment">// Age (X25519) public key uploaded by the client (format: "age1..."), nullable
 <a href=#33 id=33 data-nosnippet>33</a>    </span><span class="kw">pub </span>expires_at: OffsetDateTime,
 <a href=#34 id=34 data-nosnippet>34</a>    <span class="kw">pub </span>created_at: OffsetDateTime,
 <a href=#35 id=35 data-nosnippet>35</a>    <span class="kw">pub </span>updated_at: OffsetDateTime,
@@ -160,7 +160,7 @@
 <a href=#160 id=160 data-nosnippet>160</a>        <span class="kw">let </span>id = <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.pool {
 <a href=#161 id=161 data-nosnippet>161</a>            DbPool::Sqlite(pool) =&gt; {
 <a href=#162 id=162 data-nosnippet>162</a>                <span class="kw">let </span>result = sqlx::query(
-<a href=#163 id=163 data-nosnippet>163</a>                    <span class="string">"INSERT INTO devices (user_id, device_id, device_key, device_key_fast_hash, name, device_type, encryption_key, expires_at, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"</span>,
+<a href=#163 id=163 data-nosnippet>163</a>                    <span class="string">"INSERT INTO devices (user_id, device_id, device_key, device_key_fast_hash, name, device_type, public_key, expires_at, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"</span>,
 <a href=#164 id=164 data-nosnippet>164</a>                )
 <a href=#165 id=165 data-nosnippet>165</a>                .bind(user_id)
 <a href=#166 id=166 data-nosnippet>166</a>                .bind(<span class="kw-2">&amp;</span>device_id)
@@ -177,7 +177,7 @@
 <a href=#177 id=177 data-nosnippet>177</a>            }
 <a href=#178 id=178 data-nosnippet>178</a>            DbPool::Postgres(pool) =&gt; {
 <a href=#179 id=179 data-nosnippet>179</a>                <span class="kw">let </span>row: (i32,) = sqlx::query_as(
-<a href=#180 id=180 data-nosnippet>180</a>                    <span class="string">"INSERT INTO devices (user_id, device_id, device_key, device_key_fast_hash, name, device_type, encryption_key, expires_at) VALUES ($1, $2, $3, $4, $5, $6, $7, to_timestamp($8)) RETURNING id"</span>,
+<a href=#180 id=180 data-nosnippet>180</a>                    <span class="string">"INSERT INTO devices (user_id, device_id, device_key, device_key_fast_hash, name, device_type, public_key, expires_at) VALUES ($1, $2, $3, $4, $5, $6, $7, to_timestamp($8)) RETURNING id"</span>,
 <a href=#181 id=181 data-nosnippet>181</a>                )
 <a href=#182 id=182 data-nosnippet>182</a>                .bind(user_id)
 <a href=#183 id=183 data-nosnippet>183</a>                .bind(<span class="kw-2">&amp;</span>device_id)
@@ -217,25 +217,25 @@
 <a href=#217 id=217 data-nosnippet>217</a>        <span class="self">self</span>.get_by_id(id).<span class="kw">await
 <a href=#218 id=218 data-nosnippet>218</a>    </span>}
 <a href=#219 id=219 data-nosnippet>219</a>
-<a href=#220 id=220 data-nosnippet>220</a>    <span class="doccomment">/// Update the encryption key for a device
+<a href=#220 id=220 data-nosnippet>220</a>    <span class="doccomment">/// Update the age public key for a device
 <a href=#221 id=221 data-nosnippet>221</a>    ///
 <a href=#222 id=222 data-nosnippet>222</a>    /// ### Arguments
 <a href=#223 id=223 data-nosnippet>223</a>    /// - `device_id`: The device ID (UUID)
-<a href=#224 id=224 data-nosnippet>224</a>    /// - `encryption_key`: The new encryption key
+<a href=#224 id=224 data-nosnippet>224</a>    /// - `public_key`: The device's age (X25519) public key, format "age1..."
 <a href=#225 id=225 data-nosnippet>225</a>    ///
 <a href=#226 id=226 data-nosnippet>226</a>    /// ### Returns
 <a href=#227 id=227 data-nosnippet>227</a>    /// - `Ok(())`: The result of the operation
 <a href=#228 id=228 data-nosnippet>228</a>    /// - `Err(sqlx::Error)`: The error if the operation fails
-<a href=#229 id=229 data-nosnippet>229</a>    </span><span class="kw">pub async fn </span>update_encryption_key(
+<a href=#229 id=229 data-nosnippet>229</a>    </span><span class="kw">pub async fn </span>update_public_key(
 <a href=#230 id=230 data-nosnippet>230</a>        <span class="kw-2">&amp;</span><span class="self">self</span>,
 <a href=#231 id=231 data-nosnippet>231</a>        device_id: <span class="kw-2">&amp;</span>str,
-<a href=#232 id=232 data-nosnippet>232</a>        encryption_key: String,
+<a href=#232 id=232 data-nosnippet>232</a>        public_key: String,
 <a href=#233 id=233 data-nosnippet>233</a>    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), sqlx::Error&gt; {
 <a href=#234 id=234 data-nosnippet>234</a>        <span class="macro">db_execute_dual!</span>(
 <a href=#235 id=235 data-nosnippet>235</a>            <span class="self">self</span>.pool,
-<a href=#236 id=236 data-nosnippet>236</a>            sqlite: <span class="string">"UPDATE devices SET encryption_key = ?, updated_at = unixepoch('now') WHERE device_id = ?"</span>,
-<a href=#237 id=237 data-nosnippet>237</a>            postgres: <span class="string">"UPDATE devices SET encryption_key = $1, updated_at = NOW() WHERE device_id = $2"</span>,
-<a href=#238 id=238 data-nosnippet>238</a>            encryption_key,
+<a href=#236 id=236 data-nosnippet>236</a>            sqlite: <span class="string">"UPDATE devices SET public_key = ?, updated_at = unixepoch('now') WHERE device_id = ?"</span>,
+<a href=#237 id=237 data-nosnippet>237</a>            postgres: <span class="string">"UPDATE devices SET public_key = $1, updated_at = NOW() WHERE device_id = $2"</span>,
+<a href=#238 id=238 data-nosnippet>238</a>            public_key,
 <a href=#239 id=239 data-nosnippet>239</a>            device_id
 <a href=#240 id=240 data-nosnippet>240</a>        )<span class="question-mark">?</span>;
 <a href=#241 id=241 data-nosnippet>241</a>        <span class="prelude-val">Ok</span>(())

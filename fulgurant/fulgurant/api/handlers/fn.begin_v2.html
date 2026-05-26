@@ -7,7 +7,7 @@
 <p>Variant of <code>/api/begin</code> that does not return share payloads. It performs the same
 session warm-up as v1:</p>
 <ol>
-<li>Update the device’s encryption key (if provided)</li>
+<li>Update the device’s age public key (if provided)</li>
 <li>Update the user’s last activity timestamp</li>
 <li>Return the IDs of pending non-expired shares for the device, without deleting them</li>
 </ol>
@@ -17,7 +17,7 @@ when <code>share_ids</code> is non-empty (or when an SSE share notification arri
 <ul>
 <li><code>state</code>: The state of the application</li>
 <li><code>auth_user</code>: The authenticated user</li>
-<li><code>payload</code>: The initial synchronization payload containing the public key (encryption key)</li>
+<li><code>payload</code>: The initial synchronization payload containing the device’s age public key</li>
 </ul>
 <h4 id="returns"><a class="doc-anchor" href="#returns">§</a>Returns</h4>
 <ul>

@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"constant":["MAX_NAME_LEN"],"fn":["generate_encryption_key"],"struct":["DisplayUser","PaginatedUsers","User","UserRepository"]};
+window.SIDEBAR_ITEMS = {"constant":["MAX_NAME_LEN"],"struct":["DisplayUser","PaginatedUsers","User","UserRepository"]};
