@@ -403,7 +403,7 @@
 <a href=#403 id=403 data-nosnippet>403</a>                GlobalState::global_mut(cx).set_app_menus(owned_menus);
 <a href=#404 id=404 data-nosnippet>404</a>            }
 <a href=#405 id=405 data-nosnippet>405</a>            <span class="self">self</span>.title_bar
-<a href=#406 id=406 data-nosnippet>406</a>                .update(cx, <span class="kw">super</span>::bars::titlebar::CustomTitleBar::reload_app_menu_bar);
+<a href=#406 id=406 data-nosnippet>406</a>                .update(cx, |tb, cx| tb.reload_app_menu_bar(cx));
 <a href=#407 id=407 data-nosnippet>407</a>        }
 <a href=#408 id=408 data-nosnippet>408</a>    }
 <a href=#409 id=409 data-nosnippet>409</a>
