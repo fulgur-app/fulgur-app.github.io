@@ -147,7 +147,7 @@
 <a href=#147 id=147 data-nosnippet>147</a>        .rounded_sm()
 <a href=#148 id=148 data-nosnippet>148</a>        .border_color(cx.theme().border)
 <a href=#149 id=149 data-nosnippet>149</a>        .border_1()
-<a href=#150 id=150 data-nosnippet>150</a>        .when(has_public_key, |this| this.cursor_pointer())
+<a href=#150 id=150 data-nosnippet>150</a>        .when(has_public_key, gpui::Styled::cursor_pointer)
 <a href=#151 id=151 data-nosnippet>151</a>        .when(!has_public_key, |this| this.opacity(<span class="number">0.5</span>))
 <a href=#152 id=152 data-nosnippet>152</a>        .when(has_public_key, |this| {
 <a href=#153 id=153 data-nosnippet>153</a>            this.hover(|hover| hover.bg(cx.theme().muted))
@@ -340,10 +340,10 @@
 <a href=#340 id=340 data-nosnippet>340</a></span><span class="kw">fn </span>capture_share_context(entity: <span class="kw-2">&amp;</span>Entity&lt;Fulgur&gt;, cx: <span class="kw-2">&amp;mut </span>App) -&gt; ShareContext {
 <a href=#341 id=341 data-nosnippet>341</a>    entity.update(cx, |this, cx| {
 <a href=#342 id=342 data-nosnippet>342</a>        <span class="kw">let </span>active_tab = this.get_active_editor_tab();
-<a href=#343 id=343 data-nosnippet>343</a>        <span class="kw">let </span>content: Arc&lt;str&gt; = active_tab
-<a href=#344 id=344 data-nosnippet>344</a>            .as_ref()
-<a href=#345 id=345 data-nosnippet>345</a>            .map(|tab| Arc::from(tab.content.read(cx).value().as_str()))
-<a href=#346 id=346 data-nosnippet>346</a>            .unwrap_or_else(|| Arc::from(<span class="string">""</span>));
+<a href=#343 id=343 data-nosnippet>343</a>        <span class="kw">let </span>content: Arc&lt;str&gt; = active_tab.as_ref().map_or_else(
+<a href=#344 id=344 data-nosnippet>344</a>            || Arc::from(<span class="string">""</span>),
+<a href=#345 id=345 data-nosnippet>345</a>            |tab| Arc::from(tab.content.read(cx).value().as_str()),
+<a href=#346 id=346 data-nosnippet>346</a>        );
 <a href=#347 id=347 data-nosnippet>347</a>        <span class="kw">let </span>file_path = active_tab.as_ref().and_then(|tab| tab.file_path().cloned());
 <a href=#348 id=348 data-nosnippet>348</a>        <span class="kw">let </span>file_name = file_path
 <a href=#349 id=349 data-nosnippet>349</a>            .as_ref()
@@ -386,593 +386,585 @@
 <a href=#386 id=386 data-nosnippet>386</a>        <span class="kw">if </span>device_ids.is_empty() {
 <a href=#387 id=387 data-nosnippet>387</a>            <span class="kw">continue</span>;
 <a href=#388 id=388 data-nosnippet>388</a>        }
-<a href=#389 id=389 data-nosnippet>389</a>        <span class="kw">let </span>devices = <span class="kw">match </span>map.get(<span class="kw-2">&amp;</span>profile.id) {
-<a href=#390 id=390 data-nosnippet>390</a>            <span class="prelude-val">Some</span>(ProfileFetchState::Loaded(devices)) =&gt; Arc::clone(devices),
-<a href=#391 id=391 data-nosnippet>391</a>            <span class="kw">_ </span>=&gt; {
-<a href=#392 id=392 data-nosnippet>392</a>                <span class="macro">log::warn!</span>(
-<a href=#393 id=393 data-nosnippet>393</a>                    <span class="string">"Profile '{}': selection present but no loaded devices, skipping"</span>,
-<a href=#394 id=394 data-nosnippet>394</a>                    profile.name
-<a href=#395 id=395 data-nosnippet>395</a>                );
-<a href=#396 id=396 data-nosnippet>396</a>                <span class="kw">continue</span>;
-<a href=#397 id=397 data-nosnippet>397</a>            }
-<a href=#398 id=398 data-nosnippet>398</a>        };
-<a href=#399 id=399 data-nosnippet>399</a>        <span class="kw">let </span>(token_state, max_file_size_bytes) = entity.update(cx, |this, cx| {
-<a href=#400 id=400 data-nosnippet>400</a>            <span class="kw">let </span>sync_state = this.shared_state(cx).sync_state_for(<span class="kw-2">&amp;</span>profile.id);
-<a href=#401 id=401 data-nosnippet>401</a>            (
-<a href=#402 id=402 data-nosnippet>402</a>                Arc::clone(<span class="kw-2">&amp;</span>sync_state.token_state),
-<a href=#403 id=403 data-nosnippet>403</a>                sync_state
-<a href=#404 id=404 data-nosnippet>404</a>                    .max_file_size_bytes
-<a href=#405 id=405 data-nosnippet>405</a>                    .load(std::sync::atomic::Ordering::Acquire),
-<a href=#406 id=406 data-nosnippet>406</a>            )
-<a href=#407 id=407 data-nosnippet>407</a>        });
-<a href=#408 id=408 data-nosnippet>408</a>        bundles.push(ProfileShareResources {
-<a href=#409 id=409 data-nosnippet>409</a>            profile: profile.clone(),
-<a href=#410 id=410 data-nosnippet>410</a>            devices,
-<a href=#411 id=411 data-nosnippet>411</a>            device_ids,
-<a href=#412 id=412 data-nosnippet>412</a>            token_state,
-<a href=#413 id=413 data-nosnippet>413</a>            max_file_size_bytes,
-<a href=#414 id=414 data-nosnippet>414</a>        });
-<a href=#415 id=415 data-nosnippet>415</a>    }
-<a href=#416 id=416 data-nosnippet>416</a>    bundles
-<a href=#417 id=417 data-nosnippet>417</a>}
-<a href=#418 id=418 data-nosnippet>418</a>
-<a href=#419 id=419 data-nosnippet>419</a><span class="doccomment">/// Run a single profile's share request and translate the result into a
-<a href=#420 id=420 data-nosnippet>420</a>/// `ProfileShareOutcome` for aggregation.
-<a href=#421 id=421 data-nosnippet>421</a>///
-<a href=#422 id=422 data-nosnippet>422</a>/// ### Arguments
-<a href=#423 id=423 data-nosnippet>423</a>/// - `resources`: The profile and its selected device subset.
-<a href=#424 id=424 data-nosnippet>424</a>/// - `request`: The shared request payload (content, filename, `file_path`).
-<a href=#425 id=425 data-nosnippet>425</a>/// - `http_agent`: Shared HTTP agent.
-<a href=#426 id=426 data-nosnippet>426</a>///
-<a href=#427 id=427 data-nosnippet>427</a>/// ### Returns
-<a href=#428 id=428 data-nosnippet>428</a>/// - `ProfileShareOutcome`: `Completed` for a per-device dispatch result;
-<a href=#429 id=429 data-nosnippet>429</a>///   `Aborted` when validation prevented any per-device call.
-<a href=#430 id=430 data-nosnippet>430</a></span><span class="kw">fn </span>execute_profile_share(
-<a href=#431 id=431 data-nosnippet>431</a>    resources: <span class="kw-2">&amp;</span>ProfileShareResources,
-<a href=#432 id=432 data-nosnippet>432</a>    request: <span class="kw-2">&amp;</span>ShareFileRequest,
-<a href=#433 id=433 data-nosnippet>433</a>    http_agent: <span class="kw-2">&amp;</span>ureq::Agent,
-<a href=#434 id=434 data-nosnippet>434</a>) -&gt; ProfileShareOutcome {
-<a href=#435 id=435 data-nosnippet>435</a>    <span class="kw">let </span>result = share_file(
-<a href=#436 id=436 data-nosnippet>436</a>        <span class="kw-2">&amp;</span>resources.profile,
-<a href=#437 id=437 data-nosnippet>437</a>        request,
-<a href=#438 id=438 data-nosnippet>438</a>        <span class="kw-2">&amp;</span>resources.devices,
-<a href=#439 id=439 data-nosnippet>439</a>        <span class="kw-2">&amp;</span>resources.token_state,
-<a href=#440 id=440 data-nosnippet>440</a>        http_agent,
-<a href=#441 id=441 data-nosnippet>441</a>        resources.max_file_size_bytes,
-<a href=#442 id=442 data-nosnippet>442</a>    );
-<a href=#443 id=443 data-nosnippet>443</a>    <span class="kw">match </span>result {
-<a href=#444 id=444 data-nosnippet>444</a>        <span class="prelude-val">Ok</span>(share_result) =&gt; ProfileShareOutcome::Completed(share_result),
-<a href=#445 id=445 data-nosnippet>445</a>        <span class="prelude-val">Err</span>(e) =&gt; {
-<a href=#446 id=446 data-nosnippet>446</a>            <span class="macro">log::error!</span>(
-<a href=#447 id=447 data-nosnippet>447</a>                <span class="string">"Profile '{}': share aborted: {e}"</span>,
-<a href=#448 id=448 data-nosnippet>448</a>                resources.profile.name.as_str()
-<a href=#449 id=449 data-nosnippet>449</a>            );
-<a href=#450 id=450 data-nosnippet>450</a>            ProfileShareOutcome::Aborted(e)
-<a href=#451 id=451 data-nosnippet>451</a>        }
-<a href=#452 id=452 data-nosnippet>452</a>    }
-<a href=#453 id=453 data-nosnippet>453</a>}
-<a href=#454 id=454 data-nosnippet>454</a>
-<a href=#455 id=455 data-nosnippet>455</a><span class="doccomment">/// Pick the right notification type for an aggregated multi-profile share.
-<a href=#456 id=456 data-nosnippet>456</a>///
-<a href=#457 id=457 data-nosnippet>457</a>/// ### Arguments
-<a href=#458 id=458 data-nosnippet>458</a>/// - `outcomes`: Per-profile outcomes after fan-out.
-<a href=#459 id=459 data-nosnippet>459</a>///
-<a href=#460 id=460 data-nosnippet>460</a>/// ### Returns
-<a href=#461 id=461 data-nosnippet>461</a>/// - `NotificationType`: `Success` if every profile completely succeeded,
-<a href=#462 id=462 data-nosnippet>462</a>///   `Error` if no profile had any success, otherwise `Warning`.
-<a href=#463 id=463 data-nosnippet>463</a></span><span class="kw">fn </span>aggregate_notification_type(outcomes: <span class="kw-2">&amp;</span>[(String, ProfileShareOutcome)]) -&gt; NotificationType {
-<a href=#464 id=464 data-nosnippet>464</a>    <span class="kw">let </span>any_success = outcomes.iter().any(|(<span class="kw">_</span>, o)| o.has_success());
-<a href=#465 id=465 data-nosnippet>465</a>    <span class="kw">let </span>any_failure = outcomes.iter().any(|(<span class="kw">_</span>, o)| o.has_failure());
-<a href=#466 id=466 data-nosnippet>466</a>    <span class="kw">match </span>(any_success, any_failure) {
-<a href=#467 id=467 data-nosnippet>467</a>        (<span class="bool-val">true</span>, <span class="bool-val">false</span>) =&gt; NotificationType::Success,
-<a href=#468 id=468 data-nosnippet>468</a>        (<span class="bool-val">true</span>, <span class="bool-val">true</span>) =&gt; NotificationType::Warning,
-<a href=#469 id=469 data-nosnippet>469</a>        <span class="kw">_ </span>=&gt; NotificationType::Error,
-<a href=#470 id=470 data-nosnippet>470</a>    }
-<a href=#471 id=471 data-nosnippet>471</a>}
-<a href=#472 id=472 data-nosnippet>472</a>
-<a href=#473 id=473 data-nosnippet>473</a><span class="doccomment">/// Handle the Share button: validate selection, fan out per profile, and queue an aggregated notification when every profile has reported back.
-<a href=#474 id=474 data-nosnippet>474</a>///
-<a href=#475 id=475 data-nosnippet>475</a>/// ### Arguments
-<a href=#476 id=476 data-nosnippet>476</a>/// - `state`: Shared sheet state.
-<a href=#477 id=477 data-nosnippet>477</a>/// - `entity`: The Fulgur entity.
-<a href=#478 id=478 data-nosnippet>478</a>/// - `window`: The current window context.
-<a href=#479 id=479 data-nosnippet>479</a>/// - `cx`: The application context.
-<a href=#480 id=480 data-nosnippet>480</a></span><span class="kw">fn </span>handle_share_file(
-<a href=#481 id=481 data-nosnippet>481</a>    state: <span class="kw-2">&amp;</span>Arc&lt;ShareSheetState&gt;,
-<a href=#482 id=482 data-nosnippet>482</a>    entity: <span class="kw-2">&amp;</span>Entity&lt;Fulgur&gt;,
-<a href=#483 id=483 data-nosnippet>483</a>    window: <span class="kw-2">&amp;mut </span>Window,
-<a href=#484 id=484 data-nosnippet>484</a>    cx: <span class="kw-2">&amp;mut </span>App,
-<a href=#485 id=485 data-nosnippet>485</a>) {
-<a href=#486 id=486 data-nosnippet>486</a>    <span class="kw">let </span>keys = state.selected.lock().clone();
-<a href=#487 id=487 data-nosnippet>487</a>    <span class="kw">if </span>keys.is_empty() {
-<a href=#488 id=488 data-nosnippet>488</a>        window.push_notification(
-<a href=#489 id=489 data-nosnippet>489</a>            (
-<a href=#490 id=490 data-nosnippet>490</a>                NotificationType::Warning,
-<a href=#491 id=491 data-nosnippet>491</a>                SharedString::from(<span class="string">"Please select at least one device to share with."</span>),
-<a href=#492 id=492 data-nosnippet>492</a>            ),
-<a href=#493 id=493 data-nosnippet>493</a>            cx,
-<a href=#494 id=494 data-nosnippet>494</a>        );
-<a href=#495 id=495 data-nosnippet>495</a>        <span class="kw">return</span>;
-<a href=#496 id=496 data-nosnippet>496</a>    }
-<a href=#497 id=497 data-nosnippet>497</a>    <span class="kw">let </span>bundles = build_profile_share_resources(<span class="kw-2">&amp;</span>keys, state, entity, cx);
-<a href=#498 id=498 data-nosnippet>498</a>    <span class="kw">if </span>bundles.is_empty() {
-<a href=#499 id=499 data-nosnippet>499</a>        <span class="macro">log::warn!</span>(<span class="string">"Share aborted: no loaded profiles in selection"</span>);
-<a href=#500 id=500 data-nosnippet>500</a>        <span class="kw">return</span>;
-<a href=#501 id=501 data-nosnippet>501</a>    }
-<a href=#502 id=502 data-nosnippet>502</a>    <span class="kw">let </span>share_context = capture_share_context(entity, cx);
-<a href=#503 id=503 data-nosnippet>503</a>    <span class="kw">let </span>http_agent = entity.update(cx, |this, cx| Arc::clone(<span class="kw-2">&amp;</span>this.shared_state(cx).http_agent));
-<a href=#504 id=504 data-nosnippet>504</a>    <span class="kw">let </span>pending_notification = entity.update(cx, |this, cx| {
-<a href=#505 id=505 data-nosnippet>505</a>        <span class="kw">let </span>first_profile_id = bundles
-<a href=#506 id=506 data-nosnippet>506</a>            .first()
-<a href=#507 id=507 data-nosnippet>507</a>            .map(|b| b.profile.id.clone())
-<a href=#508 id=508 data-nosnippet>508</a>            .unwrap_or_default();
-<a href=#509 id=509 data-nosnippet>509</a>        Arc::clone(
-<a href=#510 id=510 data-nosnippet>510</a>            <span class="kw-2">&amp;</span>this
-<a href=#511 id=511 data-nosnippet>511</a>                .shared_state(cx)
-<a href=#512 id=512 data-nosnippet>512</a>                .sync_state_for(<span class="kw-2">&amp;</span>first_profile_id)
-<a href=#513 id=513 data-nosnippet>513</a>                .pending_notification,
-<a href=#514 id=514 data-nosnippet>514</a>        )
-<a href=#515 id=515 data-nosnippet>515</a>    });
-<a href=#516 id=516 data-nosnippet>516</a>    state
-<a href=#517 id=517 data-nosnippet>517</a>        .active
-<a href=#518 id=518 data-nosnippet>518</a>        .store(<span class="bool-val">false</span>, std::sync::atomic::Ordering::Release);
-<a href=#519 id=519 data-nosnippet>519</a>    entity.update(cx, |this, <span class="kw">_</span>| {
-<a href=#520 id=520 data-nosnippet>520</a>        this.share_sheet_state = <span class="prelude-val">None</span>;
-<a href=#521 id=521 data-nosnippet>521</a>    });
-<a href=#522 id=522 data-nosnippet>522</a>    window.close_sheet(cx);
-<a href=#523 id=523 data-nosnippet>523</a>    <span class="kw">let </span>progress_label = <span class="macro">format!</span>(<span class="string">"Sharing {}..."</span>, share_context.file_name);
-<a href=#524 id=524 data-nosnippet>524</a>    <span class="kw">let </span>cancel_callback: <span class="prelude-ty">Option</span>&lt;CancelCallback&gt; = <span class="prelude-val">Some</span>(Box::new(|<span class="kw">_</span>, <span class="kw">_</span>| {}));
-<a href=#525 id=525 data-nosnippet>525</a>    <span class="kw">let </span>progress = start_progress(window, cx, progress_label.into(), cancel_callback);
-<a href=#526 id=526 data-nosnippet>526</a>    <span class="kw">let </span>cancel_flag = progress.cancel_flag();
-<a href=#527 id=527 data-nosnippet>527</a>    std::thread::spawn(<span class="kw">move </span>|| {
-<a href=#528 id=528 data-nosnippet>528</a>        <span class="kw">let </span>_progress = progress;
-<a href=#529 id=529 data-nosnippet>529</a>        <span class="kw">let </span>outcomes: Vec&lt;(String, ProfileShareOutcome)&gt; = std::thread::scope(|scope| {
-<a href=#530 id=530 data-nosnippet>530</a>            <span class="kw">let </span>handles: Vec&lt;<span class="kw">_</span>&gt; = bundles
-<a href=#531 id=531 data-nosnippet>531</a>                .iter()
-<a href=#532 id=532 data-nosnippet>532</a>                .map(|bundle| {
-<a href=#533 id=533 data-nosnippet>533</a>                    <span class="kw">let </span>request = ShareFileRequest {
-<a href=#534 id=534 data-nosnippet>534</a>                        content: Arc::clone(<span class="kw-2">&amp;</span>share_context.content),
-<a href=#535 id=535 data-nosnippet>535</a>                        file_name: share_context.file_name.clone(),
-<a href=#536 id=536 data-nosnippet>536</a>                        device_ids: bundle.device_ids.clone(),
-<a href=#537 id=537 data-nosnippet>537</a>                        file_path: share_context.file_path.clone(),
-<a href=#538 id=538 data-nosnippet>538</a>                    };
-<a href=#539 id=539 data-nosnippet>539</a>                    <span class="kw">let </span>http_agent_ref = <span class="kw-2">&amp;</span>http_agent;
-<a href=#540 id=540 data-nosnippet>540</a>                    scope.spawn(<span class="kw">move </span>|| {
-<a href=#541 id=541 data-nosnippet>541</a>                        <span class="kw">let </span>outcome = execute_profile_share(bundle, <span class="kw-2">&amp;</span>request, http_agent_ref);
-<a href=#542 id=542 data-nosnippet>542</a>                        (bundle.profile.name.clone(), outcome)
-<a href=#543 id=543 data-nosnippet>543</a>                    })
-<a href=#544 id=544 data-nosnippet>544</a>                })
-<a href=#545 id=545 data-nosnippet>545</a>                .collect();
-<a href=#546 id=546 data-nosnippet>546</a>            handles
-<a href=#547 id=547 data-nosnippet>547</a>                .into_iter()
-<a href=#548 id=548 data-nosnippet>548</a>                .map(|h| {
-<a href=#549 id=549 data-nosnippet>549</a>                    h.join().unwrap_or_else(|e| {
-<a href=#550 id=550 data-nosnippet>550</a>                        <span class="macro">log::error!</span>(<span class="string">"Per-profile share thread panicked: {e:?}"</span>);
-<a href=#551 id=551 data-nosnippet>551</a>                        (
-<a href=#552 id=552 data-nosnippet>552</a>                            String::from(<span class="string">"(unknown)"</span>),
-<a href=#553 id=553 data-nosnippet>553</a>                            ProfileShareOutcome::Aborted(
-<a href=#554 id=554 data-nosnippet>554</a>                                <span class="kw">crate</span>::fulgur::sync::synchronization::SynchronizationError::Other(
-<a href=#555 id=555 data-nosnippet>555</a>                                    <span class="string">"Internal issue"</span>.to_string(),
-<a href=#556 id=556 data-nosnippet>556</a>                                ),
-<a href=#557 id=557 data-nosnippet>557</a>                            ),
-<a href=#558 id=558 data-nosnippet>558</a>                        )
-<a href=#559 id=559 data-nosnippet>559</a>                    })
-<a href=#560 id=560 data-nosnippet>560</a>                })
-<a href=#561 id=561 data-nosnippet>561</a>                .collect()
-<a href=#562 id=562 data-nosnippet>562</a>        });
-<a href=#563 id=563 data-nosnippet>563</a>        <span class="kw">if </span>cancel_flag.load(std::sync::atomic::Ordering::Acquire) {
-<a href=#564 id=564 data-nosnippet>564</a>            <span class="kw">return</span>;
-<a href=#565 id=565 data-nosnippet>565</a>        }
-<a href=#566 id=566 data-nosnippet>566</a>        <span class="kw">let </span>summary = format_multi_profile_summary(<span class="kw-2">&amp;</span>outcomes);
-<a href=#567 id=567 data-nosnippet>567</a>        <span class="kw">let </span>notification_type = aggregate_notification_type(<span class="kw-2">&amp;</span>outcomes);
-<a href=#568 id=568 data-nosnippet>568</a>        <span class="kw-2">*</span>pending_notification.lock() = <span class="prelude-val">Some</span>((notification_type, SharedString::from(summary)));
-<a href=#569 id=569 data-nosnippet>569</a>    });
-<a href=#570 id=570 data-nosnippet>570</a>}
-<a href=#571 id=571 data-nosnippet>571</a>
-<a href=#572 id=572 data-nosnippet>572</a><span class="doccomment">/// Spawn a background thread that fetches one profile's devices and writes its outcome to the shared sheet state.
-<a href=#573 id=573 data-nosnippet>573</a>///
-<a href=#574 id=574 data-nosnippet>574</a>/// ### Arguments
-<a href=#575 id=575 data-nosnippet>575</a>/// - `profile`: Profile to fetch from.
-<a href=#576 id=576 data-nosnippet>576</a>/// - `state`: Shared sheet state to update.
-<a href=#577 id=577 data-nosnippet>577</a>/// - `sync_state`: Per-profile shared sync state.
-<a href=#578 id=578 data-nosnippet>578</a>/// - `http_agent`: Shared HTTP agent.
-<a href=#579 id=579 data-nosnippet>579</a></span><span class="kw">fn </span>spawn_profile_device_fetch(
-<a href=#580 id=580 data-nosnippet>580</a>    profile: ServerProfile,
-<a href=#581 id=581 data-nosnippet>581</a>    state: Arc&lt;ShareSheetState&gt;,
-<a href=#582 id=582 data-nosnippet>582</a>    sync_state: Arc&lt;<span class="kw">crate</span>::fulgur::shared_state::SyncState&gt;,
-<a href=#583 id=583 data-nosnippet>583</a>    http_agent: Arc&lt;ureq::Agent&gt;,
-<a href=#584 id=584 data-nosnippet>584</a>) {
-<a href=#585 id=585 data-nosnippet>585</a>    <span class="kw">let </span>needs_reconnect = !sync_state.connection_status.lock().is_connected();
-<a href=#586 id=586 data-nosnippet>586</a>    <span class="kw">crate</span>::fulgur::sync::synchronization::set_sync_server_connection_status(
-<a href=#587 id=587 data-nosnippet>587</a>        <span class="kw-2">&amp;</span>sync_state.connection_status,
-<a href=#588 id=588 data-nosnippet>588</a>        SynchronizationStatus::Connecting,
-<a href=#589 id=589 data-nosnippet>589</a>    );
-<a href=#590 id=590 data-nosnippet>590</a>    <span class="kw-2">*</span>sync_state.connecting_since.lock() = <span class="prelude-val">Some</span>(std::time::Instant::now());
-<a href=#591 id=591 data-nosnippet>591</a>    std::thread::spawn(<span class="kw">move </span>|| {
-<a href=#592 id=592 data-nosnippet>592</a>        <span class="kw">if </span>!state.active.load(std::sync::atomic::Ordering::Acquire) {
-<a href=#593 id=593 data-nosnippet>593</a>            <span class="kw">return</span>;
-<a href=#594 id=594 data-nosnippet>594</a>        }
-<a href=#595 id=595 data-nosnippet>595</a>        <span class="kw">if </span>needs_reconnect {
-<a href=#596 id=596 data-nosnippet>596</a>            <span class="kw">match </span><span class="kw">crate</span>::fulgur::sync::synchronization::initial_synchronization(
-<a href=#597 id=597 data-nosnippet>597</a>                <span class="kw-2">&amp;</span>profile,
-<a href=#598 id=598 data-nosnippet>598</a>                <span class="kw-2">&amp;</span>sync_state.token_state,
-<a href=#599 id=599 data-nosnippet>599</a>                <span class="kw-2">&amp;</span>http_agent,
-<a href=#600 id=600 data-nosnippet>600</a>            ) {
-<a href=#601 id=601 data-nosnippet>601</a>                <span class="prelude-val">Ok</span>(begin_response) =&gt; {
-<a href=#602 id=602 data-nosnippet>602</a>                    <span class="kw-2">*</span>sync_state.device_name.lock() = <span class="prelude-val">Some</span>(begin_response.device_name.clone());
-<a href=#603 id=603 data-nosnippet>603</a>                    <span class="kw-2">*</span>sync_state.pending_shared_files.lock() = begin_response.shares;
-<a href=#604 id=604 data-nosnippet>604</a>                    <span class="kw">crate</span>::fulgur::sync::synchronization::store_server_max_file_size(
-<a href=#605 id=605 data-nosnippet>605</a>                        <span class="kw-2">&amp;</span>sync_state.max_file_size_bytes,
-<a href=#606 id=606 data-nosnippet>606</a>                        begin_response.max_file_size_bytes,
-<a href=#607 id=607 data-nosnippet>607</a>                    );
-<a href=#608 id=608 data-nosnippet>608</a>                    <span class="kw">crate</span>::fulgur::sync::synchronization::set_sync_server_connection_status(
-<a href=#609 id=609 data-nosnippet>609</a>                        <span class="kw-2">&amp;</span>sync_state.connection_status,
-<a href=#610 id=610 data-nosnippet>610</a>                        SynchronizationStatus::Connected,
-<a href=#611 id=611 data-nosnippet>611</a>                    );
-<a href=#612 id=612 data-nosnippet>612</a>                }
-<a href=#613 id=613 data-nosnippet>613</a>                <span class="prelude-val">Err</span>(e) =&gt; {
-<a href=#614 id=614 data-nosnippet>614</a>                    <span class="kw">let </span>status = SynchronizationStatus::from_error(<span class="kw-2">&amp;</span>e);
-<a href=#615 id=615 data-nosnippet>615</a>                    <span class="kw">crate</span>::fulgur::sync::synchronization::set_sync_server_connection_status(
-<a href=#616 id=616 data-nosnippet>616</a>                        <span class="kw-2">&amp;</span>sync_state.connection_status,
-<a href=#617 id=617 data-nosnippet>617</a>                        status,
-<a href=#618 id=618 data-nosnippet>618</a>                    );
-<a href=#619 id=619 data-nosnippet>619</a>                    <span class="kw-2">*</span>sync_state.connecting_since.lock() = <span class="prelude-val">None</span>;
-<a href=#620 id=620 data-nosnippet>620</a>                    state.per_profile.write().insert(
-<a href=#621 id=621 data-nosnippet>621</a>                        profile.id.clone(),
-<a href=#622 id=622 data-nosnippet>622</a>                        ProfileFetchState::Failed(<span class="macro">format!</span>(<span class="string">"{e}"</span>)),
-<a href=#623 id=623 data-nosnippet>623</a>                    );
-<a href=#624 id=624 data-nosnippet>624</a>                    <span class="kw">return</span>;
-<a href=#625 id=625 data-nosnippet>625</a>                }
-<a href=#626 id=626 data-nosnippet>626</a>            }
-<a href=#627 id=627 data-nosnippet>627</a>        }
-<a href=#628 id=628 data-nosnippet>628</a>        <span class="kw">let </span>result = get_devices(<span class="kw-2">&amp;</span>profile, <span class="kw-2">&amp;</span>sync_state.token_state, <span class="kw-2">&amp;</span>http_agent);
-<a href=#629 id=629 data-nosnippet>629</a>        <span class="kw-2">*</span>sync_state.connecting_since.lock() = <span class="prelude-val">None</span>;
-<a href=#630 id=630 data-nosnippet>630</a>        <span class="kw">match </span>result {
-<a href=#631 id=631 data-nosnippet>631</a>            <span class="prelude-val">Ok</span>((devices, server_max_size)) =&gt; {
-<a href=#632 id=632 data-nosnippet>632</a>                <span class="kw">crate</span>::fulgur::sync::synchronization::store_server_max_file_size(
-<a href=#633 id=633 data-nosnippet>633</a>                    <span class="kw-2">&amp;</span>sync_state.max_file_size_bytes,
-<a href=#634 id=634 data-nosnippet>634</a>                    server_max_size,
-<a href=#635 id=635 data-nosnippet>635</a>                );
-<a href=#636 id=636 data-nosnippet>636</a>                <span class="kw">crate</span>::fulgur::sync::synchronization::set_sync_server_connection_status(
-<a href=#637 id=637 data-nosnippet>637</a>                    <span class="kw-2">&amp;</span>sync_state.connection_status,
-<a href=#638 id=638 data-nosnippet>638</a>                    SynchronizationStatus::Connected,
-<a href=#639 id=639 data-nosnippet>639</a>                );
-<a href=#640 id=640 data-nosnippet>640</a>                state.per_profile.write().insert(
-<a href=#641 id=641 data-nosnippet>641</a>                    profile.id.clone(),
-<a href=#642 id=642 data-nosnippet>642</a>                    ProfileFetchState::Loaded(Arc::new(devices)),
-<a href=#643 id=643 data-nosnippet>643</a>                );
-<a href=#644 id=644 data-nosnippet>644</a>                <span class="kw">if </span>needs_reconnect {
-<a href=#645 id=645 data-nosnippet>645</a>                    state.pending_sse_restarts.lock().push(profile.id.clone());
-<a href=#646 id=646 data-nosnippet>646</a>                }
-<a href=#647 id=647 data-nosnippet>647</a>            }
-<a href=#648 id=648 data-nosnippet>648</a>            <span class="prelude-val">Err</span>(e) =&gt; {
-<a href=#649 id=649 data-nosnippet>649</a>                state.per_profile.write().insert(
-<a href=#650 id=650 data-nosnippet>650</a>                    profile.id.clone(),
-<a href=#651 id=651 data-nosnippet>651</a>                    ProfileFetchState::Failed(<span class="macro">format!</span>(<span class="string">"{e}"</span>)),
-<a href=#652 id=652 data-nosnippet>652</a>                );
-<a href=#653 id=653 data-nosnippet>653</a>            }
-<a href=#654 id=654 data-nosnippet>654</a>        }
-<a href=#655 id=655 data-nosnippet>655</a>    });
-<a href=#656 id=656 data-nosnippet>656</a>}
-<a href=#657 id=657 data-nosnippet>657</a>
-<a href=#658 id=658 data-nosnippet>658</a><span class="doccomment">/// Render the share sheet footer with Cancel and Share buttons.
-<a href=#659 id=659 data-nosnippet>659</a>///
-<a href=#660 id=660 data-nosnippet>660</a>/// ### Arguments
-<a href=#661 id=661 data-nosnippet>661</a>/// - `state`: Shared sheet state.
-<a href=#662 id=662 data-nosnippet>662</a>/// - `entity`: The Fulgur entity.
-<a href=#663 id=663 data-nosnippet>663</a>///
-<a href=#664 id=664 data-nosnippet>664</a>/// ### Returns
-<a href=#665 id=665 data-nosnippet>665</a>/// - `Div`: The footer element.
-<a href=#666 id=666 data-nosnippet>666</a></span><span class="kw">fn </span>render_footer(state: Arc&lt;ShareSheetState&gt;, entity: Entity&lt;Fulgur&gt;) -&gt; Div {
-<a href=#667 id=667 data-nosnippet>667</a>    <span class="kw">let </span>state_for_cancel = Arc::clone(<span class="kw-2">&amp;</span>state);
-<a href=#668 id=668 data-nosnippet>668</a>    <span class="kw">let </span>entity_for_cancel = entity.clone();
-<a href=#669 id=669 data-nosnippet>669</a>    <span class="kw">let </span>state_for_share = state;
-<a href=#670 id=670 data-nosnippet>670</a>    <span class="kw">let </span>entity_for_share = entity;
-<a href=#671 id=671 data-nosnippet>671</a>    h_flex()
-<a href=#672 id=672 data-nosnippet>672</a>        .justify_end()
-<a href=#673 id=673 data-nosnippet>673</a>        .w_full()
-<a href=#674 id=674 data-nosnippet>674</a>        .gap_2()
-<a href=#675 id=675 data-nosnippet>675</a>        .child(
-<a href=#676 id=676 data-nosnippet>676</a>            Button::new(<span class="string">"cancel-share"</span>)
-<a href=#677 id=677 data-nosnippet>677</a>                .child(<span class="string">"Cancel"</span>)
-<a href=#678 id=678 data-nosnippet>678</a>                .small()
-<a href=#679 id=679 data-nosnippet>679</a>                .cursor_pointer()
-<a href=#680 id=680 data-nosnippet>680</a>                .on_click(<span class="kw">move </span>|<span class="kw">_</span>, window, cx| {
-<a href=#681 id=681 data-nosnippet>681</a>                    state_for_cancel
-<a href=#682 id=682 data-nosnippet>682</a>                        .active
-<a href=#683 id=683 data-nosnippet>683</a>                        .store(<span class="bool-val">false</span>, std::sync::atomic::Ordering::Release);
-<a href=#684 id=684 data-nosnippet>684</a>                    entity_for_cancel.update(cx, |this, <span class="kw">_</span>| {
-<a href=#685 id=685 data-nosnippet>685</a>                        this.share_sheet_state = <span class="prelude-val">None</span>;
-<a href=#686 id=686 data-nosnippet>686</a>                    });
-<a href=#687 id=687 data-nosnippet>687</a>                    window.close_sheet(cx);
-<a href=#688 id=688 data-nosnippet>688</a>                }),
-<a href=#689 id=689 data-nosnippet>689</a>        )
-<a href=#690 id=690 data-nosnippet>690</a>        .child(
-<a href=#691 id=691 data-nosnippet>691</a>            Button::new(<span class="string">"ok-share"</span>)
-<a href=#692 id=692 data-nosnippet>692</a>                .child(<span class="string">"Share"</span>)
-<a href=#693 id=693 data-nosnippet>693</a>                .small()
-<a href=#694 id=694 data-nosnippet>694</a>                .primary()
-<a href=#695 id=695 data-nosnippet>695</a>                .cursor_pointer()
-<a href=#696 id=696 data-nosnippet>696</a>                .on_click(<span class="kw">move </span>|<span class="kw">_</span>, window, cx| {
-<a href=#697 id=697 data-nosnippet>697</a>                    handle_share_file(<span class="kw-2">&amp;</span>state_for_share, <span class="kw-2">&amp;</span>entity_for_share, window, cx);
-<a href=#698 id=698 data-nosnippet>698</a>                }),
-<a href=#699 id=699 data-nosnippet>699</a>        )
-<a href=#700 id=700 data-nosnippet>700</a>}
-<a href=#701 id=701 data-nosnippet>701</a>
-<a href=#702 id=702 data-nosnippet>702</a><span class="kw">impl </span>Fulgur {
-<a href=#703 id=703 data-nosnippet>703</a>    <span class="doccomment">/// Return the list of profile ids whose devices should populate the share sheet.
-<a href=#704 id=704 data-nosnippet>704</a>    ///
-<a href=#705 id=705 data-nosnippet>705</a>    /// ### Returns
-<a href=#706 id=706 data-nosnippet>706</a>    /// - `Vec&lt;ProfileId&gt;`: Active only profile ids when the master sync switch is on, in declaration order.
-<a href=#707 id=707 data-nosnippet>707</a>    </span><span class="kw">fn </span>collect_active_profiles(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;ServerProfile&gt; {
-<a href=#708 id=708 data-nosnippet>708</a>        <span class="kw">if </span>!<span class="self">self
-<a href=#709 id=709 data-nosnippet>709</a>            </span>.settings
-<a href=#710 id=710 data-nosnippet>710</a>            .app_settings
-<a href=#711 id=711 data-nosnippet>711</a>            .synchronization_settings
-<a href=#712 id=712 data-nosnippet>712</a>            .is_synchronization_activated
-<a href=#713 id=713 data-nosnippet>713</a>        {
-<a href=#714 id=714 data-nosnippet>714</a>            <span class="kw">return </span>Vec::new();
-<a href=#715 id=715 data-nosnippet>715</a>        }
-<a href=#716 id=716 data-nosnippet>716</a>        <span class="self">self</span>.settings
-<a href=#717 id=717 data-nosnippet>717</a>            .app_settings
-<a href=#718 id=718 data-nosnippet>718</a>            .synchronization_settings
-<a href=#719 id=719 data-nosnippet>719</a>            .profiles
-<a href=#720 id=720 data-nosnippet>720</a>            .iter()
-<a href=#721 id=721 data-nosnippet>721</a>            .filter(|p| p.is_active)
-<a href=#722 id=722 data-nosnippet>722</a>            .cloned()
-<a href=#723 id=723 data-nosnippet>723</a>            .collect()
-<a href=#724 id=724 data-nosnippet>724</a>    }
-<a href=#725 id=725 data-nosnippet>725</a>
-<a href=#726 id=726 data-nosnippet>726</a>    <span class="doccomment">/// Open the share file sheet immediately and fetch each active profile's devices in the background.
-<a href=#727 id=727 data-nosnippet>727</a>    ///
-<a href=#728 id=728 data-nosnippet>728</a>    /// ### Arguments
-<a href=#729 id=729 data-nosnippet>729</a>    /// - `window`: The window context.
-<a href=#730 id=730 data-nosnippet>730</a>    /// - `cx`: The application context.
-<a href=#731 id=731 data-nosnippet>731</a>    </span><span class="kw">pub fn </span>open_share_file_sheet(<span class="kw-2">&amp;mut </span><span class="self">self</span>, window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
-<a href=#732 id=732 data-nosnippet>732</a>        <span class="kw">let </span>active_profiles = <span class="self">self</span>.collect_active_profiles();
-<a href=#733 id=733 data-nosnippet>733</a>        <span class="kw">if </span>active_profiles.is_empty() {
-<a href=#734 id=734 data-nosnippet>734</a>            <span class="macro">log::warn!</span>(<span class="string">"Share aborted: no active profile or master sync is off"</span>);
-<a href=#735 id=735 data-nosnippet>735</a>            <span class="kw">return</span>;
-<a href=#736 id=736 data-nosnippet>736</a>        }
-<a href=#737 id=737 data-nosnippet>737</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(previous) = <span class="self">self</span>.share_sheet_state.take() {
-<a href=#738 id=738 data-nosnippet>738</a>            previous
-<a href=#739 id=739 data-nosnippet>739</a>                .active
-<a href=#740 id=740 data-nosnippet>740</a>                .store(<span class="bool-val">false</span>, std::sync::atomic::Ordering::Release);
-<a href=#741 id=741 data-nosnippet>741</a>        }
-<a href=#742 id=742 data-nosnippet>742</a>        <span class="kw">let </span>state = Arc::new(ShareSheetState::new(active_profiles.clone()));
-<a href=#743 id=743 data-nosnippet>743</a>        <span class="self">self</span>.share_sheet_state = <span class="prelude-val">Some</span>(Arc::clone(<span class="kw-2">&amp;</span>state));
-<a href=#744 id=744 data-nosnippet>744</a>        <span class="kw">let </span>shared = <span class="self">self</span>.shared_state(cx);
-<a href=#745 id=745 data-nosnippet>745</a>        <span class="kw">let </span>http_agent = Arc::clone(<span class="kw-2">&amp;</span>shared.http_agent);
-<a href=#746 id=746 data-nosnippet>746</a>        <span class="kw">for </span>profile <span class="kw">in </span>active_profiles {
-<a href=#747 id=747 data-nosnippet>747</a>            <span class="kw">let </span>sync_state = shared.sync_state_for(<span class="kw-2">&amp;</span>profile.id);
-<a href=#748 id=748 data-nosnippet>748</a>            spawn_profile_device_fetch(
-<a href=#749 id=749 data-nosnippet>749</a>                profile,
-<a href=#750 id=750 data-nosnippet>750</a>                Arc::clone(<span class="kw-2">&amp;</span>state),
-<a href=#751 id=751 data-nosnippet>751</a>                sync_state,
-<a href=#752 id=752 data-nosnippet>752</a>                Arc::clone(<span class="kw-2">&amp;</span>http_agent),
-<a href=#753 id=753 data-nosnippet>753</a>            );
-<a href=#754 id=754 data-nosnippet>754</a>        }
-<a href=#755 id=755 data-nosnippet>755</a>        <span class="self">self</span>.start_share_sheet_render_pump(Arc::clone(<span class="kw-2">&amp;</span>state), window, cx);
-<a href=#756 id=756 data-nosnippet>756</a>        <span class="self">self</span>.show_share_sheet(state, window, cx);
-<a href=#757 id=757 data-nosnippet>757</a>    }
-<a href=#758 id=758 data-nosnippet>758</a>
-<a href=#759 id=759 data-nosnippet>759</a>    <span class="doccomment">/// Drive periodic re-renders while the share sheet is open and at least one profile is still loading.
-<a href=#760 id=760 data-nosnippet>760</a>    ///
-<a href=#761 id=761 data-nosnippet>761</a>    /// ### Arguments
-<a href=#762 id=762 data-nosnippet>762</a>    /// - `state`: Shared sheet state.
-<a href=#763 id=763 data-nosnippet>763</a>    /// - `window`: The window context.
-<a href=#764 id=764 data-nosnippet>764</a>    /// - `cx`: The application context.
-<a href=#765 id=765 data-nosnippet>765</a>    </span><span class="kw">fn </span>start_share_sheet_render_pump(
-<a href=#766 id=766 data-nosnippet>766</a>        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-<a href=#767 id=767 data-nosnippet>767</a>        state: Arc&lt;ShareSheetState&gt;,
-<a href=#768 id=768 data-nosnippet>768</a>        window: <span class="kw-2">&amp;mut </span>Window,
-<a href=#769 id=769 data-nosnippet>769</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
-<a href=#770 id=770 data-nosnippet>770</a>    ) {
-<a href=#771 id=771 data-nosnippet>771</a>        <span class="kw">let </span>entity = cx.entity();
-<a href=#772 id=772 data-nosnippet>772</a>        window
-<a href=#773 id=773 data-nosnippet>773</a>            .spawn(cx, <span class="kw">async move </span>|async_cx| {
-<a href=#774 id=774 data-nosnippet>774</a>                <span class="kw">loop </span>{
-<a href=#775 id=775 data-nosnippet>775</a>                    async_cx
-<a href=#776 id=776 data-nosnippet>776</a>                        .background_executor()
-<a href=#777 id=777 data-nosnippet>777</a>                        .timer(Duration::from_millis(<span class="number">100</span>))
-<a href=#778 id=778 data-nosnippet>778</a>                        .<span class="kw">await</span>;
-<a href=#779 id=779 data-nosnippet>779</a>                    <span class="kw">if </span>!state.active.load(std::sync::atomic::Ordering::Acquire) {
-<a href=#780 id=780 data-nosnippet>780</a>                        <span class="kw">return</span>;
-<a href=#781 id=781 data-nosnippet>781</a>                    }
-<a href=#782 id=782 data-nosnippet>782</a>                    <span class="kw">let _ </span>= async_cx.update(|<span class="kw">_</span>, cx| {
-<a href=#783 id=783 data-nosnippet>783</a>                        entity.update(cx, |<span class="kw">_</span>, cx| cx.notify());
-<a href=#784 id=784 data-nosnippet>784</a>                    });
-<a href=#785 id=785 data-nosnippet>785</a>                    <span class="kw">if </span>state.all_settled() {
-<a href=#786 id=786 data-nosnippet>786</a>                        <span class="kw">return</span>;
-<a href=#787 id=787 data-nosnippet>787</a>                    }
-<a href=#788 id=788 data-nosnippet>788</a>                }
-<a href=#789 id=789 data-nosnippet>789</a>            })
-<a href=#790 id=790 data-nosnippet>790</a>            .detach();
-<a href=#791 id=791 data-nosnippet>791</a>    }
-<a href=#792 id=792 data-nosnippet>792</a>
-<a href=#793 id=793 data-nosnippet>793</a>    <span class="doccomment">/// Drain pending SSE restart requests posted by share-sheet device fetches.
-<a href=#794 id=794 data-nosnippet>794</a>    ///
-<a href=#795 id=795 data-nosnippet>795</a>    /// ### Arguments
-<a href=#796 id=796 data-nosnippet>796</a>    /// - `_window`: The window context.
-<a href=#797 id=797 data-nosnippet>797</a>    /// - `cx`: The application context.
-<a href=#798 id=798 data-nosnippet>798</a>    </span><span class="kw">pub fn </span>process_pending_share_sheet(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
-<a href=#799 id=799 data-nosnippet>799</a>        <span class="kw">let </span><span class="prelude-val">Some</span>(state) = <span class="self">self</span>.share_sheet_state.as_ref().map(Arc::clone) <span class="kw">else </span>{
-<a href=#800 id=800 data-nosnippet>800</a>            <span class="kw">return</span>;
-<a href=#801 id=801 data-nosnippet>801</a>        };
-<a href=#802 id=802 data-nosnippet>802</a>        <span class="kw">let </span>to_restart: Vec&lt;ProfileId&gt; = std::mem::take(<span class="kw-2">&amp;mut *</span>state.pending_sse_restarts.lock());
-<a href=#803 id=803 data-nosnippet>803</a>        <span class="kw">for </span>profile_id <span class="kw">in </span>to_restart {
-<a href=#804 id=804 data-nosnippet>804</a>            <span class="self">self</span>.restart_sse_connection_for(<span class="kw-2">&amp;</span>profile_id, cx);
-<a href=#805 id=805 data-nosnippet>805</a>        }
-<a href=#806 id=806 data-nosnippet>806</a>    }
-<a href=#807 id=807 data-nosnippet>807</a>
-<a href=#808 id=808 data-nosnippet>808</a>    <span class="doccomment">/// Open the share sheet UI for the given shared state. Each profile section reads live state on every render.
-<a href=#809 id=809 data-nosnippet>809</a>    ///
-<a href=#810 id=810 data-nosnippet>810</a>    /// ### Arguments
-<a href=#811 id=811 data-nosnippet>811</a>    /// - `state`: Shared sheet state.
-<a href=#812 id=812 data-nosnippet>812</a>    /// - `window`: The window context.
-<a href=#813 id=813 data-nosnippet>813</a>    /// - `cx`: The application context.
-<a href=#814 id=814 data-nosnippet>814</a>    </span><span class="kw">fn </span>show_share_sheet(
-<a href=#815 id=815 data-nosnippet>815</a>        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-<a href=#816 id=816 data-nosnippet>816</a>        state: Arc&lt;ShareSheetState&gt;,
-<a href=#817 id=817 data-nosnippet>817</a>        window: <span class="kw-2">&amp;mut </span>Window,
-<a href=#818 id=818 data-nosnippet>818</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
-<a href=#819 id=819 data-nosnippet>819</a>    ) {
-<a href=#820 id=820 data-nosnippet>820</a>        <span class="kw">let </span>entity = cx.entity();
-<a href=#821 id=821 data-nosnippet>821</a>        <span class="kw">let </span>viewport_height = window.viewport_size().height;
-<a href=#822 id=822 data-nosnippet>822</a>        window.open_sheet(cx, <span class="kw">move </span>|sheet, _window, cx| {
-<a href=#823 id=823 data-nosnippet>823</a>            <span class="attr">#[cfg(target_os = <span class="string">"linux"</span>)]
-<a href=#824 id=824 data-nosnippet>824</a>            </span><span class="kw">let </span>sheet_overhead = px(<span class="number">200.0</span>);
-<a href=#825 id=825 data-nosnippet>825</a>            <span class="attr">#[cfg(not(target_os = <span class="string">"linux"</span>))]
-<a href=#826 id=826 data-nosnippet>826</a>            </span><span class="kw">let </span>sheet_overhead = px(<span class="number">150.0</span>);
-<a href=#827 id=827 data-nosnippet>827</a>            <span class="kw">let </span>max_height = px((viewport_height - sheet_overhead).into());
-<a href=#828 id=828 data-nosnippet>828</a>            <span class="kw">let </span>state_for_list = Arc::clone(<span class="kw-2">&amp;</span>state);
-<a href=#829 id=829 data-nosnippet>829</a>            <span class="kw">let </span>state_for_footer = Arc::clone(<span class="kw-2">&amp;</span>state);
-<a href=#830 id=830 data-nosnippet>830</a>            sheet
-<a href=#831 id=831 data-nosnippet>831</a>                .title(<span class="string">"Share with..."</span>)
-<a href=#832 id=832 data-nosnippet>832</a>                .size(px(<span class="number">400.</span>))
-<a href=#833 id=833 data-nosnippet>833</a>                .overlay(<span class="bool-val">true</span>)
-<a href=#834 id=834 data-nosnippet>834</a>                .child(
-<a href=#835 id=835 data-nosnippet>835</a>                    v_flex()
-<a href=#836 id=836 data-nosnippet>836</a>                        .overflow_y_scrollbar()
-<a href=#837 id=837 data-nosnippet>837</a>                        .gap_2()
-<a href=#838 id=838 data-nosnippet>838</a>                        .h(max_height)
-<a href=#839 id=839 data-nosnippet>839</a>                        .child(make_device_list(<span class="kw-2">&amp;</span>state_for_list, cx)),
-<a href=#840 id=840 data-nosnippet>840</a>                )
-<a href=#841 id=841 data-nosnippet>841</a>                .footer(render_footer(state_for_footer, entity.clone()))
-<a href=#842 id=842 data-nosnippet>842</a>        });
-<a href=#843 id=843 data-nosnippet>843</a>    }
-<a href=#844 id=844 data-nosnippet>844</a>}
-<a href=#845 id=845 data-nosnippet>845</a>
-<a href=#846 id=846 data-nosnippet>846</a><span class="attr">#[cfg(all(test, feature = <span class="string">"gpui-test-support"</span>))]
-<a href=#847 id=847 data-nosnippet>847</a></span><span class="kw">mod </span>tests {
-<a href=#848 id=848 data-nosnippet>848</a>    <span class="kw">use </span>super::{Device, Fulgur, ProfileFetchState, ShareSheetState};
-<a href=#849 id=849 data-nosnippet>849</a>    <span class="kw">use </span><span class="kw">crate</span>::fulgur::{
-<a href=#850 id=850 data-nosnippet>850</a>        settings::{ServerProfile, Settings},
-<a href=#851 id=851 data-nosnippet>851</a>        shared_state::SharedAppState,
-<a href=#852 id=852 data-nosnippet>852</a>        window_manager::WindowManager,
-<a href=#853 id=853 data-nosnippet>853</a>    };
-<a href=#854 id=854 data-nosnippet>854</a>    <span class="kw">use </span>gpui::{AppContext, Entity, TestAppContext, VisualTestContext, WindowOptions};
-<a href=#855 id=855 data-nosnippet>855</a>    <span class="kw">use </span>parking_lot::Mutex;
-<a href=#856 id=856 data-nosnippet>856</a>    <span class="kw">use </span>std::{cell::RefCell, path::PathBuf, sync::Arc};
-<a href=#857 id=857 data-nosnippet>857</a>
-<a href=#858 id=858 data-nosnippet>858</a>    <span class="doccomment">/// Initialize globals and open a test window with a Root-mounted `Fulgur`.
-<a href=#859 id=859 data-nosnippet>859</a>    </span><span class="kw">fn </span>setup_fulgur(cx: <span class="kw-2">&amp;mut </span>TestAppContext) -&gt; (Entity&lt;Fulgur&gt;, VisualTestContext) {
-<a href=#860 id=860 data-nosnippet>860</a>        cx.update(|cx| {
-<a href=#861 id=861 data-nosnippet>861</a>            gpui_component::init(cx);
-<a href=#862 id=862 data-nosnippet>862</a>            <span class="kw">let </span><span class="kw-2">mut </span>settings = Settings::new();
-<a href=#863 id=863 data-nosnippet>863</a>            settings.editor_settings.watch_files = <span class="bool-val">false</span>;
-<a href=#864 id=864 data-nosnippet>864</a>            <span class="kw">let </span>pending_files: Arc&lt;Mutex&lt;Vec&lt;PathBuf&gt;&gt;&gt; = Arc::new(Mutex::new(Vec::new()));
-<a href=#865 id=865 data-nosnippet>865</a>            cx.set_global(SharedAppState::new(settings, pending_files));
-<a href=#866 id=866 data-nosnippet>866</a>            cx.set_global(WindowManager::new());
-<a href=#867 id=867 data-nosnippet>867</a>        });
-<a href=#868 id=868 data-nosnippet>868</a>        <span class="kw">let </span>fulgur_slot: RefCell&lt;<span class="prelude-ty">Option</span>&lt;Entity&lt;Fulgur&gt;&gt;&gt; = RefCell::new(<span class="prelude-val">None</span>);
-<a href=#869 id=869 data-nosnippet>869</a>        <span class="kw">let </span>window = cx
-<a href=#870 id=870 data-nosnippet>870</a>            .update(|cx| {
-<a href=#871 id=871 data-nosnippet>871</a>                cx.open_window(WindowOptions::default(), |window, cx| {
-<a href=#872 id=872 data-nosnippet>872</a>                    <span class="kw">let </span>window_id = window.window_handle().window_id();
-<a href=#873 id=873 data-nosnippet>873</a>                    <span class="kw">let </span>fulgur = Fulgur::new(window, cx, window_id, usize::MAX);
-<a href=#874 id=874 data-nosnippet>874</a>                    <span class="kw-2">*</span>fulgur_slot.borrow_mut() = <span class="prelude-val">Some</span>(fulgur.clone());
-<a href=#875 id=875 data-nosnippet>875</a>                    cx.new(|cx| gpui_component::Root::new(fulgur, window, cx))
-<a href=#876 id=876 data-nosnippet>876</a>                })
-<a href=#877 id=877 data-nosnippet>877</a>            })
-<a href=#878 id=878 data-nosnippet>878</a>            .expect(<span class="string">"failed to open test window"</span>);
-<a href=#879 id=879 data-nosnippet>879</a>        <span class="kw">let </span>visual_cx = VisualTestContext::from_window(window.into(), cx);
-<a href=#880 id=880 data-nosnippet>880</a>        visual_cx.run_until_parked();
-<a href=#881 id=881 data-nosnippet>881</a>        <span class="kw">let </span>fulgur = fulgur_slot
-<a href=#882 id=882 data-nosnippet>882</a>            .into_inner()
-<a href=#883 id=883 data-nosnippet>883</a>            .expect(<span class="string">"failed to capture Fulgur entity"</span>);
-<a href=#884 id=884 data-nosnippet>884</a>        (fulgur, visual_cx)
-<a href=#885 id=885 data-nosnippet>885</a>    }
-<a href=#886 id=886 data-nosnippet>886</a>
-<a href=#887 id=887 data-nosnippet>887</a>    <span class="kw">fn </span>make_device(id: <span class="kw-2">&amp;</span>str) -&gt; Device {
-<a href=#888 id=888 data-nosnippet>888</a>        Device {
-<a href=#889 id=889 data-nosnippet>889</a>            id: id.to_string(),
-<a href=#890 id=890 data-nosnippet>890</a>            name: <span class="macro">format!</span>(<span class="string">"{id}-name"</span>),
-<a href=#891 id=891 data-nosnippet>891</a>            device_type: <span class="string">"desktop"</span>.to_string(),
-<a href=#892 id=892 data-nosnippet>892</a>            public_key: <span class="prelude-val">Some</span>(<span class="string">"age1dummypublickey"</span>.to_string()),
-<a href=#893 id=893 data-nosnippet>893</a>            created_at: <span class="string">"2024-01-01T00:00:00Z"</span>.to_string(),
-<a href=#894 id=894 data-nosnippet>894</a>            expires_at: <span class="string">"2025-01-01T00:00:00Z"</span>.to_string(),
-<a href=#895 id=895 data-nosnippet>895</a>        }
-<a href=#896 id=896 data-nosnippet>896</a>    }
-<a href=#897 id=897 data-nosnippet>897</a>
-<a href=#898 id=898 data-nosnippet>898</a>    <span class="attr">#[test]
-<a href=#899 id=899 data-nosnippet>899</a>    </span><span class="kw">fn </span>test_share_sheet_state_starts_with_every_profile_loading() {
-<a href=#900 id=900 data-nosnippet>900</a>        <span class="kw">let </span>profile_a = ServerProfile::new(<span class="string">"A"</span>);
-<a href=#901 id=901 data-nosnippet>901</a>        <span class="kw">let </span>profile_b = ServerProfile::new(<span class="string">"B"</span>);
-<a href=#902 id=902 data-nosnippet>902</a>        <span class="kw">let </span>id_a = profile_a.id.clone();
-<a href=#903 id=903 data-nosnippet>903</a>        <span class="kw">let </span>id_b = profile_b.id.clone();
-<a href=#904 id=904 data-nosnippet>904</a>        <span class="kw">let </span>state = ShareSheetState::new(<span class="macro">vec!</span>[profile_a, profile_b]);
-<a href=#905 id=905 data-nosnippet>905</a>        <span class="kw">let </span>map = state.per_profile.read();
-<a href=#906 id=906 data-nosnippet>906</a>        <span class="macro">assert!</span>(<span class="macro">matches!</span>(map.get(<span class="kw-2">&amp;</span>id_a), <span class="prelude-val">Some</span>(ProfileFetchState::Loading)));
-<a href=#907 id=907 data-nosnippet>907</a>        <span class="macro">assert!</span>(<span class="macro">matches!</span>(map.get(<span class="kw-2">&amp;</span>id_b), <span class="prelude-val">Some</span>(ProfileFetchState::Loading)));
-<a href=#908 id=908 data-nosnippet>908</a>        drop(map);
-<a href=#909 id=909 data-nosnippet>909</a>        <span class="macro">assert!</span>(!state.all_settled());
-<a href=#910 id=910 data-nosnippet>910</a>    }
-<a href=#911 id=911 data-nosnippet>911</a>
-<a href=#912 id=912 data-nosnippet>912</a>    <span class="attr">#[test]
-<a href=#913 id=913 data-nosnippet>913</a>    </span><span class="kw">fn </span>test_share_sheet_state_all_settled_when_loaded_or_failed() {
-<a href=#914 id=914 data-nosnippet>914</a>        <span class="kw">let </span>profile_a = ServerProfile::new(<span class="string">"A"</span>);
-<a href=#915 id=915 data-nosnippet>915</a>        <span class="kw">let </span>profile_b = ServerProfile::new(<span class="string">"B"</span>);
-<a href=#916 id=916 data-nosnippet>916</a>        <span class="kw">let </span>id_a = profile_a.id.clone();
-<a href=#917 id=917 data-nosnippet>917</a>        <span class="kw">let </span>id_b = profile_b.id.clone();
-<a href=#918 id=918 data-nosnippet>918</a>        <span class="kw">let </span>state = ShareSheetState::new(<span class="macro">vec!</span>[profile_a, profile_b]);
-<a href=#919 id=919 data-nosnippet>919</a>        state.per_profile.write().insert(
-<a href=#920 id=920 data-nosnippet>920</a>            id_a,
-<a href=#921 id=921 data-nosnippet>921</a>            ProfileFetchState::Loaded(Arc::new(<span class="macro">vec!</span>[make_device(<span class="string">"d1"</span>)])),
-<a href=#922 id=922 data-nosnippet>922</a>        );
-<a href=#923 id=923 data-nosnippet>923</a>        state
-<a href=#924 id=924 data-nosnippet>924</a>            .per_profile
-<a href=#925 id=925 data-nosnippet>925</a>            .write()
-<a href=#926 id=926 data-nosnippet>926</a>            .insert(id_b, ProfileFetchState::Failed(<span class="string">"nope"</span>.to_string()));
-<a href=#927 id=927 data-nosnippet>927</a>        <span class="macro">assert!</span>(state.all_settled());
-<a href=#928 id=928 data-nosnippet>928</a>    }
-<a href=#929 id=929 data-nosnippet>929</a>
-<a href=#930 id=930 data-nosnippet>930</a>    <span class="attr">#[test]
-<a href=#931 id=931 data-nosnippet>931</a>    </span><span class="kw">fn </span>test_share_sheet_state_not_settled_with_lingering_loading() {
-<a href=#932 id=932 data-nosnippet>932</a>        <span class="kw">let </span>profile_a = ServerProfile::new(<span class="string">"A"</span>);
-<a href=#933 id=933 data-nosnippet>933</a>        <span class="kw">let </span>profile_b = ServerProfile::new(<span class="string">"B"</span>);
-<a href=#934 id=934 data-nosnippet>934</a>        <span class="kw">let </span>id_a = profile_a.id.clone();
-<a href=#935 id=935 data-nosnippet>935</a>        <span class="kw">let </span>state = ShareSheetState::new(<span class="macro">vec!</span>[profile_a, profile_b]);
-<a href=#936 id=936 data-nosnippet>936</a>        state
-<a href=#937 id=937 data-nosnippet>937</a>            .per_profile
-<a href=#938 id=938 data-nosnippet>938</a>            .write()
-<a href=#939 id=939 data-nosnippet>939</a>            .insert(id_a, ProfileFetchState::Loaded(Arc::new(<span class="macro">vec!</span>[])));
-<a href=#940 id=940 data-nosnippet>940</a>        <span class="macro">assert!</span>(!state.all_settled());
-<a href=#941 id=941 data-nosnippet>941</a>    }
-<a href=#942 id=942 data-nosnippet>942</a>
-<a href=#943 id=943 data-nosnippet>943</a>    <span class="attr">#[gpui::test]
-<a href=#944 id=944 data-nosnippet>944</a>    </span><span class="kw">fn </span>test_process_pending_share_sheet_drains_sse_restart_queue(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
-<a href=#945 id=945 data-nosnippet>945</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
-<a href=#946 id=946 data-nosnippet>946</a>        visual_cx.update(|window, cx| {
-<a href=#947 id=947 data-nosnippet>947</a>            fulgur.update(cx, |this, cx| {
-<a href=#948 id=948 data-nosnippet>948</a>                <span class="kw">let </span>profile = ServerProfile::new(<span class="string">"queued"</span>);
-<a href=#949 id=949 data-nosnippet>949</a>                <span class="kw">let </span>id = profile.id.clone();
-<a href=#950 id=950 data-nosnippet>950</a>                this.settings
-<a href=#951 id=951 data-nosnippet>951</a>                    .app_settings
-<a href=#952 id=952 data-nosnippet>952</a>                    .synchronization_settings
-<a href=#953 id=953 data-nosnippet>953</a>                    .profiles
-<a href=#954 id=954 data-nosnippet>954</a>                    .push(profile.clone());
-<a href=#955 id=955 data-nosnippet>955</a>                <span class="kw">let </span>state = Arc::new(ShareSheetState::new(<span class="macro">vec!</span>[profile]));
-<a href=#956 id=956 data-nosnippet>956</a>                state.pending_sse_restarts.lock().push(id.clone());
-<a href=#957 id=957 data-nosnippet>957</a>                this.share_sheet_state = <span class="prelude-val">Some</span>(Arc::clone(<span class="kw-2">&amp;</span>state));
-<a href=#958 id=958 data-nosnippet>958</a>                this.process_pending_share_sheet(window, cx);
-<a href=#959 id=959 data-nosnippet>959</a>                <span class="macro">assert!</span>(
-<a href=#960 id=960 data-nosnippet>960</a>                    state.pending_sse_restarts.lock().is_empty(),
-<a href=#961 id=961 data-nosnippet>961</a>                    <span class="string">"queue must be drained on each render"
-<a href=#962 id=962 data-nosnippet>962</a>                </span>);
-<a href=#963 id=963 data-nosnippet>963</a>            });
-<a href=#964 id=964 data-nosnippet>964</a>        });
-<a href=#965 id=965 data-nosnippet>965</a>    }
-<a href=#966 id=966 data-nosnippet>966</a>
-<a href=#967 id=967 data-nosnippet>967</a>    <span class="attr">#[gpui::test]
-<a href=#968 id=968 data-nosnippet>968</a>    </span><span class="kw">fn </span>test_process_pending_share_sheet_no_state_is_a_noop(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
-<a href=#969 id=969 data-nosnippet>969</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
-<a href=#970 id=970 data-nosnippet>970</a>        visual_cx.update(|window, cx| {
-<a href=#971 id=971 data-nosnippet>971</a>            fulgur.update(cx, |this, cx| {
-<a href=#972 id=972 data-nosnippet>972</a>                this.share_sheet_state = <span class="prelude-val">None</span>;
-<a href=#973 id=973 data-nosnippet>973</a>                this.process_pending_share_sheet(window, cx);
-<a href=#974 id=974 data-nosnippet>974</a>            });
-<a href=#975 id=975 data-nosnippet>975</a>        });
-<a href=#976 id=976 data-nosnippet>976</a>    }
-<a href=#977 id=977 data-nosnippet>977</a>}
+<a href=#389 id=389 data-nosnippet>389</a>        <span class="kw">let </span>devices = <span class="kw">if let </span><span class="prelude-val">Some</span>(ProfileFetchState::Loaded(devices)) = map.get(<span class="kw-2">&amp;</span>profile.id) {
+<a href=#390 id=390 data-nosnippet>390</a>            Arc::clone(devices)
+<a href=#391 id=391 data-nosnippet>391</a>        } <span class="kw">else </span>{
+<a href=#392 id=392 data-nosnippet>392</a>            <span class="macro">log::warn!</span>(
+<a href=#393 id=393 data-nosnippet>393</a>                <span class="string">"Profile '{}': selection present but no loaded devices, skipping"</span>,
+<a href=#394 id=394 data-nosnippet>394</a>                profile.name
+<a href=#395 id=395 data-nosnippet>395</a>            );
+<a href=#396 id=396 data-nosnippet>396</a>            <span class="kw">continue</span>;
+<a href=#397 id=397 data-nosnippet>397</a>        };
+<a href=#398 id=398 data-nosnippet>398</a>        <span class="kw">let </span>(token_state, max_file_size_bytes) = entity.update(cx, |<span class="kw">_</span>, cx| {
+<a href=#399 id=399 data-nosnippet>399</a>            <span class="kw">let </span>sync_state = Fulgur::shared_state(cx).sync_state_for(<span class="kw-2">&amp;</span>profile.id);
+<a href=#400 id=400 data-nosnippet>400</a>            (
+<a href=#401 id=401 data-nosnippet>401</a>                Arc::clone(<span class="kw-2">&amp;</span>sync_state.token_state),
+<a href=#402 id=402 data-nosnippet>402</a>                sync_state
+<a href=#403 id=403 data-nosnippet>403</a>                    .max_file_size_bytes
+<a href=#404 id=404 data-nosnippet>404</a>                    .load(std::sync::atomic::Ordering::Acquire),
+<a href=#405 id=405 data-nosnippet>405</a>            )
+<a href=#406 id=406 data-nosnippet>406</a>        });
+<a href=#407 id=407 data-nosnippet>407</a>        bundles.push(ProfileShareResources {
+<a href=#408 id=408 data-nosnippet>408</a>            profile: profile.clone(),
+<a href=#409 id=409 data-nosnippet>409</a>            devices,
+<a href=#410 id=410 data-nosnippet>410</a>            device_ids,
+<a href=#411 id=411 data-nosnippet>411</a>            token_state,
+<a href=#412 id=412 data-nosnippet>412</a>            max_file_size_bytes,
+<a href=#413 id=413 data-nosnippet>413</a>        });
+<a href=#414 id=414 data-nosnippet>414</a>    }
+<a href=#415 id=415 data-nosnippet>415</a>    bundles
+<a href=#416 id=416 data-nosnippet>416</a>}
+<a href=#417 id=417 data-nosnippet>417</a>
+<a href=#418 id=418 data-nosnippet>418</a><span class="doccomment">/// Run a single profile's share request and translate the result into a
+<a href=#419 id=419 data-nosnippet>419</a>/// `ProfileShareOutcome` for aggregation.
+<a href=#420 id=420 data-nosnippet>420</a>///
+<a href=#421 id=421 data-nosnippet>421</a>/// ### Arguments
+<a href=#422 id=422 data-nosnippet>422</a>/// - `resources`: The profile and its selected device subset.
+<a href=#423 id=423 data-nosnippet>423</a>/// - `request`: The shared request payload (content, filename, `file_path`).
+<a href=#424 id=424 data-nosnippet>424</a>/// - `http_agent`: Shared HTTP agent.
+<a href=#425 id=425 data-nosnippet>425</a>///
+<a href=#426 id=426 data-nosnippet>426</a>/// ### Returns
+<a href=#427 id=427 data-nosnippet>427</a>/// - `ProfileShareOutcome`: `Completed` for a per-device dispatch result;
+<a href=#428 id=428 data-nosnippet>428</a>///   `Aborted` when validation prevented any per-device call.
+<a href=#429 id=429 data-nosnippet>429</a></span><span class="kw">fn </span>execute_profile_share(
+<a href=#430 id=430 data-nosnippet>430</a>    resources: <span class="kw-2">&amp;</span>ProfileShareResources,
+<a href=#431 id=431 data-nosnippet>431</a>    request: <span class="kw-2">&amp;</span>ShareFileRequest,
+<a href=#432 id=432 data-nosnippet>432</a>    http_agent: <span class="kw-2">&amp;</span>ureq::Agent,
+<a href=#433 id=433 data-nosnippet>433</a>) -&gt; ProfileShareOutcome {
+<a href=#434 id=434 data-nosnippet>434</a>    <span class="kw">let </span>result = share_file(
+<a href=#435 id=435 data-nosnippet>435</a>        <span class="kw-2">&amp;</span>resources.profile,
+<a href=#436 id=436 data-nosnippet>436</a>        request,
+<a href=#437 id=437 data-nosnippet>437</a>        <span class="kw-2">&amp;</span>resources.devices,
+<a href=#438 id=438 data-nosnippet>438</a>        <span class="kw-2">&amp;</span>resources.token_state,
+<a href=#439 id=439 data-nosnippet>439</a>        http_agent,
+<a href=#440 id=440 data-nosnippet>440</a>        resources.max_file_size_bytes,
+<a href=#441 id=441 data-nosnippet>441</a>    );
+<a href=#442 id=442 data-nosnippet>442</a>    <span class="kw">match </span>result {
+<a href=#443 id=443 data-nosnippet>443</a>        <span class="prelude-val">Ok</span>(share_result) =&gt; ProfileShareOutcome::Completed(share_result),
+<a href=#444 id=444 data-nosnippet>444</a>        <span class="prelude-val">Err</span>(e) =&gt; {
+<a href=#445 id=445 data-nosnippet>445</a>            <span class="macro">log::error!</span>(
+<a href=#446 id=446 data-nosnippet>446</a>                <span class="string">"Profile '{}': share aborted: {e}"</span>,
+<a href=#447 id=447 data-nosnippet>447</a>                resources.profile.name.as_str()
+<a href=#448 id=448 data-nosnippet>448</a>            );
+<a href=#449 id=449 data-nosnippet>449</a>            ProfileShareOutcome::Aborted(e)
+<a href=#450 id=450 data-nosnippet>450</a>        }
+<a href=#451 id=451 data-nosnippet>451</a>    }
+<a href=#452 id=452 data-nosnippet>452</a>}
+<a href=#453 id=453 data-nosnippet>453</a>
+<a href=#454 id=454 data-nosnippet>454</a><span class="doccomment">/// Pick the right notification type for an aggregated multi-profile share.
+<a href=#455 id=455 data-nosnippet>455</a>///
+<a href=#456 id=456 data-nosnippet>456</a>/// ### Arguments
+<a href=#457 id=457 data-nosnippet>457</a>/// - `outcomes`: Per-profile outcomes after fan-out.
+<a href=#458 id=458 data-nosnippet>458</a>///
+<a href=#459 id=459 data-nosnippet>459</a>/// ### Returns
+<a href=#460 id=460 data-nosnippet>460</a>/// - `NotificationType`: `Success` if every profile completely succeeded,
+<a href=#461 id=461 data-nosnippet>461</a>///   `Error` if no profile had any success, otherwise `Warning`.
+<a href=#462 id=462 data-nosnippet>462</a></span><span class="kw">fn </span>aggregate_notification_type(outcomes: <span class="kw-2">&amp;</span>[(String, ProfileShareOutcome)]) -&gt; NotificationType {
+<a href=#463 id=463 data-nosnippet>463</a>    <span class="kw">let </span>any_success = outcomes.iter().any(|(<span class="kw">_</span>, o)| o.has_success());
+<a href=#464 id=464 data-nosnippet>464</a>    <span class="kw">let </span>any_failure = outcomes.iter().any(|(<span class="kw">_</span>, o)| o.has_failure());
+<a href=#465 id=465 data-nosnippet>465</a>    <span class="kw">match </span>(any_success, any_failure) {
+<a href=#466 id=466 data-nosnippet>466</a>        (<span class="bool-val">true</span>, <span class="bool-val">false</span>) =&gt; NotificationType::Success,
+<a href=#467 id=467 data-nosnippet>467</a>        (<span class="bool-val">true</span>, <span class="bool-val">true</span>) =&gt; NotificationType::Warning,
+<a href=#468 id=468 data-nosnippet>468</a>        <span class="kw">_ </span>=&gt; NotificationType::Error,
+<a href=#469 id=469 data-nosnippet>469</a>    }
+<a href=#470 id=470 data-nosnippet>470</a>}
+<a href=#471 id=471 data-nosnippet>471</a>
+<a href=#472 id=472 data-nosnippet>472</a><span class="doccomment">/// Handle the Share button: validate selection, fan out per profile, and queue an aggregated notification when every profile has reported back.
+<a href=#473 id=473 data-nosnippet>473</a>///
+<a href=#474 id=474 data-nosnippet>474</a>/// ### Arguments
+<a href=#475 id=475 data-nosnippet>475</a>/// - `state`: Shared sheet state.
+<a href=#476 id=476 data-nosnippet>476</a>/// - `entity`: The Fulgur entity.
+<a href=#477 id=477 data-nosnippet>477</a>/// - `window`: The current window context.
+<a href=#478 id=478 data-nosnippet>478</a>/// - `cx`: The application context.
+<a href=#479 id=479 data-nosnippet>479</a></span><span class="kw">fn </span>handle_share_file(
+<a href=#480 id=480 data-nosnippet>480</a>    state: <span class="kw-2">&amp;</span>Arc&lt;ShareSheetState&gt;,
+<a href=#481 id=481 data-nosnippet>481</a>    entity: <span class="kw-2">&amp;</span>Entity&lt;Fulgur&gt;,
+<a href=#482 id=482 data-nosnippet>482</a>    window: <span class="kw-2">&amp;mut </span>Window,
+<a href=#483 id=483 data-nosnippet>483</a>    cx: <span class="kw-2">&amp;mut </span>App,
+<a href=#484 id=484 data-nosnippet>484</a>) {
+<a href=#485 id=485 data-nosnippet>485</a>    <span class="kw">let </span>keys = state.selected.lock().clone();
+<a href=#486 id=486 data-nosnippet>486</a>    <span class="kw">if </span>keys.is_empty() {
+<a href=#487 id=487 data-nosnippet>487</a>        window.push_notification(
+<a href=#488 id=488 data-nosnippet>488</a>            (
+<a href=#489 id=489 data-nosnippet>489</a>                NotificationType::Warning,
+<a href=#490 id=490 data-nosnippet>490</a>                SharedString::from(<span class="string">"Please select at least one device to share with."</span>),
+<a href=#491 id=491 data-nosnippet>491</a>            ),
+<a href=#492 id=492 data-nosnippet>492</a>            cx,
+<a href=#493 id=493 data-nosnippet>493</a>        );
+<a href=#494 id=494 data-nosnippet>494</a>        <span class="kw">return</span>;
+<a href=#495 id=495 data-nosnippet>495</a>    }
+<a href=#496 id=496 data-nosnippet>496</a>    <span class="kw">let </span>bundles = build_profile_share_resources(<span class="kw-2">&amp;</span>keys, state, entity, cx);
+<a href=#497 id=497 data-nosnippet>497</a>    <span class="kw">if </span>bundles.is_empty() {
+<a href=#498 id=498 data-nosnippet>498</a>        <span class="macro">log::warn!</span>(<span class="string">"Share aborted: no loaded profiles in selection"</span>);
+<a href=#499 id=499 data-nosnippet>499</a>        <span class="kw">return</span>;
+<a href=#500 id=500 data-nosnippet>500</a>    }
+<a href=#501 id=501 data-nosnippet>501</a>    <span class="kw">let </span>share_context = capture_share_context(entity, cx);
+<a href=#502 id=502 data-nosnippet>502</a>    <span class="kw">let </span>http_agent = entity.update(cx, |<span class="kw">_</span>, cx| Arc::clone(<span class="kw-2">&amp;</span>Fulgur::shared_state(cx).http_agent));
+<a href=#503 id=503 data-nosnippet>503</a>    <span class="kw">let </span>pending_notification = entity.update(cx, |<span class="kw">_</span>, cx| {
+<a href=#504 id=504 data-nosnippet>504</a>        <span class="kw">let </span>first_profile_id = bundles
+<a href=#505 id=505 data-nosnippet>505</a>            .first()
+<a href=#506 id=506 data-nosnippet>506</a>            .map(|b| b.profile.id.clone())
+<a href=#507 id=507 data-nosnippet>507</a>            .unwrap_or_default();
+<a href=#508 id=508 data-nosnippet>508</a>        Arc::clone(
+<a href=#509 id=509 data-nosnippet>509</a>            <span class="kw-2">&amp;</span>Fulgur::shared_state(cx)
+<a href=#510 id=510 data-nosnippet>510</a>                .sync_state_for(<span class="kw-2">&amp;</span>first_profile_id)
+<a href=#511 id=511 data-nosnippet>511</a>                .pending_notification,
+<a href=#512 id=512 data-nosnippet>512</a>        )
+<a href=#513 id=513 data-nosnippet>513</a>    });
+<a href=#514 id=514 data-nosnippet>514</a>    state
+<a href=#515 id=515 data-nosnippet>515</a>        .active
+<a href=#516 id=516 data-nosnippet>516</a>        .store(<span class="bool-val">false</span>, std::sync::atomic::Ordering::Release);
+<a href=#517 id=517 data-nosnippet>517</a>    entity.update(cx, |this, <span class="kw">_</span>| {
+<a href=#518 id=518 data-nosnippet>518</a>        this.share_sheet_state = <span class="prelude-val">None</span>;
+<a href=#519 id=519 data-nosnippet>519</a>    });
+<a href=#520 id=520 data-nosnippet>520</a>    window.close_sheet(cx);
+<a href=#521 id=521 data-nosnippet>521</a>    <span class="kw">let </span>progress_label = <span class="macro">format!</span>(<span class="string">"Sharing {}..."</span>, share_context.file_name);
+<a href=#522 id=522 data-nosnippet>522</a>    <span class="kw">let </span>cancel_callback: <span class="prelude-ty">Option</span>&lt;CancelCallback&gt; = <span class="prelude-val">Some</span>(Box::new(|<span class="kw">_</span>, <span class="kw">_</span>| {}));
+<a href=#523 id=523 data-nosnippet>523</a>    <span class="kw">let </span>progress = start_progress(window, cx, progress_label.into(), cancel_callback);
+<a href=#524 id=524 data-nosnippet>524</a>    <span class="kw">let </span>cancel_flag = progress.cancel_flag();
+<a href=#525 id=525 data-nosnippet>525</a>    std::thread::spawn(<span class="kw">move </span>|| {
+<a href=#526 id=526 data-nosnippet>526</a>        <span class="kw">let </span>_progress = progress;
+<a href=#527 id=527 data-nosnippet>527</a>        <span class="kw">let </span>outcomes: Vec&lt;(String, ProfileShareOutcome)&gt; = std::thread::scope(|scope| {
+<a href=#528 id=528 data-nosnippet>528</a>            <span class="kw">let </span>handles: Vec&lt;<span class="kw">_</span>&gt; = bundles
+<a href=#529 id=529 data-nosnippet>529</a>                .iter()
+<a href=#530 id=530 data-nosnippet>530</a>                .map(|bundle| {
+<a href=#531 id=531 data-nosnippet>531</a>                    <span class="kw">let </span>request = ShareFileRequest {
+<a href=#532 id=532 data-nosnippet>532</a>                        content: Arc::clone(<span class="kw-2">&amp;</span>share_context.content),
+<a href=#533 id=533 data-nosnippet>533</a>                        file_name: share_context.file_name.clone(),
+<a href=#534 id=534 data-nosnippet>534</a>                        device_ids: bundle.device_ids.clone(),
+<a href=#535 id=535 data-nosnippet>535</a>                        file_path: share_context.file_path.clone(),
+<a href=#536 id=536 data-nosnippet>536</a>                    };
+<a href=#537 id=537 data-nosnippet>537</a>                    <span class="kw">let </span>http_agent_ref = <span class="kw-2">&amp;</span>http_agent;
+<a href=#538 id=538 data-nosnippet>538</a>                    scope.spawn(<span class="kw">move </span>|| {
+<a href=#539 id=539 data-nosnippet>539</a>                        <span class="kw">let </span>outcome = execute_profile_share(bundle, <span class="kw-2">&amp;</span>request, http_agent_ref);
+<a href=#540 id=540 data-nosnippet>540</a>                        (bundle.profile.name.clone(), outcome)
+<a href=#541 id=541 data-nosnippet>541</a>                    })
+<a href=#542 id=542 data-nosnippet>542</a>                })
+<a href=#543 id=543 data-nosnippet>543</a>                .collect();
+<a href=#544 id=544 data-nosnippet>544</a>            handles
+<a href=#545 id=545 data-nosnippet>545</a>                .into_iter()
+<a href=#546 id=546 data-nosnippet>546</a>                .map(|h| {
+<a href=#547 id=547 data-nosnippet>547</a>                    h.join().unwrap_or_else(|e| {
+<a href=#548 id=548 data-nosnippet>548</a>                        <span class="macro">log::error!</span>(<span class="string">"Per-profile share thread panicked: {e:?}"</span>);
+<a href=#549 id=549 data-nosnippet>549</a>                        (
+<a href=#550 id=550 data-nosnippet>550</a>                            String::from(<span class="string">"(unknown)"</span>),
+<a href=#551 id=551 data-nosnippet>551</a>                            ProfileShareOutcome::Aborted(
+<a href=#552 id=552 data-nosnippet>552</a>                                <span class="kw">crate</span>::fulgur::sync::synchronization::SynchronizationError::Other(
+<a href=#553 id=553 data-nosnippet>553</a>                                    <span class="string">"Internal issue"</span>.to_string(),
+<a href=#554 id=554 data-nosnippet>554</a>                                ),
+<a href=#555 id=555 data-nosnippet>555</a>                            ),
+<a href=#556 id=556 data-nosnippet>556</a>                        )
+<a href=#557 id=557 data-nosnippet>557</a>                    })
+<a href=#558 id=558 data-nosnippet>558</a>                })
+<a href=#559 id=559 data-nosnippet>559</a>                .collect()
+<a href=#560 id=560 data-nosnippet>560</a>        });
+<a href=#561 id=561 data-nosnippet>561</a>        <span class="kw">if </span>cancel_flag.load(std::sync::atomic::Ordering::Acquire) {
+<a href=#562 id=562 data-nosnippet>562</a>            <span class="kw">return</span>;
+<a href=#563 id=563 data-nosnippet>563</a>        }
+<a href=#564 id=564 data-nosnippet>564</a>        <span class="kw">let </span>summary = format_multi_profile_summary(<span class="kw-2">&amp;</span>outcomes);
+<a href=#565 id=565 data-nosnippet>565</a>        <span class="kw">let </span>notification_type = aggregate_notification_type(<span class="kw-2">&amp;</span>outcomes);
+<a href=#566 id=566 data-nosnippet>566</a>        <span class="kw-2">*</span>pending_notification.lock() = <span class="prelude-val">Some</span>((notification_type, SharedString::from(summary)));
+<a href=#567 id=567 data-nosnippet>567</a>    });
+<a href=#568 id=568 data-nosnippet>568</a>}
+<a href=#569 id=569 data-nosnippet>569</a>
+<a href=#570 id=570 data-nosnippet>570</a><span class="doccomment">/// Spawn a background thread that fetches one profile's devices and writes its outcome to the shared sheet state.
+<a href=#571 id=571 data-nosnippet>571</a>///
+<a href=#572 id=572 data-nosnippet>572</a>/// ### Arguments
+<a href=#573 id=573 data-nosnippet>573</a>/// - `profile`: Profile to fetch from.
+<a href=#574 id=574 data-nosnippet>574</a>/// - `state`: Shared sheet state to update.
+<a href=#575 id=575 data-nosnippet>575</a>/// - `sync_state`: Per-profile shared sync state.
+<a href=#576 id=576 data-nosnippet>576</a>/// - `http_agent`: Shared HTTP agent.
+<a href=#577 id=577 data-nosnippet>577</a></span><span class="kw">fn </span>spawn_profile_device_fetch(
+<a href=#578 id=578 data-nosnippet>578</a>    profile: ServerProfile,
+<a href=#579 id=579 data-nosnippet>579</a>    state: Arc&lt;ShareSheetState&gt;,
+<a href=#580 id=580 data-nosnippet>580</a>    sync_state: Arc&lt;<span class="kw">crate</span>::fulgur::shared_state::SyncState&gt;,
+<a href=#581 id=581 data-nosnippet>581</a>    http_agent: Arc&lt;ureq::Agent&gt;,
+<a href=#582 id=582 data-nosnippet>582</a>) {
+<a href=#583 id=583 data-nosnippet>583</a>    <span class="kw">let </span>needs_reconnect = !sync_state.connection_status.lock().is_connected();
+<a href=#584 id=584 data-nosnippet>584</a>    <span class="kw">crate</span>::fulgur::sync::synchronization::set_sync_server_connection_status(
+<a href=#585 id=585 data-nosnippet>585</a>        <span class="kw-2">&amp;</span>sync_state.connection_status,
+<a href=#586 id=586 data-nosnippet>586</a>        SynchronizationStatus::Connecting,
+<a href=#587 id=587 data-nosnippet>587</a>    );
+<a href=#588 id=588 data-nosnippet>588</a>    <span class="kw-2">*</span>sync_state.connecting_since.lock() = <span class="prelude-val">Some</span>(std::time::Instant::now());
+<a href=#589 id=589 data-nosnippet>589</a>    std::thread::spawn(<span class="kw">move </span>|| {
+<a href=#590 id=590 data-nosnippet>590</a>        <span class="kw">if </span>!state.active.load(std::sync::atomic::Ordering::Acquire) {
+<a href=#591 id=591 data-nosnippet>591</a>            <span class="kw">return</span>;
+<a href=#592 id=592 data-nosnippet>592</a>        }
+<a href=#593 id=593 data-nosnippet>593</a>        <span class="kw">if </span>needs_reconnect {
+<a href=#594 id=594 data-nosnippet>594</a>            <span class="kw">match </span><span class="kw">crate</span>::fulgur::sync::synchronization::initial_synchronization(
+<a href=#595 id=595 data-nosnippet>595</a>                <span class="kw-2">&amp;</span>profile,
+<a href=#596 id=596 data-nosnippet>596</a>                <span class="kw-2">&amp;</span>sync_state.token_state,
+<a href=#597 id=597 data-nosnippet>597</a>                <span class="kw-2">&amp;</span>http_agent,
+<a href=#598 id=598 data-nosnippet>598</a>            ) {
+<a href=#599 id=599 data-nosnippet>599</a>                <span class="prelude-val">Ok</span>(begin_response) =&gt; {
+<a href=#600 id=600 data-nosnippet>600</a>                    <span class="kw-2">*</span>sync_state.device_name.lock() = <span class="prelude-val">Some</span>(begin_response.device_name.clone());
+<a href=#601 id=601 data-nosnippet>601</a>                    <span class="kw-2">*</span>sync_state.pending_shared_files.lock() = begin_response.shares;
+<a href=#602 id=602 data-nosnippet>602</a>                    <span class="kw">crate</span>::fulgur::sync::synchronization::store_server_max_file_size(
+<a href=#603 id=603 data-nosnippet>603</a>                        <span class="kw-2">&amp;</span>sync_state.max_file_size_bytes,
+<a href=#604 id=604 data-nosnippet>604</a>                        begin_response.max_file_size_bytes,
+<a href=#605 id=605 data-nosnippet>605</a>                    );
+<a href=#606 id=606 data-nosnippet>606</a>                    <span class="kw">crate</span>::fulgur::sync::synchronization::set_sync_server_connection_status(
+<a href=#607 id=607 data-nosnippet>607</a>                        <span class="kw-2">&amp;</span>sync_state.connection_status,
+<a href=#608 id=608 data-nosnippet>608</a>                        SynchronizationStatus::Connected,
+<a href=#609 id=609 data-nosnippet>609</a>                    );
+<a href=#610 id=610 data-nosnippet>610</a>                }
+<a href=#611 id=611 data-nosnippet>611</a>                <span class="prelude-val">Err</span>(e) =&gt; {
+<a href=#612 id=612 data-nosnippet>612</a>                    <span class="kw">let </span>status = SynchronizationStatus::from_error(<span class="kw-2">&amp;</span>e);
+<a href=#613 id=613 data-nosnippet>613</a>                    <span class="kw">crate</span>::fulgur::sync::synchronization::set_sync_server_connection_status(
+<a href=#614 id=614 data-nosnippet>614</a>                        <span class="kw-2">&amp;</span>sync_state.connection_status,
+<a href=#615 id=615 data-nosnippet>615</a>                        status,
+<a href=#616 id=616 data-nosnippet>616</a>                    );
+<a href=#617 id=617 data-nosnippet>617</a>                    <span class="kw-2">*</span>sync_state.connecting_since.lock() = <span class="prelude-val">None</span>;
+<a href=#618 id=618 data-nosnippet>618</a>                    state.per_profile.write().insert(
+<a href=#619 id=619 data-nosnippet>619</a>                        profile.id.clone(),
+<a href=#620 id=620 data-nosnippet>620</a>                        ProfileFetchState::Failed(<span class="macro">format!</span>(<span class="string">"{e}"</span>)),
+<a href=#621 id=621 data-nosnippet>621</a>                    );
+<a href=#622 id=622 data-nosnippet>622</a>                    <span class="kw">return</span>;
+<a href=#623 id=623 data-nosnippet>623</a>                }
+<a href=#624 id=624 data-nosnippet>624</a>            }
+<a href=#625 id=625 data-nosnippet>625</a>        }
+<a href=#626 id=626 data-nosnippet>626</a>        <span class="kw">let </span>result = get_devices(<span class="kw-2">&amp;</span>profile, <span class="kw-2">&amp;</span>sync_state.token_state, <span class="kw-2">&amp;</span>http_agent);
+<a href=#627 id=627 data-nosnippet>627</a>        <span class="kw-2">*</span>sync_state.connecting_since.lock() = <span class="prelude-val">None</span>;
+<a href=#628 id=628 data-nosnippet>628</a>        <span class="kw">match </span>result {
+<a href=#629 id=629 data-nosnippet>629</a>            <span class="prelude-val">Ok</span>((devices, server_max_size)) =&gt; {
+<a href=#630 id=630 data-nosnippet>630</a>                <span class="kw">crate</span>::fulgur::sync::synchronization::store_server_max_file_size(
+<a href=#631 id=631 data-nosnippet>631</a>                    <span class="kw-2">&amp;</span>sync_state.max_file_size_bytes,
+<a href=#632 id=632 data-nosnippet>632</a>                    server_max_size,
+<a href=#633 id=633 data-nosnippet>633</a>                );
+<a href=#634 id=634 data-nosnippet>634</a>                <span class="kw">crate</span>::fulgur::sync::synchronization::set_sync_server_connection_status(
+<a href=#635 id=635 data-nosnippet>635</a>                    <span class="kw-2">&amp;</span>sync_state.connection_status,
+<a href=#636 id=636 data-nosnippet>636</a>                    SynchronizationStatus::Connected,
+<a href=#637 id=637 data-nosnippet>637</a>                );
+<a href=#638 id=638 data-nosnippet>638</a>                state.per_profile.write().insert(
+<a href=#639 id=639 data-nosnippet>639</a>                    profile.id.clone(),
+<a href=#640 id=640 data-nosnippet>640</a>                    ProfileFetchState::Loaded(Arc::new(devices)),
+<a href=#641 id=641 data-nosnippet>641</a>                );
+<a href=#642 id=642 data-nosnippet>642</a>                <span class="kw">if </span>needs_reconnect {
+<a href=#643 id=643 data-nosnippet>643</a>                    state.pending_sse_restarts.lock().push(profile.id.clone());
+<a href=#644 id=644 data-nosnippet>644</a>                }
+<a href=#645 id=645 data-nosnippet>645</a>            }
+<a href=#646 id=646 data-nosnippet>646</a>            <span class="prelude-val">Err</span>(e) =&gt; {
+<a href=#647 id=647 data-nosnippet>647</a>                state.per_profile.write().insert(
+<a href=#648 id=648 data-nosnippet>648</a>                    profile.id.clone(),
+<a href=#649 id=649 data-nosnippet>649</a>                    ProfileFetchState::Failed(<span class="macro">format!</span>(<span class="string">"{e}"</span>)),
+<a href=#650 id=650 data-nosnippet>650</a>                );
+<a href=#651 id=651 data-nosnippet>651</a>            }
+<a href=#652 id=652 data-nosnippet>652</a>        }
+<a href=#653 id=653 data-nosnippet>653</a>    });
+<a href=#654 id=654 data-nosnippet>654</a>}
+<a href=#655 id=655 data-nosnippet>655</a>
+<a href=#656 id=656 data-nosnippet>656</a><span class="doccomment">/// Render the share sheet footer with Cancel and Share buttons.
+<a href=#657 id=657 data-nosnippet>657</a>///
+<a href=#658 id=658 data-nosnippet>658</a>/// ### Arguments
+<a href=#659 id=659 data-nosnippet>659</a>/// - `state`: Shared sheet state.
+<a href=#660 id=660 data-nosnippet>660</a>/// - `entity`: The Fulgur entity.
+<a href=#661 id=661 data-nosnippet>661</a>///
+<a href=#662 id=662 data-nosnippet>662</a>/// ### Returns
+<a href=#663 id=663 data-nosnippet>663</a>/// - `Div`: The footer element.
+<a href=#664 id=664 data-nosnippet>664</a></span><span class="kw">fn </span>render_footer(state: Arc&lt;ShareSheetState&gt;, entity: Entity&lt;Fulgur&gt;) -&gt; Div {
+<a href=#665 id=665 data-nosnippet>665</a>    <span class="kw">let </span>state_for_cancel = Arc::clone(<span class="kw-2">&amp;</span>state);
+<a href=#666 id=666 data-nosnippet>666</a>    <span class="kw">let </span>entity_for_cancel = entity.clone();
+<a href=#667 id=667 data-nosnippet>667</a>    <span class="kw">let </span>state_for_share = state;
+<a href=#668 id=668 data-nosnippet>668</a>    <span class="kw">let </span>entity_for_share = entity;
+<a href=#669 id=669 data-nosnippet>669</a>    h_flex()
+<a href=#670 id=670 data-nosnippet>670</a>        .justify_end()
+<a href=#671 id=671 data-nosnippet>671</a>        .w_full()
+<a href=#672 id=672 data-nosnippet>672</a>        .gap_2()
+<a href=#673 id=673 data-nosnippet>673</a>        .child(
+<a href=#674 id=674 data-nosnippet>674</a>            Button::new(<span class="string">"cancel-share"</span>)
+<a href=#675 id=675 data-nosnippet>675</a>                .child(<span class="string">"Cancel"</span>)
+<a href=#676 id=676 data-nosnippet>676</a>                .small()
+<a href=#677 id=677 data-nosnippet>677</a>                .cursor_pointer()
+<a href=#678 id=678 data-nosnippet>678</a>                .on_click(<span class="kw">move </span>|<span class="kw">_</span>, window, cx| {
+<a href=#679 id=679 data-nosnippet>679</a>                    state_for_cancel
+<a href=#680 id=680 data-nosnippet>680</a>                        .active
+<a href=#681 id=681 data-nosnippet>681</a>                        .store(<span class="bool-val">false</span>, std::sync::atomic::Ordering::Release);
+<a href=#682 id=682 data-nosnippet>682</a>                    entity_for_cancel.update(cx, |this, <span class="kw">_</span>| {
+<a href=#683 id=683 data-nosnippet>683</a>                        this.share_sheet_state = <span class="prelude-val">None</span>;
+<a href=#684 id=684 data-nosnippet>684</a>                    });
+<a href=#685 id=685 data-nosnippet>685</a>                    window.close_sheet(cx);
+<a href=#686 id=686 data-nosnippet>686</a>                }),
+<a href=#687 id=687 data-nosnippet>687</a>        )
+<a href=#688 id=688 data-nosnippet>688</a>        .child(
+<a href=#689 id=689 data-nosnippet>689</a>            Button::new(<span class="string">"ok-share"</span>)
+<a href=#690 id=690 data-nosnippet>690</a>                .child(<span class="string">"Share"</span>)
+<a href=#691 id=691 data-nosnippet>691</a>                .small()
+<a href=#692 id=692 data-nosnippet>692</a>                .primary()
+<a href=#693 id=693 data-nosnippet>693</a>                .cursor_pointer()
+<a href=#694 id=694 data-nosnippet>694</a>                .on_click(<span class="kw">move </span>|<span class="kw">_</span>, window, cx| {
+<a href=#695 id=695 data-nosnippet>695</a>                    handle_share_file(<span class="kw-2">&amp;</span>state_for_share, <span class="kw-2">&amp;</span>entity_for_share, window, cx);
+<a href=#696 id=696 data-nosnippet>696</a>                }),
+<a href=#697 id=697 data-nosnippet>697</a>        )
+<a href=#698 id=698 data-nosnippet>698</a>}
+<a href=#699 id=699 data-nosnippet>699</a>
+<a href=#700 id=700 data-nosnippet>700</a><span class="kw">impl </span>Fulgur {
+<a href=#701 id=701 data-nosnippet>701</a>    <span class="doccomment">/// Return the list of profile ids whose devices should populate the share sheet.
+<a href=#702 id=702 data-nosnippet>702</a>    ///
+<a href=#703 id=703 data-nosnippet>703</a>    /// ### Returns
+<a href=#704 id=704 data-nosnippet>704</a>    /// - `Vec&lt;ProfileId&gt;`: Active only profile ids when the master sync switch is on, in declaration order.
+<a href=#705 id=705 data-nosnippet>705</a>    </span><span class="kw">fn </span>collect_active_profiles(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;ServerProfile&gt; {
+<a href=#706 id=706 data-nosnippet>706</a>        <span class="kw">if </span>!<span class="self">self
+<a href=#707 id=707 data-nosnippet>707</a>            </span>.settings
+<a href=#708 id=708 data-nosnippet>708</a>            .app_settings
+<a href=#709 id=709 data-nosnippet>709</a>            .synchronization_settings
+<a href=#710 id=710 data-nosnippet>710</a>            .is_synchronization_activated
+<a href=#711 id=711 data-nosnippet>711</a>        {
+<a href=#712 id=712 data-nosnippet>712</a>            <span class="kw">return </span>Vec::new();
+<a href=#713 id=713 data-nosnippet>713</a>        }
+<a href=#714 id=714 data-nosnippet>714</a>        <span class="self">self</span>.settings
+<a href=#715 id=715 data-nosnippet>715</a>            .app_settings
+<a href=#716 id=716 data-nosnippet>716</a>            .synchronization_settings
+<a href=#717 id=717 data-nosnippet>717</a>            .profiles
+<a href=#718 id=718 data-nosnippet>718</a>            .iter()
+<a href=#719 id=719 data-nosnippet>719</a>            .filter(|p| p.is_active)
+<a href=#720 id=720 data-nosnippet>720</a>            .cloned()
+<a href=#721 id=721 data-nosnippet>721</a>            .collect()
+<a href=#722 id=722 data-nosnippet>722</a>    }
+<a href=#723 id=723 data-nosnippet>723</a>
+<a href=#724 id=724 data-nosnippet>724</a>    <span class="doccomment">/// Open the share file sheet immediately and fetch each active profile's devices in the background.
+<a href=#725 id=725 data-nosnippet>725</a>    ///
+<a href=#726 id=726 data-nosnippet>726</a>    /// ### Arguments
+<a href=#727 id=727 data-nosnippet>727</a>    /// - `window`: The window context.
+<a href=#728 id=728 data-nosnippet>728</a>    /// - `cx`: The application context.
+<a href=#729 id=729 data-nosnippet>729</a>    </span><span class="kw">pub fn </span>open_share_file_sheet(<span class="kw-2">&amp;mut </span><span class="self">self</span>, window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
+<a href=#730 id=730 data-nosnippet>730</a>        <span class="kw">let </span>active_profiles = <span class="self">self</span>.collect_active_profiles();
+<a href=#731 id=731 data-nosnippet>731</a>        <span class="kw">if </span>active_profiles.is_empty() {
+<a href=#732 id=732 data-nosnippet>732</a>            <span class="macro">log::warn!</span>(<span class="string">"Share aborted: no active profile or master sync is off"</span>);
+<a href=#733 id=733 data-nosnippet>733</a>            <span class="kw">return</span>;
+<a href=#734 id=734 data-nosnippet>734</a>        }
+<a href=#735 id=735 data-nosnippet>735</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(previous) = <span class="self">self</span>.share_sheet_state.take() {
+<a href=#736 id=736 data-nosnippet>736</a>            previous
+<a href=#737 id=737 data-nosnippet>737</a>                .active
+<a href=#738 id=738 data-nosnippet>738</a>                .store(<span class="bool-val">false</span>, std::sync::atomic::Ordering::Release);
+<a href=#739 id=739 data-nosnippet>739</a>        }
+<a href=#740 id=740 data-nosnippet>740</a>        <span class="kw">let </span>state = Arc::new(ShareSheetState::new(active_profiles.clone()));
+<a href=#741 id=741 data-nosnippet>741</a>        <span class="self">self</span>.share_sheet_state = <span class="prelude-val">Some</span>(Arc::clone(<span class="kw-2">&amp;</span>state));
+<a href=#742 id=742 data-nosnippet>742</a>        <span class="kw">let </span>shared = Fulgur::shared_state(cx);
+<a href=#743 id=743 data-nosnippet>743</a>        <span class="kw">let </span>http_agent = Arc::clone(<span class="kw-2">&amp;</span>shared.http_agent);
+<a href=#744 id=744 data-nosnippet>744</a>        <span class="kw">for </span>profile <span class="kw">in </span>active_profiles {
+<a href=#745 id=745 data-nosnippet>745</a>            <span class="kw">let </span>sync_state = shared.sync_state_for(<span class="kw-2">&amp;</span>profile.id);
+<a href=#746 id=746 data-nosnippet>746</a>            spawn_profile_device_fetch(
+<a href=#747 id=747 data-nosnippet>747</a>                profile,
+<a href=#748 id=748 data-nosnippet>748</a>                Arc::clone(<span class="kw-2">&amp;</span>state),
+<a href=#749 id=749 data-nosnippet>749</a>                sync_state,
+<a href=#750 id=750 data-nosnippet>750</a>                Arc::clone(<span class="kw-2">&amp;</span>http_agent),
+<a href=#751 id=751 data-nosnippet>751</a>            );
+<a href=#752 id=752 data-nosnippet>752</a>        }
+<a href=#753 id=753 data-nosnippet>753</a>        <span class="self">Self</span>::start_share_sheet_render_pump(Arc::clone(<span class="kw-2">&amp;</span>state), window, cx);
+<a href=#754 id=754 data-nosnippet>754</a>        <span class="self">Self</span>::show_share_sheet(state, window, cx);
+<a href=#755 id=755 data-nosnippet>755</a>    }
+<a href=#756 id=756 data-nosnippet>756</a>
+<a href=#757 id=757 data-nosnippet>757</a>    <span class="doccomment">/// Drive periodic re-renders while the share sheet is open and at least one profile is still loading.
+<a href=#758 id=758 data-nosnippet>758</a>    ///
+<a href=#759 id=759 data-nosnippet>759</a>    /// ### Arguments
+<a href=#760 id=760 data-nosnippet>760</a>    /// - `state`: Shared sheet state.
+<a href=#761 id=761 data-nosnippet>761</a>    /// - `window`: The window context.
+<a href=#762 id=762 data-nosnippet>762</a>    /// - `cx`: The application context.
+<a href=#763 id=763 data-nosnippet>763</a>    </span><span class="kw">fn </span>start_share_sheet_render_pump(
+<a href=#764 id=764 data-nosnippet>764</a>        state: Arc&lt;ShareSheetState&gt;,
+<a href=#765 id=765 data-nosnippet>765</a>        window: <span class="kw-2">&amp;mut </span>Window,
+<a href=#766 id=766 data-nosnippet>766</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
+<a href=#767 id=767 data-nosnippet>767</a>    ) {
+<a href=#768 id=768 data-nosnippet>768</a>        <span class="kw">let </span>entity = cx.entity();
+<a href=#769 id=769 data-nosnippet>769</a>        window
+<a href=#770 id=770 data-nosnippet>770</a>            .spawn(cx, <span class="kw">async move </span>|async_cx| {
+<a href=#771 id=771 data-nosnippet>771</a>                <span class="kw">loop </span>{
+<a href=#772 id=772 data-nosnippet>772</a>                    async_cx
+<a href=#773 id=773 data-nosnippet>773</a>                        .background_executor()
+<a href=#774 id=774 data-nosnippet>774</a>                        .timer(Duration::from_millis(<span class="number">100</span>))
+<a href=#775 id=775 data-nosnippet>775</a>                        .<span class="kw">await</span>;
+<a href=#776 id=776 data-nosnippet>776</a>                    <span class="kw">if </span>!state.active.load(std::sync::atomic::Ordering::Acquire) {
+<a href=#777 id=777 data-nosnippet>777</a>                        <span class="kw">return</span>;
+<a href=#778 id=778 data-nosnippet>778</a>                    }
+<a href=#779 id=779 data-nosnippet>779</a>                    <span class="kw">let _ </span>= async_cx.update(|<span class="kw">_</span>, cx| {
+<a href=#780 id=780 data-nosnippet>780</a>                        entity.update(cx, |<span class="kw">_</span>, cx| cx.notify());
+<a href=#781 id=781 data-nosnippet>781</a>                    });
+<a href=#782 id=782 data-nosnippet>782</a>                    <span class="kw">if </span>state.all_settled() {
+<a href=#783 id=783 data-nosnippet>783</a>                        <span class="kw">return</span>;
+<a href=#784 id=784 data-nosnippet>784</a>                    }
+<a href=#785 id=785 data-nosnippet>785</a>                }
+<a href=#786 id=786 data-nosnippet>786</a>            })
+<a href=#787 id=787 data-nosnippet>787</a>            .detach();
+<a href=#788 id=788 data-nosnippet>788</a>    }
+<a href=#789 id=789 data-nosnippet>789</a>
+<a href=#790 id=790 data-nosnippet>790</a>    <span class="doccomment">/// Drain pending SSE restart requests posted by share-sheet device fetches.
+<a href=#791 id=791 data-nosnippet>791</a>    ///
+<a href=#792 id=792 data-nosnippet>792</a>    /// ### Arguments
+<a href=#793 id=793 data-nosnippet>793</a>    /// - `_window`: The window context.
+<a href=#794 id=794 data-nosnippet>794</a>    /// - `cx`: The application context.
+<a href=#795 id=795 data-nosnippet>795</a>    </span><span class="kw">pub fn </span>process_pending_share_sheet(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
+<a href=#796 id=796 data-nosnippet>796</a>        <span class="kw">let </span><span class="prelude-val">Some</span>(state) = <span class="self">self</span>.share_sheet_state.as_ref().map(Arc::clone) <span class="kw">else </span>{
+<a href=#797 id=797 data-nosnippet>797</a>            <span class="kw">return</span>;
+<a href=#798 id=798 data-nosnippet>798</a>        };
+<a href=#799 id=799 data-nosnippet>799</a>        <span class="kw">let </span>to_restart: Vec&lt;ProfileId&gt; = std::mem::take(<span class="kw-2">&amp;mut *</span>state.pending_sse_restarts.lock());
+<a href=#800 id=800 data-nosnippet>800</a>        <span class="kw">for </span>profile_id <span class="kw">in </span>to_restart {
+<a href=#801 id=801 data-nosnippet>801</a>            <span class="self">self</span>.restart_sse_connection_for(<span class="kw-2">&amp;</span>profile_id, cx);
+<a href=#802 id=802 data-nosnippet>802</a>        }
+<a href=#803 id=803 data-nosnippet>803</a>    }
+<a href=#804 id=804 data-nosnippet>804</a>
+<a href=#805 id=805 data-nosnippet>805</a>    <span class="doccomment">/// Open the share sheet UI for the given shared state. Each profile section reads live state on every render.
+<a href=#806 id=806 data-nosnippet>806</a>    ///
+<a href=#807 id=807 data-nosnippet>807</a>    /// ### Arguments
+<a href=#808 id=808 data-nosnippet>808</a>    /// - `state`: Shared sheet state.
+<a href=#809 id=809 data-nosnippet>809</a>    /// - `window`: The window context.
+<a href=#810 id=810 data-nosnippet>810</a>    /// - `cx`: The application context.
+<a href=#811 id=811 data-nosnippet>811</a>    </span><span class="kw">fn </span>show_share_sheet(state: Arc&lt;ShareSheetState&gt;, window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
+<a href=#812 id=812 data-nosnippet>812</a>        <span class="kw">let </span>entity = cx.entity();
+<a href=#813 id=813 data-nosnippet>813</a>        <span class="kw">let </span>viewport_height = window.viewport_size().height;
+<a href=#814 id=814 data-nosnippet>814</a>        window.open_sheet(cx, <span class="kw">move </span>|sheet, _window, cx| {
+<a href=#815 id=815 data-nosnippet>815</a>            <span class="attr">#[cfg(target_os = <span class="string">"linux"</span>)]
+<a href=#816 id=816 data-nosnippet>816</a>            </span><span class="kw">let </span>sheet_overhead = px(<span class="number">200.0</span>);
+<a href=#817 id=817 data-nosnippet>817</a>            <span class="attr">#[cfg(not(target_os = <span class="string">"linux"</span>))]
+<a href=#818 id=818 data-nosnippet>818</a>            </span><span class="kw">let </span>sheet_overhead = px(<span class="number">150.0</span>);
+<a href=#819 id=819 data-nosnippet>819</a>            <span class="kw">let </span>max_height = px((viewport_height - sheet_overhead).into());
+<a href=#820 id=820 data-nosnippet>820</a>            <span class="kw">let </span>state_for_list = Arc::clone(<span class="kw-2">&amp;</span>state);
+<a href=#821 id=821 data-nosnippet>821</a>            <span class="kw">let </span>state_for_footer = Arc::clone(<span class="kw-2">&amp;</span>state);
+<a href=#822 id=822 data-nosnippet>822</a>            sheet
+<a href=#823 id=823 data-nosnippet>823</a>                .title(<span class="string">"Share with..."</span>)
+<a href=#824 id=824 data-nosnippet>824</a>                .size(px(<span class="number">400.</span>))
+<a href=#825 id=825 data-nosnippet>825</a>                .overlay(<span class="bool-val">true</span>)
+<a href=#826 id=826 data-nosnippet>826</a>                .child(
+<a href=#827 id=827 data-nosnippet>827</a>                    v_flex()
+<a href=#828 id=828 data-nosnippet>828</a>                        .overflow_y_scrollbar()
+<a href=#829 id=829 data-nosnippet>829</a>                        .gap_2()
+<a href=#830 id=830 data-nosnippet>830</a>                        .h(max_height)
+<a href=#831 id=831 data-nosnippet>831</a>                        .child(make_device_list(<span class="kw-2">&amp;</span>state_for_list, cx)),
+<a href=#832 id=832 data-nosnippet>832</a>                )
+<a href=#833 id=833 data-nosnippet>833</a>                .footer(render_footer(state_for_footer, entity.clone()))
+<a href=#834 id=834 data-nosnippet>834</a>        });
+<a href=#835 id=835 data-nosnippet>835</a>    }
+<a href=#836 id=836 data-nosnippet>836</a>}
+<a href=#837 id=837 data-nosnippet>837</a>
+<a href=#838 id=838 data-nosnippet>838</a><span class="attr">#[cfg(all(test, feature = <span class="string">"gpui-test-support"</span>))]
+<a href=#839 id=839 data-nosnippet>839</a></span><span class="kw">mod </span>tests {
+<a href=#840 id=840 data-nosnippet>840</a>    <span class="kw">use </span>super::{Device, Fulgur, ProfileFetchState, ShareSheetState};
+<a href=#841 id=841 data-nosnippet>841</a>    <span class="kw">use </span><span class="kw">crate</span>::fulgur::{
+<a href=#842 id=842 data-nosnippet>842</a>        settings::{ServerProfile, Settings},
+<a href=#843 id=843 data-nosnippet>843</a>        shared_state::SharedAppState,
+<a href=#844 id=844 data-nosnippet>844</a>        window_manager::WindowManager,
+<a href=#845 id=845 data-nosnippet>845</a>    };
+<a href=#846 id=846 data-nosnippet>846</a>    <span class="kw">use </span>gpui::{AppContext, Entity, TestAppContext, VisualTestContext, WindowOptions};
+<a href=#847 id=847 data-nosnippet>847</a>    <span class="kw">use </span>parking_lot::Mutex;
+<a href=#848 id=848 data-nosnippet>848</a>    <span class="kw">use </span>std::{cell::RefCell, path::PathBuf, sync::Arc};
+<a href=#849 id=849 data-nosnippet>849</a>
+<a href=#850 id=850 data-nosnippet>850</a>    <span class="doccomment">/// Initialize globals and open a test window with a Root-mounted `Fulgur`.
+<a href=#851 id=851 data-nosnippet>851</a>    </span><span class="kw">fn </span>setup_fulgur(cx: <span class="kw-2">&amp;mut </span>TestAppContext) -&gt; (Entity&lt;Fulgur&gt;, VisualTestContext) {
+<a href=#852 id=852 data-nosnippet>852</a>        cx.update(|cx| {
+<a href=#853 id=853 data-nosnippet>853</a>            gpui_component::init(cx);
+<a href=#854 id=854 data-nosnippet>854</a>            <span class="kw">let </span><span class="kw-2">mut </span>settings = Settings::new();
+<a href=#855 id=855 data-nosnippet>855</a>            settings.editor_settings.watch_files = <span class="bool-val">false</span>;
+<a href=#856 id=856 data-nosnippet>856</a>            <span class="kw">let </span>pending_files: Arc&lt;Mutex&lt;Vec&lt;PathBuf&gt;&gt;&gt; = Arc::new(Mutex::new(Vec::new()));
+<a href=#857 id=857 data-nosnippet>857</a>            cx.set_global(SharedAppState::new(settings, pending_files));
+<a href=#858 id=858 data-nosnippet>858</a>            cx.set_global(WindowManager::new());
+<a href=#859 id=859 data-nosnippet>859</a>        });
+<a href=#860 id=860 data-nosnippet>860</a>        <span class="kw">let </span>fulgur_slot: RefCell&lt;<span class="prelude-ty">Option</span>&lt;Entity&lt;Fulgur&gt;&gt;&gt; = RefCell::new(<span class="prelude-val">None</span>);
+<a href=#861 id=861 data-nosnippet>861</a>        <span class="kw">let </span>window = cx
+<a href=#862 id=862 data-nosnippet>862</a>            .update(|cx| {
+<a href=#863 id=863 data-nosnippet>863</a>                cx.open_window(WindowOptions::default(), |window, cx| {
+<a href=#864 id=864 data-nosnippet>864</a>                    <span class="kw">let </span>window_id = window.window_handle().window_id();
+<a href=#865 id=865 data-nosnippet>865</a>                    <span class="kw">let </span>fulgur = Fulgur::new(window, cx, window_id, usize::MAX);
+<a href=#866 id=866 data-nosnippet>866</a>                    <span class="kw-2">*</span>fulgur_slot.borrow_mut() = <span class="prelude-val">Some</span>(fulgur.clone());
+<a href=#867 id=867 data-nosnippet>867</a>                    cx.new(|cx| gpui_component::Root::new(fulgur, window, cx))
+<a href=#868 id=868 data-nosnippet>868</a>                })
+<a href=#869 id=869 data-nosnippet>869</a>            })
+<a href=#870 id=870 data-nosnippet>870</a>            .expect(<span class="string">"failed to open test window"</span>);
+<a href=#871 id=871 data-nosnippet>871</a>        <span class="kw">let </span>visual_cx = VisualTestContext::from_window(window.into(), cx);
+<a href=#872 id=872 data-nosnippet>872</a>        visual_cx.run_until_parked();
+<a href=#873 id=873 data-nosnippet>873</a>        <span class="kw">let </span>fulgur = fulgur_slot
+<a href=#874 id=874 data-nosnippet>874</a>            .into_inner()
+<a href=#875 id=875 data-nosnippet>875</a>            .expect(<span class="string">"failed to capture Fulgur entity"</span>);
+<a href=#876 id=876 data-nosnippet>876</a>        (fulgur, visual_cx)
+<a href=#877 id=877 data-nosnippet>877</a>    }
+<a href=#878 id=878 data-nosnippet>878</a>
+<a href=#879 id=879 data-nosnippet>879</a>    <span class="kw">fn </span>make_device(id: <span class="kw-2">&amp;</span>str) -&gt; Device {
+<a href=#880 id=880 data-nosnippet>880</a>        Device {
+<a href=#881 id=881 data-nosnippet>881</a>            id: id.to_string(),
+<a href=#882 id=882 data-nosnippet>882</a>            name: <span class="macro">format!</span>(<span class="string">"{id}-name"</span>),
+<a href=#883 id=883 data-nosnippet>883</a>            device_type: <span class="string">"desktop"</span>.to_string(),
+<a href=#884 id=884 data-nosnippet>884</a>            public_key: <span class="prelude-val">Some</span>(<span class="string">"age1dummypublickey"</span>.to_string()),
+<a href=#885 id=885 data-nosnippet>885</a>            created_at: <span class="string">"2024-01-01T00:00:00Z"</span>.to_string(),
+<a href=#886 id=886 data-nosnippet>886</a>            expires_at: <span class="string">"2025-01-01T00:00:00Z"</span>.to_string(),
+<a href=#887 id=887 data-nosnippet>887</a>        }
+<a href=#888 id=888 data-nosnippet>888</a>    }
+<a href=#889 id=889 data-nosnippet>889</a>
+<a href=#890 id=890 data-nosnippet>890</a>    <span class="attr">#[test]
+<a href=#891 id=891 data-nosnippet>891</a>    </span><span class="kw">fn </span>test_share_sheet_state_starts_with_every_profile_loading() {
+<a href=#892 id=892 data-nosnippet>892</a>        <span class="kw">let </span>profile_a = ServerProfile::new(<span class="string">"A"</span>);
+<a href=#893 id=893 data-nosnippet>893</a>        <span class="kw">let </span>profile_b = ServerProfile::new(<span class="string">"B"</span>);
+<a href=#894 id=894 data-nosnippet>894</a>        <span class="kw">let </span>id_a = profile_a.id.clone();
+<a href=#895 id=895 data-nosnippet>895</a>        <span class="kw">let </span>id_b = profile_b.id.clone();
+<a href=#896 id=896 data-nosnippet>896</a>        <span class="kw">let </span>state = ShareSheetState::new(<span class="macro">vec!</span>[profile_a, profile_b]);
+<a href=#897 id=897 data-nosnippet>897</a>        <span class="kw">let </span>map = state.per_profile.read();
+<a href=#898 id=898 data-nosnippet>898</a>        <span class="macro">assert!</span>(<span class="macro">matches!</span>(map.get(<span class="kw-2">&amp;</span>id_a), <span class="prelude-val">Some</span>(ProfileFetchState::Loading)));
+<a href=#899 id=899 data-nosnippet>899</a>        <span class="macro">assert!</span>(<span class="macro">matches!</span>(map.get(<span class="kw-2">&amp;</span>id_b), <span class="prelude-val">Some</span>(ProfileFetchState::Loading)));
+<a href=#900 id=900 data-nosnippet>900</a>        drop(map);
+<a href=#901 id=901 data-nosnippet>901</a>        <span class="macro">assert!</span>(!state.all_settled());
+<a href=#902 id=902 data-nosnippet>902</a>    }
+<a href=#903 id=903 data-nosnippet>903</a>
+<a href=#904 id=904 data-nosnippet>904</a>    <span class="attr">#[test]
+<a href=#905 id=905 data-nosnippet>905</a>    </span><span class="kw">fn </span>test_share_sheet_state_all_settled_when_loaded_or_failed() {
+<a href=#906 id=906 data-nosnippet>906</a>        <span class="kw">let </span>profile_a = ServerProfile::new(<span class="string">"A"</span>);
+<a href=#907 id=907 data-nosnippet>907</a>        <span class="kw">let </span>profile_b = ServerProfile::new(<span class="string">"B"</span>);
+<a href=#908 id=908 data-nosnippet>908</a>        <span class="kw">let </span>id_a = profile_a.id.clone();
+<a href=#909 id=909 data-nosnippet>909</a>        <span class="kw">let </span>id_b = profile_b.id.clone();
+<a href=#910 id=910 data-nosnippet>910</a>        <span class="kw">let </span>state = ShareSheetState::new(<span class="macro">vec!</span>[profile_a, profile_b]);
+<a href=#911 id=911 data-nosnippet>911</a>        state.per_profile.write().insert(
+<a href=#912 id=912 data-nosnippet>912</a>            id_a,
+<a href=#913 id=913 data-nosnippet>913</a>            ProfileFetchState::Loaded(Arc::new(<span class="macro">vec!</span>[make_device(<span class="string">"d1"</span>)])),
+<a href=#914 id=914 data-nosnippet>914</a>        );
+<a href=#915 id=915 data-nosnippet>915</a>        state
+<a href=#916 id=916 data-nosnippet>916</a>            .per_profile
+<a href=#917 id=917 data-nosnippet>917</a>            .write()
+<a href=#918 id=918 data-nosnippet>918</a>            .insert(id_b, ProfileFetchState::Failed(<span class="string">"nope"</span>.to_string()));
+<a href=#919 id=919 data-nosnippet>919</a>        <span class="macro">assert!</span>(state.all_settled());
+<a href=#920 id=920 data-nosnippet>920</a>    }
+<a href=#921 id=921 data-nosnippet>921</a>
+<a href=#922 id=922 data-nosnippet>922</a>    <span class="attr">#[test]
+<a href=#923 id=923 data-nosnippet>923</a>    </span><span class="kw">fn </span>test_share_sheet_state_not_settled_with_lingering_loading() {
+<a href=#924 id=924 data-nosnippet>924</a>        <span class="kw">let </span>profile_a = ServerProfile::new(<span class="string">"A"</span>);
+<a href=#925 id=925 data-nosnippet>925</a>        <span class="kw">let </span>profile_b = ServerProfile::new(<span class="string">"B"</span>);
+<a href=#926 id=926 data-nosnippet>926</a>        <span class="kw">let </span>id_a = profile_a.id.clone();
+<a href=#927 id=927 data-nosnippet>927</a>        <span class="kw">let </span>state = ShareSheetState::new(<span class="macro">vec!</span>[profile_a, profile_b]);
+<a href=#928 id=928 data-nosnippet>928</a>        state
+<a href=#929 id=929 data-nosnippet>929</a>            .per_profile
+<a href=#930 id=930 data-nosnippet>930</a>            .write()
+<a href=#931 id=931 data-nosnippet>931</a>            .insert(id_a, ProfileFetchState::Loaded(Arc::new(<span class="macro">vec!</span>[])));
+<a href=#932 id=932 data-nosnippet>932</a>        <span class="macro">assert!</span>(!state.all_settled());
+<a href=#933 id=933 data-nosnippet>933</a>    }
+<a href=#934 id=934 data-nosnippet>934</a>
+<a href=#935 id=935 data-nosnippet>935</a>    <span class="attr">#[gpui::test]
+<a href=#936 id=936 data-nosnippet>936</a>    </span><span class="kw">fn </span>test_process_pending_share_sheet_drains_sse_restart_queue(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
+<a href=#937 id=937 data-nosnippet>937</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
+<a href=#938 id=938 data-nosnippet>938</a>        visual_cx.update(|window, cx| {
+<a href=#939 id=939 data-nosnippet>939</a>            fulgur.update(cx, |this, cx| {
+<a href=#940 id=940 data-nosnippet>940</a>                <span class="kw">let </span>profile = ServerProfile::new(<span class="string">"queued"</span>);
+<a href=#941 id=941 data-nosnippet>941</a>                <span class="kw">let </span>id = profile.id.clone();
+<a href=#942 id=942 data-nosnippet>942</a>                this.settings
+<a href=#943 id=943 data-nosnippet>943</a>                    .app_settings
+<a href=#944 id=944 data-nosnippet>944</a>                    .synchronization_settings
+<a href=#945 id=945 data-nosnippet>945</a>                    .profiles
+<a href=#946 id=946 data-nosnippet>946</a>                    .push(profile.clone());
+<a href=#947 id=947 data-nosnippet>947</a>                <span class="kw">let </span>state = Arc::new(ShareSheetState::new(<span class="macro">vec!</span>[profile]));
+<a href=#948 id=948 data-nosnippet>948</a>                state.pending_sse_restarts.lock().push(id.clone());
+<a href=#949 id=949 data-nosnippet>949</a>                this.share_sheet_state = <span class="prelude-val">Some</span>(Arc::clone(<span class="kw-2">&amp;</span>state));
+<a href=#950 id=950 data-nosnippet>950</a>                this.process_pending_share_sheet(window, cx);
+<a href=#951 id=951 data-nosnippet>951</a>                <span class="macro">assert!</span>(
+<a href=#952 id=952 data-nosnippet>952</a>                    state.pending_sse_restarts.lock().is_empty(),
+<a href=#953 id=953 data-nosnippet>953</a>                    <span class="string">"queue must be drained on each render"
+<a href=#954 id=954 data-nosnippet>954</a>                </span>);
+<a href=#955 id=955 data-nosnippet>955</a>            });
+<a href=#956 id=956 data-nosnippet>956</a>        });
+<a href=#957 id=957 data-nosnippet>957</a>    }
+<a href=#958 id=958 data-nosnippet>958</a>
+<a href=#959 id=959 data-nosnippet>959</a>    <span class="attr">#[gpui::test]
+<a href=#960 id=960 data-nosnippet>960</a>    </span><span class="kw">fn </span>test_process_pending_share_sheet_no_state_is_a_noop(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
+<a href=#961 id=961 data-nosnippet>961</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
+<a href=#962 id=962 data-nosnippet>962</a>        visual_cx.update(|window, cx| {
+<a href=#963 id=963 data-nosnippet>963</a>            fulgur.update(cx, |this, cx| {
+<a href=#964 id=964 data-nosnippet>964</a>                this.share_sheet_state = <span class="prelude-val">None</span>;
+<a href=#965 id=965 data-nosnippet>965</a>                this.process_pending_share_sheet(window, cx);
+<a href=#966 id=966 data-nosnippet>966</a>            });
+<a href=#967 id=967 data-nosnippet>967</a>        });
+<a href=#968 id=968 data-nosnippet>968</a>    }
+<a href=#969 id=969 data-nosnippet>969</a>}
 </code></pre></div></section></main></body></html>

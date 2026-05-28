@@ -140,7 +140,7 @@
 <a href=#140 id=140 data-nosnippet>140</a>                }
 <a href=#141 id=141 data-nosnippet>141</a>
 <a href=#142 id=142 data-nosnippet>142</a>                window.push_notification(note, cx);
-<a href=#143 id=143 data-nosnippet>143</a>                window.notifications(cx).last().map(|e| e.downgrade())
+<a href=#143 id=143 data-nosnippet>143</a>                window.notifications(cx).last().map(gpui::Entity::downgrade)
 <a href=#144 id=144 data-nosnippet>144</a>            }) {
 <a href=#145 id=145 data-nosnippet>145</a>                <span class="prelude-val">Ok</span>(entity) =&gt; entity,
 <a href=#146 id=146 data-nosnippet>146</a>                <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span>,
@@ -153,7 +153,7 @@
 <a href=#153 id=153 data-nosnippet>153</a>                    .<span class="kw">await</span>;
 <a href=#154 id=154 data-nosnippet>154</a>                <span class="kw">if </span>completed_for_task.load(Ordering::Acquire) {
 <a href=#155 id=155 data-nosnippet>155</a>                    <span class="kw">let _ </span>= async_cx.update(|window, cx| {
-<a href=#156 id=156 data-nosnippet>156</a>                        <span class="kw">if let </span><span class="prelude-val">Some</span>(entity) = entity.as_ref().and_then(|e| e.upgrade()) {
+<a href=#156 id=156 data-nosnippet>156</a>                        <span class="kw">if let </span><span class="prelude-val">Some</span>(entity) = entity.as_ref().and_then(gpui::WeakEntity::upgrade) {
 <a href=#157 id=157 data-nosnippet>157</a>                            entity.update(cx, |note, cx| note.dismiss(window, cx));
 <a href=#158 id=158 data-nosnippet>158</a>                        }
 <a href=#159 id=159 data-nosnippet>159</a>                    });

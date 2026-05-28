@@ -158,64 +158,63 @@
 <a href=#158 id=158 data-nosnippet>158</a>
 <a href=#159 id=159 data-nosnippet>159</a>    <span class="attr">#[test]
 <a href=#160 id=160 data-nosnippet>160</a>    </span><span class="kw">fn </span>test_button_factory_builds_button() {
-<a href=#161 id=161 data-nosnippet>161</a>        <span class="kw">let </span>button = button_factory(<span class="string">"test-button"</span>, <span class="string">"Tooltip"</span>, CustomIcon::Search, red());
-<a href=#162 id=162 data-nosnippet>162</a>
-<a href=#163 id=163 data-nosnippet>163</a>        <span class="kw">fn </span>takes_button(<span class="kw">_</span>: Button) {}
-<a href=#164 id=164 data-nosnippet>164</a>        takes_button(button);
-<a href=#165 id=165 data-nosnippet>165</a>    }
-<a href=#166 id=166 data-nosnippet>166</a>
-<a href=#167 id=167 data-nosnippet>167</a>    <span class="attr">#[test]
-<a href=#168 id=168 data-nosnippet>168</a>    </span><span class="kw">fn </span>test_reveal_in_file_manager_label_for_current_platform() {
-<a href=#169 id=169 data-nosnippet>169</a>        <span class="kw">let </span>label = reveal_in_file_manager_label();
-<a href=#170 id=170 data-nosnippet>170</a>
-<a href=#171 id=171 data-nosnippet>171</a>        <span class="attr">#[cfg(target_os = <span class="string">"macos"</span>)]
-<a href=#172 id=172 data-nosnippet>172</a>        </span><span class="macro">assert_eq!</span>(label, <span class="string">"Reveal in Finder"</span>);
-<a href=#173 id=173 data-nosnippet>173</a>
-<a href=#174 id=174 data-nosnippet>174</a>        <span class="attr">#[cfg(target_os = <span class="string">"windows"</span>)]
-<a href=#175 id=175 data-nosnippet>175</a>        </span><span class="macro">assert_eq!</span>(label, <span class="string">"Reveal in Explorer"</span>);
-<a href=#176 id=176 data-nosnippet>176</a>
-<a href=#177 id=177 data-nosnippet>177</a>        <span class="attr">#[cfg(not(any(target_os = <span class="string">"macos"</span>, target_os = <span class="string">"windows"</span>)))]
-<a href=#178 id=178 data-nosnippet>178</a>        </span><span class="macro">assert_eq!</span>(label, <span class="string">"Reveal in File Manager"</span>);
-<a href=#179 id=179 data-nosnippet>179</a>    }
-<a href=#180 id=180 data-nosnippet>180</a>
-<a href=#181 id=181 data-nosnippet>181</a>    <span class="attr">#[test]
-<a href=#182 id=182 data-nosnippet>182</a>    </span><span class="kw">fn </span>test_format_system_time_epoch() {
-<a href=#183 id=183 data-nosnippet>183</a>        <span class="kw">let </span>formatted = format_system_time(UNIX_EPOCH);
-<a href=#184 id=184 data-nosnippet>184</a>        <span class="macro">assert_eq!</span>(formatted.as_deref(), <span class="prelude-val">Some</span>(<span class="string">"1970-01-01 00:00:00"</span>));
-<a href=#185 id=185 data-nosnippet>185</a>    }
-<a href=#186 id=186 data-nosnippet>186</a>
-<a href=#187 id=187 data-nosnippet>187</a>    <span class="attr">#[test]
-<a href=#188 id=188 data-nosnippet>188</a>    </span><span class="kw">fn </span>test_format_system_time_with_offset() {
-<a href=#189 id=189 data-nosnippet>189</a>        <span class="kw">let </span>ts = UNIX_EPOCH + Duration::from_secs(<span class="number">3661</span>); <span class="comment">// 01:01:01 UTC
-<a href=#190 id=190 data-nosnippet>190</a>        </span><span class="kw">let </span>formatted = format_system_time(ts);
-<a href=#191 id=191 data-nosnippet>191</a>        <span class="macro">assert_eq!</span>(formatted.as_deref(), <span class="prelude-val">Some</span>(<span class="string">"1970-01-01 01:01:01"</span>));
-<a href=#192 id=192 data-nosnippet>192</a>    }
-<a href=#193 id=193 data-nosnippet>193</a>
-<a href=#194 id=194 data-nosnippet>194</a>    <span class="attr">#[test]
-<a href=#195 id=195 data-nosnippet>195</a>    </span><span class="kw">fn </span>test_format_file_size_bytes_range() {
-<a href=#196 id=196 data-nosnippet>196</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">0</span>), <span class="string">"0 B"</span>);
-<a href=#197 id=197 data-nosnippet>197</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">1</span>), <span class="string">"1 B"</span>);
-<a href=#198 id=198 data-nosnippet>198</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">1023</span>), <span class="string">"1023 B"</span>);
-<a href=#199 id=199 data-nosnippet>199</a>    }
-<a href=#200 id=200 data-nosnippet>200</a>
-<a href=#201 id=201 data-nosnippet>201</a>    <span class="attr">#[test]
-<a href=#202 id=202 data-nosnippet>202</a>    </span><span class="kw">fn </span>test_format_file_size_kilobytes_range() {
-<a href=#203 id=203 data-nosnippet>203</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">1024</span>), <span class="string">"1.0 KB"</span>);
-<a href=#204 id=204 data-nosnippet>204</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">1536</span>), <span class="string">"1.5 KB"</span>);
-<a href=#205 id=205 data-nosnippet>205</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">10 </span>* <span class="number">1024</span>), <span class="string">"10.0 KB"</span>);
-<a href=#206 id=206 data-nosnippet>206</a>    }
-<a href=#207 id=207 data-nosnippet>207</a>
-<a href=#208 id=208 data-nosnippet>208</a>    <span class="attr">#[test]
-<a href=#209 id=209 data-nosnippet>209</a>    </span><span class="kw">fn </span>test_format_file_size_megabytes_range() {
-<a href=#210 id=210 data-nosnippet>210</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">1024 </span>* <span class="number">1024</span>), <span class="string">"1.0 MB"</span>);
-<a href=#211 id=211 data-nosnippet>211</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">1024 </span>* <span class="number">1024 </span>+ <span class="number">512 </span>* <span class="number">1024</span>), <span class="string">"1.5 MB"</span>);
-<a href=#212 id=212 data-nosnippet>212</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">10 </span>* <span class="number">1024 </span>* <span class="number">1024</span>), <span class="string">"10.0 MB"</span>);
-<a href=#213 id=213 data-nosnippet>213</a>    }
-<a href=#214 id=214 data-nosnippet>214</a>
-<a href=#215 id=215 data-nosnippet>215</a>    <span class="attr">#[test]
-<a href=#216 id=216 data-nosnippet>216</a>    </span><span class="kw">fn </span>test_format_file_size_boundary_at_one_megabyte() {
-<a href=#217 id=217 data-nosnippet>217</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">1024 </span>* <span class="number">1024 </span>- <span class="number">1</span>), <span class="string">"1024.0 KB"</span>);
-<a href=#218 id=218 data-nosnippet>218</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">1024 </span>* <span class="number">1024</span>), <span class="string">"1.0 MB"</span>);
-<a href=#219 id=219 data-nosnippet>219</a>    }
-<a href=#220 id=220 data-nosnippet>220</a>}
+<a href=#161 id=161 data-nosnippet>161</a>        <span class="kw">fn </span>takes_button(<span class="kw">_</span>: Button) {}
+<a href=#162 id=162 data-nosnippet>162</a>        <span class="kw">let </span>button = button_factory(<span class="string">"test-button"</span>, <span class="string">"Tooltip"</span>, CustomIcon::Search, red());
+<a href=#163 id=163 data-nosnippet>163</a>        takes_button(button);
+<a href=#164 id=164 data-nosnippet>164</a>    }
+<a href=#165 id=165 data-nosnippet>165</a>
+<a href=#166 id=166 data-nosnippet>166</a>    <span class="attr">#[test]
+<a href=#167 id=167 data-nosnippet>167</a>    </span><span class="kw">fn </span>test_reveal_in_file_manager_label_for_current_platform() {
+<a href=#168 id=168 data-nosnippet>168</a>        <span class="kw">let </span>label = reveal_in_file_manager_label();
+<a href=#169 id=169 data-nosnippet>169</a>
+<a href=#170 id=170 data-nosnippet>170</a>        <span class="attr">#[cfg(target_os = <span class="string">"macos"</span>)]
+<a href=#171 id=171 data-nosnippet>171</a>        </span><span class="macro">assert_eq!</span>(label, <span class="string">"Reveal in Finder"</span>);
+<a href=#172 id=172 data-nosnippet>172</a>
+<a href=#173 id=173 data-nosnippet>173</a>        <span class="attr">#[cfg(target_os = <span class="string">"windows"</span>)]
+<a href=#174 id=174 data-nosnippet>174</a>        </span><span class="macro">assert_eq!</span>(label, <span class="string">"Reveal in Explorer"</span>);
+<a href=#175 id=175 data-nosnippet>175</a>
+<a href=#176 id=176 data-nosnippet>176</a>        <span class="attr">#[cfg(not(any(target_os = <span class="string">"macos"</span>, target_os = <span class="string">"windows"</span>)))]
+<a href=#177 id=177 data-nosnippet>177</a>        </span><span class="macro">assert_eq!</span>(label, <span class="string">"Reveal in File Manager"</span>);
+<a href=#178 id=178 data-nosnippet>178</a>    }
+<a href=#179 id=179 data-nosnippet>179</a>
+<a href=#180 id=180 data-nosnippet>180</a>    <span class="attr">#[test]
+<a href=#181 id=181 data-nosnippet>181</a>    </span><span class="kw">fn </span>test_format_system_time_epoch() {
+<a href=#182 id=182 data-nosnippet>182</a>        <span class="kw">let </span>formatted = format_system_time(UNIX_EPOCH);
+<a href=#183 id=183 data-nosnippet>183</a>        <span class="macro">assert_eq!</span>(formatted.as_deref(), <span class="prelude-val">Some</span>(<span class="string">"1970-01-01 00:00:00"</span>));
+<a href=#184 id=184 data-nosnippet>184</a>    }
+<a href=#185 id=185 data-nosnippet>185</a>
+<a href=#186 id=186 data-nosnippet>186</a>    <span class="attr">#[test]
+<a href=#187 id=187 data-nosnippet>187</a>    </span><span class="kw">fn </span>test_format_system_time_with_offset() {
+<a href=#188 id=188 data-nosnippet>188</a>        <span class="kw">let </span>ts = UNIX_EPOCH + Duration::from_secs(<span class="number">3661</span>); <span class="comment">// 01:01:01 UTC
+<a href=#189 id=189 data-nosnippet>189</a>        </span><span class="kw">let </span>formatted = format_system_time(ts);
+<a href=#190 id=190 data-nosnippet>190</a>        <span class="macro">assert_eq!</span>(formatted.as_deref(), <span class="prelude-val">Some</span>(<span class="string">"1970-01-01 01:01:01"</span>));
+<a href=#191 id=191 data-nosnippet>191</a>    }
+<a href=#192 id=192 data-nosnippet>192</a>
+<a href=#193 id=193 data-nosnippet>193</a>    <span class="attr">#[test]
+<a href=#194 id=194 data-nosnippet>194</a>    </span><span class="kw">fn </span>test_format_file_size_bytes_range() {
+<a href=#195 id=195 data-nosnippet>195</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">0</span>), <span class="string">"0 B"</span>);
+<a href=#196 id=196 data-nosnippet>196</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">1</span>), <span class="string">"1 B"</span>);
+<a href=#197 id=197 data-nosnippet>197</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">1023</span>), <span class="string">"1023 B"</span>);
+<a href=#198 id=198 data-nosnippet>198</a>    }
+<a href=#199 id=199 data-nosnippet>199</a>
+<a href=#200 id=200 data-nosnippet>200</a>    <span class="attr">#[test]
+<a href=#201 id=201 data-nosnippet>201</a>    </span><span class="kw">fn </span>test_format_file_size_kilobytes_range() {
+<a href=#202 id=202 data-nosnippet>202</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">1024</span>), <span class="string">"1.0 KB"</span>);
+<a href=#203 id=203 data-nosnippet>203</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">1536</span>), <span class="string">"1.5 KB"</span>);
+<a href=#204 id=204 data-nosnippet>204</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">10 </span>* <span class="number">1024</span>), <span class="string">"10.0 KB"</span>);
+<a href=#205 id=205 data-nosnippet>205</a>    }
+<a href=#206 id=206 data-nosnippet>206</a>
+<a href=#207 id=207 data-nosnippet>207</a>    <span class="attr">#[test]
+<a href=#208 id=208 data-nosnippet>208</a>    </span><span class="kw">fn </span>test_format_file_size_megabytes_range() {
+<a href=#209 id=209 data-nosnippet>209</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">1024 </span>* <span class="number">1024</span>), <span class="string">"1.0 MB"</span>);
+<a href=#210 id=210 data-nosnippet>210</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">1024 </span>* <span class="number">1024 </span>+ <span class="number">512 </span>* <span class="number">1024</span>), <span class="string">"1.5 MB"</span>);
+<a href=#211 id=211 data-nosnippet>211</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">10 </span>* <span class="number">1024 </span>* <span class="number">1024</span>), <span class="string">"10.0 MB"</span>);
+<a href=#212 id=212 data-nosnippet>212</a>    }
+<a href=#213 id=213 data-nosnippet>213</a>
+<a href=#214 id=214 data-nosnippet>214</a>    <span class="attr">#[test]
+<a href=#215 id=215 data-nosnippet>215</a>    </span><span class="kw">fn </span>test_format_file_size_boundary_at_one_megabyte() {
+<a href=#216 id=216 data-nosnippet>216</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">1024 </span>* <span class="number">1024 </span>- <span class="number">1</span>), <span class="string">"1024.0 KB"</span>);
+<a href=#217 id=217 data-nosnippet>217</a>        <span class="macro">assert_eq!</span>(format_file_size(<span class="number">1024 </span>* <span class="number">1024</span>), <span class="string">"1.0 MB"</span>);
+<a href=#218 id=218 data-nosnippet>218</a>    }
+<a href=#219 id=219 data-nosnippet>219</a>}
 </code></pre></div></section></main></body></html>

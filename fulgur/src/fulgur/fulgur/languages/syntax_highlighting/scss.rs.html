@@ -114,25 +114,24 @@
 <a href=#114 id=114 data-nosnippet>114</a>
 <a href=#115 id=115 data-nosnippet>115</a><span class="doccomment">/// The full highlights query: the unmodified CSS base from `arborium_css` followed by our rewritten SCSS layer.
 <a href=#116 id=116 data-nosnippet>116</a></span><span class="kw">static </span>SCSS_HIGHLIGHTS_QUERY: std::sync::LazyLock&lt;String&gt; = std::sync::LazyLock::new(|| {
-<a href=#117 id=117 data-nosnippet>117</a>    <span class="kw">let </span>full = <span class="kw-2">&amp;*</span>arborium_scss::HIGHLIGHTS_QUERY;
+<a href=#117 id=117 data-nosnippet>117</a>    <span class="kw">let </span>full: <span class="kw-2">&amp;</span>str = <span class="kw-2">&amp;</span>arborium_scss::HIGHLIGHTS_QUERY;
 <a href=#118 id=118 data-nosnippet>118</a>    <span class="kw">let </span>css_base = full
 <a href=#119 id=119 data-nosnippet>119</a>        .find(<span class="string">"[\n  \"@at-root\""</span>)
-<a href=#120 id=120 data-nosnippet>120</a>        .map(|pos| <span class="kw-2">&amp;</span>full[..pos])
-<a href=#121 id=121 data-nosnippet>121</a>        .unwrap_or(full);
-<a href=#122 id=122 data-nosnippet>122</a>
-<a href=#123 id=123 data-nosnippet>123</a>    <span class="macro">format!</span>(<span class="string">"{css_base}\n{SCSS_HIGHLIGHTS_QUERY_SCSS_LAYER}"</span>)
-<a href=#124 id=124 data-nosnippet>124</a>});
-<a href=#125 id=125 data-nosnippet>125</a>
-<a href=#126 id=126 data-nosnippet>126</a><span class="attr">#[cfg(test)]
-<a href=#127 id=127 data-nosnippet>127</a></span><span class="kw">mod </span>tests {
-<a href=#128 id=128 data-nosnippet>128</a>    <span class="attr">#[test]
-<a href=#129 id=129 data-nosnippet>129</a>    </span><span class="kw">fn </span>test_add_scss_support_registers_language() {
-<a href=#130 id=130 data-nosnippet>130</a>        <span class="kw">super</span>::add_scss_support();
-<a href=#131 id=131 data-nosnippet>131</a>        <span class="macro">assert!</span>(
-<a href=#132 id=132 data-nosnippet>132</a>            gpui_component::highlighter::LanguageRegistry::singleton()
-<a href=#133 id=133 data-nosnippet>133</a>                .language(<span class="string">"scss"</span>)
-<a href=#134 id=134 data-nosnippet>134</a>                .is_some()
-<a href=#135 id=135 data-nosnippet>135</a>        );
-<a href=#136 id=136 data-nosnippet>136</a>    }
-<a href=#137 id=137 data-nosnippet>137</a>}
+<a href=#120 id=120 data-nosnippet>120</a>        .map_or(full, |pos| <span class="kw-2">&amp;</span>full[..pos]);
+<a href=#121 id=121 data-nosnippet>121</a>
+<a href=#122 id=122 data-nosnippet>122</a>    <span class="macro">format!</span>(<span class="string">"{css_base}\n{SCSS_HIGHLIGHTS_QUERY_SCSS_LAYER}"</span>)
+<a href=#123 id=123 data-nosnippet>123</a>});
+<a href=#124 id=124 data-nosnippet>124</a>
+<a href=#125 id=125 data-nosnippet>125</a><span class="attr">#[cfg(test)]
+<a href=#126 id=126 data-nosnippet>126</a></span><span class="kw">mod </span>tests {
+<a href=#127 id=127 data-nosnippet>127</a>    <span class="attr">#[test]
+<a href=#128 id=128 data-nosnippet>128</a>    </span><span class="kw">fn </span>test_add_scss_support_registers_language() {
+<a href=#129 id=129 data-nosnippet>129</a>        <span class="kw">super</span>::add_scss_support();
+<a href=#130 id=130 data-nosnippet>130</a>        <span class="macro">assert!</span>(
+<a href=#131 id=131 data-nosnippet>131</a>            gpui_component::highlighter::LanguageRegistry::singleton()
+<a href=#132 id=132 data-nosnippet>132</a>                .language(<span class="string">"scss"</span>)
+<a href=#133 id=133 data-nosnippet>133</a>                .is_some()
+<a href=#134 id=134 data-nosnippet>134</a>        );
+<a href=#135 id=135 data-nosnippet>135</a>    }
+<a href=#136 id=136 data-nosnippet>136</a>}
 </code></pre></div></section></main></body></html>

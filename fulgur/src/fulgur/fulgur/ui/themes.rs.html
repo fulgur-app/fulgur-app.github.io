@@ -100,8 +100,8 @@
 <a href=#100 id=100 data-nosnippet>100</a>            </span>}
 <a href=#101 id=101 data-nosnippet>101</a>        };
 <a href=#102 id=102 data-nosnippet>102</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(themes) = themes {
-<a href=#103 id=103 data-nosnippet>103</a>            entity_clone.update(cx, |fulgur, cx| {
-<a href=#104 id=104 data-nosnippet>104</a>                <span class="kw">let </span>shared = fulgur.shared_state(cx);
+<a href=#103 id=103 data-nosnippet>103</a>            entity_clone.update(cx, |<span class="kw">_</span>, cx| {
+<a href=#104 id=104 data-nosnippet>104</a>                <span class="kw">let </span>shared = Fulgur::shared_state(cx);
 <a href=#105 id=105 data-nosnippet>105</a>                <span class="kw-2">*</span>shared.themes.lock() = <span class="prelude-val">Some</span>(themes);
 <a href=#106 id=106 data-nosnippet>106</a>            });
 <a href=#107 id=107 data-nosnippet>107</a>        }

@@ -166,7 +166,7 @@
 <a href=#166 id=166 data-nosnippet>166</a>) -&gt; String {
 <a href=#167 id=167 data-nosnippet>167</a>    <span class="kw">let </span><span class="kw-2">mut </span>result = String::new();
 <a href=#168 id=168 data-nosnippet>168</a>    <span class="kw">let </span><span class="kw-2">mut </span>last_pos = <span class="number">0</span>;
-<a href=#169 id=169 data-nosnippet>169</a>    <span class="kw">for </span>m <span class="kw">in </span>search_matches.iter() {
+<a href=#169 id=169 data-nosnippet>169</a>    <span class="kw">for </span>m <span class="kw">in </span>search_matches {
 <a href=#170 id=170 data-nosnippet>170</a>        result.push_str(<span class="kw-2">&amp;</span>text[last_pos..m.start]);
 <a href=#171 id=171 data-nosnippet>171</a>        result.push_str(replace);
 <a href=#172 id=172 data-nosnippet>172</a>        last_pos = m.end;

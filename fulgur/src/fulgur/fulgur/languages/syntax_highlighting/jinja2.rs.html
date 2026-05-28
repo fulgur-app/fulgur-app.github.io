@@ -32,7 +32,7 @@
 <a href=#32 id=32 data-nosnippet>32</a>/// bleeding `@attribute` highlights over all subsequent Jinja2 content. Since the Jinja2
 <a href=#33 id=33 data-nosnippet>33</a>/// grammar exposes no named nodes for the raw template text between tags, there is no
 <a href=#34 id=34 data-nosnippet>34</a>/// way to restrict the injection to non-Jinja2 regions.
-<a href=#35 id=35 data-nosnippet>35</a></span><span class="kw">const </span>JINJA2_HIGHLIGHTS_QUERY: <span class="kw-2">&amp;</span>str = <span class="string">r#"
+<a href=#35 id=35 data-nosnippet>35</a></span><span class="kw">const </span>JINJA2_HIGHLIGHTS_QUERY: <span class="kw-2">&amp;</span>str = <span class="string">r"
 <a href=#36 id=36 data-nosnippet>36</a>; Comments: {# ... #}
 <a href=#37 id=37 data-nosnippet>37</a>(comment) @comment
 <a href=#38 id=38 data-nosnippet>38</a>
@@ -54,7 +54,7 @@
 <a href=#54 id=54 data-nosnippet>54</a>
 <a href=#55 id=55 data-nosnippet>55</a>; Identifiers: variables, filter names, macro names, block names
 <a href=#56 id=56 data-nosnippet>56</a>(identifier) @variable
-<a href=#57 id=57 data-nosnippet>57</a>"#</span>;
+<a href=#57 id=57 data-nosnippet>57</a>"</span>;
 <a href=#58 id=58 data-nosnippet>58</a>
 <a href=#59 id=59 data-nosnippet>59</a><span class="attr">#[cfg(test)]
 <a href=#60 id=60 data-nosnippet>60</a></span><span class="kw">mod </span>tests {

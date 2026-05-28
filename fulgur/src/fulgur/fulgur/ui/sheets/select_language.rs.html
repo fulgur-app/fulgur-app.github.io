@@ -29,7 +29,7 @@
 <a href=#29 id=29 data-nosnippet>29</a>    cx: <span class="kw-2">&amp;</span>App,
 <a href=#30 id=30 data-nosnippet>30</a>) -&gt; <span class="kw">impl </span>Element {
 <a href=#31 id=31 data-nosnippet>31</a>    <span class="kw">let </span>pretty_name = pretty_name(<span class="kw-2">&amp;</span>language);
-<a href=#32 id=32 data-nosnippet>32</a>    <span class="kw">let </span>id = <span class="macro">format!</span>(<span class="string">"Select_{}"</span>, pretty_name.clone().replace(<span class="string">" "</span>, <span class="string">"_"</span>));
+<a href=#32 id=32 data-nosnippet>32</a>    <span class="kw">let </span>id = <span class="macro">format!</span>(<span class="string">"Select_{}"</span>, pretty_name.clone().replace(<span class="string">' '</span>, <span class="string">"_"</span>));
 <a href=#33 id=33 data-nosnippet>33</a>    <span class="kw">let </span>id = SharedString::from(id);
 <a href=#34 id=34 data-nosnippet>34</a>    h_flex()
 <a href=#35 id=35 data-nosnippet>35</a>        .id(id)
