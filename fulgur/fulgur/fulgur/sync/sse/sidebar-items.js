@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["SseEvent"],"fn":["connect_sse"],"struct":["HeartbeatData","ShareNotification","SseState"]};
+window.SIDEBAR_ITEMS = {"enum":["SseEvent"],"fn":["connect_sse"],"struct":["HeartbeatData","ShareNotification","SseAgents","SseShareState","SseState"]};
