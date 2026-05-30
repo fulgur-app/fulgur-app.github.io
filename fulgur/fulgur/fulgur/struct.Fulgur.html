@@ -187,7 +187,7 @@ This approach works cross-platform without requiring OS-specific print APIs.</p>
 <li><code>window</code>: The window containing the editor</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-3" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#261-422">Source</a><a href="#impl-Fulgur-3" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.handle_file_watch_event" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#291-355">Source</a><h4 class="code-header">pub fn <a href="#method.handle_file_watch_event" class="fn">handle_file_watch_event</a>(
+</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-3" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#280-441">Source</a><a href="#impl-Fulgur-3" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.handle_file_watch_event" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#310-374">Source</a><h4 class="code-header">pub fn <a href="#method.handle_file_watch_event" class="fn">handle_file_watch_event</a>(
     &amp;mut self,
     event: <a class="enum" href="files/file_watcher/enum.FileWatchEvent.html" title="enum fulgur::fulgur::files::file_watcher::FileWatchEvent">FileWatchEvent</a>,
     window: &amp;mut Window,
@@ -206,19 +206,19 @@ This approach works cross-platform without requiring OS-specific print APIs.</p>
 <li><code>window</code>: The window context</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.start_file_watcher" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#358-374">Source</a><h4 class="code-header">pub fn <a href="#method.start_file_watcher" class="fn">start_file_watcher</a>(&amp;mut self)</h4></section></summary><div class="docblock"><p>Start the file watcher and watch all open files</p>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.stop_file_watcher" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#377-383">Source</a><h4 class="code-header">pub fn <a href="#method.stop_file_watcher" class="fn">stop_file_watcher</a>(&amp;mut self)</h4></section></summary><div class="docblock"><p>Stop the file watcher</p>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.watch_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#389-395">Source</a><h4 class="code-header">pub fn <a href="#method.watch_file" class="fn">watch_file</a>(&amp;mut self, path: &amp;<a class="struct" href="https://doc.rust-lang.org/1.96.0/std/path/struct.Path.html" title="struct std::path::Path">Path</a>)</h4></section></summary><div class="docblock"><p>Add a file to the watcher</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.start_file_watcher" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#377-393">Source</a><h4 class="code-header">pub fn <a href="#method.start_file_watcher" class="fn">start_file_watcher</a>(&amp;mut self)</h4></section></summary><div class="docblock"><p>Start the file watcher and watch all open files</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.stop_file_watcher" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#396-402">Source</a><h4 class="code-header">pub fn <a href="#method.stop_file_watcher" class="fn">stop_file_watcher</a>(&amp;mut self)</h4></section></summary><div class="docblock"><p>Stop the file watcher</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.watch_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#408-414">Source</a><h4 class="code-header">pub fn <a href="#method.watch_file" class="fn">watch_file</a>(&amp;mut self, path: &amp;<a class="struct" href="https://doc.rust-lang.org/1.96.0/std/path/struct.Path.html" title="struct std::path::Path">Path</a>)</h4></section></summary><div class="docblock"><p>Add a file to the watcher</p>
 <h6 id="arguments-17"><a class="doc-anchor" href="#arguments-17">§</a>Arguments</h6>
 <ul>
 <li><code>path</code>: The path to the file to watch</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.unwatch_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#401-406">Source</a><h4 class="code-header">pub fn <a href="#method.unwatch_file" class="fn">unwatch_file</a>(&amp;mut self, path: &amp;<a class="struct" href="https://doc.rust-lang.org/1.96.0/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>)</h4></section></summary><div class="docblock"><p>Remove a file from the watcher</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.unwatch_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#420-425">Source</a><h4 class="code-header">pub fn <a href="#method.unwatch_file" class="fn">unwatch_file</a>(&amp;mut self, path: &amp;<a class="struct" href="https://doc.rust-lang.org/1.96.0/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>)</h4></section></summary><div class="docblock"><p>Remove a file from the watcher</p>
 <h6 id="arguments-18"><a class="doc-anchor" href="#arguments-18">§</a>Arguments</h6>
 <ul>
 <li><code>path</code>: The path to the file to unwatch</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.process_file_watch_events" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#416-421">Source</a><h4 class="code-header">pub fn <a href="#method.process_file_watch_events" class="fn">process_file_watch_events</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.process_file_watch_events" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#435-440">Source</a><h4 class="code-header">pub fn <a href="#method.process_file_watch_events" class="fn">process_file_watch_events</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
@@ -243,7 +243,7 @@ This approach works cross-platform without requiring OS-specific print APIs.</p>
 <ul>
 <li><code>True</code> if the active tab’s language is a Markdown language, <code>False</code> otherwise</li>
 </ul>
-</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-5" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/settings/propagation.rs.html#5-145">Source</a><a href="#impl-Fulgur-5" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.update_and_propagate_settings" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/settings/propagation.rs.html#24-80">Source</a><h4 class="code-header">pub fn <a href="#method.update_and_propagate_settings" class="fn">update_and_propagate_settings</a>(
+</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-5" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/settings/propagation.rs.html#5-146">Source</a><a href="#impl-Fulgur-5" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.update_and_propagate_settings" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/settings/propagation.rs.html#24-80">Source</a><h4 class="code-header">pub fn <a href="#method.update_and_propagate_settings" class="fn">update_and_propagate_settings</a>(
     &amp;mut self,
     cx: &amp;mut Context&lt;'_, Self&gt;,
 ) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.102/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>Update settings and propagate to all windows</p>
@@ -266,7 +266,7 @@ state update and re-render still happen even when saving fails.</p>
 <ul>
 <li><code>anyhow::Result&lt;()&gt;</code>: Result of the operation</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.synchronize_settings_from_other_windows" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/settings/propagation.rs.html#86-104">Source</a><h4 class="code-header">pub fn <a href="#method.synchronize_settings_from_other_windows" class="fn">synchronize_settings_from_other_windows</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.synchronize_settings_from_other_windows" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/settings/propagation.rs.html#86-105">Source</a><h4 class="code-header">pub fn <a href="#method.synchronize_settings_from_other_windows" class="fn">synchronize_settings_from_other_windows</a>(
     &amp;mut self,
     cx: &amp;mut Context&lt;'_, Self&gt;,
 )</h4></section></summary><div class="docblock"><p>Synchronize settings from other windows</p>
@@ -274,7 +274,7 @@ state update and re-render still happen even when saving fails.</p>
 <ul>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.propagate_settings_to_tabs" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/settings/propagation.rs.html#111-129">Source</a><h4 class="code-header">pub fn <a href="#method.propagate_settings_to_tabs" class="fn">propagate_settings_to_tabs</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.propagate_settings_to_tabs" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/settings/propagation.rs.html#112-130">Source</a><h4 class="code-header">pub fn <a href="#method.propagate_settings_to_tabs" class="fn">propagate_settings_to_tabs</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
@@ -284,7 +284,7 @@ state update and re-render still happen even when saving fails.</p>
 <li><code>window</code>: The window containing the tabs</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.track_newly_rendered_tabs" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/settings/propagation.rs.html#135-144">Source</a><h4 class="code-header">pub fn <a href="#method.track_newly_rendered_tabs" class="fn">track_newly_rendered_tabs</a>(&amp;mut self, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Track newly rendered tabs and mark them for settings update</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.track_newly_rendered_tabs" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/settings/propagation.rs.html#136-145">Source</a><h4 class="code-header">pub fn <a href="#method.track_newly_rendered_tabs" class="fn">track_newly_rendered_tabs</a>(&amp;mut self, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Track newly rendered tabs and mark them for settings update</p>
 <h6 id="arguments-23"><a class="doc-anchor" href="#arguments-23">§</a>Arguments</h6>
 <ul>
 <li><code>cx</code>: The application context</li>
