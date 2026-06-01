@@ -133,5 +133,12 @@
 <a href=#133 id=133 data-nosnippet>133</a>                .is_some()
 <a href=#134 id=134 data-nosnippet>134</a>        );
 <a href=#135 id=135 data-nosnippet>135</a>    }
-<a href=#136 id=136 data-nosnippet>136</a>}
+<a href=#136 id=136 data-nosnippet>136</a>
+<a href=#137 id=137 data-nosnippet>137</a>    <span class="attr">#[test]
+<a href=#138 id=138 data-nosnippet>138</a>    </span><span class="kw">fn </span>test_scss_highlights_query_compiles() {
+<a href=#139 id=139 data-nosnippet>139</a>        <span class="kw">super</span>::add_scss_support();
+<a href=#140 id=140 data-nosnippet>140</a>        <span class="kw">let </span>highlighter = gpui_component::highlighter::SyntaxHighlighter::new(<span class="string">"scss"</span>);
+<a href=#141 id=141 data-nosnippet>141</a>        <span class="macro">assert_eq!</span>(highlighter.language().as_ref(), <span class="string">"scss"</span>);
+<a href=#142 id=142 data-nosnippet>142</a>    }
+<a href=#143 id=143 data-nosnippet>143</a>}
 </code></pre></div></section></main></body></html>

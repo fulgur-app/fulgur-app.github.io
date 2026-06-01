@@ -112,5 +112,12 @@
 <a href=#112 id=112 data-nosnippet>112</a>                .is_some()
 <a href=#113 id=113 data-nosnippet>113</a>        );
 <a href=#114 id=114 data-nosnippet>114</a>    }
-<a href=#115 id=115 data-nosnippet>115</a>}
+<a href=#115 id=115 data-nosnippet>115</a>
+<a href=#116 id=116 data-nosnippet>116</a>    <span class="attr">#[test]
+<a href=#117 id=117 data-nosnippet>117</a>    </span><span class="kw">fn </span>test_clojure_highlights_query_compiles() {
+<a href=#118 id=118 data-nosnippet>118</a>        <span class="kw">super</span>::add_clojure_support();
+<a href=#119 id=119 data-nosnippet>119</a>        <span class="kw">let </span>highlighter = gpui_component::highlighter::SyntaxHighlighter::new(<span class="string">"clojure"</span>);
+<a href=#120 id=120 data-nosnippet>120</a>        <span class="macro">assert_eq!</span>(highlighter.language().as_ref(), <span class="string">"clojure"</span>);
+<a href=#121 id=121 data-nosnippet>121</a>    }
+<a href=#122 id=122 data-nosnippet>122</a>}
 </code></pre></div></section></main></body></html>

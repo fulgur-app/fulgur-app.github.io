@@ -234,5 +234,12 @@
 <a href=#234 id=234 data-nosnippet>234</a>                .is_some()
 <a href=#235 id=235 data-nosnippet>235</a>        );
 <a href=#236 id=236 data-nosnippet>236</a>    }
-<a href=#237 id=237 data-nosnippet>237</a>}
+<a href=#237 id=237 data-nosnippet>237</a>
+<a href=#238 id=238 data-nosnippet>238</a>    <span class="attr">#[test]
+<a href=#239 id=239 data-nosnippet>239</a>    </span><span class="kw">fn </span>test_fortran_highlights_query_compiles() {
+<a href=#240 id=240 data-nosnippet>240</a>        <span class="kw">super</span>::add_fortran_support();
+<a href=#241 id=241 data-nosnippet>241</a>        <span class="kw">let </span>highlighter = gpui_component::highlighter::SyntaxHighlighter::new(<span class="string">"fortran"</span>);
+<a href=#242 id=242 data-nosnippet>242</a>        <span class="macro">assert_eq!</span>(highlighter.language().as_ref(), <span class="string">"fortran"</span>);
+<a href=#243 id=243 data-nosnippet>243</a>    }
+<a href=#244 id=244 data-nosnippet>244</a>}
 </code></pre></div></section></main></body></html>
