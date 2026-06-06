@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["file_operations","file_watcher"]};
+window.SIDEBAR_ITEMS = {"mod":["csv_support","file_operations","file_watcher"]};
