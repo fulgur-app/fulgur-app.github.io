@@ -640,299 +640,316 @@
 <a href=#640 id=640 data-nosnippet>640</a>/// - `Err(AppError)`: Error that occurred while verifying the code
 <a href=#641 id=641 data-nosnippet>641</a></span><span class="kw">pub async fn </span>forgot_password_step_2(
 <a href=#642 id=642 data-nosnippet>642</a>    State(state): State&lt;AppState&gt;,
-<a href=#643 id=643 data-nosnippet>643</a>    Form(request): Form&lt;ForgotPasswordStep2Request&gt;,
-<a href=#644 id=644 data-nosnippet>644</a>) -&gt; <span class="prelude-ty">Result</span>&lt;Html&lt;String&gt;, AppError&gt; {
-<a href=#645 id=645 data-nosnippet>645</a>    <span class="kw">let </span>result = state
-<a href=#646 id=646 data-nosnippet>646</a>        .verification_code_repository
-<a href=#647 id=647 data-nosnippet>647</a>        .verify_code(
-<a href=#648 id=648 data-nosnippet>648</a>            request.code.clone(),
-<a href=#649 id=649 data-nosnippet>649</a>            request.email.clone(),
-<a href=#650 id=650 data-nosnippet>650</a>            <span class="string">"password_reset"</span>.to_string(),
-<a href=#651 id=651 data-nosnippet>651</a>        )
-<a href=#652 id=652 data-nosnippet>652</a>        .<span class="kw">await
-<a href=#653 id=653 data-nosnippet>653</a>        </span>.map_err(|e| AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Failed to verify code: {e}"</span>)))<span class="question-mark">?</span>;
-<a href=#654 id=654 data-nosnippet>654</a>    <span class="kw">if let </span>VerificationResult::Verified = result {
-<a href=#655 id=655 data-nosnippet>655</a>        <span class="kw">let _ </span>= state
-<a href=#656 id=656 data-nosnippet>656</a>            .verification_code_repository
-<a href=#657 id=657 data-nosnippet>657</a>            .delete_for(request.email.clone(), <span class="string">"password_reset"</span>.to_string())
-<a href=#658 id=658 data-nosnippet>658</a>            .<span class="kw">await</span>;
-<a href=#659 id=659 data-nosnippet>659</a>        <span class="kw">let </span>template = templates::ForgotPasswordStep3Template {
-<a href=#660 id=660 data-nosnippet>660</a>            email: request.email,
-<a href=#661 id=661 data-nosnippet>661</a>            error_message: String::new(),
-<a href=#662 id=662 data-nosnippet>662</a>        };
-<a href=#663 id=663 data-nosnippet>663</a>        <span class="prelude-val">Ok</span>(Html(template.render().map_err(|e| {
-<a href=#664 id=664 data-nosnippet>664</a>            AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Template error: {e}"</span>))
-<a href=#665 id=665 data-nosnippet>665</a>        })<span class="question-mark">?</span>))
-<a href=#666 id=666 data-nosnippet>666</a>    } <span class="kw">else </span>{
-<a href=#667 id=667 data-nosnippet>667</a>        <span class="kw">let </span>template = templates::ForgotPasswordStep2Template {
-<a href=#668 id=668 data-nosnippet>668</a>            email: request.email,
-<a href=#669 id=669 data-nosnippet>669</a>            error_message: format_verification_error(<span class="kw-2">&amp;</span>result),
-<a href=#670 id=670 data-nosnippet>670</a>            success_message: String::new(),
-<a href=#671 id=671 data-nosnippet>671</a>        };
-<a href=#672 id=672 data-nosnippet>672</a>        <span class="prelude-val">Ok</span>(Html(template.render().map_err(|e| {
-<a href=#673 id=673 data-nosnippet>673</a>            AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Template error: {e}"</span>))
-<a href=#674 id=674 data-nosnippet>674</a>        })<span class="question-mark">?</span>))
-<a href=#675 id=675 data-nosnippet>675</a>    }
-<a href=#676 id=676 data-nosnippet>676</a>}
-<a href=#677 id=677 data-nosnippet>677</a>
-<a href=#678 id=678 data-nosnippet>678</a><span class="attr">#[derive(Deserialize)]
-<a href=#679 id=679 data-nosnippet>679</a></span><span class="kw">pub struct </span>ForgotPasswordStep3Request {
-<a href=#680 id=680 data-nosnippet>680</a>    email: String,
-<a href=#681 id=681 data-nosnippet>681</a>    password: String,
-<a href=#682 id=682 data-nosnippet>682</a>}
-<a href=#683 id=683 data-nosnippet>683</a>
-<a href=#684 id=684 data-nosnippet>684</a><span class="doccomment">/// POST /auth/forgot-password/reset - Step 3: Reset the password and show the success message
-<a href=#685 id=685 data-nosnippet>685</a>///
-<a href=#686 id=686 data-nosnippet>686</a>/// ### Arguments
-<a href=#687 id=687 data-nosnippet>687</a>/// - `state`: The state of the application
-<a href=#688 id=688 data-nosnippet>688</a>/// - `request`: The password reset request
-<a href=#689 id=689 data-nosnippet>689</a>///
-<a href=#690 id=690 data-nosnippet>690</a>/// ### Returns
-<a href=#691 id=691 data-nosnippet>691</a>/// - `Ok(Html&lt;String&gt;)`: Success message as formatted HTML
-<a href=#692 id=692 data-nosnippet>692</a>/// - `Err(AppError)`: Error that occurred while resetting the password
-<a href=#693 id=693 data-nosnippet>693</a></span><span class="kw">pub async fn </span>forgot_password_step_3(
-<a href=#694 id=694 data-nosnippet>694</a>    State(state): State&lt;AppState&gt;,
-<a href=#695 id=695 data-nosnippet>695</a>    Form(request): Form&lt;ForgotPasswordStep3Request&gt;,
-<a href=#696 id=696 data-nosnippet>696</a>) -&gt; <span class="prelude-ty">Result</span>&lt;Html&lt;String&gt;, AppError&gt; {
-<a href=#697 id=697 data-nosnippet>697</a>    <span class="kw">if </span>!is_password_valid(<span class="kw-2">&amp;</span>request.password) {
-<a href=#698 id=698 data-nosnippet>698</a>        <span class="kw">let </span>template = templates::ForgotPasswordStep3Template {
-<a href=#699 id=699 data-nosnippet>699</a>            email: request.email,
-<a href=#700 id=700 data-nosnippet>700</a>            error_message: <span class="string">"Password must be 8-64 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character."</span>.to_string(),
-<a href=#701 id=701 data-nosnippet>701</a>        };
-<a href=#702 id=702 data-nosnippet>702</a>        <span class="kw">return </span><span class="prelude-val">Ok</span>(Html(template.render().map_err(|e| {
-<a href=#703 id=703 data-nosnippet>703</a>            AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Template error: {e}"</span>))
-<a href=#704 id=704 data-nosnippet>704</a>        })<span class="question-mark">?</span>));
-<a href=#705 id=705 data-nosnippet>705</a>    }
-<a href=#706 id=706 data-nosnippet>706</a>    <span class="kw">let </span>user = <span class="kw">match </span>state
-<a href=#707 id=707 data-nosnippet>707</a>        .user_repository
-<a href=#708 id=708 data-nosnippet>708</a>        .get_by_email(request.email.clone())
-<a href=#709 id=709 data-nosnippet>709</a>        .<span class="kw">await
-<a href=#710 id=710 data-nosnippet>710</a>    </span>{
-<a href=#711 id=711 data-nosnippet>711</a>        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(user)) =&gt; user,
-<a href=#712 id=712 data-nosnippet>712</a>        <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) =&gt; {
-<a href=#713 id=713 data-nosnippet>713</a>            <span class="kw">return </span><span class="prelude-val">Err</span>(AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"User not found"</span>)));
-<a href=#714 id=714 data-nosnippet>714</a>        }
-<a href=#715 id=715 data-nosnippet>715</a>        <span class="prelude-val">Err</span>(e) =&gt; {
-<a href=#716 id=716 data-nosnippet>716</a>            <span class="macro">tracing::error!</span>(<span class="string">"Database error: {}"</span>, e);
-<a href=#717 id=717 data-nosnippet>717</a>            <span class="kw">return </span><span class="prelude-val">Err</span>(AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Database error"</span>)));
-<a href=#718 id=718 data-nosnippet>718</a>        }
-<a href=#719 id=719 data-nosnippet>719</a>    };
-<a href=#720 id=720 data-nosnippet>720</a>    <span class="kw">let </span>password_hash = hash_password(<span class="kw-2">&amp;</span>request.password)
-<a href=#721 id=721 data-nosnippet>721</a>        .map_err(|e| AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Failed to hash password: {e}"</span>)))<span class="question-mark">?</span>;
-<a href=#722 id=722 data-nosnippet>722</a>    <span class="kw">match </span>state
-<a href=#723 id=723 data-nosnippet>723</a>        .user_repository
-<a href=#724 id=724 data-nosnippet>724</a>        .update_password(user.id, password_hash)
-<a href=#725 id=725 data-nosnippet>725</a>        .<span class="kw">await
-<a href=#726 id=726 data-nosnippet>726</a>    </span>{
-<a href=#727 id=727 data-nosnippet>727</a>        <span class="prelude-val">Ok</span>(()) =&gt; {
-<a href=#728 id=728 data-nosnippet>728</a>            <span class="macro">tracing::info!</span>(<span class="string">"Password reset for user {}"</span>, user.id);
-<a href=#729 id=729 data-nosnippet>729</a>        }
-<a href=#730 id=730 data-nosnippet>730</a>        <span class="prelude-val">Err</span>(e) =&gt; {
-<a href=#731 id=731 data-nosnippet>731</a>            <span class="macro">tracing::error!</span>(<span class="string">"Failed to update password: {}"</span>, e);
-<a href=#732 id=732 data-nosnippet>732</a>            <span class="kw">return </span><span class="prelude-val">Err</span>(AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(
-<a href=#733 id=733 data-nosnippet>733</a>                <span class="string">"Failed to update password"
-<a href=#734 id=734 data-nosnippet>734</a>            </span>)));
+<a href=#643 id=643 data-nosnippet>643</a>    session: Session,
+<a href=#644 id=644 data-nosnippet>644</a>    Form(request): Form&lt;ForgotPasswordStep2Request&gt;,
+<a href=#645 id=645 data-nosnippet>645</a>) -&gt; <span class="prelude-ty">Result</span>&lt;Html&lt;String&gt;, AppError&gt; {
+<a href=#646 id=646 data-nosnippet>646</a>    <span class="kw">let </span>result = state
+<a href=#647 id=647 data-nosnippet>647</a>        .verification_code_repository
+<a href=#648 id=648 data-nosnippet>648</a>        .verify_code(
+<a href=#649 id=649 data-nosnippet>649</a>            request.code.clone(),
+<a href=#650 id=650 data-nosnippet>650</a>            request.email.clone(),
+<a href=#651 id=651 data-nosnippet>651</a>            <span class="string">"password_reset"</span>.to_string(),
+<a href=#652 id=652 data-nosnippet>652</a>        )
+<a href=#653 id=653 data-nosnippet>653</a>        .<span class="kw">await
+<a href=#654 id=654 data-nosnippet>654</a>        </span>.map_err(|e| AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Failed to verify code: {e}"</span>)))<span class="question-mark">?</span>;
+<a href=#655 id=655 data-nosnippet>655</a>    <span class="kw">if let </span>VerificationResult::Verified = result {
+<a href=#656 id=656 data-nosnippet>656</a>        <span class="kw">let _ </span>= state
+<a href=#657 id=657 data-nosnippet>657</a>            .verification_code_repository
+<a href=#658 id=658 data-nosnippet>658</a>            .delete_for(request.email.clone(), <span class="string">"password_reset"</span>.to_string())
+<a href=#659 id=659 data-nosnippet>659</a>            .<span class="kw">await</span>;
+<a href=#660 id=660 data-nosnippet>660</a>        session::authorize_password_reset(<span class="kw-2">&amp;</span>session, <span class="kw-2">&amp;</span>request.email).<span class="kw">await</span><span class="question-mark">?</span>;
+<a href=#661 id=661 data-nosnippet>661</a>        <span class="kw">let </span>template = templates::ForgotPasswordStep3Template {
+<a href=#662 id=662 data-nosnippet>662</a>            email: request.email,
+<a href=#663 id=663 data-nosnippet>663</a>            error_message: String::new(),
+<a href=#664 id=664 data-nosnippet>664</a>        };
+<a href=#665 id=665 data-nosnippet>665</a>        <span class="prelude-val">Ok</span>(Html(template.render().map_err(|e| {
+<a href=#666 id=666 data-nosnippet>666</a>            AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Template error: {e}"</span>))
+<a href=#667 id=667 data-nosnippet>667</a>        })<span class="question-mark">?</span>))
+<a href=#668 id=668 data-nosnippet>668</a>    } <span class="kw">else </span>{
+<a href=#669 id=669 data-nosnippet>669</a>        <span class="kw">let </span>template = templates::ForgotPasswordStep2Template {
+<a href=#670 id=670 data-nosnippet>670</a>            email: request.email,
+<a href=#671 id=671 data-nosnippet>671</a>            error_message: format_verification_error(<span class="kw-2">&amp;</span>result),
+<a href=#672 id=672 data-nosnippet>672</a>            success_message: String::new(),
+<a href=#673 id=673 data-nosnippet>673</a>        };
+<a href=#674 id=674 data-nosnippet>674</a>        <span class="prelude-val">Ok</span>(Html(template.render().map_err(|e| {
+<a href=#675 id=675 data-nosnippet>675</a>            AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Template error: {e}"</span>))
+<a href=#676 id=676 data-nosnippet>676</a>        })<span class="question-mark">?</span>))
+<a href=#677 id=677 data-nosnippet>677</a>    }
+<a href=#678 id=678 data-nosnippet>678</a>}
+<a href=#679 id=679 data-nosnippet>679</a>
+<a href=#680 id=680 data-nosnippet>680</a><span class="attr">#[derive(Deserialize)]
+<a href=#681 id=681 data-nosnippet>681</a></span><span class="kw">pub struct </span>ForgotPasswordStep3Request {
+<a href=#682 id=682 data-nosnippet>682</a>    email: String,
+<a href=#683 id=683 data-nosnippet>683</a>    password: String,
+<a href=#684 id=684 data-nosnippet>684</a>}
+<a href=#685 id=685 data-nosnippet>685</a>
+<a href=#686 id=686 data-nosnippet>686</a><span class="doccomment">/// POST /auth/forgot-password/reset - Step 3: Reset the password and show the success message
+<a href=#687 id=687 data-nosnippet>687</a>///
+<a href=#688 id=688 data-nosnippet>688</a>/// ### Arguments
+<a href=#689 id=689 data-nosnippet>689</a>/// - `state`: The state of the application
+<a href=#690 id=690 data-nosnippet>690</a>/// - `request`: The password reset request
+<a href=#691 id=691 data-nosnippet>691</a>///
+<a href=#692 id=692 data-nosnippet>692</a>/// ### Returns
+<a href=#693 id=693 data-nosnippet>693</a>/// - `Ok(Html&lt;String&gt;)`: Success message as formatted HTML
+<a href=#694 id=694 data-nosnippet>694</a>/// - `Err(AppError)`: Error that occurred while resetting the password
+<a href=#695 id=695 data-nosnippet>695</a></span><span class="kw">pub async fn </span>forgot_password_step_3(
+<a href=#696 id=696 data-nosnippet>696</a>    State(state): State&lt;AppState&gt;,
+<a href=#697 id=697 data-nosnippet>697</a>    session: Session,
+<a href=#698 id=698 data-nosnippet>698</a>    Form(request): Form&lt;ForgotPasswordStep3Request&gt;,
+<a href=#699 id=699 data-nosnippet>699</a>) -&gt; <span class="prelude-ty">Result</span>&lt;Html&lt;String&gt;, AppError&gt; {
+<a href=#700 id=700 data-nosnippet>700</a>    <span class="kw">if </span>!is_password_valid(<span class="kw-2">&amp;</span>request.password) {
+<a href=#701 id=701 data-nosnippet>701</a>        <span class="kw">let </span>template = templates::ForgotPasswordStep3Template {
+<a href=#702 id=702 data-nosnippet>702</a>            email: request.email,
+<a href=#703 id=703 data-nosnippet>703</a>            error_message: <span class="string">"Password must be 8-64 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character."</span>.to_string(),
+<a href=#704 id=704 data-nosnippet>704</a>        };
+<a href=#705 id=705 data-nosnippet>705</a>        <span class="kw">return </span><span class="prelude-val">Ok</span>(Html(template.render().map_err(|e| {
+<a href=#706 id=706 data-nosnippet>706</a>            AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Template error: {e}"</span>))
+<a href=#707 id=707 data-nosnippet>707</a>        })<span class="question-mark">?</span>));
+<a href=#708 id=708 data-nosnippet>708</a>    }
+<a href=#709 id=709 data-nosnippet>709</a>    <span class="kw">if </span>!session::consume_password_reset_authorization(<span class="kw-2">&amp;</span>session, <span class="kw-2">&amp;</span>request.email).<span class="kw">await</span><span class="question-mark">? </span>{
+<a href=#710 id=710 data-nosnippet>710</a>        <span class="macro">tracing::warn!</span>(
+<a href=#711 id=711 data-nosnippet>711</a>            <span class="string">"Rejected forgot-password reset without a valid step-2 authorization for the submitted email"
+<a href=#712 id=712 data-nosnippet>712</a>        </span>);
+<a href=#713 id=713 data-nosnippet>713</a>        <span class="kw">let </span>template = templates::ForgotPasswordStep3Template {
+<a href=#714 id=714 data-nosnippet>714</a>            email: request.email,
+<a href=#715 id=715 data-nosnippet>715</a>            error_message:
+<a href=#716 id=716 data-nosnippet>716</a>                <span class="string">"Your password reset session has expired or is invalid. Please restart the process."
+<a href=#717 id=717 data-nosnippet>717</a>                    </span>.to_string(),
+<a href=#718 id=718 data-nosnippet>718</a>        };
+<a href=#719 id=719 data-nosnippet>719</a>        <span class="kw">return </span><span class="prelude-val">Ok</span>(Html(template.render().map_err(|e| {
+<a href=#720 id=720 data-nosnippet>720</a>            AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Template error: {e}"</span>))
+<a href=#721 id=721 data-nosnippet>721</a>        })<span class="question-mark">?</span>));
+<a href=#722 id=722 data-nosnippet>722</a>    }
+<a href=#723 id=723 data-nosnippet>723</a>    <span class="kw">let </span>user = <span class="kw">match </span>state
+<a href=#724 id=724 data-nosnippet>724</a>        .user_repository
+<a href=#725 id=725 data-nosnippet>725</a>        .get_by_email(request.email.clone())
+<a href=#726 id=726 data-nosnippet>726</a>        .<span class="kw">await
+<a href=#727 id=727 data-nosnippet>727</a>    </span>{
+<a href=#728 id=728 data-nosnippet>728</a>        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(user)) =&gt; user,
+<a href=#729 id=729 data-nosnippet>729</a>        <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) =&gt; {
+<a href=#730 id=730 data-nosnippet>730</a>            <span class="kw">return </span><span class="prelude-val">Err</span>(AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"User not found"</span>)));
+<a href=#731 id=731 data-nosnippet>731</a>        }
+<a href=#732 id=732 data-nosnippet>732</a>        <span class="prelude-val">Err</span>(e) =&gt; {
+<a href=#733 id=733 data-nosnippet>733</a>            <span class="macro">tracing::error!</span>(<span class="string">"Database error: {}"</span>, e);
+<a href=#734 id=734 data-nosnippet>734</a>            <span class="kw">return </span><span class="prelude-val">Err</span>(AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Database error"</span>)));
 <a href=#735 id=735 data-nosnippet>735</a>        }
-<a href=#736 id=736 data-nosnippet>736</a>    }
-<a href=#737 id=737 data-nosnippet>737</a>    <span class="kw">let </span>revoked = state
-<a href=#738 id=738 data-nosnippet>738</a>        .session_repository
-<a href=#739 id=739 data-nosnippet>739</a>        .delete_all_for_user(user.id)
-<a href=#740 id=740 data-nosnippet>740</a>        .<span class="kw">await
-<a href=#741 id=741 data-nosnippet>741</a>        </span>.map_err(|e| {
-<a href=#742 id=742 data-nosnippet>742</a>            AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(
-<a href=#743 id=743 data-nosnippet>743</a>                <span class="string">"Failed to revoke sessions after password reset: {e}"
-<a href=#744 id=744 data-nosnippet>744</a>            </span>))
-<a href=#745 id=745 data-nosnippet>745</a>        })<span class="question-mark">?</span>;
-<a href=#746 id=746 data-nosnippet>746</a>    <span class="macro">tracing::info!</span>(
-<a href=#747 id=747 data-nosnippet>747</a>        <span class="string">"Revoked {} session(s) for user {} after forgot-password reset"</span>,
-<a href=#748 id=748 data-nosnippet>748</a>        revoked,
-<a href=#749 id=749 data-nosnippet>749</a>        user.id
-<a href=#750 id=750 data-nosnippet>750</a>    );
-<a href=#751 id=751 data-nosnippet>751</a>    <span class="kw">let </span>template = templates::ForgotPasswordSuccessTemplate {};
-<a href=#752 id=752 data-nosnippet>752</a>    <span class="prelude-val">Ok</span>(Html(template.render()<span class="question-mark">?</span>))
-<a href=#753 id=753 data-nosnippet>753</a>}
-<a href=#754 id=754 data-nosnippet>754</a>
-<a href=#755 id=755 data-nosnippet>755</a><span class="attr">#[derive(Deserialize)]
-<a href=#756 id=756 data-nosnippet>756</a></span><span class="kw">pub struct </span>ResendCodeQuery {
-<a href=#757 id=757 data-nosnippet>757</a>    email: String,
-<a href=#758 id=758 data-nosnippet>758</a>}
-<a href=#759 id=759 data-nosnippet>759</a>
-<a href=#760 id=760 data-nosnippet>760</a><span class="doccomment">/// GET /auth/forgot-password/resend - Resend the verification code for password reset
-<a href=#761 id=761 data-nosnippet>761</a>///
-<a href=#762 id=762 data-nosnippet>762</a>/// ### Arguments
-<a href=#763 id=763 data-nosnippet>763</a>/// - `state`: The state of the application
-<a href=#764 id=764 data-nosnippet>764</a>/// - `query`: The resend code query containing the email
-<a href=#765 id=765 data-nosnippet>765</a>///
-<a href=#766 id=766 data-nosnippet>766</a>/// ### Returns
-<a href=#767 id=767 data-nosnippet>767</a>/// - `Ok(Html&lt;String&gt;)`: The verification code form with success message as formatted HTML
-<a href=#768 id=768 data-nosnippet>768</a>/// - `Err(AppError)`: Error that occurred while resending the code
-<a href=#769 id=769 data-nosnippet>769</a></span><span class="kw">pub async fn </span>resend_forgot_password_code(
-<a href=#770 id=770 data-nosnippet>770</a>    State(state): State&lt;AppState&gt;,
-<a href=#771 id=771 data-nosnippet>771</a>    Query(query): Query&lt;ResendCodeQuery&gt;,
-<a href=#772 id=772 data-nosnippet>772</a>) -&gt; <span class="prelude-ty">Result</span>&lt;Html&lt;String&gt;, AppError&gt; {
-<a href=#773 id=773 data-nosnippet>773</a>    <span class="kw">let </span>email = query.email.trim().to_lowercase();
-<a href=#774 id=774 data-nosnippet>774</a>    <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = check_verification_code_rate_limit(<span class="kw-2">&amp;</span>state, <span class="kw-2">&amp;</span>email, <span class="string">"password_reset"</span>).<span class="kw">await </span>{
-<a href=#775 id=775 data-nosnippet>775</a>        <span class="kw">let </span>template = templates::ForgotPasswordStep2Template {
-<a href=#776 id=776 data-nosnippet>776</a>            email,
-<a href=#777 id=777 data-nosnippet>777</a>            error_message: e.to_string(),
-<a href=#778 id=778 data-nosnippet>778</a>            success_message: String::new(),
-<a href=#779 id=779 data-nosnippet>779</a>        };
-<a href=#780 id=780 data-nosnippet>780</a>        <span class="kw">return </span><span class="prelude-val">Ok</span>(Html(template.render().map_err(|e| {
-<a href=#781 id=781 data-nosnippet>781</a>            AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Template error: {e}"</span>))
-<a href=#782 id=782 data-nosnippet>782</a>        })<span class="question-mark">?</span>));
-<a href=#783 id=783 data-nosnippet>783</a>    }
-<a href=#784 id=784 data-nosnippet>784</a>    <span class="kw">let </span>user_exists = <span class="kw">match </span>state.user_repository.get_by_email(email.clone()).<span class="kw">await </span>{
-<a href=#785 id=785 data-nosnippet>785</a>        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="kw">_</span>)) =&gt; <span class="bool-val">true</span>,
-<a href=#786 id=786 data-nosnippet>786</a>        <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) =&gt; <span class="bool-val">false</span>,
-<a href=#787 id=787 data-nosnippet>787</a>        <span class="prelude-val">Err</span>(e) =&gt; {
-<a href=#788 id=788 data-nosnippet>788</a>            <span class="macro">tracing::error!</span>(<span class="string">"Database error: {}"</span>, e);
-<a href=#789 id=789 data-nosnippet>789</a>            <span class="kw">return </span><span class="prelude-val">Err</span>(AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Database error"</span>)));
-<a href=#790 id=790 data-nosnippet>790</a>        }
-<a href=#791 id=791 data-nosnippet>791</a>    };
-<a href=#792 id=792 data-nosnippet>792</a>    <span class="kw">if </span>user_exists {
-<a href=#793 id=793 data-nosnippet>793</a>        <span class="kw">let </span>_code = create_and_send_verification_code(<span class="kw-2">&amp;</span>state, <span class="kw-2">&amp;</span>email, <span class="string">"password_reset"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
-<a href=#794 id=794 data-nosnippet>794</a>    }
-<a href=#795 id=795 data-nosnippet>795</a>    <span class="kw">let </span>template = templates::ForgotPasswordStep2Template {
-<a href=#796 id=796 data-nosnippet>796</a>        email,
-<a href=#797 id=797 data-nosnippet>797</a>        error_message: String::new(),
-<a href=#798 id=798 data-nosnippet>798</a>        success_message: <span class="string">"A new verification code has been sent to your email."</span>.to_string(),
-<a href=#799 id=799 data-nosnippet>799</a>    };
-<a href=#800 id=800 data-nosnippet>800</a>    <span class="prelude-val">Ok</span>(Html(template.render()<span class="question-mark">?</span>))
-<a href=#801 id=801 data-nosnippet>801</a>}
-<a href=#802 id=802 data-nosnippet>802</a>
-<a href=#803 id=803 data-nosnippet>803</a><span class="doccomment">/// Check if verification code rate limit has been exceeded
-<a href=#804 id=804 data-nosnippet>804</a>///
-<a href=#805 id=805 data-nosnippet>805</a>/// ### Arguments
-<a href=#806 id=806 data-nosnippet>806</a>/// - `state`: The application state
-<a href=#807 id=807 data-nosnippet>807</a>/// - `email`: The user's email
-<a href=#808 id=808 data-nosnippet>808</a>/// - `purpose`: The verification code purpose
-<a href=#809 id=809 data-nosnippet>809</a>///
-<a href=#810 id=810 data-nosnippet>810</a>/// ### Returns
-<a href=#811 id=811 data-nosnippet>811</a>/// - `Ok(())`: Rate limit not exceeded
-<a href=#812 id=812 data-nosnippet>812</a>/// - `Err(AppError)`: Rate limit exceeded
-<a href=#813 id=813 data-nosnippet>813</a></span><span class="kw">async fn </span>check_verification_code_rate_limit(
-<a href=#814 id=814 data-nosnippet>814</a>    state: <span class="kw-2">&amp;</span>AppState,
-<a href=#815 id=815 data-nosnippet>815</a>    email: <span class="kw-2">&amp;</span>str,
-<a href=#816 id=816 data-nosnippet>816</a>    purpose: <span class="kw-2">&amp;</span>str,
-<a href=#817 id=817 data-nosnippet>817</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), AppError&gt; {
-<a href=#818 id=818 data-nosnippet>818</a>    <span class="kw">let </span>active_count = state
-<a href=#819 id=819 data-nosnippet>819</a>        .verification_code_repository
-<a href=#820 id=820 data-nosnippet>820</a>        .count_active_codes(email.to_string(), purpose.to_string())
-<a href=#821 id=821 data-nosnippet>821</a>        .<span class="kw">await
-<a href=#822 id=822 data-nosnippet>822</a>        </span>.map_err(|e| {
-<a href=#823 id=823 data-nosnippet>823</a>            AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Failed to count verification codes: {e}"</span>))
-<a href=#824 id=824 data-nosnippet>824</a>        })<span class="question-mark">?</span>;
-<a href=#825 id=825 data-nosnippet>825</a>    <span class="kw">if </span>active_count &gt;= verification_code::VERIFICATION_CODE_MAX_ATTEMPTS {
-<a href=#826 id=826 data-nosnippet>826</a>        <span class="kw">return </span><span class="prelude-val">Err</span>(AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(
-<a href=#827 id=827 data-nosnippet>827</a>            <span class="string">"You've reached the maximum number of verification codes. Please wait 5 minutes before requesting a new code."
-<a href=#828 id=828 data-nosnippet>828</a>        </span>)));
-<a href=#829 id=829 data-nosnippet>829</a>    }
-<a href=#830 id=830 data-nosnippet>830</a>    <span class="prelude-val">Ok</span>(())
-<a href=#831 id=831 data-nosnippet>831</a>}
-<a href=#832 id=832 data-nosnippet>832</a>
-<a href=#833 id=833 data-nosnippet>833</a><span class="doccomment">/// Create verification code and send email
-<a href=#834 id=834 data-nosnippet>834</a>///
-<a href=#835 id=835 data-nosnippet>835</a>/// ### Arguments
-<a href=#836 id=836 data-nosnippet>836</a>/// - `state`: The application state
-<a href=#837 id=837 data-nosnippet>837</a>/// - `email`: The user's email
-<a href=#838 id=838 data-nosnippet>838</a>/// - `purpose`: The verification code purpose
-<a href=#839 id=839 data-nosnippet>839</a>///
-<a href=#840 id=840 data-nosnippet>840</a>/// ### Returns
-<a href=#841 id=841 data-nosnippet>841</a>/// - `Ok(String)`: The generated verification code
-<a href=#842 id=842 data-nosnippet>842</a>/// - `Err(AppError)`: Error occurred during creation or sending
-<a href=#843 id=843 data-nosnippet>843</a></span><span class="kw">async fn </span>create_and_send_verification_code(
-<a href=#844 id=844 data-nosnippet>844</a>    state: <span class="kw-2">&amp;</span>AppState,
-<a href=#845 id=845 data-nosnippet>845</a>    email: <span class="kw-2">&amp;</span>str,
-<a href=#846 id=846 data-nosnippet>846</a>    purpose: <span class="kw-2">&amp;</span>str,
-<a href=#847 id=847 data-nosnippet>847</a>) -&gt; <span class="prelude-ty">Result</span>&lt;String, AppError&gt; {
-<a href=#848 id=848 data-nosnippet>848</a>    <span class="kw">let </span>code = generate_code();
-<a href=#849 id=849 data-nosnippet>849</a>    state
-<a href=#850 id=850 data-nosnippet>850</a>        .verification_code_repository
-<a href=#851 id=851 data-nosnippet>851</a>        .create(email.to_string(), code.clone(), purpose.to_string())
-<a href=#852 id=852 data-nosnippet>852</a>        .<span class="kw">await
-<a href=#853 id=853 data-nosnippet>853</a>        </span>.map_err(|e| {
-<a href=#854 id=854 data-nosnippet>854</a>            <span class="macro">tracing::error!</span>(<span class="string">"Failed to create verification code: {}"</span>, e);
-<a href=#855 id=855 data-nosnippet>855</a>            AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Failed to create verification code: {e}"</span>))
-<a href=#856 id=856 data-nosnippet>856</a>        })<span class="question-mark">?</span>;
-<a href=#857 id=857 data-nosnippet>857</a>    <span class="kw">if </span>state.is_prod {
-<a href=#858 id=858 data-nosnippet>858</a>        state
-<a href=#859 id=859 data-nosnippet>859</a>            .mailer
-<a href=#860 id=860 data-nosnippet>860</a>            .send_verification_email(email.to_string(), code.clone())
-<a href=#861 id=861 data-nosnippet>861</a>            .<span class="kw">await
-<a href=#862 id=862 data-nosnippet>862</a>            </span>.map_err(|e| {
-<a href=#863 id=863 data-nosnippet>863</a>                <span class="macro">tracing::error!</span>(<span class="string">"Failed to send email: {}"</span>, e);
-<a href=#864 id=864 data-nosnippet>864</a>                AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Failed to send email: {e}"</span>))
-<a href=#865 id=865 data-nosnippet>865</a>            })<span class="question-mark">?</span>;
-<a href=#866 id=866 data-nosnippet>866</a>        <span class="macro">tracing::info!</span>(<span class="string">"Verification email sent"</span>);
-<a href=#867 id=867 data-nosnippet>867</a>    } <span class="kw">else </span>{
-<a href=#868 id=868 data-nosnippet>868</a>        <span class="macro">tracing::info!</span>(
-<a href=#869 id=869 data-nosnippet>869</a>            <span class="string">"Development mode - verification email not sent\nVerification code: {}"</span>,
-<a href=#870 id=870 data-nosnippet>870</a>            <span class="kw-2">&amp;</span>code
-<a href=#871 id=871 data-nosnippet>871</a>        );
-<a href=#872 id=872 data-nosnippet>872</a>    }
-<a href=#873 id=873 data-nosnippet>873</a>    <span class="prelude-val">Ok</span>(code)
-<a href=#874 id=874 data-nosnippet>874</a>}
-<a href=#875 id=875 data-nosnippet>875</a>
-<a href=#876 id=876 data-nosnippet>876</a><span class="doccomment">/// Format verification result into user-friendly error message
-<a href=#877 id=877 data-nosnippet>877</a>///
-<a href=#878 id=878 data-nosnippet>878</a>/// ### Arguments
-<a href=#879 id=879 data-nosnippet>879</a>/// - `result`: The verification result
-<a href=#880 id=880 data-nosnippet>880</a>///
-<a href=#881 id=881 data-nosnippet>881</a>/// ### Returns
-<a href=#882 id=882 data-nosnippet>882</a>/// - `String`: User-friendly error message
-<a href=#883 id=883 data-nosnippet>883</a></span><span class="kw">fn </span>format_verification_error(result: <span class="kw-2">&amp;</span>VerificationResult) -&gt; String {
-<a href=#884 id=884 data-nosnippet>884</a>    <span class="kw">match </span>result {
-<a href=#885 id=885 data-nosnippet>885</a>        VerificationResult::Invalid { attempts_remaining } =&gt; {
-<a href=#886 id=886 data-nosnippet>886</a>            <span class="kw">if </span><span class="kw-2">*</span>attempts_remaining &gt; <span class="number">0 </span>{
-<a href=#887 id=887 data-nosnippet>887</a>                <span class="macro">format!</span>(<span class="string">"Invalid verification code. {attempts_remaining} attempt(s) remaining."</span>)
-<a href=#888 id=888 data-nosnippet>888</a>            } <span class="kw">else </span>{
-<a href=#889 id=889 data-nosnippet>889</a>                <span class="string">"Too many failed attempts. Please request a new code."</span>.to_string()
-<a href=#890 id=890 data-nosnippet>890</a>            }
-<a href=#891 id=891 data-nosnippet>891</a>        }
-<a href=#892 id=892 data-nosnippet>892</a>        VerificationResult::TooManyAttempts =&gt; {
-<a href=#893 id=893 data-nosnippet>893</a>            <span class="string">"Too many failed attempts. Please request a new code."</span>.to_string()
-<a href=#894 id=894 data-nosnippet>894</a>        }
-<a href=#895 id=895 data-nosnippet>895</a>        VerificationResult::Expired =&gt; {
-<a href=#896 id=896 data-nosnippet>896</a>            <span class="string">"Verification code has expired. Please request a new code."</span>.to_string()
-<a href=#897 id=897 data-nosnippet>897</a>        }
-<a href=#898 id=898 data-nosnippet>898</a>        VerificationResult::NotFound =&gt; {
-<a href=#899 id=899 data-nosnippet>899</a>            <span class="string">"No verification code found. Please request a new code."</span>.to_string()
-<a href=#900 id=900 data-nosnippet>900</a>        }
-<a href=#901 id=901 data-nosnippet>901</a>        VerificationResult::Verified =&gt; <span class="string">"Verification failed"</span>.to_string(),
-<a href=#902 id=902 data-nosnippet>902</a>    }
-<a href=#903 id=903 data-nosnippet>903</a>}
-<a href=#904 id=904 data-nosnippet>904</a>
-<a href=#905 id=905 data-nosnippet>905</a><span class="doccomment">/// Hashes a password
-<a href=#906 id=906 data-nosnippet>906</a>///
-<a href=#907 id=907 data-nosnippet>907</a>/// ### Arguments
-<a href=#908 id=908 data-nosnippet>908</a>/// - `password`: The password to hash
-<a href=#909 id=909 data-nosnippet>909</a>///
-<a href=#910 id=910 data-nosnippet>910</a>/// ### Returns
-<a href=#911 id=911 data-nosnippet>911</a>/// - `Ok(String)`: The hashed password
-<a href=#912 id=912 data-nosnippet>912</a>/// - `Err(argon2::password_hash::Error)`: The error if the password cannot be hashed
-<a href=#913 id=913 data-nosnippet>913</a></span><span class="kw">pub fn </span>hash_password(password: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;String, argon2::password_hash::Error&gt; {
-<a href=#914 id=914 data-nosnippet>914</a>    <span class="kw">let </span>salt = SaltString::generate(<span class="kw-2">&amp;mut </span>OsRng);
-<a href=#915 id=915 data-nosnippet>915</a>    <span class="kw">let </span>argon2 = Argon2::default();
-<a href=#916 id=916 data-nosnippet>916</a>    <span class="kw">let </span>hash = argon2.hash_password(password.as_bytes(), <span class="kw-2">&amp;</span>salt)<span class="question-mark">?</span>;
-<a href=#917 id=917 data-nosnippet>917</a>    <span class="prelude-val">Ok</span>(hash.to_string())
-<a href=#918 id=918 data-nosnippet>918</a>}
-<a href=#919 id=919 data-nosnippet>919</a>
-<a href=#920 id=920 data-nosnippet>920</a><span class="doccomment">/// Verifies a password
-<a href=#921 id=921 data-nosnippet>921</a>///
-<a href=#922 id=922 data-nosnippet>922</a>/// ### Arguments
-<a href=#923 id=923 data-nosnippet>923</a>/// - `password`: The password to verify
-<a href=#924 id=924 data-nosnippet>924</a>/// - `password_hash`: The hashed password
-<a href=#925 id=925 data-nosnippet>925</a>///
-<a href=#926 id=926 data-nosnippet>926</a>/// ### Returns
-<a href=#927 id=927 data-nosnippet>927</a>/// - `true` if the password is valid, `false` otherwise (including on malformed hash)
-<a href=#928 id=928 data-nosnippet>928</a></span><span class="kw">fn </span>verify_password(password: <span class="kw-2">&amp;</span>str, password_hash: <span class="kw-2">&amp;</span>str) -&gt; bool {
-<a href=#929 id=929 data-nosnippet>929</a>    <span class="kw">let </span><span class="prelude-val">Ok</span>(password_hash) = PasswordHash::new(password_hash) <span class="kw">else </span>{
-<a href=#930 id=930 data-nosnippet>930</a>        <span class="macro">tracing::warn!</span>(<span class="string">"Failed to parse password hash - treating as invalid"</span>);
-<a href=#931 id=931 data-nosnippet>931</a>        <span class="kw">return </span><span class="bool-val">false</span>;
-<a href=#932 id=932 data-nosnippet>932</a>    };
-<a href=#933 id=933 data-nosnippet>933</a>    <span class="kw">let </span>argon2 = Argon2::default();
-<a href=#934 id=934 data-nosnippet>934</a>    argon2
-<a href=#935 id=935 data-nosnippet>935</a>        .verify_password(password.as_bytes(), <span class="kw-2">&amp;</span>password_hash)
-<a href=#936 id=936 data-nosnippet>936</a>        .is_ok()
-<a href=#937 id=937 data-nosnippet>937</a>}
+<a href=#736 id=736 data-nosnippet>736</a>    };
+<a href=#737 id=737 data-nosnippet>737</a>    <span class="kw">let </span>password_hash = hash_password(<span class="kw-2">&amp;</span>request.password)
+<a href=#738 id=738 data-nosnippet>738</a>        .map_err(|e| AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Failed to hash password: {e}"</span>)))<span class="question-mark">?</span>;
+<a href=#739 id=739 data-nosnippet>739</a>    <span class="kw">match </span>state
+<a href=#740 id=740 data-nosnippet>740</a>        .user_repository
+<a href=#741 id=741 data-nosnippet>741</a>        .update_password(user.id, password_hash)
+<a href=#742 id=742 data-nosnippet>742</a>        .<span class="kw">await
+<a href=#743 id=743 data-nosnippet>743</a>    </span>{
+<a href=#744 id=744 data-nosnippet>744</a>        <span class="prelude-val">Ok</span>(()) =&gt; {
+<a href=#745 id=745 data-nosnippet>745</a>            <span class="macro">tracing::info!</span>(<span class="string">"Password reset for user {}"</span>, user.id);
+<a href=#746 id=746 data-nosnippet>746</a>        }
+<a href=#747 id=747 data-nosnippet>747</a>        <span class="prelude-val">Err</span>(e) =&gt; {
+<a href=#748 id=748 data-nosnippet>748</a>            <span class="macro">tracing::error!</span>(<span class="string">"Failed to update password: {}"</span>, e);
+<a href=#749 id=749 data-nosnippet>749</a>            <span class="kw">return </span><span class="prelude-val">Err</span>(AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(
+<a href=#750 id=750 data-nosnippet>750</a>                <span class="string">"Failed to update password"
+<a href=#751 id=751 data-nosnippet>751</a>            </span>)));
+<a href=#752 id=752 data-nosnippet>752</a>        }
+<a href=#753 id=753 data-nosnippet>753</a>    }
+<a href=#754 id=754 data-nosnippet>754</a>    <span class="kw">let </span>revoked = state
+<a href=#755 id=755 data-nosnippet>755</a>        .session_repository
+<a href=#756 id=756 data-nosnippet>756</a>        .delete_all_for_user(user.id)
+<a href=#757 id=757 data-nosnippet>757</a>        .<span class="kw">await
+<a href=#758 id=758 data-nosnippet>758</a>        </span>.map_err(|e| {
+<a href=#759 id=759 data-nosnippet>759</a>            AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(
+<a href=#760 id=760 data-nosnippet>760</a>                <span class="string">"Failed to revoke sessions after password reset: {e}"
+<a href=#761 id=761 data-nosnippet>761</a>            </span>))
+<a href=#762 id=762 data-nosnippet>762</a>        })<span class="question-mark">?</span>;
+<a href=#763 id=763 data-nosnippet>763</a>    <span class="macro">tracing::info!</span>(
+<a href=#764 id=764 data-nosnippet>764</a>        <span class="string">"Revoked {} session(s) for user {} after forgot-password reset"</span>,
+<a href=#765 id=765 data-nosnippet>765</a>        revoked,
+<a href=#766 id=766 data-nosnippet>766</a>        user.id
+<a href=#767 id=767 data-nosnippet>767</a>    );
+<a href=#768 id=768 data-nosnippet>768</a>    <span class="kw">let </span>template = templates::ForgotPasswordSuccessTemplate {};
+<a href=#769 id=769 data-nosnippet>769</a>    <span class="prelude-val">Ok</span>(Html(template.render()<span class="question-mark">?</span>))
+<a href=#770 id=770 data-nosnippet>770</a>}
+<a href=#771 id=771 data-nosnippet>771</a>
+<a href=#772 id=772 data-nosnippet>772</a><span class="attr">#[derive(Deserialize)]
+<a href=#773 id=773 data-nosnippet>773</a></span><span class="kw">pub struct </span>ResendCodeQuery {
+<a href=#774 id=774 data-nosnippet>774</a>    email: String,
+<a href=#775 id=775 data-nosnippet>775</a>}
+<a href=#776 id=776 data-nosnippet>776</a>
+<a href=#777 id=777 data-nosnippet>777</a><span class="doccomment">/// GET /auth/forgot-password/resend - Resend the verification code for password reset
+<a href=#778 id=778 data-nosnippet>778</a>///
+<a href=#779 id=779 data-nosnippet>779</a>/// ### Arguments
+<a href=#780 id=780 data-nosnippet>780</a>/// - `state`: The state of the application
+<a href=#781 id=781 data-nosnippet>781</a>/// - `query`: The resend code query containing the email
+<a href=#782 id=782 data-nosnippet>782</a>///
+<a href=#783 id=783 data-nosnippet>783</a>/// ### Returns
+<a href=#784 id=784 data-nosnippet>784</a>/// - `Ok(Html&lt;String&gt;)`: The verification code form with success message as formatted HTML
+<a href=#785 id=785 data-nosnippet>785</a>/// - `Err(AppError)`: Error that occurred while resending the code
+<a href=#786 id=786 data-nosnippet>786</a></span><span class="kw">pub async fn </span>resend_forgot_password_code(
+<a href=#787 id=787 data-nosnippet>787</a>    State(state): State&lt;AppState&gt;,
+<a href=#788 id=788 data-nosnippet>788</a>    Query(query): Query&lt;ResendCodeQuery&gt;,
+<a href=#789 id=789 data-nosnippet>789</a>) -&gt; <span class="prelude-ty">Result</span>&lt;Html&lt;String&gt;, AppError&gt; {
+<a href=#790 id=790 data-nosnippet>790</a>    <span class="kw">let </span>email = query.email.trim().to_lowercase();
+<a href=#791 id=791 data-nosnippet>791</a>    <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = check_verification_code_rate_limit(<span class="kw-2">&amp;</span>state, <span class="kw-2">&amp;</span>email, <span class="string">"password_reset"</span>).<span class="kw">await </span>{
+<a href=#792 id=792 data-nosnippet>792</a>        <span class="kw">let </span>template = templates::ForgotPasswordStep2Template {
+<a href=#793 id=793 data-nosnippet>793</a>            email,
+<a href=#794 id=794 data-nosnippet>794</a>            error_message: e.to_string(),
+<a href=#795 id=795 data-nosnippet>795</a>            success_message: String::new(),
+<a href=#796 id=796 data-nosnippet>796</a>        };
+<a href=#797 id=797 data-nosnippet>797</a>        <span class="kw">return </span><span class="prelude-val">Ok</span>(Html(template.render().map_err(|e| {
+<a href=#798 id=798 data-nosnippet>798</a>            AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Template error: {e}"</span>))
+<a href=#799 id=799 data-nosnippet>799</a>        })<span class="question-mark">?</span>));
+<a href=#800 id=800 data-nosnippet>800</a>    }
+<a href=#801 id=801 data-nosnippet>801</a>    <span class="kw">let </span>user_exists = <span class="kw">match </span>state.user_repository.get_by_email(email.clone()).<span class="kw">await </span>{
+<a href=#802 id=802 data-nosnippet>802</a>        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="kw">_</span>)) =&gt; <span class="bool-val">true</span>,
+<a href=#803 id=803 data-nosnippet>803</a>        <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) =&gt; <span class="bool-val">false</span>,
+<a href=#804 id=804 data-nosnippet>804</a>        <span class="prelude-val">Err</span>(e) =&gt; {
+<a href=#805 id=805 data-nosnippet>805</a>            <span class="macro">tracing::error!</span>(<span class="string">"Database error: {}"</span>, e);
+<a href=#806 id=806 data-nosnippet>806</a>            <span class="kw">return </span><span class="prelude-val">Err</span>(AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Database error"</span>)));
+<a href=#807 id=807 data-nosnippet>807</a>        }
+<a href=#808 id=808 data-nosnippet>808</a>    };
+<a href=#809 id=809 data-nosnippet>809</a>    <span class="kw">if </span>user_exists {
+<a href=#810 id=810 data-nosnippet>810</a>        <span class="kw">let </span>_code = create_and_send_verification_code(<span class="kw-2">&amp;</span>state, <span class="kw-2">&amp;</span>email, <span class="string">"password_reset"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+<a href=#811 id=811 data-nosnippet>811</a>    }
+<a href=#812 id=812 data-nosnippet>812</a>    <span class="kw">let </span>template = templates::ForgotPasswordStep2Template {
+<a href=#813 id=813 data-nosnippet>813</a>        email,
+<a href=#814 id=814 data-nosnippet>814</a>        error_message: String::new(),
+<a href=#815 id=815 data-nosnippet>815</a>        success_message: <span class="string">"A new verification code has been sent to your email."</span>.to_string(),
+<a href=#816 id=816 data-nosnippet>816</a>    };
+<a href=#817 id=817 data-nosnippet>817</a>    <span class="prelude-val">Ok</span>(Html(template.render()<span class="question-mark">?</span>))
+<a href=#818 id=818 data-nosnippet>818</a>}
+<a href=#819 id=819 data-nosnippet>819</a>
+<a href=#820 id=820 data-nosnippet>820</a><span class="doccomment">/// Check if verification code rate limit has been exceeded
+<a href=#821 id=821 data-nosnippet>821</a>///
+<a href=#822 id=822 data-nosnippet>822</a>/// ### Arguments
+<a href=#823 id=823 data-nosnippet>823</a>/// - `state`: The application state
+<a href=#824 id=824 data-nosnippet>824</a>/// - `email`: The user's email
+<a href=#825 id=825 data-nosnippet>825</a>/// - `purpose`: The verification code purpose
+<a href=#826 id=826 data-nosnippet>826</a>///
+<a href=#827 id=827 data-nosnippet>827</a>/// ### Returns
+<a href=#828 id=828 data-nosnippet>828</a>/// - `Ok(())`: Rate limit not exceeded
+<a href=#829 id=829 data-nosnippet>829</a>/// - `Err(AppError)`: Rate limit exceeded
+<a href=#830 id=830 data-nosnippet>830</a></span><span class="kw">async fn </span>check_verification_code_rate_limit(
+<a href=#831 id=831 data-nosnippet>831</a>    state: <span class="kw-2">&amp;</span>AppState,
+<a href=#832 id=832 data-nosnippet>832</a>    email: <span class="kw-2">&amp;</span>str,
+<a href=#833 id=833 data-nosnippet>833</a>    purpose: <span class="kw-2">&amp;</span>str,
+<a href=#834 id=834 data-nosnippet>834</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), AppError&gt; {
+<a href=#835 id=835 data-nosnippet>835</a>    <span class="kw">let </span>active_count = state
+<a href=#836 id=836 data-nosnippet>836</a>        .verification_code_repository
+<a href=#837 id=837 data-nosnippet>837</a>        .count_active_codes(email.to_string(), purpose.to_string())
+<a href=#838 id=838 data-nosnippet>838</a>        .<span class="kw">await
+<a href=#839 id=839 data-nosnippet>839</a>        </span>.map_err(|e| {
+<a href=#840 id=840 data-nosnippet>840</a>            AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Failed to count verification codes: {e}"</span>))
+<a href=#841 id=841 data-nosnippet>841</a>        })<span class="question-mark">?</span>;
+<a href=#842 id=842 data-nosnippet>842</a>    <span class="kw">if </span>active_count &gt;= verification_code::VERIFICATION_CODE_MAX_ATTEMPTS {
+<a href=#843 id=843 data-nosnippet>843</a>        <span class="kw">return </span><span class="prelude-val">Err</span>(AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(
+<a href=#844 id=844 data-nosnippet>844</a>            <span class="string">"You've reached the maximum number of verification codes. Please wait 5 minutes before requesting a new code."
+<a href=#845 id=845 data-nosnippet>845</a>        </span>)));
+<a href=#846 id=846 data-nosnippet>846</a>    }
+<a href=#847 id=847 data-nosnippet>847</a>    <span class="prelude-val">Ok</span>(())
+<a href=#848 id=848 data-nosnippet>848</a>}
+<a href=#849 id=849 data-nosnippet>849</a>
+<a href=#850 id=850 data-nosnippet>850</a><span class="doccomment">/// Create verification code and send email
+<a href=#851 id=851 data-nosnippet>851</a>///
+<a href=#852 id=852 data-nosnippet>852</a>/// ### Arguments
+<a href=#853 id=853 data-nosnippet>853</a>/// - `state`: The application state
+<a href=#854 id=854 data-nosnippet>854</a>/// - `email`: The user's email
+<a href=#855 id=855 data-nosnippet>855</a>/// - `purpose`: The verification code purpose
+<a href=#856 id=856 data-nosnippet>856</a>///
+<a href=#857 id=857 data-nosnippet>857</a>/// ### Returns
+<a href=#858 id=858 data-nosnippet>858</a>/// - `Ok(String)`: The generated verification code
+<a href=#859 id=859 data-nosnippet>859</a>/// - `Err(AppError)`: Error occurred during creation or sending
+<a href=#860 id=860 data-nosnippet>860</a></span><span class="kw">async fn </span>create_and_send_verification_code(
+<a href=#861 id=861 data-nosnippet>861</a>    state: <span class="kw-2">&amp;</span>AppState,
+<a href=#862 id=862 data-nosnippet>862</a>    email: <span class="kw-2">&amp;</span>str,
+<a href=#863 id=863 data-nosnippet>863</a>    purpose: <span class="kw-2">&amp;</span>str,
+<a href=#864 id=864 data-nosnippet>864</a>) -&gt; <span class="prelude-ty">Result</span>&lt;String, AppError&gt; {
+<a href=#865 id=865 data-nosnippet>865</a>    <span class="kw">let </span>code = generate_code();
+<a href=#866 id=866 data-nosnippet>866</a>    state
+<a href=#867 id=867 data-nosnippet>867</a>        .verification_code_repository
+<a href=#868 id=868 data-nosnippet>868</a>        .create(email.to_string(), code.clone(), purpose.to_string())
+<a href=#869 id=869 data-nosnippet>869</a>        .<span class="kw">await
+<a href=#870 id=870 data-nosnippet>870</a>        </span>.map_err(|e| {
+<a href=#871 id=871 data-nosnippet>871</a>            <span class="macro">tracing::error!</span>(<span class="string">"Failed to create verification code: {}"</span>, e);
+<a href=#872 id=872 data-nosnippet>872</a>            AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Failed to create verification code: {e}"</span>))
+<a href=#873 id=873 data-nosnippet>873</a>        })<span class="question-mark">?</span>;
+<a href=#874 id=874 data-nosnippet>874</a>    <span class="kw">if </span>state.is_prod {
+<a href=#875 id=875 data-nosnippet>875</a>        state
+<a href=#876 id=876 data-nosnippet>876</a>            .mailer
+<a href=#877 id=877 data-nosnippet>877</a>            .send_verification_email(email.to_string(), code.clone())
+<a href=#878 id=878 data-nosnippet>878</a>            .<span class="kw">await
+<a href=#879 id=879 data-nosnippet>879</a>            </span>.map_err(|e| {
+<a href=#880 id=880 data-nosnippet>880</a>                <span class="macro">tracing::error!</span>(<span class="string">"Failed to send email: {}"</span>, e);
+<a href=#881 id=881 data-nosnippet>881</a>                AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Failed to send email: {e}"</span>))
+<a href=#882 id=882 data-nosnippet>882</a>            })<span class="question-mark">?</span>;
+<a href=#883 id=883 data-nosnippet>883</a>        <span class="macro">tracing::info!</span>(<span class="string">"Verification email sent"</span>);
+<a href=#884 id=884 data-nosnippet>884</a>    } <span class="kw">else </span>{
+<a href=#885 id=885 data-nosnippet>885</a>        <span class="macro">tracing::info!</span>(
+<a href=#886 id=886 data-nosnippet>886</a>            <span class="string">"Development mode - verification email not sent\nVerification code: {}"</span>,
+<a href=#887 id=887 data-nosnippet>887</a>            <span class="kw-2">&amp;</span>code
+<a href=#888 id=888 data-nosnippet>888</a>        );
+<a href=#889 id=889 data-nosnippet>889</a>    }
+<a href=#890 id=890 data-nosnippet>890</a>    <span class="prelude-val">Ok</span>(code)
+<a href=#891 id=891 data-nosnippet>891</a>}
+<a href=#892 id=892 data-nosnippet>892</a>
+<a href=#893 id=893 data-nosnippet>893</a><span class="doccomment">/// Format verification result into user-friendly error message
+<a href=#894 id=894 data-nosnippet>894</a>///
+<a href=#895 id=895 data-nosnippet>895</a>/// ### Arguments
+<a href=#896 id=896 data-nosnippet>896</a>/// - `result`: The verification result
+<a href=#897 id=897 data-nosnippet>897</a>///
+<a href=#898 id=898 data-nosnippet>898</a>/// ### Returns
+<a href=#899 id=899 data-nosnippet>899</a>/// - `String`: User-friendly error message
+<a href=#900 id=900 data-nosnippet>900</a></span><span class="kw">fn </span>format_verification_error(result: <span class="kw-2">&amp;</span>VerificationResult) -&gt; String {
+<a href=#901 id=901 data-nosnippet>901</a>    <span class="kw">match </span>result {
+<a href=#902 id=902 data-nosnippet>902</a>        VerificationResult::Invalid { attempts_remaining } =&gt; {
+<a href=#903 id=903 data-nosnippet>903</a>            <span class="kw">if </span><span class="kw-2">*</span>attempts_remaining &gt; <span class="number">0 </span>{
+<a href=#904 id=904 data-nosnippet>904</a>                <span class="macro">format!</span>(<span class="string">"Invalid verification code. {attempts_remaining} attempt(s) remaining."</span>)
+<a href=#905 id=905 data-nosnippet>905</a>            } <span class="kw">else </span>{
+<a href=#906 id=906 data-nosnippet>906</a>                <span class="string">"Too many failed attempts. Please request a new code."</span>.to_string()
+<a href=#907 id=907 data-nosnippet>907</a>            }
+<a href=#908 id=908 data-nosnippet>908</a>        }
+<a href=#909 id=909 data-nosnippet>909</a>        VerificationResult::TooManyAttempts =&gt; {
+<a href=#910 id=910 data-nosnippet>910</a>            <span class="string">"Too many failed attempts. Please request a new code."</span>.to_string()
+<a href=#911 id=911 data-nosnippet>911</a>        }
+<a href=#912 id=912 data-nosnippet>912</a>        VerificationResult::Expired =&gt; {
+<a href=#913 id=913 data-nosnippet>913</a>            <span class="string">"Verification code has expired. Please request a new code."</span>.to_string()
+<a href=#914 id=914 data-nosnippet>914</a>        }
+<a href=#915 id=915 data-nosnippet>915</a>        VerificationResult::NotFound =&gt; {
+<a href=#916 id=916 data-nosnippet>916</a>            <span class="string">"No verification code found. Please request a new code."</span>.to_string()
+<a href=#917 id=917 data-nosnippet>917</a>        }
+<a href=#918 id=918 data-nosnippet>918</a>        VerificationResult::Verified =&gt; <span class="string">"Verification failed"</span>.to_string(),
+<a href=#919 id=919 data-nosnippet>919</a>    }
+<a href=#920 id=920 data-nosnippet>920</a>}
+<a href=#921 id=921 data-nosnippet>921</a>
+<a href=#922 id=922 data-nosnippet>922</a><span class="doccomment">/// Hashes a password
+<a href=#923 id=923 data-nosnippet>923</a>///
+<a href=#924 id=924 data-nosnippet>924</a>/// ### Arguments
+<a href=#925 id=925 data-nosnippet>925</a>/// - `password`: The password to hash
+<a href=#926 id=926 data-nosnippet>926</a>///
+<a href=#927 id=927 data-nosnippet>927</a>/// ### Returns
+<a href=#928 id=928 data-nosnippet>928</a>/// - `Ok(String)`: The hashed password
+<a href=#929 id=929 data-nosnippet>929</a>/// - `Err(argon2::password_hash::Error)`: The error if the password cannot be hashed
+<a href=#930 id=930 data-nosnippet>930</a></span><span class="kw">pub fn </span>hash_password(password: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;String, argon2::password_hash::Error&gt; {
+<a href=#931 id=931 data-nosnippet>931</a>    <span class="kw">let </span>salt = SaltString::generate(<span class="kw-2">&amp;mut </span>OsRng);
+<a href=#932 id=932 data-nosnippet>932</a>    <span class="kw">let </span>argon2 = Argon2::default();
+<a href=#933 id=933 data-nosnippet>933</a>    <span class="kw">let </span>hash = argon2.hash_password(password.as_bytes(), <span class="kw-2">&amp;</span>salt)<span class="question-mark">?</span>;
+<a href=#934 id=934 data-nosnippet>934</a>    <span class="prelude-val">Ok</span>(hash.to_string())
+<a href=#935 id=935 data-nosnippet>935</a>}
+<a href=#936 id=936 data-nosnippet>936</a>
+<a href=#937 id=937 data-nosnippet>937</a><span class="doccomment">/// Verifies a password
+<a href=#938 id=938 data-nosnippet>938</a>///
+<a href=#939 id=939 data-nosnippet>939</a>/// ### Arguments
+<a href=#940 id=940 data-nosnippet>940</a>/// - `password`: The password to verify
+<a href=#941 id=941 data-nosnippet>941</a>/// - `password_hash`: The hashed password
+<a href=#942 id=942 data-nosnippet>942</a>///
+<a href=#943 id=943 data-nosnippet>943</a>/// ### Returns
+<a href=#944 id=944 data-nosnippet>944</a>/// - `true` if the password is valid, `false` otherwise (including on malformed hash)
+<a href=#945 id=945 data-nosnippet>945</a></span><span class="kw">fn </span>verify_password(password: <span class="kw-2">&amp;</span>str, password_hash: <span class="kw-2">&amp;</span>str) -&gt; bool {
+<a href=#946 id=946 data-nosnippet>946</a>    <span class="kw">let </span><span class="prelude-val">Ok</span>(password_hash) = PasswordHash::new(password_hash) <span class="kw">else </span>{
+<a href=#947 id=947 data-nosnippet>947</a>        <span class="macro">tracing::warn!</span>(<span class="string">"Failed to parse password hash - treating as invalid"</span>);
+<a href=#948 id=948 data-nosnippet>948</a>        <span class="kw">return </span><span class="bool-val">false</span>;
+<a href=#949 id=949 data-nosnippet>949</a>    };
+<a href=#950 id=950 data-nosnippet>950</a>    <span class="kw">let </span>argon2 = Argon2::default();
+<a href=#951 id=951 data-nosnippet>951</a>    argon2
+<a href=#952 id=952 data-nosnippet>952</a>        .verify_password(password.as_bytes(), <span class="kw-2">&amp;</span>password_hash)
+<a href=#953 id=953 data-nosnippet>953</a>        .is_ok()
+<a href=#954 id=954 data-nosnippet>954</a>}
 </code></pre></div></section></main></body></html>
