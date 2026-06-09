@@ -25,19 +25,19 @@
 <a href=#25 id=25 data-nosnippet>25</a>    /// - `Ok(Some(n))`: Files are limited to `n` bytes
 <a href=#26 id=26 data-nosnippet>26</a>    /// - `Err(sqlx::Error)`: Database error
 <a href=#27 id=27 data-nosnippet>27</a>    </span><span class="kw">pub async fn </span>get_max_file_size_bytes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;u64&gt;, sqlx::Error&gt; {
-<a href=#28 id=28 data-nosnippet>28</a>        <span class="kw">let </span>value: <span class="prelude-ty">Option</span>&lt;i64&gt; = <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.pool {
+<a href=#28 id=28 data-nosnippet>28</a>        <span class="kw">let </span>value: <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Option</span>&lt;i64&gt;&gt; = <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.pool {
 <a href=#29 id=29 data-nosnippet>29</a>            DbPool::Sqlite(pool) =&gt; {
 <a href=#30 id=30 data-nosnippet>30</a>                sqlx::query_scalar(<span class="string">"SELECT max_file_size_bytes FROM server_settings WHERE id = 1"</span>)
-<a href=#31 id=31 data-nosnippet>31</a>                    .fetch_one(pool)
+<a href=#31 id=31 data-nosnippet>31</a>                    .fetch_optional(pool)
 <a href=#32 id=32 data-nosnippet>32</a>                    .<span class="kw">await</span><span class="question-mark">?
 <a href=#33 id=33 data-nosnippet>33</a>            </span>}
 <a href=#34 id=34 data-nosnippet>34</a>            DbPool::Postgres(pool) =&gt; {
 <a href=#35 id=35 data-nosnippet>35</a>                sqlx::query_scalar(<span class="string">"SELECT max_file_size_bytes FROM server_settings WHERE id = 1"</span>)
-<a href=#36 id=36 data-nosnippet>36</a>                    .fetch_one(pool)
+<a href=#36 id=36 data-nosnippet>36</a>                    .fetch_optional(pool)
 <a href=#37 id=37 data-nosnippet>37</a>                    .<span class="kw">await</span><span class="question-mark">?
 <a href=#38 id=38 data-nosnippet>38</a>            </span>}
 <a href=#39 id=39 data-nosnippet>39</a>        };
-<a href=#40 id=40 data-nosnippet>40</a>        <span class="prelude-val">Ok</span>(value.map(|v| v <span class="kw">as </span>u64))
+<a href=#40 id=40 data-nosnippet>40</a>        <span class="prelude-val">Ok</span>(value.flatten().map(|v| v <span class="kw">as </span>u64))
 <a href=#41 id=41 data-nosnippet>41</a>    }
 <a href=#42 id=42 data-nosnippet>42</a>
 <a href=#43 id=43 data-nosnippet>43</a>    <span class="doccomment">/// Update the maximum share file size.
