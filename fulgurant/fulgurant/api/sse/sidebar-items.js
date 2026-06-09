@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["ChannelTag"],"fn":["handle_sse_connection"],"struct":["PendingSharesSnapshot","ShareNotification"],"type":["SseChannelManager"]};
+window.SIDEBAR_ITEMS = {"constant":["MAX_SSE_CONNECTIONS_PER_DEVICE"],"enum":["ChannelTag"],"fn":["handle_sse_connection"],"struct":["PendingSharesSnapshot","ShareNotification","SseConnectionGuard","SseConnectionLimiter"],"type":["SseChannelManager"]};
