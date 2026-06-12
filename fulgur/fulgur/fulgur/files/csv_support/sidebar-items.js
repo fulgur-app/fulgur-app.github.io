@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"constant":["DEFAULT_DELIMITER"],"fn":["detect_delimiter","parse_csv","serialize_csv"],"struct":["CsvData"]};
+window.SIDEBAR_ITEMS = {"constant":["DEFAULT_DELIMITER"],"fn":["detect_delimiter","parse_csv","serialize_csv"],"struct":["CsvData","CsvParseOutcome"]};
