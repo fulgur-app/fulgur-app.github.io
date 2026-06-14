@@ -3,8 +3,8 @@
 <a href=#3 id=3 data-nosnippet>3</a>    sync::{
 <a href=#4 id=4 data-nosnippet>4</a>        access_token::{TokenStateManager, get_valid_token},
 <a href=#5 id=5 data-nosnippet>5</a>        synchronization::{
-<a href=#6 id=6 data-nosnippet>6</a>            MAX_HTTP_SINGLE_SHARE_RESPONSE_BYTES, SynchronizationError, handle_ureq_error,
-<a href=#7 id=7 data-nosnippet>7</a>            max_http_bulk_shares_response_bytes,
+<a href=#6 id=6 data-nosnippet>6</a>            SynchronizationError, handle_ureq_error, max_http_bulk_shares_response_bytes,
+<a href=#7 id=7 data-nosnippet>7</a>            max_http_single_share_response_bytes,
 <a href=#8 id=8 data-nosnippet>8</a>        },
 <a href=#9 id=9 data-nosnippet>9</a>    },
 <a href=#10 id=10 data-nosnippet>10</a>    utils::sanitize::sanitize_filename,
@@ -77,47 +77,50 @@
 <a href=#77 id=77 data-nosnippet>77</a>/// - `token_state`: Per-profile token state manager
 <a href=#78 id=78 data-nosnippet>78</a>/// - `http_agent`: Shared HTTP agent for connection pooling
 <a href=#79 id=79 data-nosnippet>79</a>/// - `id`: The share identifier returned by the v2 begin endpoint
-<a href=#80 id=80 data-nosnippet>80</a>///
-<a href=#81 id=81 data-nosnippet>81</a>/// ### Errors
-<a href=#82 id=82 data-nosnippet>82</a>/// Returns a `SynchronizationError` if the profile has no server URL, the
-<a href=#83 id=83 data-nosnippet>83</a>/// authentication token cannot be obtained, the HTTP request fails, the share
-<a href=#84 id=84 data-nosnippet>84</a>/// is missing, or the response is invalid or too large.
-<a href=#85 id=85 data-nosnippet>85</a>///
-<a href=#86 id=86 data-nosnippet>86</a>/// ### Returns
-<a href=#87 id=87 data-nosnippet>87</a>/// - `Ok(SharedFileResponse)`: The share content, with `file_name` sanitized
-<a href=#88 id=88 data-nosnippet>88</a>///   against path traversal and control characters
-<a href=#89 id=89 data-nosnippet>89</a>/// - `Err(SynchronizationError)`: If the request failed, the share is gone,
-<a href=#90 id=90 data-nosnippet>90</a>///   or the response was invalid or too large
-<a href=#91 id=91 data-nosnippet>91</a></span><span class="kw">pub fn </span>fetch_share_by_id(
-<a href=#92 id=92 data-nosnippet>92</a>    profile: <span class="kw-2">&amp;</span>ServerProfile,
-<a href=#93 id=93 data-nosnippet>93</a>    token_state: <span class="kw-2">&amp;</span>Arc&lt;TokenStateManager&gt;,
-<a href=#94 id=94 data-nosnippet>94</a>    http_agent: <span class="kw-2">&amp;</span>ureq::Agent,
-<a href=#95 id=95 data-nosnippet>95</a>    id: <span class="kw-2">&amp;</span>str,
-<a href=#96 id=96 data-nosnippet>96</a>) -&gt; <span class="prelude-ty">Result</span>&lt;SharedFileResponse, SynchronizationError&gt; {
-<a href=#97 id=97 data-nosnippet>97</a>    <span class="kw">let </span><span class="prelude-val">Some</span>(server_url) = profile.server_url.clone() <span class="kw">else </span>{
-<a href=#98 id=98 data-nosnippet>98</a>        <span class="kw">return </span><span class="prelude-val">Err</span>(SynchronizationError::ServerUrlMissing);
-<a href=#99 id=99 data-nosnippet>99</a>    };
-<a href=#100 id=100 data-nosnippet>100</a>    <span class="kw">let </span>token = get_valid_token(profile, token_state, http_agent)<span class="question-mark">?</span>;
-<a href=#101 id=101 data-nosnippet>101</a>    <span class="kw">let </span>share_url = <span class="macro">format!</span>(<span class="string">"{server_url}/api/shares/{id}"</span>);
-<a href=#102 id=102 data-nosnippet>102</a>    <span class="kw">let </span><span class="kw-2">mut </span>response = http_agent
-<a href=#103 id=103 data-nosnippet>103</a>        .get(<span class="kw-2">&amp;</span>share_url)
-<a href=#104 id=104 data-nosnippet>104</a>        .header(<span class="string">"Authorization"</span>, <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"Bearer {token}"</span>))
-<a href=#105 id=105 data-nosnippet>105</a>        .call()
-<a href=#106 id=106 data-nosnippet>106</a>        .map_err(|e| handle_ureq_error(e, <span class="string">"Failed to fetch share by id"</span>))<span class="question-mark">?</span>;
-<a href=#107 id=107 data-nosnippet>107</a>    <span class="kw">let </span>body = response
-<a href=#108 id=108 data-nosnippet>108</a>        .body_mut()
-<a href=#109 id=109 data-nosnippet>109</a>        .with_config()
-<a href=#110 id=110 data-nosnippet>110</a>        .limit(MAX_HTTP_SINGLE_SHARE_RESPONSE_BYTES)
-<a href=#111 id=111 data-nosnippet>111</a>        .read_to_string()
-<a href=#112 id=112 data-nosnippet>112</a>        .map_err(|e| {
-<a href=#113 id=113 data-nosnippet>113</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to read share response body for id {id}: {e}"</span>);
-<a href=#114 id=114 data-nosnippet>114</a>            SynchronizationError::Other(e.to_string())
-<a href=#115 id=115 data-nosnippet>115</a>        })<span class="question-mark">?</span>;
-<a href=#116 id=116 data-nosnippet>116</a>    <span class="kw">let </span><span class="kw-2">mut </span>share = serde_json::from_str::&lt;SharedFileResponse&gt;(<span class="kw-2">&amp;</span>body).map_err(|e| {
-<a href=#117 id=117 data-nosnippet>117</a>        <span class="macro">log::error!</span>(<span class="string">"Failed to parse share response body for id {id}: {e}"</span>);
-<a href=#118 id=118 data-nosnippet>118</a>        SynchronizationError::InvalidResponse(e.to_string())
-<a href=#119 id=119 data-nosnippet>119</a>    })<span class="question-mark">?</span>;
-<a href=#120 id=120 data-nosnippet>120</a>    share.file_name = sanitize_filename(<span class="kw-2">&amp;</span>share.file_name);
-<a href=#121 id=121 data-nosnippet>121</a>    <span class="prelude-val">Ok</span>(share)
-<a href=#122 id=122 data-nosnippet>122</a>}
+<a href=#80 id=80 data-nosnippet>80</a>/// - `server_max_file_size`: The server-advertised max file size, or `u64::MAX`,
+<a href=#81 id=81 data-nosnippet>81</a>///   used to size the response body cap
+<a href=#82 id=82 data-nosnippet>82</a>///
+<a href=#83 id=83 data-nosnippet>83</a>/// ### Errors
+<a href=#84 id=84 data-nosnippet>84</a>/// Returns a `SynchronizationError` if the profile has no server URL, the
+<a href=#85 id=85 data-nosnippet>85</a>/// authentication token cannot be obtained, the HTTP request fails, the share
+<a href=#86 id=86 data-nosnippet>86</a>/// is missing, or the response is invalid or too large.
+<a href=#87 id=87 data-nosnippet>87</a>///
+<a href=#88 id=88 data-nosnippet>88</a>/// ### Returns
+<a href=#89 id=89 data-nosnippet>89</a>/// - `Ok(SharedFileResponse)`: The share content, with `file_name` sanitized
+<a href=#90 id=90 data-nosnippet>90</a>///   against path traversal and control characters
+<a href=#91 id=91 data-nosnippet>91</a>/// - `Err(SynchronizationError)`: If the request failed, the share is gone,
+<a href=#92 id=92 data-nosnippet>92</a>///   or the response was invalid or too large
+<a href=#93 id=93 data-nosnippet>93</a></span><span class="kw">pub fn </span>fetch_share_by_id(
+<a href=#94 id=94 data-nosnippet>94</a>    profile: <span class="kw-2">&amp;</span>ServerProfile,
+<a href=#95 id=95 data-nosnippet>95</a>    token_state: <span class="kw-2">&amp;</span>Arc&lt;TokenStateManager&gt;,
+<a href=#96 id=96 data-nosnippet>96</a>    http_agent: <span class="kw-2">&amp;</span>ureq::Agent,
+<a href=#97 id=97 data-nosnippet>97</a>    id: <span class="kw-2">&amp;</span>str,
+<a href=#98 id=98 data-nosnippet>98</a>    server_max_file_size: u64,
+<a href=#99 id=99 data-nosnippet>99</a>) -&gt; <span class="prelude-ty">Result</span>&lt;SharedFileResponse, SynchronizationError&gt; {
+<a href=#100 id=100 data-nosnippet>100</a>    <span class="kw">let </span><span class="prelude-val">Some</span>(server_url) = profile.server_url.clone() <span class="kw">else </span>{
+<a href=#101 id=101 data-nosnippet>101</a>        <span class="kw">return </span><span class="prelude-val">Err</span>(SynchronizationError::ServerUrlMissing);
+<a href=#102 id=102 data-nosnippet>102</a>    };
+<a href=#103 id=103 data-nosnippet>103</a>    <span class="kw">let </span>token = get_valid_token(profile, token_state, http_agent)<span class="question-mark">?</span>;
+<a href=#104 id=104 data-nosnippet>104</a>    <span class="kw">let </span>share_url = <span class="macro">format!</span>(<span class="string">"{server_url}/api/shares/{id}"</span>);
+<a href=#105 id=105 data-nosnippet>105</a>    <span class="kw">let </span><span class="kw-2">mut </span>response = http_agent
+<a href=#106 id=106 data-nosnippet>106</a>        .get(<span class="kw-2">&amp;</span>share_url)
+<a href=#107 id=107 data-nosnippet>107</a>        .header(<span class="string">"Authorization"</span>, <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"Bearer {token}"</span>))
+<a href=#108 id=108 data-nosnippet>108</a>        .call()
+<a href=#109 id=109 data-nosnippet>109</a>        .map_err(|e| handle_ureq_error(e, <span class="string">"Failed to fetch share by id"</span>))<span class="question-mark">?</span>;
+<a href=#110 id=110 data-nosnippet>110</a>    <span class="kw">let </span>body = response
+<a href=#111 id=111 data-nosnippet>111</a>        .body_mut()
+<a href=#112 id=112 data-nosnippet>112</a>        .with_config()
+<a href=#113 id=113 data-nosnippet>113</a>        .limit(max_http_single_share_response_bytes(server_max_file_size))
+<a href=#114 id=114 data-nosnippet>114</a>        .read_to_string()
+<a href=#115 id=115 data-nosnippet>115</a>        .map_err(|e| {
+<a href=#116 id=116 data-nosnippet>116</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to read share response body for id {id}: {e}"</span>);
+<a href=#117 id=117 data-nosnippet>117</a>            SynchronizationError::Other(e.to_string())
+<a href=#118 id=118 data-nosnippet>118</a>        })<span class="question-mark">?</span>;
+<a href=#119 id=119 data-nosnippet>119</a>    <span class="kw">let </span><span class="kw-2">mut </span>share = serde_json::from_str::&lt;SharedFileResponse&gt;(<span class="kw-2">&amp;</span>body).map_err(|e| {
+<a href=#120 id=120 data-nosnippet>120</a>        <span class="macro">log::error!</span>(<span class="string">"Failed to parse share response body for id {id}: {e}"</span>);
+<a href=#121 id=121 data-nosnippet>121</a>        SynchronizationError::InvalidResponse(e.to_string())
+<a href=#122 id=122 data-nosnippet>122</a>    })<span class="question-mark">?</span>;
+<a href=#123 id=123 data-nosnippet>123</a>    share.file_name = sanitize_filename(<span class="kw-2">&amp;</span>share.file_name);
+<a href=#124 id=124 data-nosnippet>124</a>    <span class="prelude-val">Ok</span>(share)
+<a href=#125 id=125 data-nosnippet>125</a>}
 </code></pre></div></section></main></body></html>
