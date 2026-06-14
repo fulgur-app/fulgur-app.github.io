@@ -145,19 +145,19 @@
 <li><code>tab_id</code>: Stable tab id to refresh</li>
 <li><code>spec</code>: Remote location spec for the tab</li>
 </ul>
-</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-2" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#10-373">Source</a><a href="#impl-Fulgur-2" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.save_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#16-85">Source</a><h4 class="code-header">pub fn <a href="#method.save_file" class="fn">save_file</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Save a file</p>
+</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-2" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#10-379">Source</a><a href="#impl-Fulgur-2" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.save_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#16-91">Source</a><h4 class="code-header">pub fn <a href="#method.save_file" class="fn">save_file</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Save a file</p>
 <h6 id="arguments-11"><a class="doc-anchor" href="#arguments-11">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window to save the file in</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.save_file_as" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#92-159">Source</a><h4 class="code-header">pub fn <a href="#method.save_file_as" class="fn">save_file_as</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Save a file as</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.save_file_as" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#98-165">Source</a><h4 class="code-header">pub fn <a href="#method.save_file_as" class="fn">save_file_as</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Save a file as</p>
 <h6 id="arguments-12"><a class="doc-anchor" href="#arguments-12">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window to save the file as in</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.update_search_if_needed" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#279-289">Source</a><h4 class="code-header">pub fn <a href="#method.update_search_if_needed" class="fn">update_search_if_needed</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.update_search_if_needed" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#285-295">Source</a><h4 class="code-header">pub fn <a href="#method.update_search_if_needed" class="fn">update_search_if_needed</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
@@ -167,7 +167,7 @@
 <li><code>window</code>: The window containing the search bar and editor</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.print_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#300-358">Source</a><h4 class="code-header">pub fn <a href="#method.print_file" class="fn">print_file</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Open the native OS print dialog for the current document</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.print_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#306-364">Source</a><h4 class="code-header">pub fn <a href="#method.print_file" class="fn">print_file</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Open the native OS print dialog for the current document</p>
 <p>Writes the active tab’s content to a temporary HTML file and opens it with
 the system’s default browser, which automatically triggers the native print dialog.
 This approach works cross-platform without requiring OS-specific print APIs.</p>
@@ -176,7 +176,7 @@ This approach works cross-platform without requiring OS-specific print APIs.</p>
 <li><code>window</code>: The window containing the editor</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_pending_jump_to_line" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#365-372">Source</a><h4 class="code-header">pub fn <a href="#method.handle_pending_jump_to_line" class="fn">handle_pending_jump_to_line</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_pending_jump_to_line" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_operations/save_ops.rs.html#371-378">Source</a><h4 class="code-header">pub fn <a href="#method.handle_pending_jump_to_line" class="fn">handle_pending_jump_to_line</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
@@ -186,7 +186,7 @@ This approach works cross-platform without requiring OS-specific print APIs.</p>
 <li><code>window</code>: The window containing the editor</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-3" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#316-481">Source</a><a href="#impl-Fulgur-3" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.handle_file_watch_event" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#346-411">Source</a><h4 class="code-header">pub fn <a href="#method.handle_file_watch_event" class="fn">handle_file_watch_event</a>(
+</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-3" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#316-533">Source</a><a href="#impl-Fulgur-3" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.handle_file_watch_event" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#407-463">Source</a><h4 class="code-header">pub fn <a href="#method.handle_file_watch_event" class="fn">handle_file_watch_event</a>(
     &amp;mut self,
     event: <a class="enum" href="files/file_watcher/enum.FileWatchEvent.html" title="enum fulgur::fulgur::files::file_watcher::FileWatchEvent">FileWatchEvent</a>,
     window: &amp;mut Window,
@@ -195,7 +195,8 @@ This approach works cross-platform without requiring OS-specific print APIs.</p>
 <h6 id="description"><a class="doc-anchor" href="#description">§</a>Description</h6>
 <ul>
 <li>If the event is a modification, it shows a conflict dialog if the file is modified and the tab is active</li>
-<li>If the event is a deletion, it shows a notification that the file was deleted</li>
+<li>If the event is a deletion whose path still exists, it is treated as an atomic-rename replacement (re-watch and reload)</li>
+<li>If the event is a deletion whose path is gone, it shows a notification that the file was deleted</li>
 <li>If the event is a rename, it shows a notification that the file was renamed</li>
 <li>If the event is an error, it logs the error</li>
 </ul>
@@ -205,19 +206,19 @@ This approach works cross-platform without requiring OS-specific print APIs.</p>
 <li><code>window</code>: The window context</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.start_file_watcher" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#414-430">Source</a><h4 class="code-header">pub fn <a href="#method.start_file_watcher" class="fn">start_file_watcher</a>(&amp;mut self)</h4></section></summary><div class="docblock"><p>Start the file watcher and watch all open files</p>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.stop_file_watcher" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#433-439">Source</a><h4 class="code-header">pub fn <a href="#method.stop_file_watcher" class="fn">stop_file_watcher</a>(&amp;mut self)</h4></section></summary><div class="docblock"><p>Stop the file watcher</p>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.watch_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#445-451">Source</a><h4 class="code-header">pub fn <a href="#method.watch_file" class="fn">watch_file</a>(&amp;mut self, path: &amp;<a class="struct" href="https://doc.rust-lang.org/1.96.0/std/path/struct.Path.html" title="struct std::path::Path">Path</a>)</h4></section></summary><div class="docblock"><p>Add a file to the watcher</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.start_file_watcher" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#466-482">Source</a><h4 class="code-header">pub fn <a href="#method.start_file_watcher" class="fn">start_file_watcher</a>(&amp;mut self)</h4></section></summary><div class="docblock"><p>Start the file watcher and watch all open files</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.stop_file_watcher" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#485-491">Source</a><h4 class="code-header">pub fn <a href="#method.stop_file_watcher" class="fn">stop_file_watcher</a>(&amp;mut self)</h4></section></summary><div class="docblock"><p>Stop the file watcher</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.watch_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#497-503">Source</a><h4 class="code-header">pub fn <a href="#method.watch_file" class="fn">watch_file</a>(&amp;mut self, path: &amp;<a class="struct" href="https://doc.rust-lang.org/1.96.0/std/path/struct.Path.html" title="struct std::path::Path">Path</a>)</h4></section></summary><div class="docblock"><p>Add a file to the watcher</p>
 <h6 id="arguments-17"><a class="doc-anchor" href="#arguments-17">§</a>Arguments</h6>
 <ul>
 <li><code>path</code>: The path to the file to watch</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.unwatch_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#457-462">Source</a><h4 class="code-header">pub fn <a href="#method.unwatch_file" class="fn">unwatch_file</a>(&amp;mut self, path: &amp;<a class="struct" href="https://doc.rust-lang.org/1.96.0/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>)</h4></section></summary><div class="docblock"><p>Remove a file from the watcher</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.unwatch_file" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#509-514">Source</a><h4 class="code-header">pub fn <a href="#method.unwatch_file" class="fn">unwatch_file</a>(&amp;mut self, path: &amp;<a class="struct" href="https://doc.rust-lang.org/1.96.0/std/path/struct.PathBuf.html" title="struct std::path::PathBuf">PathBuf</a>)</h4></section></summary><div class="docblock"><p>Remove a file from the watcher</p>
 <h6 id="arguments-18"><a class="doc-anchor" href="#arguments-18">§</a>Arguments</h6>
 <ul>
 <li><code>path</code>: The path to the file to unwatch</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.process_file_watch_events" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#472-480">Source</a><h4 class="code-header">pub fn <a href="#method.process_file_watch_events" class="fn">process_file_watch_events</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.process_file_watch_events" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/files/file_watcher.rs.html#524-532">Source</a><h4 class="code-header">pub fn <a href="#method.process_file_watch_events" class="fn">process_file_watch_events</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
