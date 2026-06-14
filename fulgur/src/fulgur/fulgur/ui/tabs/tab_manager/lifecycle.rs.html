@@ -363,26 +363,26 @@
 <a href=#363 id=363 data-nosnippet>363</a>        <span class="kw">if </span>index == <span class="number">0 </span>|| index &gt;= <span class="self">self</span>.tabs.len() {
 <a href=#364 id=364 data-nosnippet>364</a>            <span class="kw">return</span>;
 <a href=#365 id=365 data-nosnippet>365</a>        }
-<a href=#366 id=366 data-nosnippet>366</a>        <span class="kw">let </span>tab_ids: Vec&lt;usize&gt; = <span class="self">self</span>.tabs[<span class="number">0</span>..index]
-<a href=#367 id=367 data-nosnippet>367</a>            .iter()
-<a href=#368 id=368 data-nosnippet>368</a>            .map(<span class="kw">super</span>::<span class="kw">super</span>::tab::Tab::id)
-<a href=#369 id=369 data-nosnippet>369</a>            .collect();
-<a href=#370 id=370 data-nosnippet>370</a>        <span class="kw">for </span>tab_id <span class="kw">in </span>tab_ids {
-<a href=#371 id=371 data-nosnippet>371</a>            <span class="kw">if </span>!<span class="self">self</span>.tabs.iter().any(|t| t.id() == tab_id) {
-<a href=#372 id=372 data-nosnippet>372</a>                <span class="kw">continue</span>;
-<a href=#373 id=373 data-nosnippet>373</a>            }
-<a href=#374 id=374 data-nosnippet>374</a>            <span class="kw">if </span><span class="self">self</span>.check_tab_modified(tab_id) {
-<a href=#375 id=375 data-nosnippet>375</a>                <span class="kw">if let </span><span class="prelude-val">Some</span>(pos) = <span class="self">self</span>.tabs.iter().position(|t| t.id() == tab_id) {
-<a href=#376 id=376 data-nosnippet>376</a>                    <span class="self">self</span>.set_active_tab(pos, window, cx);
-<a href=#377 id=377 data-nosnippet>377</a>                }
-<a href=#378 id=378 data-nosnippet>378</a>                <span class="self">self</span>.show_unsaved_changes_dialog(window, cx, <span class="kw">move </span>|this, window, cx| {
-<a href=#379 id=379 data-nosnippet>379</a>                    this.remove_tab_by_id(tab_id, window, cx);
-<a href=#380 id=380 data-nosnippet>380</a>                    <span class="kw">if </span>!this.tabs.is_empty() &amp;&amp; index &gt; <span class="number">0 </span>{
-<a href=#381 id=381 data-nosnippet>381</a>                        <span class="kw">let </span>new_index = this.tabs.len().min(index - <span class="number">1</span>);
-<a href=#382 id=382 data-nosnippet>382</a>                        <span class="kw">if </span>new_index &gt; <span class="number">0 </span>{
-<a href=#383 id=383 data-nosnippet>383</a>                            this.close_tabs_to_left(new_index, window, cx);
-<a href=#384 id=384 data-nosnippet>384</a>                            <span class="kw">return</span>;
-<a href=#385 id=385 data-nosnippet>385</a>                        }
+<a href=#366 id=366 data-nosnippet>366</a>        <span class="kw">let </span>keep_id = <span class="self">self</span>.tabs[index].id();
+<a href=#367 id=367 data-nosnippet>367</a>        <span class="kw">let </span>tab_ids: Vec&lt;usize&gt; = <span class="self">self</span>.tabs[<span class="number">0</span>..index]
+<a href=#368 id=368 data-nosnippet>368</a>            .iter()
+<a href=#369 id=369 data-nosnippet>369</a>            .map(<span class="kw">super</span>::<span class="kw">super</span>::tab::Tab::id)
+<a href=#370 id=370 data-nosnippet>370</a>            .collect();
+<a href=#371 id=371 data-nosnippet>371</a>        <span class="kw">for </span>tab_id <span class="kw">in </span>tab_ids {
+<a href=#372 id=372 data-nosnippet>372</a>            <span class="kw">if </span>!<span class="self">self</span>.tabs.iter().any(|t| t.id() == tab_id) {
+<a href=#373 id=373 data-nosnippet>373</a>                <span class="kw">continue</span>;
+<a href=#374 id=374 data-nosnippet>374</a>            }
+<a href=#375 id=375 data-nosnippet>375</a>            <span class="kw">if </span><span class="self">self</span>.check_tab_modified(tab_id) {
+<a href=#376 id=376 data-nosnippet>376</a>                <span class="kw">if let </span><span class="prelude-val">Some</span>(pos) = <span class="self">self</span>.tabs.iter().position(|t| t.id() == tab_id) {
+<a href=#377 id=377 data-nosnippet>377</a>                    <span class="self">self</span>.set_active_tab(pos, window, cx);
+<a href=#378 id=378 data-nosnippet>378</a>                }
+<a href=#379 id=379 data-nosnippet>379</a>                <span class="self">self</span>.show_unsaved_changes_dialog(window, cx, <span class="kw">move </span>|this, window, cx| {
+<a href=#380 id=380 data-nosnippet>380</a>                    this.remove_tab_by_id(tab_id, window, cx);
+<a href=#381 id=381 data-nosnippet>381</a>                    <span class="kw">if let </span><span class="prelude-val">Some</span>(boundary_index) = this.tabs.iter().position(|t| t.id() == keep_id)
+<a href=#382 id=382 data-nosnippet>382</a>                        &amp;&amp; boundary_index &gt; <span class="number">0
+<a href=#383 id=383 data-nosnippet>383</a>                    </span>{
+<a href=#384 id=384 data-nosnippet>384</a>                        this.close_tabs_to_left(boundary_index, window, cx);
+<a href=#385 id=385 data-nosnippet>385</a>                        <span class="kw">return</span>;
 <a href=#386 id=386 data-nosnippet>386</a>                    }
 <a href=#387 id=387 data-nosnippet>387</a>                    <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = this.save_state(cx, window) {
 <a href=#388 id=388 data-nosnippet>388</a>                        <span class="macro">log::error!</span>(<span class="string">"Failed to save state after closing tabs to left: {e}"</span>);
