@@ -1005,154 +1005,148 @@
 <a href=#1005 id=1005 data-nosnippet>1005</a>                        <span class="kw">let </span>menus =
 <a href=#1006 id=1006 data-nosnippet>1006</a>                            build_menus(<span class="kw-2">&amp;</span><span class="self">self</span>.settings.get_recent_files(), update_link.as_deref());
 <a href=#1007 id=1007 data-nosnippet>1007</a>                        <span class="self">self</span>.update_menus(menus, cx);
-<a href=#1008 id=1008 data-nosnippet>1008</a>                        <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = <span class="self">self</span>.save_state(cx, window) {
-<a href=#1009 id=1009 data-nosnippet>1009</a>                            <span class="macro">log::error!</span>(<span class="string">"Failed to save app state after opening remote file: {e}"</span>);
-<a href=#1010 id=1010 data-nosnippet>1010</a>                            <span class="self">self</span>.pending_notification = <span class="prelude-val">Some</span>((
-<a href=#1011 id=1011 data-nosnippet>1011</a>                                NotificationType::Warning,
-<a href=#1012 id=1012 data-nosnippet>1012</a>                                <span class="macro">format!</span>(<span class="string">"Remote file opened but failed to save state: {e}"</span>).into(),
-<a href=#1013 id=1013 data-nosnippet>1013</a>                            ));
-<a href=#1014 id=1014 data-nosnippet>1014</a>                        }
-<a href=#1015 id=1015 data-nosnippet>1015</a>                        cx.notify();
-<a href=#1016 id=1016 data-nosnippet>1016</a>                    }
-<a href=#1017 id=1017 data-nosnippet>1017</a>                }
-<a href=#1018 id=1018 data-nosnippet>1018</a>                <span class="prelude-val">Ok</span>(RemoteOpenResult::Browse(browse)) =&gt; {
-<a href=#1019 id=1019 data-nosnippet>1019</a>                    <span class="kw">if let </span><span class="prelude-val">Some</span>(tab_id) = target_tab_id {
-<a href=#1020 id=1020 data-nosnippet>1020</a>                        <span class="self">self</span>.pending_remote_restore.insert(tab_id);
-<a href=#1021 id=1021 data-nosnippet>1021</a>                        <span class="self">self</span>.pending_notification = <span class="prelude-val">Some</span>((
-<a href=#1022 id=1022 data-nosnippet>1022</a>                            NotificationType::Error,
-<a href=#1023 id=1023 data-nosnippet>1023</a>                            <span class="string">"Restored remote tab path is no longer a file"</span>.into(),
-<a href=#1024 id=1024 data-nosnippet>1024</a>                        ));
-<a href=#1025 id=1025 data-nosnippet>1025</a>                    } <span class="kw">else </span>{
-<a href=#1026 id=1026 data-nosnippet>1026</a>                        <span class="self">self</span>.show_remote_path_browser_dialog(window, cx, <span class="kw-2">&amp;</span>browse);
-<a href=#1027 id=1027 data-nosnippet>1027</a>                    }
+<a href=#1008 id=1008 data-nosnippet>1008</a>                        <span class="self">self</span>.save_state_async(cx, window);
+<a href=#1009 id=1009 data-nosnippet>1009</a>                        cx.notify();
+<a href=#1010 id=1010 data-nosnippet>1010</a>                    }
+<a href=#1011 id=1011 data-nosnippet>1011</a>                }
+<a href=#1012 id=1012 data-nosnippet>1012</a>                <span class="prelude-val">Ok</span>(RemoteOpenResult::Browse(browse)) =&gt; {
+<a href=#1013 id=1013 data-nosnippet>1013</a>                    <span class="kw">if let </span><span class="prelude-val">Some</span>(tab_id) = target_tab_id {
+<a href=#1014 id=1014 data-nosnippet>1014</a>                        <span class="self">self</span>.pending_remote_restore.insert(tab_id);
+<a href=#1015 id=1015 data-nosnippet>1015</a>                        <span class="self">self</span>.pending_notification = <span class="prelude-val">Some</span>((
+<a href=#1016 id=1016 data-nosnippet>1016</a>                            NotificationType::Error,
+<a href=#1017 id=1017 data-nosnippet>1017</a>                            <span class="string">"Restored remote tab path is no longer a file"</span>.into(),
+<a href=#1018 id=1018 data-nosnippet>1018</a>                        ));
+<a href=#1019 id=1019 data-nosnippet>1019</a>                    } <span class="kw">else </span>{
+<a href=#1020 id=1020 data-nosnippet>1020</a>                        <span class="self">self</span>.show_remote_path_browser_dialog(window, cx, <span class="kw-2">&amp;</span>browse);
+<a href=#1021 id=1021 data-nosnippet>1021</a>                    }
+<a href=#1022 id=1022 data-nosnippet>1022</a>                }
+<a href=#1023 id=1023 data-nosnippet>1023</a>                <span class="prelude-val">Err</span>(msg) =&gt; {
+<a href=#1024 id=1024 data-nosnippet>1024</a>                    <span class="kw">if let </span><span class="prelude-val">Some</span>(tab_id) = target_tab_id {
+<a href=#1025 id=1025 data-nosnippet>1025</a>                        <span class="self">self</span>.pending_remote_restore.insert(tab_id);
+<a href=#1026 id=1026 data-nosnippet>1026</a>                    }
+<a href=#1027 id=1027 data-nosnippet>1027</a>                    <span class="self">self</span>.pending_notification = <span class="prelude-val">Some</span>((NotificationType::Error, msg.into()));
 <a href=#1028 id=1028 data-nosnippet>1028</a>                }
-<a href=#1029 id=1029 data-nosnippet>1029</a>                <span class="prelude-val">Err</span>(msg) =&gt; {
-<a href=#1030 id=1030 data-nosnippet>1030</a>                    <span class="kw">if let </span><span class="prelude-val">Some</span>(tab_id) = target_tab_id {
-<a href=#1031 id=1031 data-nosnippet>1031</a>                        <span class="self">self</span>.pending_remote_restore.insert(tab_id);
-<a href=#1032 id=1032 data-nosnippet>1032</a>                    }
-<a href=#1033 id=1033 data-nosnippet>1033</a>                    <span class="self">self</span>.pending_notification = <span class="prelude-val">Some</span>((NotificationType::Error, msg.into()));
-<a href=#1034 id=1034 data-nosnippet>1034</a>                }
-<a href=#1035 id=1035 data-nosnippet>1035</a>            }
-<a href=#1036 id=1036 data-nosnippet>1036</a>        }
-<a href=#1037 id=1037 data-nosnippet>1037</a>    }
-<a href=#1038 id=1038 data-nosnippet>1038</a>
-<a href=#1039 id=1039 data-nosnippet>1039</a>    <span class="doccomment">/// Apply fresh remote contents to an already-restored tab after lazy reconnect.
-<a href=#1040 id=1040 data-nosnippet>1040</a>    ///
-<a href=#1041 id=1041 data-nosnippet>1041</a>    /// ### Arguments
-<a href=#1042 id=1042 data-nosnippet>1042</a>    /// - `tab_id`: Stable editor tab id to update
-<a href=#1043 id=1043 data-nosnippet>1043</a>    /// - `remote_file`: Loaded remote payload from SSH worker
-<a href=#1044 id=1044 data-nosnippet>1044</a>    /// - `window`: The window context
-<a href=#1045 id=1045 data-nosnippet>1045</a>    /// - `cx`: The application context
-<a href=#1046 id=1046 data-nosnippet>1046</a>    </span><span class="kw">fn </span>apply_remote_reload_to_existing_tab(
-<a href=#1047 id=1047 data-nosnippet>1047</a>        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-<a href=#1048 id=1048 data-nosnippet>1048</a>        tab_id: usize,
-<a href=#1049 id=1049 data-nosnippet>1049</a>        remote_file: RemoteFileResult,
-<a href=#1050 id=1050 data-nosnippet>1050</a>        window: <span class="kw-2">&amp;mut </span>Window,
-<a href=#1051 id=1051 data-nosnippet>1051</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
-<a href=#1052 id=1052 data-nosnippet>1052</a>    ) {
-<a href=#1053 id=1053 data-nosnippet>1053</a>        <span class="kw">let </span><span class="prelude-val">Some</span>(editor_tab) = <span class="self">self</span>.tabs.iter_mut().find_map(|tab| <span class="kw">match </span>tab {
-<a href=#1054 id=1054 data-nosnippet>1054</a>            Tab::Editor(editor_tab) <span class="kw">if </span>editor_tab.id == tab_id =&gt; <span class="prelude-val">Some</span>(editor_tab),
-<a href=#1055 id=1055 data-nosnippet>1055</a>            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-<a href=#1056 id=1056 data-nosnippet>1056</a>        }) <span class="kw">else </span>{
-<a href=#1057 id=1057 data-nosnippet>1057</a>            <span class="kw">return</span>;
-<a href=#1058 id=1058 data-nosnippet>1058</a>        };
-<a href=#1059 id=1059 data-nosnippet>1059</a>
-<a href=#1060 id=1060 data-nosnippet>1060</a>        editor_tab.content.update(cx, |input_state, cx| {
-<a href=#1061 id=1061 data-nosnippet>1061</a>            input_state.set_value(<span class="kw-2">&amp;</span>remote_file.content, window, cx);
-<a href=#1062 id=1062 data-nosnippet>1062</a>        });
-<a href=#1063 id=1063 data-nosnippet>1063</a>        editor_tab.location =
-<a href=#1064 id=1064 data-nosnippet>1064</a>            <span class="kw">crate</span>::fulgur::editor_tab::TabLocation::Remote(remote_file.spec.clone());
-<a href=#1065 id=1065 data-nosnippet>1065</a>        editor_tab.encoding = remote_file.encoding;
-<a href=#1066 id=1066 data-nosnippet>1066</a>        editor_tab.set_original_content_from_str(<span class="kw-2">&amp;</span>remote_file.content);
-<a href=#1067 id=1067 data-nosnippet>1067</a>        editor_tab.modified = <span class="bool-val">false</span>;
-<a href=#1068 id=1068 data-nosnippet>1068</a>        editor_tab.update_file_tooltip_cache(remote_file.file_size);
-<a href=#1069 id=1069 data-nosnippet>1069</a>        <span class="kw">let </span>filename = remote_file
-<a href=#1070 id=1070 data-nosnippet>1070</a>            .spec
-<a href=#1071 id=1071 data-nosnippet>1071</a>            .path
-<a href=#1072 id=1072 data-nosnippet>1072</a>            .rsplit(<span class="string">'/'</span>)
-<a href=#1073 id=1073 data-nosnippet>1073</a>            .next()
-<a href=#1074 id=1074 data-nosnippet>1074</a>            .unwrap_or(<span class="kw-2">&amp;</span>remote_file.spec.path)
-<a href=#1075 id=1075 data-nosnippet>1075</a>            .to_string();
-<a href=#1076 id=1076 data-nosnippet>1076</a>        editor_tab.title = filename.into();
-<a href=#1077 id=1077 data-nosnippet>1077</a>        <span class="kw">let </span>language = <span class="kw">crate</span>::fulgur::languages::supported_languages::language_from_content(
-<a href=#1078 id=1078 data-nosnippet>1078</a>            editor_tab.title.as_ref(),
-<a href=#1079 id=1079 data-nosnippet>1079</a>            <span class="kw-2">&amp;</span>remote_file.content,
-<a href=#1080 id=1080 data-nosnippet>1080</a>        );
-<a href=#1081 id=1081 data-nosnippet>1081</a>        editor_tab.force_language(window, cx, language, <span class="kw-2">&amp;</span><span class="self">self</span>.settings.editor_settings);
-<a href=#1082 id=1082 data-nosnippet>1082</a>        cx.notify();
-<a href=#1083 id=1083 data-nosnippet>1083</a>    }
-<a href=#1084 id=1084 data-nosnippet>1084</a>
-<a href=#1085 id=1085 data-nosnippet>1085</a>    <span class="doccomment">/// Render a visual overlay while external files are being dragged over the window.
-<a href=#1086 id=1086 data-nosnippet>1086</a>    ///
-<a href=#1087 id=1087 data-nosnippet>1087</a>    /// ### Arguments
-<a href=#1088 id=1088 data-nosnippet>1088</a>    /// - `cx`: The application context
-<a href=#1089 id=1089 data-nosnippet>1089</a>    ///
-<a href=#1090 id=1090 data-nosnippet>1090</a>    /// ### Returns
-<a href=#1091 id=1091 data-nosnippet>1091</a>    /// - `impl IntoElement`: The rendered overlay
-<a href=#1092 id=1092 data-nosnippet>1092</a>    </span><span class="kw">fn </span>render_external_file_drop_overlay(cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) -&gt; <span class="kw">impl </span>IntoElement {
-<a href=#1093 id=1093 data-nosnippet>1093</a>        div()
-<a href=#1094 id=1094 data-nosnippet>1094</a>            .id(<span class="string">"external-file-drop-overlay"</span>)
-<a href=#1095 id=1095 data-nosnippet>1095</a>            .invisible()
-<a href=#1096 id=1096 data-nosnippet>1096</a>            .absolute()
-<a href=#1097 id=1097 data-nosnippet>1097</a>            .top_0()
-<a href=#1098 id=1098 data-nosnippet>1098</a>            .right_0()
-<a href=#1099 id=1099 data-nosnippet>1099</a>            .bottom_0()
-<a href=#1100 id=1100 data-nosnippet>1100</a>            .left_0()
-<a href=#1101 id=1101 data-nosnippet>1101</a>            .flex()
-<a href=#1102 id=1102 data-nosnippet>1102</a>            .justify_center()
-<a href=#1103 id=1103 data-nosnippet>1103</a>            .items_center()
-<a href=#1104 id=1104 data-nosnippet>1104</a>            .border_2()
-<a href=#1105 id=1105 data-nosnippet>1105</a>            .border_dashed()
-<a href=#1106 id=1106 data-nosnippet>1106</a>            .border_color(cx.theme().primary.opacity(<span class="number">0.7</span>))
-<a href=#1107 id=1107 data-nosnippet>1107</a>            .bg(cx.theme().muted.opacity(<span class="number">0.4</span>))
-<a href=#1108 id=1108 data-nosnippet>1108</a>            .on_drag_move::&lt;ExternalPaths&gt;(|<span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>| {})
-<a href=#1109 id=1109 data-nosnippet>1109</a>            .group_drag_over::&lt;ExternalPaths&gt;(<span class="string">""</span>, gpui::Styled::visible)
-<a href=#1110 id=1110 data-nosnippet>1110</a>            .child(
-<a href=#1111 id=1111 data-nosnippet>1111</a>                div()
-<a href=#1112 id=1112 data-nosnippet>1112</a>                    .px_4()
-<a href=#1113 id=1113 data-nosnippet>1113</a>                    .py_2()
-<a href=#1114 id=1114 data-nosnippet>1114</a>                    .rounded_sm()
-<a href=#1115 id=1115 data-nosnippet>1115</a>                    .text_color(cx.theme().primary)
-<a href=#1116 id=1116 data-nosnippet>1116</a>                    .font_bold()
-<a href=#1117 id=1117 data-nosnippet>1117</a>                    .child(<span class="string">"Drop files to open"</span>),
-<a href=#1118 id=1118 data-nosnippet>1118</a>            )
-<a href=#1119 id=1119 data-nosnippet>1119</a>    }
-<a href=#1120 id=1120 data-nosnippet>1120</a>}
-<a href=#1121 id=1121 data-nosnippet>1121</a>
-<a href=#1122 id=1122 data-nosnippet>1122</a><span class="attr">#[cfg(test)]
-<a href=#1123 id=1123 data-nosnippet>1123</a></span><span class="kw">mod </span>markdown_preview_cache_unit_tests {
-<a href=#1124 id=1124 data-nosnippet>1124</a>    <span class="kw">use </span>super::<span class="kw-2">*</span>;
-<a href=#1125 id=1125 data-nosnippet>1125</a>
-<a href=#1126 id=1126 data-nosnippet>1126</a>    <span class="attr">#[test]
-<a href=#1127 id=1127 data-nosnippet>1127</a>    </span><span class="kw">fn </span>test_should_track_markdown_preview_source_for_markdown() {
-<a href=#1128 id=1128 data-nosnippet>1128</a>        <span class="macro">assert!</span>(Fulgur::should_track_markdown_preview_source(
-<a href=#1129 id=1129 data-nosnippet>1129</a>            SupportedLanguage::Markdown,
-<a href=#1130 id=1130 data-nosnippet>1130</a>            <span class="bool-val">true
-<a href=#1131 id=1131 data-nosnippet>1131</a>        </span>));
-<a href=#1132 id=1132 data-nosnippet>1132</a>    }
-<a href=#1133 id=1133 data-nosnippet>1133</a>
-<a href=#1134 id=1134 data-nosnippet>1134</a>    <span class="attr">#[test]
-<a href=#1135 id=1135 data-nosnippet>1135</a>    </span><span class="kw">fn </span>test_should_track_markdown_preview_source_for_markdown_inline() {
-<a href=#1136 id=1136 data-nosnippet>1136</a>        <span class="macro">assert!</span>(Fulgur::should_track_markdown_preview_source(
-<a href=#1137 id=1137 data-nosnippet>1137</a>            SupportedLanguage::MarkdownInline,
-<a href=#1138 id=1138 data-nosnippet>1138</a>            <span class="bool-val">true
-<a href=#1139 id=1139 data-nosnippet>1139</a>        </span>));
-<a href=#1140 id=1140 data-nosnippet>1140</a>    }
-<a href=#1141 id=1141 data-nosnippet>1141</a>
-<a href=#1142 id=1142 data-nosnippet>1142</a>    <span class="attr">#[test]
-<a href=#1143 id=1143 data-nosnippet>1143</a>    </span><span class="kw">fn </span>test_should_not_track_markdown_preview_source_when_toggle_disabled() {
-<a href=#1144 id=1144 data-nosnippet>1144</a>        <span class="macro">assert!</span>(!Fulgur::should_track_markdown_preview_source(
-<a href=#1145 id=1145 data-nosnippet>1145</a>            SupportedLanguage::Markdown,
-<a href=#1146 id=1146 data-nosnippet>1146</a>            <span class="bool-val">false
-<a href=#1147 id=1147 data-nosnippet>1147</a>        </span>));
-<a href=#1148 id=1148 data-nosnippet>1148</a>    }
-<a href=#1149 id=1149 data-nosnippet>1149</a>
-<a href=#1150 id=1150 data-nosnippet>1150</a>    <span class="attr">#[test]
-<a href=#1151 id=1151 data-nosnippet>1151</a>    </span><span class="kw">fn </span>test_should_not_track_markdown_preview_source_for_non_markdown() {
-<a href=#1152 id=1152 data-nosnippet>1152</a>        <span class="macro">assert!</span>(!Fulgur::should_track_markdown_preview_source(
-<a href=#1153 id=1153 data-nosnippet>1153</a>            SupportedLanguage::Plain,
-<a href=#1154 id=1154 data-nosnippet>1154</a>            <span class="bool-val">true
-<a href=#1155 id=1155 data-nosnippet>1155</a>        </span>));
-<a href=#1156 id=1156 data-nosnippet>1156</a>    }
-<a href=#1157 id=1157 data-nosnippet>1157</a>}
+<a href=#1029 id=1029 data-nosnippet>1029</a>            }
+<a href=#1030 id=1030 data-nosnippet>1030</a>        }
+<a href=#1031 id=1031 data-nosnippet>1031</a>    }
+<a href=#1032 id=1032 data-nosnippet>1032</a>
+<a href=#1033 id=1033 data-nosnippet>1033</a>    <span class="doccomment">/// Apply fresh remote contents to an already-restored tab after lazy reconnect.
+<a href=#1034 id=1034 data-nosnippet>1034</a>    ///
+<a href=#1035 id=1035 data-nosnippet>1035</a>    /// ### Arguments
+<a href=#1036 id=1036 data-nosnippet>1036</a>    /// - `tab_id`: Stable editor tab id to update
+<a href=#1037 id=1037 data-nosnippet>1037</a>    /// - `remote_file`: Loaded remote payload from SSH worker
+<a href=#1038 id=1038 data-nosnippet>1038</a>    /// - `window`: The window context
+<a href=#1039 id=1039 data-nosnippet>1039</a>    /// - `cx`: The application context
+<a href=#1040 id=1040 data-nosnippet>1040</a>    </span><span class="kw">fn </span>apply_remote_reload_to_existing_tab(
+<a href=#1041 id=1041 data-nosnippet>1041</a>        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+<a href=#1042 id=1042 data-nosnippet>1042</a>        tab_id: usize,
+<a href=#1043 id=1043 data-nosnippet>1043</a>        remote_file: RemoteFileResult,
+<a href=#1044 id=1044 data-nosnippet>1044</a>        window: <span class="kw-2">&amp;mut </span>Window,
+<a href=#1045 id=1045 data-nosnippet>1045</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
+<a href=#1046 id=1046 data-nosnippet>1046</a>    ) {
+<a href=#1047 id=1047 data-nosnippet>1047</a>        <span class="kw">let </span><span class="prelude-val">Some</span>(editor_tab) = <span class="self">self</span>.tabs.iter_mut().find_map(|tab| <span class="kw">match </span>tab {
+<a href=#1048 id=1048 data-nosnippet>1048</a>            Tab::Editor(editor_tab) <span class="kw">if </span>editor_tab.id == tab_id =&gt; <span class="prelude-val">Some</span>(editor_tab),
+<a href=#1049 id=1049 data-nosnippet>1049</a>            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+<a href=#1050 id=1050 data-nosnippet>1050</a>        }) <span class="kw">else </span>{
+<a href=#1051 id=1051 data-nosnippet>1051</a>            <span class="kw">return</span>;
+<a href=#1052 id=1052 data-nosnippet>1052</a>        };
+<a href=#1053 id=1053 data-nosnippet>1053</a>
+<a href=#1054 id=1054 data-nosnippet>1054</a>        editor_tab.content.update(cx, |input_state, cx| {
+<a href=#1055 id=1055 data-nosnippet>1055</a>            input_state.set_value(<span class="kw-2">&amp;</span>remote_file.content, window, cx);
+<a href=#1056 id=1056 data-nosnippet>1056</a>        });
+<a href=#1057 id=1057 data-nosnippet>1057</a>        editor_tab.location =
+<a href=#1058 id=1058 data-nosnippet>1058</a>            <span class="kw">crate</span>::fulgur::editor_tab::TabLocation::Remote(remote_file.spec.clone());
+<a href=#1059 id=1059 data-nosnippet>1059</a>        editor_tab.encoding = remote_file.encoding;
+<a href=#1060 id=1060 data-nosnippet>1060</a>        editor_tab.set_original_content_from_str(<span class="kw-2">&amp;</span>remote_file.content);
+<a href=#1061 id=1061 data-nosnippet>1061</a>        editor_tab.modified = <span class="bool-val">false</span>;
+<a href=#1062 id=1062 data-nosnippet>1062</a>        editor_tab.update_file_tooltip_cache(remote_file.file_size);
+<a href=#1063 id=1063 data-nosnippet>1063</a>        <span class="kw">let </span>filename = remote_file
+<a href=#1064 id=1064 data-nosnippet>1064</a>            .spec
+<a href=#1065 id=1065 data-nosnippet>1065</a>            .path
+<a href=#1066 id=1066 data-nosnippet>1066</a>            .rsplit(<span class="string">'/'</span>)
+<a href=#1067 id=1067 data-nosnippet>1067</a>            .next()
+<a href=#1068 id=1068 data-nosnippet>1068</a>            .unwrap_or(<span class="kw-2">&amp;</span>remote_file.spec.path)
+<a href=#1069 id=1069 data-nosnippet>1069</a>            .to_string();
+<a href=#1070 id=1070 data-nosnippet>1070</a>        editor_tab.title = filename.into();
+<a href=#1071 id=1071 data-nosnippet>1071</a>        <span class="kw">let </span>language = <span class="kw">crate</span>::fulgur::languages::supported_languages::language_from_content(
+<a href=#1072 id=1072 data-nosnippet>1072</a>            editor_tab.title.as_ref(),
+<a href=#1073 id=1073 data-nosnippet>1073</a>            <span class="kw-2">&amp;</span>remote_file.content,
+<a href=#1074 id=1074 data-nosnippet>1074</a>        );
+<a href=#1075 id=1075 data-nosnippet>1075</a>        editor_tab.force_language(window, cx, language, <span class="kw-2">&amp;</span><span class="self">self</span>.settings.editor_settings);
+<a href=#1076 id=1076 data-nosnippet>1076</a>        cx.notify();
+<a href=#1077 id=1077 data-nosnippet>1077</a>    }
+<a href=#1078 id=1078 data-nosnippet>1078</a>
+<a href=#1079 id=1079 data-nosnippet>1079</a>    <span class="doccomment">/// Render a visual overlay while external files are being dragged over the window.
+<a href=#1080 id=1080 data-nosnippet>1080</a>    ///
+<a href=#1081 id=1081 data-nosnippet>1081</a>    /// ### Arguments
+<a href=#1082 id=1082 data-nosnippet>1082</a>    /// - `cx`: The application context
+<a href=#1083 id=1083 data-nosnippet>1083</a>    ///
+<a href=#1084 id=1084 data-nosnippet>1084</a>    /// ### Returns
+<a href=#1085 id=1085 data-nosnippet>1085</a>    /// - `impl IntoElement`: The rendered overlay
+<a href=#1086 id=1086 data-nosnippet>1086</a>    </span><span class="kw">fn </span>render_external_file_drop_overlay(cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) -&gt; <span class="kw">impl </span>IntoElement {
+<a href=#1087 id=1087 data-nosnippet>1087</a>        div()
+<a href=#1088 id=1088 data-nosnippet>1088</a>            .id(<span class="string">"external-file-drop-overlay"</span>)
+<a href=#1089 id=1089 data-nosnippet>1089</a>            .invisible()
+<a href=#1090 id=1090 data-nosnippet>1090</a>            .absolute()
+<a href=#1091 id=1091 data-nosnippet>1091</a>            .top_0()
+<a href=#1092 id=1092 data-nosnippet>1092</a>            .right_0()
+<a href=#1093 id=1093 data-nosnippet>1093</a>            .bottom_0()
+<a href=#1094 id=1094 data-nosnippet>1094</a>            .left_0()
+<a href=#1095 id=1095 data-nosnippet>1095</a>            .flex()
+<a href=#1096 id=1096 data-nosnippet>1096</a>            .justify_center()
+<a href=#1097 id=1097 data-nosnippet>1097</a>            .items_center()
+<a href=#1098 id=1098 data-nosnippet>1098</a>            .border_2()
+<a href=#1099 id=1099 data-nosnippet>1099</a>            .border_dashed()
+<a href=#1100 id=1100 data-nosnippet>1100</a>            .border_color(cx.theme().primary.opacity(<span class="number">0.7</span>))
+<a href=#1101 id=1101 data-nosnippet>1101</a>            .bg(cx.theme().muted.opacity(<span class="number">0.4</span>))
+<a href=#1102 id=1102 data-nosnippet>1102</a>            .on_drag_move::&lt;ExternalPaths&gt;(|<span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>| {})
+<a href=#1103 id=1103 data-nosnippet>1103</a>            .group_drag_over::&lt;ExternalPaths&gt;(<span class="string">""</span>, gpui::Styled::visible)
+<a href=#1104 id=1104 data-nosnippet>1104</a>            .child(
+<a href=#1105 id=1105 data-nosnippet>1105</a>                div()
+<a href=#1106 id=1106 data-nosnippet>1106</a>                    .px_4()
+<a href=#1107 id=1107 data-nosnippet>1107</a>                    .py_2()
+<a href=#1108 id=1108 data-nosnippet>1108</a>                    .rounded_sm()
+<a href=#1109 id=1109 data-nosnippet>1109</a>                    .text_color(cx.theme().primary)
+<a href=#1110 id=1110 data-nosnippet>1110</a>                    .font_bold()
+<a href=#1111 id=1111 data-nosnippet>1111</a>                    .child(<span class="string">"Drop files to open"</span>),
+<a href=#1112 id=1112 data-nosnippet>1112</a>            )
+<a href=#1113 id=1113 data-nosnippet>1113</a>    }
+<a href=#1114 id=1114 data-nosnippet>1114</a>}
+<a href=#1115 id=1115 data-nosnippet>1115</a>
+<a href=#1116 id=1116 data-nosnippet>1116</a><span class="attr">#[cfg(test)]
+<a href=#1117 id=1117 data-nosnippet>1117</a></span><span class="kw">mod </span>markdown_preview_cache_unit_tests {
+<a href=#1118 id=1118 data-nosnippet>1118</a>    <span class="kw">use </span>super::<span class="kw-2">*</span>;
+<a href=#1119 id=1119 data-nosnippet>1119</a>
+<a href=#1120 id=1120 data-nosnippet>1120</a>    <span class="attr">#[test]
+<a href=#1121 id=1121 data-nosnippet>1121</a>    </span><span class="kw">fn </span>test_should_track_markdown_preview_source_for_markdown() {
+<a href=#1122 id=1122 data-nosnippet>1122</a>        <span class="macro">assert!</span>(Fulgur::should_track_markdown_preview_source(
+<a href=#1123 id=1123 data-nosnippet>1123</a>            SupportedLanguage::Markdown,
+<a href=#1124 id=1124 data-nosnippet>1124</a>            <span class="bool-val">true
+<a href=#1125 id=1125 data-nosnippet>1125</a>        </span>));
+<a href=#1126 id=1126 data-nosnippet>1126</a>    }
+<a href=#1127 id=1127 data-nosnippet>1127</a>
+<a href=#1128 id=1128 data-nosnippet>1128</a>    <span class="attr">#[test]
+<a href=#1129 id=1129 data-nosnippet>1129</a>    </span><span class="kw">fn </span>test_should_track_markdown_preview_source_for_markdown_inline() {
+<a href=#1130 id=1130 data-nosnippet>1130</a>        <span class="macro">assert!</span>(Fulgur::should_track_markdown_preview_source(
+<a href=#1131 id=1131 data-nosnippet>1131</a>            SupportedLanguage::MarkdownInline,
+<a href=#1132 id=1132 data-nosnippet>1132</a>            <span class="bool-val">true
+<a href=#1133 id=1133 data-nosnippet>1133</a>        </span>));
+<a href=#1134 id=1134 data-nosnippet>1134</a>    }
+<a href=#1135 id=1135 data-nosnippet>1135</a>
+<a href=#1136 id=1136 data-nosnippet>1136</a>    <span class="attr">#[test]
+<a href=#1137 id=1137 data-nosnippet>1137</a>    </span><span class="kw">fn </span>test_should_not_track_markdown_preview_source_when_toggle_disabled() {
+<a href=#1138 id=1138 data-nosnippet>1138</a>        <span class="macro">assert!</span>(!Fulgur::should_track_markdown_preview_source(
+<a href=#1139 id=1139 data-nosnippet>1139</a>            SupportedLanguage::Markdown,
+<a href=#1140 id=1140 data-nosnippet>1140</a>            <span class="bool-val">false
+<a href=#1141 id=1141 data-nosnippet>1141</a>        </span>));
+<a href=#1142 id=1142 data-nosnippet>1142</a>    }
+<a href=#1143 id=1143 data-nosnippet>1143</a>
+<a href=#1144 id=1144 data-nosnippet>1144</a>    <span class="attr">#[test]
+<a href=#1145 id=1145 data-nosnippet>1145</a>    </span><span class="kw">fn </span>test_should_not_track_markdown_preview_source_for_non_markdown() {
+<a href=#1146 id=1146 data-nosnippet>1146</a>        <span class="macro">assert!</span>(!Fulgur::should_track_markdown_preview_source(
+<a href=#1147 id=1147 data-nosnippet>1147</a>            SupportedLanguage::Plain,
+<a href=#1148 id=1148 data-nosnippet>1148</a>            <span class="bool-val">true
+<a href=#1149 id=1149 data-nosnippet>1149</a>        </span>));
+<a href=#1150 id=1150 data-nosnippet>1150</a>    }
+<a href=#1151 id=1151 data-nosnippet>1151</a>}
 </code></pre></div></section></main></body></html>
