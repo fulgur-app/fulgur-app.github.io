@@ -1318,14 +1318,16 @@ window as if it had been sent via the normal cross-window transfer path.</p>
 <li><code>data</code> - The serialized tab state to transfer</li>
 <li><code>cx</code> - The context for the application</li>
 </ul>
-</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-40" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/window_manager/render.rs.html#6-51">Source</a><a href="#impl-Fulgur-40" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.process_window_state_updates" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/window_manager/render.rs.html#15-50">Source</a><h4 class="code-header">pub fn <a href="#method.process_window_state_updates" class="fn">process_window_state_updates</a>(
+</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-40" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/window_manager/render.rs.html#6-55">Source</a><a href="#impl-Fulgur-40" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.process_window_state_updates" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/window_manager/render.rs.html#17-54">Source</a><h4 class="code-header">pub fn <a href="#method.process_window_state_updates" class="fn">process_window_state_updates</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
 )</h4></section></summary><div class="docblock"><p>Process window state updates during the render cycle:</p>
 <ol>
 <li>Cache the current window bounds and display ID for state persistence</li>
-<li>Update the global <code>WindowManager</code> to track this window as focused</li>
+<li>Update the global <code>WindowManager</code> to track this window as focused, but
+only when it is the OS-active window (renders also fire for background
+windows, so render order is not a reliable focus signal)</li>
 <li>Display any pending notifications that were queued during event processing</li>
 </ol>
 <h6 id="arguments-110"><a class="doc-anchor" href="#arguments-110">§</a>Arguments</h6>
