@@ -280,7 +280,7 @@
 <a href=#280 id=280 data-nosnippet>280</a>                <span class="kw">let </span><span class="kw-2">mut </span>bytes = Vec::new();
 <a href=#281 id=281 data-nosnippet>281</a>                <span class="kw">let </span><span class="kw-2">mut </span>file = readable_file.take()<span class="question-mark">?</span>;
 <a href=#282 id=282 data-nosnippet>282</a>                file.read_to_end(<span class="kw-2">&amp;mut </span>bytes).ok()<span class="question-mark">?</span>;
-<a href=#283 id=283 data-nosnippet>283</a>                <span class="kw">let </span>decoded = detect_encoding_and_decode(<span class="kw-2">&amp;</span>bytes);
+<a href=#283 id=283 data-nosnippet>283</a>                <span class="kw">let </span>decoded = detect_encoding_and_decode(bytes);
 <a href=#284 id=284 data-nosnippet>284</a>                (
 <a href=#285 id=285 data-nosnippet>285</a>                    decoded.content,
 <a href=#286 id=286 data-nosnippet>286</a>                    <span class="prelude-val">Some</span>(path),

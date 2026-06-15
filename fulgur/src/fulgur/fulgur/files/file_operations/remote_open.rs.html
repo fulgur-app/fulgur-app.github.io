@@ -183,13 +183,13 @@
 <a href=#183 id=183 data-nosnippet>183</a>        <span class="kw">match </span>classify_remote_path(session, <span class="kw-2">&amp;</span>spec.path)<span class="question-mark">? </span>{
 <a href=#184 id=184 data-nosnippet>184</a>            RemotePathKind::File =&gt; {
 <a href=#185 id=185 data-nosnippet>185</a>                <span class="kw">let </span>bytes = ssh::sftp::read_remote_file(session, <span class="kw-2">&amp;</span>spec.path)<span class="question-mark">?</span>;
-<a href=#186 id=186 data-nosnippet>186</a>                <span class="kw">let </span>decoded = detect_encoding_and_decode(<span class="kw-2">&amp;</span>bytes);
+<a href=#186 id=186 data-nosnippet>186</a>                <span class="kw">let </span>decoded = detect_encoding_and_decode(bytes);
 <a href=#187 id=187 data-nosnippet>187</a>                <span class="prelude-val">Ok</span>(RemoteOpenResult::File(RemoteFileResult {
 <a href=#188 id=188 data-nosnippet>188</a>                    spec: spec.clone(),
-<a href=#189 id=189 data-nosnippet>189</a>                    content: decoded.content,
-<a href=#190 id=190 data-nosnippet>190</a>                    encoding: decoded.encoding,
-<a href=#191 id=191 data-nosnippet>191</a>                    lossy: decoded.lossy,
-<a href=#192 id=192 data-nosnippet>192</a>                    file_size: bytes.len(),
+<a href=#189 id=189 data-nosnippet>189</a>                    file_size: decoded.byte_len,
+<a href=#190 id=190 data-nosnippet>190</a>                    content: decoded.content,
+<a href=#191 id=191 data-nosnippet>191</a>                    encoding: decoded.encoding,
+<a href=#192 id=192 data-nosnippet>192</a>                    lossy: decoded.lossy,
 <a href=#193 id=193 data-nosnippet>193</a>                }))
 <a href=#194 id=194 data-nosnippet>194</a>            }
 <a href=#195 id=195 data-nosnippet>195</a>            RemotePathKind::Directory =&gt; {
@@ -338,13 +338,13 @@
 <a href=#338 id=338 data-nosnippet>338</a>                    <span class="kw">let </span>result = <span class="kw">if </span>target_tab_id.is_some() {
 <a href=#339 id=339 data-nosnippet>339</a>                        ssh::sftp::read_remote_file(pooled_session.session(), <span class="kw-2">&amp;</span>spec_for_thread.path)
 <a href=#340 id=340 data-nosnippet>340</a>                            .map(|bytes| {
-<a href=#341 id=341 data-nosnippet>341</a>                                <span class="kw">let </span>decoded = detect_encoding_and_decode(<span class="kw-2">&amp;</span>bytes);
+<a href=#341 id=341 data-nosnippet>341</a>                                <span class="kw">let </span>decoded = detect_encoding_and_decode(bytes);
 <a href=#342 id=342 data-nosnippet>342</a>                                RemoteOpenResult::File(RemoteFileResult {
 <a href=#343 id=343 data-nosnippet>343</a>                                    spec: spec_for_thread.clone(),
-<a href=#344 id=344 data-nosnippet>344</a>                                    content: decoded.content,
-<a href=#345 id=345 data-nosnippet>345</a>                                    encoding: decoded.encoding,
-<a href=#346 id=346 data-nosnippet>346</a>                                    lossy: decoded.lossy,
-<a href=#347 id=347 data-nosnippet>347</a>                                    file_size: bytes.len(),
+<a href=#344 id=344 data-nosnippet>344</a>                                    file_size: decoded.byte_len,
+<a href=#345 id=345 data-nosnippet>345</a>                                    content: decoded.content,
+<a href=#346 id=346 data-nosnippet>346</a>                                    encoding: decoded.encoding,
+<a href=#347 id=347 data-nosnippet>347</a>                                    lossy: decoded.lossy,
 <a href=#348 id=348 data-nosnippet>348</a>                                })
 <a href=#349 id=349 data-nosnippet>349</a>                            })
 <a href=#350 id=350 data-nosnippet>350</a>                    } <span class="kw">else </span>{
