@@ -93,7 +93,7 @@
 <a href=#93 id=93 data-nosnippet>93</a>            <span class="kw">return </span><span class="prelude-val">Err</span>(AppError::DatabaseError(e));
 <a href=#94 id=94 data-nosnippet>94</a>        }
 <a href=#95 id=95 data-nosnippet>95</a>    };
-<a href=#96 id=96 data-nosnippet>96</a>    <span class="kw">let </span>raw_shares = <span class="kw">match </span>state.share_repository.get_all_for_user(user_id).<span class="kw">await </span>{
+<a href=#96 id=96 data-nosnippet>96</a>    <span class="kw">let </span>raw_shares = <span class="kw">match </span>state.share_repository.get_available_for_user(user_id).<span class="kw">await </span>{
 <a href=#97 id=97 data-nosnippet>97</a>        <span class="prelude-val">Ok</span>(shares) =&gt; shares,
 <a href=#98 id=98 data-nosnippet>98</a>        <span class="prelude-val">Err</span>(e) =&gt; {
 <a href=#99 id=99 data-nosnippet>99</a>            <span class="macro">tracing::error!</span>(<span class="string">"Error getting shares: {:?}"</span>, e);
@@ -404,7 +404,7 @@
 <a href=#404 id=404 data-nosnippet>404</a>    <span class="kw">if </span>share.user_id != session_user_id {
 <a href=#405 id=405 data-nosnippet>405</a>        <span class="kw">return </span><span class="prelude-val">Err</span>(AppError::Forbidden);
 <a href=#406 id=406 data-nosnippet>406</a>    }
-<a href=#407 id=407 data-nosnippet>407</a>    <span class="kw">match </span>state.share_repository.delete(<span class="kw-2">&amp;</span>id).<span class="kw">await </span>{
+<a href=#407 id=407 data-nosnippet>407</a>    <span class="kw">match </span>state.share_repository.mark_deleted(<span class="kw-2">&amp;</span>id).<span class="kw">await </span>{
 <a href=#408 id=408 data-nosnippet>408</a>        <span class="prelude-val">Ok</span>(()) =&gt; <span class="prelude-val">Ok</span>(StatusCode::OK),
 <a href=#409 id=409 data-nosnippet>409</a>        <span class="prelude-val">Err</span>(e) =&gt; {
 <a href=#410 id=410 data-nosnippet>410</a>            <span class="macro">tracing::error!</span>(<span class="string">"Error deleting share: {:?}"</span>, e);

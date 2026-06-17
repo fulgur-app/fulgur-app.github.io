@@ -421,16 +421,16 @@
 <a href=#421 id=421 data-nosnippet>421</a>        </span><span class="kw">loop </span>{
 <a href=#422 id=422 data-nosnippet>422</a>            <span class="macro">tokio::select!</span> {
 <a href=#423 id=423 data-nosnippet>423</a>                <span class="kw">_ </span>= interval.tick() =&gt; {
-<a href=#424 id=424 data-nosnippet>424</a>                    <span class="kw">match </span>share_repository.delete_expired().<span class="kw">await </span>{
+<a href=#424 id=424 data-nosnippet>424</a>                    <span class="kw">match </span>share_repository.mark_expired().<span class="kw">await </span>{
 <a href=#425 id=425 data-nosnippet>425</a>                        <span class="prelude-val">Ok</span>(count) =&gt; {
 <a href=#426 id=426 data-nosnippet>426</a>                            <span class="kw">if </span>count &gt; <span class="number">0 </span>{
-<a href=#427 id=427 data-nosnippet>427</a>                                <span class="macro">tracing::info!</span>(<span class="string">"Cleaned up {} expired share(s)"</span>, count);
+<a href=#427 id=427 data-nosnippet>427</a>                                <span class="macro">tracing::info!</span>(<span class="string">"Marked {} share(s) as expired"</span>, count);
 <a href=#428 id=428 data-nosnippet>428</a>                            } <span class="kw">else </span>{
 <a href=#429 id=429 data-nosnippet>429</a>                                <span class="macro">tracing::debug!</span>(<span class="string">"Share cleanup check complete - no expired shares found"</span>);
 <a href=#430 id=430 data-nosnippet>430</a>                            }
 <a href=#431 id=431 data-nosnippet>431</a>                        }
 <a href=#432 id=432 data-nosnippet>432</a>                        <span class="prelude-val">Err</span>(e) =&gt; {
-<a href=#433 id=433 data-nosnippet>433</a>                            <span class="macro">tracing::error!</span>(<span class="string">"Error cleaning up expired shares: {:?}"</span>, e);
+<a href=#433 id=433 data-nosnippet>433</a>                            <span class="macro">tracing::error!</span>(<span class="string">"Error marking expired shares: {:?}"</span>, e);
 <a href=#434 id=434 data-nosnippet>434</a>                        }
 <a href=#435 id=435 data-nosnippet>435</a>                    }
 <a href=#436 id=436 data-nosnippet>436</a>                },

@@ -278,7 +278,7 @@
 <a href=#278 id=278 data-nosnippet>278</a>) -&gt; <span class="prelude-ty">Result</span>&lt;Json&lt;Vec&lt;SharedFileResponse&gt;&gt;, (StatusCode, Json&lt;ErrorResponse&gt;)&gt; {
 <a href=#279 id=279 data-nosnippet>279</a>    <span class="kw">match </span>state
 <a href=#280 id=280 data-nosnippet>280</a>        .share_repository
-<a href=#281 id=281 data-nosnippet>281</a>        .get_and_delete_shares_for_device(<span class="kw-2">&amp;</span>auth_user.device_id)
+<a href=#281 id=281 data-nosnippet>281</a>        .consume_shares_for_device(<span class="kw-2">&amp;</span>auth_user.device_id)
 <a href=#282 id=282 data-nosnippet>282</a>        .<span class="kw">await
 <a href=#283 id=283 data-nosnippet>283</a>    </span>{
 <a href=#284 id=284 data-nosnippet>284</a>        <span class="prelude-val">Ok</span>(shares) =&gt; {
@@ -322,7 +322,7 @@
 <a href=#322 id=322 data-nosnippet>322</a>) -&gt; <span class="prelude-ty">Result</span>&lt;Json&lt;SharedFileResponse&gt;, (StatusCode, Json&lt;ErrorResponse&gt;)&gt; {
 <a href=#323 id=323 data-nosnippet>323</a>    <span class="kw">match </span>state
 <a href=#324 id=324 data-nosnippet>324</a>        .share_repository
-<a href=#325 id=325 data-nosnippet>325</a>        .get_and_delete_share_for_device(<span class="kw-2">&amp;</span>id, <span class="kw-2">&amp;</span>auth_user.device_id)
+<a href=#325 id=325 data-nosnippet>325</a>        .consume_share_for_device(<span class="kw-2">&amp;</span>id, <span class="kw-2">&amp;</span>auth_user.device_id)
 <a href=#326 id=326 data-nosnippet>326</a>        .<span class="kw">await
 <a href=#327 id=327 data-nosnippet>327</a>    </span>{
 <a href=#328 id=328 data-nosnippet>328</a>        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(share)) =&gt; {
@@ -425,7 +425,7 @@
 <a href=#425 id=425 data-nosnippet>425</a>    }
 <a href=#426 id=426 data-nosnippet>426</a>    <span class="kw">let </span>shares: Vec&lt;SharedFileResponse&gt; = <span class="kw">match </span>state
 <a href=#427 id=427 data-nosnippet>427</a>        .share_repository
-<a href=#428 id=428 data-nosnippet>428</a>        .get_and_delete_shares_for_device(<span class="kw-2">&amp;</span>auth_user.device_id)
+<a href=#428 id=428 data-nosnippet>428</a>        .consume_shares_for_device(<span class="kw-2">&amp;</span>auth_user.device_id)
 <a href=#429 id=429 data-nosnippet>429</a>        .<span class="kw">await
 <a href=#430 id=430 data-nosnippet>430</a>    </span>{
 <a href=#431 id=431 data-nosnippet>431</a>        <span class="prelude-val">Ok</span>(shares) =&gt; shares.into_iter().map(SharedFileResponse::from).collect(),
