@@ -4,17 +4,21 @@
 <a href=#4 id=4 data-nosnippet>4</a><span class="kw">mod </span>limits;
 <a href=#5 id=5 data-nosnippet>5</a><span class="kw">mod </span>ping;
 <a href=#6 id=6 data-nosnippet>6</a><span class="kw">mod </span>shared_files;
-<a href=#7 id=7 data-nosnippet>7</a>
-<a href=#8 id=8 data-nosnippet>8</a><span class="kw">pub use </span>begin::initial_synchronization;
-<a href=#9 id=9 data-nosnippet>9</a><span class="kw">pub use </span>bootstrap::{
-<a href=#10 id=10 data-nosnippet>10</a>    begin_synchronization, perform_initial_synchronization,
-<a href=#11 id=11 data-nosnippet>11</a>    perform_initial_synchronization_with_progress, set_sync_server_connection_status,
-<a href=#12 id=12 data-nosnippet>12</a>};
-<a href=#13 id=13 data-nosnippet>13</a><span class="kw">pub use </span>error::{SynchronizationError, SynchronizationStatus, handle_ureq_error};
-<a href=#14 id=14 data-nosnippet>14</a><span class="kw">pub use </span>limits::{
-<a href=#15 id=15 data-nosnippet>15</a>    MAX_HTTP_DEVICES_RESPONSE_BYTES, MAX_HTTP_SINGLE_SHARE_RESPONSE_BYTES,
-<a href=#16 id=16 data-nosnippet>16</a>    MAX_HTTP_SMALL_RESPONSE_BYTES, max_http_bulk_shares_response_bytes,
-<a href=#17 id=17 data-nosnippet>17</a>    max_http_single_share_response_bytes, resolve_server_max_file_size, store_server_max_file_size,
-<a href=#18 id=18 data-nosnippet>18</a>};
-<a href=#19 id=19 data-nosnippet>19</a><span class="kw">pub use </span>ping::{perform_ping_with_progress, ping_server};
+<a href=#7 id=7 data-nosnippet>7</a><span class="kw">mod </span>version;
+<a href=#8 id=8 data-nosnippet>8</a>
+<a href=#9 id=9 data-nosnippet>9</a><span class="kw">pub use </span>begin::{initial_synchronization, list_pending_share_ids_v2};
+<a href=#10 id=10 data-nosnippet>10</a><span class="kw">pub use </span>bootstrap::{
+<a href=#11 id=11 data-nosnippet>11</a>    begin_synchronization, perform_initial_synchronization,
+<a href=#12 id=12 data-nosnippet>12</a>    perform_initial_synchronization_with_progress, set_sync_server_connection_status,
+<a href=#13 id=13 data-nosnippet>13</a>};
+<a href=#14 id=14 data-nosnippet>14</a><span class="kw">pub use </span>error::{SynchronizationError, SynchronizationStatus, handle_ureq_error};
+<a href=#15 id=15 data-nosnippet>15</a><span class="kw">pub use </span>limits::{
+<a href=#16 id=16 data-nosnippet>16</a>    MAX_HTTP_DEVICES_RESPONSE_BYTES, MAX_HTTP_SINGLE_SHARE_RESPONSE_BYTES,
+<a href=#17 id=17 data-nosnippet>17</a>    MAX_HTTP_SMALL_RESPONSE_BYTES, max_http_bulk_shares_response_bytes,
+<a href=#18 id=18 data-nosnippet>18</a>    max_http_single_share_response_bytes, resolve_server_max_file_size, store_server_max_file_size,
+<a href=#19 id=19 data-nosnippet>19</a>};
+<a href=#20 id=20 data-nosnippet>20</a><span class="kw">pub use </span>ping::{perform_ping_with_progress, ping_server};
+<a href=#21 id=21 data-nosnippet>21</a><span class="kw">pub use </span>version::{
+<a href=#22 id=22 data-nosnippet>22</a>    FULGURANT_VERSION_HEADER, version_supports_per_id_fetch, version_supports_v2_share_flow,
+<a href=#23 id=23 data-nosnippet>23</a>};
 </code></pre></div></section></main></body></html>
