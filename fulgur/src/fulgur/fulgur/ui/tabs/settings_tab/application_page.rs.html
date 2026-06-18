@@ -278,188 +278,225 @@
 <a href=#278 id=278 data-nosnippet>278</a>        .font_weight(FontWeight::SEMIBOLD)
 <a href=#279 id=279 data-nosnippet>279</a>        .text_color(cx.theme().muted_foreground)
 <a href=#280 id=280 data-nosnippet>280</a>        .child(div().flex_1().child(<span class="string">"Name"</span>))
-<a href=#281 id=281 data-nosnippet>281</a>        .child(div().flex_1().child(<span class="string">"URL"</span>))
-<a href=#282 id=282 data-nosnippet>282</a>        .child(div().w(gpui::px(<span class="number">110.0</span>)).child(<span class="string">"Status"</span>))
-<a href=#283 id=283 data-nosnippet>283</a>        .child(div().w(gpui::px(<span class="number">80.0</span>)).child(<span class="string">""</span>))
-<a href=#284 id=284 data-nosnippet>284</a>}
-<a href=#285 id=285 data-nosnippet>285</a>
-<a href=#286 id=286 data-nosnippet>286</a><span class="doccomment">/// Render a single profile row in the profiles table.
-<a href=#287 id=287 data-nosnippet>287</a>///
-<a href=#288 id=288 data-nosnippet>288</a>/// ### Arguments
-<a href=#289 id=289 data-nosnippet>289</a>/// - `entity`: The Fulgur entity (used to open the edit sheet).
-<a href=#290 id=290 data-nosnippet>290</a>/// - `profile`: The profile to render.
-<a href=#291 id=291 data-nosnippet>291</a>/// - `master_on`: Whether the master switch is on.
-<a href=#292 id=292 data-nosnippet>292</a>/// - `cx`: The application context.
-<a href=#293 id=293 data-nosnippet>293</a>///
-<a href=#294 id=294 data-nosnippet>294</a>/// ### Returns
-<a href=#295 id=295 data-nosnippet>295</a>/// - `impl IntoElement`: The row element.
-<a href=#296 id=296 data-nosnippet>296</a></span><span class="kw">fn </span>render_profile_row(
-<a href=#297 id=297 data-nosnippet>297</a>    entity: Entity&lt;Fulgur&gt;,
-<a href=#298 id=298 data-nosnippet>298</a>    profile: <span class="kw-2">&amp;</span>ServerProfile,
-<a href=#299 id=299 data-nosnippet>299</a>    master_on: bool,
-<a href=#300 id=300 data-nosnippet>300</a>    cx: <span class="kw-2">&amp;</span>App,
-<a href=#301 id=301 data-nosnippet>301</a>) -&gt; <span class="kw">impl </span>IntoElement {
-<a href=#302 id=302 data-nosnippet>302</a>    <span class="kw">let </span>display_url = profile
-<a href=#303 id=303 data-nosnippet>303</a>        .server_url
-<a href=#304 id=304 data-nosnippet>304</a>        .clone()
-<a href=#305 id=305 data-nosnippet>305</a>        .unwrap_or_else(|| <span class="string">"-"</span>.to_string());
-<a href=#306 id=306 data-nosnippet>306</a>    <span class="kw">let </span>pill = render_status_pill(profile, master_on, cx);
-<a href=#307 id=307 data-nosnippet>307</a>    <span class="kw">let </span>row_id = SharedString::from(<span class="macro">format!</span>(<span class="string">"profile-row-{}"</span>, profile.id));
-<a href=#308 id=308 data-nosnippet>308</a>    <span class="kw">let </span>edit_id = SharedString::from(<span class="macro">format!</span>(<span class="string">"profile-row-edit-{}"</span>, profile.id));
-<a href=#309 id=309 data-nosnippet>309</a>    <span class="kw">let </span>profile_id_for_edit = profile.id.clone();
-<a href=#310 id=310 data-nosnippet>310</a>    <span class="kw">let </span>profile_name = profile.name.clone();
-<a href=#311 id=311 data-nosnippet>311</a>    h_flex()
-<a href=#312 id=312 data-nosnippet>312</a>        .id(row_id)
-<a href=#313 id=313 data-nosnippet>313</a>        .w_full()
-<a href=#314 id=314 data-nosnippet>314</a>        .px_2()
-<a href=#315 id=315 data-nosnippet>315</a>        .py_2()
-<a href=#316 id=316 data-nosnippet>316</a>        .gap_2()
-<a href=#317 id=317 data-nosnippet>317</a>        .items_center()
-<a href=#318 id=318 data-nosnippet>318</a>        .border_b_1()
-<a href=#319 id=319 data-nosnippet>319</a>        .border_color(cx.theme().border)
-<a href=#320 id=320 data-nosnippet>320</a>        .child(
-<a href=#321 id=321 data-nosnippet>321</a>            div()
-<a href=#322 id=322 data-nosnippet>322</a>                .flex_1()
-<a href=#323 id=323 data-nosnippet>323</a>                .text_sm()
-<a href=#324 id=324 data-nosnippet>324</a>                .text_color(cx.theme().foreground)
-<a href=#325 id=325 data-nosnippet>325</a>                .child(profile_name),
-<a href=#326 id=326 data-nosnippet>326</a>        )
-<a href=#327 id=327 data-nosnippet>327</a>        .child(
-<a href=#328 id=328 data-nosnippet>328</a>            div()
-<a href=#329 id=329 data-nosnippet>329</a>                .flex_1()
-<a href=#330 id=330 data-nosnippet>330</a>                .text_sm()
-<a href=#331 id=331 data-nosnippet>331</a>                .text_color(cx.theme().muted_foreground)
-<a href=#332 id=332 data-nosnippet>332</a>                .child(display_url),
-<a href=#333 id=333 data-nosnippet>333</a>        )
-<a href=#334 id=334 data-nosnippet>334</a>        .child(div().w(gpui::px(<span class="number">110.0</span>)).child(pill))
-<a href=#335 id=335 data-nosnippet>335</a>        .child(
-<a href=#336 id=336 data-nosnippet>336</a>            div().w(gpui::px(<span class="number">80.0</span>)).child(
-<a href=#337 id=337 data-nosnippet>337</a>                Button::new(edit_id)
-<a href=#338 id=338 data-nosnippet>338</a>                    .child(<span class="string">"Edit"</span>)
-<a href=#339 id=339 data-nosnippet>339</a>                    .small()
-<a href=#340 id=340 data-nosnippet>340</a>                    .cursor_pointer()
-<a href=#341 id=341 data-nosnippet>341</a>                    .on_click(<span class="kw">move </span>|<span class="kw">_</span>, window, cx| {
-<a href=#342 id=342 data-nosnippet>342</a>                        <span class="kw">let </span>id = profile_id_for_edit.clone();
-<a href=#343 id=343 data-nosnippet>343</a>                        entity.update(cx, |this, cx| {
-<a href=#344 id=344 data-nosnippet>344</a>                            this.open_edit_profile_sheet(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>id), window, cx);
-<a href=#345 id=345 data-nosnippet>345</a>                        });
-<a href=#346 id=346 data-nosnippet>346</a>                    }),
-<a href=#347 id=347 data-nosnippet>347</a>            ),
-<a href=#348 id=348 data-nosnippet>348</a>        )
-<a href=#349 id=349 data-nosnippet>349</a>}
-<a href=#350 id=350 data-nosnippet>350</a>
-<a href=#351 id=351 data-nosnippet>351</a><span class="doccomment">/// Render a status pill for a profile.
-<a href=#352 id=352 data-nosnippet>352</a>///
-<a href=#353 id=353 data-nosnippet>353</a>/// ### Arguments
-<a href=#354 id=354 data-nosnippet>354</a>/// - `profile`: The profile to render the pill for.
-<a href=#355 id=355 data-nosnippet>355</a>/// - `master_on`: Whether the master switch is on (overrides the per-profile
-<a href=#356 id=356 data-nosnippet>356</a>///   status to Inactive when off).
-<a href=#357 id=357 data-nosnippet>357</a>/// - `cx`: The application context.
-<a href=#358 id=358 data-nosnippet>358</a>///
-<a href=#359 id=359 data-nosnippet>359</a>/// ### Returns
-<a href=#360 id=360 data-nosnippet>360</a>/// - `impl IntoElement`: The pill element.
-<a href=#361 id=361 data-nosnippet>361</a></span><span class="kw">fn </span>render_status_pill(profile: <span class="kw-2">&amp;</span>ServerProfile, master_on: bool, cx: <span class="kw-2">&amp;</span>App) -&gt; <span class="kw">impl </span>IntoElement {
-<a href=#362 id=362 data-nosnippet>362</a>    <span class="kw">let </span>status = get_profile_status(profile, master_on, cx);
-<a href=#363 id=363 data-nosnippet>363</a>    <span class="kw">let </span>(bg, fg) = pill_colors(status, cx);
-<a href=#364 id=364 data-nosnippet>364</a>    Label::new(status.label())
-<a href=#365 id=365 data-nosnippet>365</a>        .rounded_lg()
-<a href=#366 id=366 data-nosnippet>366</a>        .border_1()
-<a href=#367 id=367 data-nosnippet>367</a>        .border_color(bg)
-<a href=#368 id=368 data-nosnippet>368</a>        .text_sm()
-<a href=#369 id=369 data-nosnippet>369</a>        .text_color(fg)
-<a href=#370 id=370 data-nosnippet>370</a>        .text_center()
-<a href=#371 id=371 data-nosnippet>371</a>}
-<a href=#372 id=372 data-nosnippet>372</a>
-<a href=#373 id=373 data-nosnippet>373</a><span class="doccomment">/// Get the status  for a profile.
-<a href=#374 id=374 data-nosnippet>374</a>///
-<a href=#375 id=375 data-nosnippet>375</a>/// ### Arguments
-<a href=#376 id=376 data-nosnippet>376</a>/// - `profile`: The profile.
-<a href=#377 id=377 data-nosnippet>377</a>/// - `master_on`: The master switch value.
-<a href=#378 id=378 data-nosnippet>378</a>/// - `cx`: The application context.
-<a href=#379 id=379 data-nosnippet>379</a>///
-<a href=#380 id=380 data-nosnippet>380</a>/// ### Returns
-<a href=#381 id=381 data-nosnippet>381</a>/// - `SynchronizationStatus`: The profile's status.
-<a href=#382 id=382 data-nosnippet>382</a></span><span class="kw">fn </span>get_profile_status(profile: <span class="kw-2">&amp;</span>ServerProfile, master_on: bool, cx: <span class="kw-2">&amp;</span>App) -&gt; SynchronizationStatus {
-<a href=#383 id=383 data-nosnippet>383</a>    <span class="kw">if </span>!master_on || !profile.is_active {
-<a href=#384 id=384 data-nosnippet>384</a>        <span class="kw">return </span>SynchronizationStatus::NotActivated;
-<a href=#385 id=385 data-nosnippet>385</a>    }
-<a href=#386 id=386 data-nosnippet>386</a>    <span class="kw">let </span>shared = cx.global::&lt;<span class="kw">crate</span>::fulgur::shared_state::SharedAppState&gt;();
-<a href=#387 id=387 data-nosnippet>387</a>    <span class="kw">let </span>sync_states = shared.sync_states.read();
-<a href=#388 id=388 data-nosnippet>388</a>    sync_states
-<a href=#389 id=389 data-nosnippet>389</a>        .get(<span class="kw-2">&amp;</span>profile.id)
-<a href=#390 id=390 data-nosnippet>390</a>        .map_or(SynchronizationStatus::NotActivated, |state| {
-<a href=#391 id=391 data-nosnippet>391</a>            <span class="kw-2">*</span>state.connection_status.lock()
-<a href=#392 id=392 data-nosnippet>392</a>        })
-<a href=#393 id=393 data-nosnippet>393</a>}
-<a href=#394 id=394 data-nosnippet>394</a>
-<a href=#395 id=395 data-nosnippet>395</a><span class="doccomment">/// Resolve the foreground/background colors for a status pill.
-<a href=#396 id=396 data-nosnippet>396</a>///
-<a href=#397 id=397 data-nosnippet>397</a>/// ### Arguments
-<a href=#398 id=398 data-nosnippet>398</a>/// - `status`: The profile's status enum value.
-<a href=#399 id=399 data-nosnippet>399</a>///
-<a href=#400 id=400 data-nosnippet>400</a>/// ### Returns
-<a href=#401 id=401 data-nosnippet>401</a>/// - `(gpui::Hsla, gpui::Hsla)`: Background and foreground colors.
-<a href=#402 id=402 data-nosnippet>402</a></span><span class="kw">fn </span>pill_colors(status: SynchronizationStatus, cx: <span class="kw-2">&amp;</span>App) -&gt; (gpui::Hsla, gpui::Hsla) {
-<a href=#403 id=403 data-nosnippet>403</a>    <span class="kw">let </span>theme = cx.theme();
-<a href=#404 id=404 data-nosnippet>404</a>    <span class="kw">match </span>status {
-<a href=#405 id=405 data-nosnippet>405</a>        SynchronizationStatus::Connected =&gt; (theme.success, theme.success),
-<a href=#406 id=406 data-nosnippet>406</a>        SynchronizationStatus::Connecting =&gt; (theme.warning, theme.warning),
-<a href=#407 id=407 data-nosnippet>407</a>        SynchronizationStatus::AuthenticationFailed
-<a href=#408 id=408 data-nosnippet>408</a>        | SynchronizationStatus::ConnectionFailed
-<a href=#409 id=409 data-nosnippet>409</a>        | SynchronizationStatus::NotActivated
-<a href=#410 id=410 data-nosnippet>410</a>        | SynchronizationStatus::Other =&gt; (theme.danger, theme.danger),
-<a href=#411 id=411 data-nosnippet>411</a>        SynchronizationStatus::Disconnected =&gt; (theme.info, theme.info),
-<a href=#412 id=412 data-nosnippet>412</a>    }
-<a href=#413 id=413 data-nosnippet>413</a>}
-<a href=#414 id=414 data-nosnippet>414</a>
-<a href=#415 id=415 data-nosnippet>415</a><span class="doccomment">/// Render the right-aligned "Add server" button.
-<a href=#416 id=416 data-nosnippet>416</a>///
-<a href=#417 id=417 data-nosnippet>417</a>/// ### Arguments
-<a href=#418 id=418 data-nosnippet>418</a>/// - `entity`: The Fulgur entity.
-<a href=#419 id=419 data-nosnippet>419</a>///
-<a href=#420 id=420 data-nosnippet>420</a>/// ### Returns
-<a href=#421 id=421 data-nosnippet>421</a>/// - `SettingItem`: The button row.
-<a href=#422 id=422 data-nosnippet>422</a></span><span class="kw">fn </span>render_add_server_button(entity: <span class="kw-2">&amp;</span>Entity&lt;Fulgur&gt;) -&gt; SettingItem {
-<a href=#423 id=423 data-nosnippet>423</a>    <span class="kw">let </span>entity = entity.clone();
-<a href=#424 id=424 data-nosnippet>424</a>    SettingItem::render(<span class="kw">move </span>|_options, _window, _cx| {
-<a href=#425 id=425 data-nosnippet>425</a>        <span class="kw">let </span>entity = entity.clone();
-<a href=#426 id=426 data-nosnippet>426</a>        h_flex()
-<a href=#427 id=427 data-nosnippet>427</a>            .w_full()
-<a href=#428 id=428 data-nosnippet>428</a>            .justify_end()
-<a href=#429 id=429 data-nosnippet>429</a>            .mt_2()
-<a href=#430 id=430 data-nosnippet>430</a>            .child(
-<a href=#431 id=431 data-nosnippet>431</a>                Button::new(<span class="string">"add-server-profile"</span>)
-<a href=#432 id=432 data-nosnippet>432</a>                    .child(<span class="string">"Add Fulgurant instance"</span>)
-<a href=#433 id=433 data-nosnippet>433</a>                    .small()
-<a href=#434 id=434 data-nosnippet>434</a>                    .primary()
-<a href=#435 id=435 data-nosnippet>435</a>                    .cursor_pointer()
-<a href=#436 id=436 data-nosnippet>436</a>                    .on_click(<span class="kw">move </span>|<span class="kw">_</span>, window, cx| {
-<a href=#437 id=437 data-nosnippet>437</a>                        <span class="kw">let </span>already_at_cap = entity
-<a href=#438 id=438 data-nosnippet>438</a>                            .read(cx)
-<a href=#439 id=439 data-nosnippet>439</a>                            .settings
-<a href=#440 id=440 data-nosnippet>440</a>                            .app_settings
-<a href=#441 id=441 data-nosnippet>441</a>                            .synchronization_settings
-<a href=#442 id=442 data-nosnippet>442</a>                            .profiles
-<a href=#443 id=443 data-nosnippet>443</a>                            .len()
-<a href=#444 id=444 data-nosnippet>444</a>                            &gt;= MAX_PROFILES;
-<a href=#445 id=445 data-nosnippet>445</a>                        <span class="kw">if </span>already_at_cap {
-<a href=#446 id=446 data-nosnippet>446</a>                            window.push_notification(
-<a href=#447 id=447 data-nosnippet>447</a>                                (
-<a href=#448 id=448 data-nosnippet>448</a>                                    gpui_component::notification::NotificationType::Error,
-<a href=#449 id=449 data-nosnippet>449</a>                                    SharedString::from(<span class="macro">format!</span>(
-<a href=#450 id=450 data-nosnippet>450</a>                                        <span class="string">"Maximum of {MAX_PROFILES} Fulgurant instances reached."
-<a href=#451 id=451 data-nosnippet>451</a>                                    </span>)),
-<a href=#452 id=452 data-nosnippet>452</a>                                ),
-<a href=#453 id=453 data-nosnippet>453</a>                                cx,
-<a href=#454 id=454 data-nosnippet>454</a>                            );
-<a href=#455 id=455 data-nosnippet>455</a>                            <span class="kw">return</span>;
-<a href=#456 id=456 data-nosnippet>456</a>                        }
-<a href=#457 id=457 data-nosnippet>457</a>                        entity.update(cx, |this, cx| {
-<a href=#458 id=458 data-nosnippet>458</a>                            this.open_edit_profile_sheet(<span class="prelude-val">None</span>, window, cx);
-<a href=#459 id=459 data-nosnippet>459</a>                        });
-<a href=#460 id=460 data-nosnippet>460</a>                    }),
-<a href=#461 id=461 data-nosnippet>461</a>            )
-<a href=#462 id=462 data-nosnippet>462</a>            .into_any_element()
-<a href=#463 id=463 data-nosnippet>463</a>    })
-<a href=#464 id=464 data-nosnippet>464</a>}
+<a href=#281 id=281 data-nosnippet>281</a>        .child(div().w(gpui::px(<span class="number">90.0</span>)).child(<span class="string">"Version"</span>))
+<a href=#282 id=282 data-nosnippet>282</a>        .child(div().flex_1().child(<span class="string">"URL"</span>))
+<a href=#283 id=283 data-nosnippet>283</a>        .child(div().w(gpui::px(<span class="number">110.0</span>)).child(<span class="string">"Status"</span>))
+<a href=#284 id=284 data-nosnippet>284</a>        .child(div().w(gpui::px(<span class="number">80.0</span>)).child(<span class="string">""</span>))
+<a href=#285 id=285 data-nosnippet>285</a>}
+<a href=#286 id=286 data-nosnippet>286</a>
+<a href=#287 id=287 data-nosnippet>287</a><span class="doccomment">/// Render a single profile row in the profiles table.
+<a href=#288 id=288 data-nosnippet>288</a>///
+<a href=#289 id=289 data-nosnippet>289</a>/// ### Arguments
+<a href=#290 id=290 data-nosnippet>290</a>/// - `entity`: The Fulgur entity (used to open the edit sheet).
+<a href=#291 id=291 data-nosnippet>291</a>/// - `profile`: The profile to render.
+<a href=#292 id=292 data-nosnippet>292</a>/// - `master_on`: Whether the master switch is on.
+<a href=#293 id=293 data-nosnippet>293</a>/// - `cx`: The application context.
+<a href=#294 id=294 data-nosnippet>294</a>///
+<a href=#295 id=295 data-nosnippet>295</a>/// ### Returns
+<a href=#296 id=296 data-nosnippet>296</a>/// - `impl IntoElement`: The row element.
+<a href=#297 id=297 data-nosnippet>297</a></span><span class="kw">fn </span>render_profile_row(
+<a href=#298 id=298 data-nosnippet>298</a>    entity: Entity&lt;Fulgur&gt;,
+<a href=#299 id=299 data-nosnippet>299</a>    profile: <span class="kw-2">&amp;</span>ServerProfile,
+<a href=#300 id=300 data-nosnippet>300</a>    master_on: bool,
+<a href=#301 id=301 data-nosnippet>301</a>    cx: <span class="kw-2">&amp;</span>App,
+<a href=#302 id=302 data-nosnippet>302</a>) -&gt; <span class="kw">impl </span>IntoElement {
+<a href=#303 id=303 data-nosnippet>303</a>    <span class="kw">let </span>display_url = profile
+<a href=#304 id=304 data-nosnippet>304</a>        .server_url
+<a href=#305 id=305 data-nosnippet>305</a>        .clone()
+<a href=#306 id=306 data-nosnippet>306</a>        .unwrap_or_else(|| <span class="string">"-"</span>.to_string());
+<a href=#307 id=307 data-nosnippet>307</a>    <span class="kw">let </span>version_label = get_profile_version_display(profile, master_on, cx);
+<a href=#308 id=308 data-nosnippet>308</a>    <span class="kw">let </span>pill = render_status_pill(profile, master_on, cx);
+<a href=#309 id=309 data-nosnippet>309</a>    <span class="kw">let </span>row_id = SharedString::from(<span class="macro">format!</span>(<span class="string">"profile-row-{}"</span>, profile.id));
+<a href=#310 id=310 data-nosnippet>310</a>    <span class="kw">let </span>edit_id = SharedString::from(<span class="macro">format!</span>(<span class="string">"profile-row-edit-{}"</span>, profile.id));
+<a href=#311 id=311 data-nosnippet>311</a>    <span class="kw">let </span>profile_id_for_edit = profile.id.clone();
+<a href=#312 id=312 data-nosnippet>312</a>    <span class="kw">let </span>profile_name = profile.name.clone();
+<a href=#313 id=313 data-nosnippet>313</a>    h_flex()
+<a href=#314 id=314 data-nosnippet>314</a>        .id(row_id)
+<a href=#315 id=315 data-nosnippet>315</a>        .w_full()
+<a href=#316 id=316 data-nosnippet>316</a>        .px_2()
+<a href=#317 id=317 data-nosnippet>317</a>        .py_2()
+<a href=#318 id=318 data-nosnippet>318</a>        .gap_2()
+<a href=#319 id=319 data-nosnippet>319</a>        .items_center()
+<a href=#320 id=320 data-nosnippet>320</a>        .border_b_1()
+<a href=#321 id=321 data-nosnippet>321</a>        .border_color(cx.theme().border)
+<a href=#322 id=322 data-nosnippet>322</a>        .child(
+<a href=#323 id=323 data-nosnippet>323</a>            div()
+<a href=#324 id=324 data-nosnippet>324</a>                .flex_1()
+<a href=#325 id=325 data-nosnippet>325</a>                .text_sm()
+<a href=#326 id=326 data-nosnippet>326</a>                .text_color(cx.theme().foreground)
+<a href=#327 id=327 data-nosnippet>327</a>                .child(profile_name),
+<a href=#328 id=328 data-nosnippet>328</a>        )
+<a href=#329 id=329 data-nosnippet>329</a>        .child(
+<a href=#330 id=330 data-nosnippet>330</a>            div()
+<a href=#331 id=331 data-nosnippet>331</a>                .w(gpui::px(<span class="number">90.0</span>))
+<a href=#332 id=332 data-nosnippet>332</a>                .text_sm()
+<a href=#333 id=333 data-nosnippet>333</a>                .text_color(cx.theme().muted_foreground)
+<a href=#334 id=334 data-nosnippet>334</a>                .child(version_label),
+<a href=#335 id=335 data-nosnippet>335</a>        )
+<a href=#336 id=336 data-nosnippet>336</a>        .child(
+<a href=#337 id=337 data-nosnippet>337</a>            div()
+<a href=#338 id=338 data-nosnippet>338</a>                .flex_1()
+<a href=#339 id=339 data-nosnippet>339</a>                .text_sm()
+<a href=#340 id=340 data-nosnippet>340</a>                .text_color(cx.theme().muted_foreground)
+<a href=#341 id=341 data-nosnippet>341</a>                .child(display_url),
+<a href=#342 id=342 data-nosnippet>342</a>        )
+<a href=#343 id=343 data-nosnippet>343</a>        .child(div().w(gpui::px(<span class="number">110.0</span>)).child(pill))
+<a href=#344 id=344 data-nosnippet>344</a>        .child(
+<a href=#345 id=345 data-nosnippet>345</a>            div().w(gpui::px(<span class="number">80.0</span>)).child(
+<a href=#346 id=346 data-nosnippet>346</a>                Button::new(edit_id)
+<a href=#347 id=347 data-nosnippet>347</a>                    .child(<span class="string">"Edit"</span>)
+<a href=#348 id=348 data-nosnippet>348</a>                    .small()
+<a href=#349 id=349 data-nosnippet>349</a>                    .cursor_pointer()
+<a href=#350 id=350 data-nosnippet>350</a>                    .on_click(<span class="kw">move </span>|<span class="kw">_</span>, window, cx| {
+<a href=#351 id=351 data-nosnippet>351</a>                        <span class="kw">let </span>id = profile_id_for_edit.clone();
+<a href=#352 id=352 data-nosnippet>352</a>                        entity.update(cx, |this, cx| {
+<a href=#353 id=353 data-nosnippet>353</a>                            this.open_edit_profile_sheet(<span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>id), window, cx);
+<a href=#354 id=354 data-nosnippet>354</a>                        });
+<a href=#355 id=355 data-nosnippet>355</a>                    }),
+<a href=#356 id=356 data-nosnippet>356</a>            ),
+<a href=#357 id=357 data-nosnippet>357</a>        )
+<a href=#358 id=358 data-nosnippet>358</a>}
+<a href=#359 id=359 data-nosnippet>359</a>
+<a href=#360 id=360 data-nosnippet>360</a><span class="doccomment">/// Render a status pill for a profile.
+<a href=#361 id=361 data-nosnippet>361</a>///
+<a href=#362 id=362 data-nosnippet>362</a>/// ### Arguments
+<a href=#363 id=363 data-nosnippet>363</a>/// - `profile`: The profile to render the pill for.
+<a href=#364 id=364 data-nosnippet>364</a>/// - `master_on`: Whether the master switch is on (overrides the per-profile
+<a href=#365 id=365 data-nosnippet>365</a>///   status to Inactive when off).
+<a href=#366 id=366 data-nosnippet>366</a>/// - `cx`: The application context.
+<a href=#367 id=367 data-nosnippet>367</a>///
+<a href=#368 id=368 data-nosnippet>368</a>/// ### Returns
+<a href=#369 id=369 data-nosnippet>369</a>/// - `impl IntoElement`: The pill element.
+<a href=#370 id=370 data-nosnippet>370</a></span><span class="kw">fn </span>render_status_pill(profile: <span class="kw-2">&amp;</span>ServerProfile, master_on: bool, cx: <span class="kw-2">&amp;</span>App) -&gt; <span class="kw">impl </span>IntoElement {
+<a href=#371 id=371 data-nosnippet>371</a>    <span class="kw">let </span>status = get_profile_status(profile, master_on, cx);
+<a href=#372 id=372 data-nosnippet>372</a>    <span class="kw">let </span>(bg, fg) = pill_colors(status, cx);
+<a href=#373 id=373 data-nosnippet>373</a>    Label::new(status.label())
+<a href=#374 id=374 data-nosnippet>374</a>        .rounded_lg()
+<a href=#375 id=375 data-nosnippet>375</a>        .border_1()
+<a href=#376 id=376 data-nosnippet>376</a>        .border_color(bg)
+<a href=#377 id=377 data-nosnippet>377</a>        .text_sm()
+<a href=#378 id=378 data-nosnippet>378</a>        .text_color(fg)
+<a href=#379 id=379 data-nosnippet>379</a>        .text_center()
+<a href=#380 id=380 data-nosnippet>380</a>}
+<a href=#381 id=381 data-nosnippet>381</a>
+<a href=#382 id=382 data-nosnippet>382</a><span class="doccomment">/// Get the status  for a profile.
+<a href=#383 id=383 data-nosnippet>383</a>///
+<a href=#384 id=384 data-nosnippet>384</a>/// ### Arguments
+<a href=#385 id=385 data-nosnippet>385</a>/// - `profile`: The profile.
+<a href=#386 id=386 data-nosnippet>386</a>/// - `master_on`: The master switch value.
+<a href=#387 id=387 data-nosnippet>387</a>/// - `cx`: The application context.
+<a href=#388 id=388 data-nosnippet>388</a>///
+<a href=#389 id=389 data-nosnippet>389</a>/// ### Returns
+<a href=#390 id=390 data-nosnippet>390</a>/// - `SynchronizationStatus`: The profile's status.
+<a href=#391 id=391 data-nosnippet>391</a></span><span class="kw">fn </span>get_profile_status(profile: <span class="kw-2">&amp;</span>ServerProfile, master_on: bool, cx: <span class="kw-2">&amp;</span>App) -&gt; SynchronizationStatus {
+<a href=#392 id=392 data-nosnippet>392</a>    <span class="kw">if </span>!master_on || !profile.is_active {
+<a href=#393 id=393 data-nosnippet>393</a>        <span class="kw">return </span>SynchronizationStatus::NotActivated;
+<a href=#394 id=394 data-nosnippet>394</a>    }
+<a href=#395 id=395 data-nosnippet>395</a>    <span class="kw">let </span>shared = cx.global::&lt;<span class="kw">crate</span>::fulgur::shared_state::SharedAppState&gt;();
+<a href=#396 id=396 data-nosnippet>396</a>    <span class="kw">let </span>sync_states = shared.sync_states.read();
+<a href=#397 id=397 data-nosnippet>397</a>    sync_states
+<a href=#398 id=398 data-nosnippet>398</a>        .get(<span class="kw-2">&amp;</span>profile.id)
+<a href=#399 id=399 data-nosnippet>399</a>        .map_or(SynchronizationStatus::NotActivated, |state| {
+<a href=#400 id=400 data-nosnippet>400</a>            <span class="kw-2">*</span>state.connection_status.lock()
+<a href=#401 id=401 data-nosnippet>401</a>        })
+<a href=#402 id=402 data-nosnippet>402</a>}
+<a href=#403 id=403 data-nosnippet>403</a>
+<a href=#404 id=404 data-nosnippet>404</a><span class="doccomment">/// Resolve the version label to display for a profile.
+<a href=#405 id=405 data-nosnippet>405</a>///
+<a href=#406 id=406 data-nosnippet>406</a>/// ### Arguments
+<a href=#407 id=407 data-nosnippet>407</a>/// - `profile`: The profile to resolve the version for.
+<a href=#408 id=408 data-nosnippet>408</a>/// - `master_on`: Whether the master switch is on.
+<a href=#409 id=409 data-nosnippet>409</a>/// - `cx`: The application context.
+<a href=#410 id=410 data-nosnippet>410</a>///
+<a href=#411 id=411 data-nosnippet>411</a>/// ### Returns
+<a href=#412 id=412 data-nosnippet>412</a>/// - `String`: The version label to render.
+<a href=#413 id=413 data-nosnippet>413</a></span><span class="kw">fn </span>get_profile_version_display(profile: <span class="kw-2">&amp;</span>ServerProfile, master_on: bool, cx: <span class="kw-2">&amp;</span>App) -&gt; String {
+<a href=#414 id=414 data-nosnippet>414</a>    <span class="kw">if </span>!<span class="macro">matches!</span>(
+<a href=#415 id=415 data-nosnippet>415</a>        get_profile_status(profile, master_on, cx),
+<a href=#416 id=416 data-nosnippet>416</a>        SynchronizationStatus::Connected
+<a href=#417 id=417 data-nosnippet>417</a>    ) {
+<a href=#418 id=418 data-nosnippet>418</a>        <span class="kw">return </span><span class="string">"-"</span>.to_string();
+<a href=#419 id=419 data-nosnippet>419</a>    }
+<a href=#420 id=420 data-nosnippet>420</a>    <span class="kw">let </span>shared = cx.global::&lt;<span class="kw">crate</span>::fulgur::shared_state::SharedAppState&gt;();
+<a href=#421 id=421 data-nosnippet>421</a>    <span class="kw">let </span>sync_states = shared.sync_states.read();
+<a href=#422 id=422 data-nosnippet>422</a>    <span class="kw">let </span><span class="prelude-val">Some</span>(state) = sync_states.get(<span class="kw-2">&amp;</span>profile.id) <span class="kw">else </span>{
+<a href=#423 id=423 data-nosnippet>423</a>        <span class="kw">return </span><span class="string">"-"</span>.to_string();
+<a href=#424 id=424 data-nosnippet>424</a>    };
+<a href=#425 id=425 data-nosnippet>425</a>    <span class="kw">let </span>version = state.server_version.lock();
+<a href=#426 id=426 data-nosnippet>426</a>    <span class="kw">match </span>version.as_deref() {
+<a href=#427 id=427 data-nosnippet>427</a>        <span class="prelude-val">Some</span>(raw) =&gt; <span class="macro">format!</span>(<span class="string">"v{}"</span>, raw.trim().trim_start_matches([<span class="string">'v'</span>, <span class="string">'V'</span>])),
+<a href=#428 id=428 data-nosnippet>428</a>        <span class="prelude-val">None </span>=&gt; <span class="string">"&lt; v0.7.0"</span>.to_string(),
+<a href=#429 id=429 data-nosnippet>429</a>    }
+<a href=#430 id=430 data-nosnippet>430</a>}
+<a href=#431 id=431 data-nosnippet>431</a>
+<a href=#432 id=432 data-nosnippet>432</a><span class="doccomment">/// Resolve the foreground/background colors for a status pill.
+<a href=#433 id=433 data-nosnippet>433</a>///
+<a href=#434 id=434 data-nosnippet>434</a>/// ### Arguments
+<a href=#435 id=435 data-nosnippet>435</a>/// - `status`: The profile's status enum value.
+<a href=#436 id=436 data-nosnippet>436</a>///
+<a href=#437 id=437 data-nosnippet>437</a>/// ### Returns
+<a href=#438 id=438 data-nosnippet>438</a>/// - `(gpui::Hsla, gpui::Hsla)`: Background and foreground colors.
+<a href=#439 id=439 data-nosnippet>439</a></span><span class="kw">fn </span>pill_colors(status: SynchronizationStatus, cx: <span class="kw-2">&amp;</span>App) -&gt; (gpui::Hsla, gpui::Hsla) {
+<a href=#440 id=440 data-nosnippet>440</a>    <span class="kw">let </span>theme = cx.theme();
+<a href=#441 id=441 data-nosnippet>441</a>    <span class="kw">match </span>status {
+<a href=#442 id=442 data-nosnippet>442</a>        SynchronizationStatus::Connected =&gt; (theme.success, theme.success),
+<a href=#443 id=443 data-nosnippet>443</a>        SynchronizationStatus::Connecting =&gt; (theme.warning, theme.warning),
+<a href=#444 id=444 data-nosnippet>444</a>        SynchronizationStatus::AuthenticationFailed
+<a href=#445 id=445 data-nosnippet>445</a>        | SynchronizationStatus::ConnectionFailed
+<a href=#446 id=446 data-nosnippet>446</a>        | SynchronizationStatus::NotActivated
+<a href=#447 id=447 data-nosnippet>447</a>        | SynchronizationStatus::Other =&gt; (theme.danger, theme.danger),
+<a href=#448 id=448 data-nosnippet>448</a>        SynchronizationStatus::Disconnected =&gt; (theme.info, theme.info),
+<a href=#449 id=449 data-nosnippet>449</a>    }
+<a href=#450 id=450 data-nosnippet>450</a>}
+<a href=#451 id=451 data-nosnippet>451</a>
+<a href=#452 id=452 data-nosnippet>452</a><span class="doccomment">/// Render the right-aligned "Add server" button.
+<a href=#453 id=453 data-nosnippet>453</a>///
+<a href=#454 id=454 data-nosnippet>454</a>/// ### Arguments
+<a href=#455 id=455 data-nosnippet>455</a>/// - `entity`: The Fulgur entity.
+<a href=#456 id=456 data-nosnippet>456</a>///
+<a href=#457 id=457 data-nosnippet>457</a>/// ### Returns
+<a href=#458 id=458 data-nosnippet>458</a>/// - `SettingItem`: The button row.
+<a href=#459 id=459 data-nosnippet>459</a></span><span class="kw">fn </span>render_add_server_button(entity: <span class="kw-2">&amp;</span>Entity&lt;Fulgur&gt;) -&gt; SettingItem {
+<a href=#460 id=460 data-nosnippet>460</a>    <span class="kw">let </span>entity = entity.clone();
+<a href=#461 id=461 data-nosnippet>461</a>    SettingItem::render(<span class="kw">move </span>|_options, _window, _cx| {
+<a href=#462 id=462 data-nosnippet>462</a>        <span class="kw">let </span>entity = entity.clone();
+<a href=#463 id=463 data-nosnippet>463</a>        h_flex()
+<a href=#464 id=464 data-nosnippet>464</a>            .w_full()
+<a href=#465 id=465 data-nosnippet>465</a>            .justify_end()
+<a href=#466 id=466 data-nosnippet>466</a>            .mt_2()
+<a href=#467 id=467 data-nosnippet>467</a>            .child(
+<a href=#468 id=468 data-nosnippet>468</a>                Button::new(<span class="string">"add-server-profile"</span>)
+<a href=#469 id=469 data-nosnippet>469</a>                    .child(<span class="string">"Add Fulgurant instance"</span>)
+<a href=#470 id=470 data-nosnippet>470</a>                    .small()
+<a href=#471 id=471 data-nosnippet>471</a>                    .primary()
+<a href=#472 id=472 data-nosnippet>472</a>                    .cursor_pointer()
+<a href=#473 id=473 data-nosnippet>473</a>                    .on_click(<span class="kw">move </span>|<span class="kw">_</span>, window, cx| {
+<a href=#474 id=474 data-nosnippet>474</a>                        <span class="kw">let </span>already_at_cap = entity
+<a href=#475 id=475 data-nosnippet>475</a>                            .read(cx)
+<a href=#476 id=476 data-nosnippet>476</a>                            .settings
+<a href=#477 id=477 data-nosnippet>477</a>                            .app_settings
+<a href=#478 id=478 data-nosnippet>478</a>                            .synchronization_settings
+<a href=#479 id=479 data-nosnippet>479</a>                            .profiles
+<a href=#480 id=480 data-nosnippet>480</a>                            .len()
+<a href=#481 id=481 data-nosnippet>481</a>                            &gt;= MAX_PROFILES;
+<a href=#482 id=482 data-nosnippet>482</a>                        <span class="kw">if </span>already_at_cap {
+<a href=#483 id=483 data-nosnippet>483</a>                            window.push_notification(
+<a href=#484 id=484 data-nosnippet>484</a>                                (
+<a href=#485 id=485 data-nosnippet>485</a>                                    gpui_component::notification::NotificationType::Error,
+<a href=#486 id=486 data-nosnippet>486</a>                                    SharedString::from(<span class="macro">format!</span>(
+<a href=#487 id=487 data-nosnippet>487</a>                                        <span class="string">"Maximum of {MAX_PROFILES} Fulgurant instances reached."
+<a href=#488 id=488 data-nosnippet>488</a>                                    </span>)),
+<a href=#489 id=489 data-nosnippet>489</a>                                ),
+<a href=#490 id=490 data-nosnippet>490</a>                                cx,
+<a href=#491 id=491 data-nosnippet>491</a>                            );
+<a href=#492 id=492 data-nosnippet>492</a>                            <span class="kw">return</span>;
+<a href=#493 id=493 data-nosnippet>493</a>                        }
+<a href=#494 id=494 data-nosnippet>494</a>                        entity.update(cx, |this, cx| {
+<a href=#495 id=495 data-nosnippet>495</a>                            this.open_edit_profile_sheet(<span class="prelude-val">None</span>, window, cx);
+<a href=#496 id=496 data-nosnippet>496</a>                        });
+<a href=#497 id=497 data-nosnippet>497</a>                    }),
+<a href=#498 id=498 data-nosnippet>498</a>            )
+<a href=#499 id=499 data-nosnippet>499</a>            .into_any_element()
+<a href=#500 id=500 data-nosnippet>500</a>    })
+<a href=#501 id=501 data-nosnippet>501</a>}
 </code></pre></div></section></main></body></html>
