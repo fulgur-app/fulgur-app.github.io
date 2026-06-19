@@ -258,7 +258,7 @@
 <a href=#258 id=258 data-nosnippet>258</a>            fulgur::utils::single_instance::start_ipc_listener(pf, pic);
 <a href=#259 id=259 data-nosnippet>259</a>        }
 <a href=#260 id=260 data-nosnippet>260</a>        cx.set_global(fulgur::window_manager::WindowManager::new());
-<a href=#261 id=261 data-nosnippet>261</a>        <span class="kw">let </span>windows_state = fulgur::state_persistence::WindowsState::load().ok();
+<a href=#261 id=261 data-nosnippet>261</a>        <span class="kw">let </span>windows_state = fulgur::state::WindowsState::load().ok();
 <a href=#262 id=262 data-nosnippet>262</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(ws) = windows_state.filter(|ws| !ws.windows.is_empty()) {
 <a href=#263 id=263 data-nosnippet>263</a>            <span class="macro">log::info!</span>(<span class="string">"Restoring {} saved window(s)"</span>, ws.windows.len());
 <a href=#264 id=264 data-nosnippet>264</a>            <span class="kw">for </span>(index, window_state) <span class="kw">in </span>ws.windows.into_iter().enumerate() {
@@ -291,7 +291,7 @@
 <a href=#291 id=291 data-nosnippet>291</a></span><span class="kw">fn </span>create_window(
 <a href=#292 id=292 data-nosnippet>292</a>    cx: <span class="kw-2">&amp;mut </span>gpui::AsyncApp,
 <a href=#293 id=293 data-nosnippet>293</a>    window_index: usize,
-<a href=#294 id=294 data-nosnippet>294</a>    saved_bounds: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>fulgur::state_persistence::SerializedWindowBounds&gt;,
+<a href=#294 id=294 data-nosnippet>294</a>    saved_bounds: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>fulgur::state::SerializedWindowBounds&gt;,
 <a href=#295 id=295 data-nosnippet>295</a>    cli_file_paths: <span class="kw-2">&amp;</span>[std::path::PathBuf],
 <a href=#296 id=296 data-nosnippet>296</a>) -&gt; anyhow::Result&lt;()&gt; {
 <a href=#297 id=297 data-nosnippet>297</a>    <span class="kw">let </span>(window_bounds, saved_display_id) = <span class="kw">match </span>saved_bounds {
