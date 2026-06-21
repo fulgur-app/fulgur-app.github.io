@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["generate_api_key","hash_api_key","hash_api_key_fast","verify_api_key"]};
+window.SIDEBAR_ITEMS = {"fn":["dummy_verify_api_key","generate_api_key","hash_api_key","hash_api_key_fast","verify_api_key"]};
