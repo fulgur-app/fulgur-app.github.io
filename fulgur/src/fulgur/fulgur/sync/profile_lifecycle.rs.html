@@ -40,7 +40,7 @@
 <a href=#40 id=40 data-nosnippet>40</a>            .synchronization_settings
 <a href=#41 id=41 data-nosnippet>41</a>            .profiles
 <a href=#42 id=42 data-nosnippet>42</a>            .push(profile);
-<a href=#43 id=43 data-nosnippet>43</a>        Fulgur::shared_state(cx).sync_state_for(<span class="kw-2">&amp;</span>profile_id);
+<a href=#43 id=43 data-nosnippet>43</a>        <span class="kw">let _ </span>= Fulgur::shared_state(cx).sync_state_for(<span class="kw-2">&amp;</span>profile_id);
 <a href=#44 id=44 data-nosnippet>44</a>        <span class="self">self</span>.update_and_propagate_settings(cx)
 <a href=#45 id=45 data-nosnippet>45</a>    }
 <a href=#46 id=46 data-nosnippet>46</a>
@@ -139,7 +139,7 @@
 <a href=#139 id=139 data-nosnippet>139</a>        <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = save_device_api_key_to_keychain(profile_id, <span class="prelude-val">None</span>) {
 <a href=#140 id=140 data-nosnippet>140</a>            <span class="macro">log::warn!</span>(<span class="string">"Failed to remove device API key for profile '{profile_id}': {e}"</span>);
 <a href=#141 id=141 data-nosnippet>141</a>        }
-<a href=#142 id=142 data-nosnippet>142</a>        Fulgur::shared_state(cx).remove_sync_state(profile_id);
+<a href=#142 id=142 data-nosnippet>142</a>        <span class="kw">let _ </span>= Fulgur::shared_state(cx).remove_sync_state(profile_id);
 <a href=#143 id=143 data-nosnippet>143</a>        <span class="self">self</span>.settings
 <a href=#144 id=144 data-nosnippet>144</a>            .app_settings
 <a href=#145 id=145 data-nosnippet>145</a>            .synchronization_settings

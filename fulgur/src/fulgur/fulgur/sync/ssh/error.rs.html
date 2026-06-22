@@ -30,7 +30,7 @@
 <a href=#30 id=30 data-nosnippet>30</a>            SshError::ConnectionFailed(msg) =&gt; <span class="macro">write!</span>(f, <span class="string">"Connection failed: {msg}"</span>),
 <a href=#31 id=31 data-nosnippet>31</a>            SshError::HostKeyMismatch { host, port } =&gt; <span class="macro">write!</span>(
 <a href=#32 id=32 data-nosnippet>32</a>                f,
-<a href=#33 id=33 data-nosnippet>33</a>                <span class="string">"Host key mismatch for {host}:{port} — possible MITM. \
+<a href=#33 id=33 data-nosnippet>33</a>                <span class="string">"Host key mismatch for {host}:{port} - possible MITM. \
 <a href=#34 id=34 data-nosnippet>34</a>                 Verify or update ~/.ssh/known_hosts."
 <a href=#35 id=35 data-nosnippet>35</a>            </span>),
 <a href=#36 id=36 data-nosnippet>36</a>            SshError::UnknownHost {
@@ -39,7 +39,7 @@
 <a href=#39 id=39 data-nosnippet>39</a>                fingerprint,
 <a href=#40 id=40 data-nosnippet>40</a>            } =&gt; <span class="macro">write!</span>(f, <span class="string">"Unknown host {host}:{port} (fingerprint: {fingerprint})"</span>),
 <a href=#41 id=41 data-nosnippet>41</a>            SshError::AuthFailed =&gt; {
-<a href=#42 id=42 data-nosnippet>42</a>                <span class="macro">write!</span>(f, <span class="string">"Authentication failed — check username and password."</span>)
+<a href=#42 id=42 data-nosnippet>42</a>                <span class="macro">write!</span>(f, <span class="string">"Authentication failed - check username and password."</span>)
 <a href=#43 id=43 data-nosnippet>43</a>            }
 <a href=#44 id=44 data-nosnippet>44</a>            SshError::SftpError(msg) =&gt; <span class="macro">write!</span>(f, <span class="string">"SFTP error: {msg}"</span>),
 <a href=#45 id=45 data-nosnippet>45</a>            SshError::IoError(msg) =&gt; <span class="macro">write!</span>(f, <span class="string">"I/O error: {msg}"</span>),
@@ -52,8 +52,9 @@
 <a href=#52 id=52 data-nosnippet>52</a>    ///
 <a href=#53 id=53 data-nosnippet>53</a>    /// ### Returns
 <a href=#54 id=54 data-nosnippet>54</a>    /// - `String`: User-facing message; delegates to the `Display` implementation.
-<a href=#55 id=55 data-nosnippet>55</a>    </span><span class="kw">pub fn </span>user_message(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String {
-<a href=#56 id=56 data-nosnippet>56</a>        <span class="self">self</span>.to_string()
-<a href=#57 id=57 data-nosnippet>57</a>    }
-<a href=#58 id=58 data-nosnippet>58</a>}
+<a href=#55 id=55 data-nosnippet>55</a>    </span><span class="attr">#[must_use]
+<a href=#56 id=56 data-nosnippet>56</a>    </span><span class="kw">pub fn </span>user_message(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String {
+<a href=#57 id=57 data-nosnippet>57</a>        <span class="self">self</span>.to_string()
+<a href=#58 id=58 data-nosnippet>58</a>    }
+<a href=#59 id=59 data-nosnippet>59</a>}
 </code></pre></div></section></main></body></html>

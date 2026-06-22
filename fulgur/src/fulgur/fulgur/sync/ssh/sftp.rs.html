@@ -390,51 +390,52 @@
 <a href=#390 id=390 data-nosnippet>390</a>///
 <a href=#391 id=391 data-nosnippet>391</a>/// ### Returns
 <a href=#392 id=392 data-nosnippet>392</a>/// - `String`: Parent directory path (returns `/` for root or single-segment paths).
-<a href=#393 id=393 data-nosnippet>393</a></span><span class="kw">pub fn </span>parent_remote_path(path: <span class="kw-2">&amp;</span>str) -&gt; String {
-<a href=#394 id=394 data-nosnippet>394</a>    <span class="kw">let </span>trimmed = path.trim_end_matches(REMOTE_ROOT_PATH);
-<a href=#395 id=395 data-nosnippet>395</a>    <span class="kw">if </span>trimmed.is_empty() || trimmed == REMOTE_ROOT_PATH {
-<a href=#396 id=396 data-nosnippet>396</a>        <span class="kw">return </span>REMOTE_ROOT_PATH.to_string();
-<a href=#397 id=397 data-nosnippet>397</a>    }
-<a href=#398 id=398 data-nosnippet>398</a>    <span class="kw">match </span>trimmed.rfind(REMOTE_ROOT_PATH) {
-<a href=#399 id=399 data-nosnippet>399</a>        <span class="prelude-val">Some</span>(<span class="number">0</span>) | <span class="prelude-val">None </span>=&gt; REMOTE_ROOT_PATH.to_string(),
-<a href=#400 id=400 data-nosnippet>400</a>        <span class="prelude-val">Some</span>(index) =&gt; trimmed[..index].to_string(),
-<a href=#401 id=401 data-nosnippet>401</a>    }
-<a href=#402 id=402 data-nosnippet>402</a>}
-<a href=#403 id=403 data-nosnippet>403</a>
-<a href=#404 id=404 data-nosnippet>404</a><span class="doccomment">/// Join a directory and entry name into a normalized remote path.
-<a href=#405 id=405 data-nosnippet>405</a>///
-<a href=#406 id=406 data-nosnippet>406</a>/// ### Arguments
-<a href=#407 id=407 data-nosnippet>407</a>/// - `directory`: Parent directory path.
-<a href=#408 id=408 data-nosnippet>408</a>/// - `name`: Entry name in that directory.
-<a href=#409 id=409 data-nosnippet>409</a>///
-<a href=#410 id=410 data-nosnippet>410</a>/// ### Returns
-<a href=#411 id=411 data-nosnippet>411</a>/// - `String`: Joined full path.
-<a href=#412 id=412 data-nosnippet>412</a></span><span class="kw">fn </span>join_remote_path(directory: <span class="kw-2">&amp;</span>str, name: <span class="kw-2">&amp;</span>str) -&gt; String {
-<a href=#413 id=413 data-nosnippet>413</a>    <span class="kw">let </span>directory = normalize_remote_path(directory);
-<a href=#414 id=414 data-nosnippet>414</a>    <span class="kw">if </span>directory == REMOTE_ROOT_PATH {
-<a href=#415 id=415 data-nosnippet>415</a>        <span class="macro">format!</span>(<span class="string">"{REMOTE_ROOT_PATH}{name}"</span>)
-<a href=#416 id=416 data-nosnippet>416</a>    } <span class="kw">else </span>{
-<a href=#417 id=417 data-nosnippet>417</a>        <span class="macro">format!</span>(<span class="string">"{}/{}"</span>, directory.trim_end_matches(REMOTE_ROOT_PATH), name)
-<a href=#418 id=418 data-nosnippet>418</a>    }
-<a href=#419 id=419 data-nosnippet>419</a>}
-<a href=#420 id=420 data-nosnippet>420</a>
-<a href=#421 id=421 data-nosnippet>421</a><span class="attr">#[cfg(test)]
-<a href=#422 id=422 data-nosnippet>422</a></span><span class="kw">mod </span>tests {
-<a href=#423 id=423 data-nosnippet>423</a>    <span class="kw">use </span>super::{REMOTE_ROOT_PATH, parent_remote_path};
-<a href=#424 id=424 data-nosnippet>424</a>
-<a href=#425 id=425 data-nosnippet>425</a>    <span class="attr">#[test]
-<a href=#426 id=426 data-nosnippet>426</a>    </span><span class="kw">fn </span>parent_remote_path_of_root_is_root() {
-<a href=#427 id=427 data-nosnippet>427</a>        <span class="macro">assert_eq!</span>(parent_remote_path(REMOTE_ROOT_PATH), REMOTE_ROOT_PATH);
-<a href=#428 id=428 data-nosnippet>428</a>    }
-<a href=#429 id=429 data-nosnippet>429</a>
-<a href=#430 id=430 data-nosnippet>430</a>    <span class="attr">#[test]
-<a href=#431 id=431 data-nosnippet>431</a>    </span><span class="kw">fn </span>parent_remote_path_of_single_segment_returns_root() {
-<a href=#432 id=432 data-nosnippet>432</a>        <span class="macro">assert_eq!</span>(parent_remote_path(<span class="string">"/tmp"</span>), REMOTE_ROOT_PATH);
-<a href=#433 id=433 data-nosnippet>433</a>    }
-<a href=#434 id=434 data-nosnippet>434</a>
-<a href=#435 id=435 data-nosnippet>435</a>    <span class="attr">#[test]
-<a href=#436 id=436 data-nosnippet>436</a>    </span><span class="kw">fn </span>parent_remote_path_of_nested_path_returns_parent() {
-<a href=#437 id=437 data-nosnippet>437</a>        <span class="macro">assert_eq!</span>(parent_remote_path(<span class="string">"/tmp/nested/file.txt"</span>), <span class="string">"/tmp/nested"</span>);
-<a href=#438 id=438 data-nosnippet>438</a>    }
-<a href=#439 id=439 data-nosnippet>439</a>}
+<a href=#393 id=393 data-nosnippet>393</a></span><span class="attr">#[must_use]
+<a href=#394 id=394 data-nosnippet>394</a></span><span class="kw">pub fn </span>parent_remote_path(path: <span class="kw-2">&amp;</span>str) -&gt; String {
+<a href=#395 id=395 data-nosnippet>395</a>    <span class="kw">let </span>trimmed = path.trim_end_matches(REMOTE_ROOT_PATH);
+<a href=#396 id=396 data-nosnippet>396</a>    <span class="kw">if </span>trimmed.is_empty() || trimmed == REMOTE_ROOT_PATH {
+<a href=#397 id=397 data-nosnippet>397</a>        <span class="kw">return </span>REMOTE_ROOT_PATH.to_string();
+<a href=#398 id=398 data-nosnippet>398</a>    }
+<a href=#399 id=399 data-nosnippet>399</a>    <span class="kw">match </span>trimmed.rfind(REMOTE_ROOT_PATH) {
+<a href=#400 id=400 data-nosnippet>400</a>        <span class="prelude-val">Some</span>(<span class="number">0</span>) | <span class="prelude-val">None </span>=&gt; REMOTE_ROOT_PATH.to_string(),
+<a href=#401 id=401 data-nosnippet>401</a>        <span class="prelude-val">Some</span>(index) =&gt; trimmed[..index].to_string(),
+<a href=#402 id=402 data-nosnippet>402</a>    }
+<a href=#403 id=403 data-nosnippet>403</a>}
+<a href=#404 id=404 data-nosnippet>404</a>
+<a href=#405 id=405 data-nosnippet>405</a><span class="doccomment">/// Join a directory and entry name into a normalized remote path.
+<a href=#406 id=406 data-nosnippet>406</a>///
+<a href=#407 id=407 data-nosnippet>407</a>/// ### Arguments
+<a href=#408 id=408 data-nosnippet>408</a>/// - `directory`: Parent directory path.
+<a href=#409 id=409 data-nosnippet>409</a>/// - `name`: Entry name in that directory.
+<a href=#410 id=410 data-nosnippet>410</a>///
+<a href=#411 id=411 data-nosnippet>411</a>/// ### Returns
+<a href=#412 id=412 data-nosnippet>412</a>/// - `String`: Joined full path.
+<a href=#413 id=413 data-nosnippet>413</a></span><span class="kw">fn </span>join_remote_path(directory: <span class="kw-2">&amp;</span>str, name: <span class="kw-2">&amp;</span>str) -&gt; String {
+<a href=#414 id=414 data-nosnippet>414</a>    <span class="kw">let </span>directory = normalize_remote_path(directory);
+<a href=#415 id=415 data-nosnippet>415</a>    <span class="kw">if </span>directory == REMOTE_ROOT_PATH {
+<a href=#416 id=416 data-nosnippet>416</a>        <span class="macro">format!</span>(<span class="string">"{REMOTE_ROOT_PATH}{name}"</span>)
+<a href=#417 id=417 data-nosnippet>417</a>    } <span class="kw">else </span>{
+<a href=#418 id=418 data-nosnippet>418</a>        <span class="macro">format!</span>(<span class="string">"{}/{}"</span>, directory.trim_end_matches(REMOTE_ROOT_PATH), name)
+<a href=#419 id=419 data-nosnippet>419</a>    }
+<a href=#420 id=420 data-nosnippet>420</a>}
+<a href=#421 id=421 data-nosnippet>421</a>
+<a href=#422 id=422 data-nosnippet>422</a><span class="attr">#[cfg(test)]
+<a href=#423 id=423 data-nosnippet>423</a></span><span class="kw">mod </span>tests {
+<a href=#424 id=424 data-nosnippet>424</a>    <span class="kw">use </span>super::{REMOTE_ROOT_PATH, parent_remote_path};
+<a href=#425 id=425 data-nosnippet>425</a>
+<a href=#426 id=426 data-nosnippet>426</a>    <span class="attr">#[test]
+<a href=#427 id=427 data-nosnippet>427</a>    </span><span class="kw">fn </span>parent_remote_path_of_root_is_root() {
+<a href=#428 id=428 data-nosnippet>428</a>        <span class="macro">assert_eq!</span>(parent_remote_path(REMOTE_ROOT_PATH), REMOTE_ROOT_PATH);
+<a href=#429 id=429 data-nosnippet>429</a>    }
+<a href=#430 id=430 data-nosnippet>430</a>
+<a href=#431 id=431 data-nosnippet>431</a>    <span class="attr">#[test]
+<a href=#432 id=432 data-nosnippet>432</a>    </span><span class="kw">fn </span>parent_remote_path_of_single_segment_returns_root() {
+<a href=#433 id=433 data-nosnippet>433</a>        <span class="macro">assert_eq!</span>(parent_remote_path(<span class="string">"/tmp"</span>), REMOTE_ROOT_PATH);
+<a href=#434 id=434 data-nosnippet>434</a>    }
+<a href=#435 id=435 data-nosnippet>435</a>
+<a href=#436 id=436 data-nosnippet>436</a>    <span class="attr">#[test]
+<a href=#437 id=437 data-nosnippet>437</a>    </span><span class="kw">fn </span>parent_remote_path_of_nested_path_returns_parent() {
+<a href=#438 id=438 data-nosnippet>438</a>        <span class="macro">assert_eq!</span>(parent_remote_path(<span class="string">"/tmp/nested/file.txt"</span>), <span class="string">"/tmp/nested"</span>);
+<a href=#439 id=439 data-nosnippet>439</a>    }
+<a href=#440 id=440 data-nosnippet>440</a>}
 </code></pre></div></section></main></body></html>
