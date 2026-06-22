@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"constant":["MAX_DEVICES_PER_USER","MAX_DEVICE_NAME_LEN","MAX_DEVICE_TYPE_LEN"],"enum":["CreateDeviceError"],"fn":["get_max_devices_per_user"],"struct":["CreateDevice","Device","DeviceRepository","RenewDevice","UpdateDevice"]};
+window.SIDEBAR_ITEMS = {"constant":["MAX_DEVICES_PER_USER","MAX_DEVICE_NAME_LEN","MAX_DEVICE_TYPE_LEN","VALID_API_KEY_LIFETIMES"],"enum":["CreateDeviceError"],"fn":["get_max_devices_per_user","is_valid_api_key_lifetime"],"struct":["CreateDevice","Device","DeviceRepository","RenewDevice","UpdateDevice"]};
