@@ -279,7 +279,7 @@
 <a href=#279 id=279 data-nosnippet>279</a>        <span class="prelude-val">Ok</span>(VerificationResult::Verified)
 <a href=#280 id=280 data-nosnippet>280</a>    }
 <a href=#281 id=281 data-nosnippet>281</a>
-<a href=#282 id=282 data-nosnippet>282</a>    <span class="doccomment">/// Count active (non-expired) verification codes for an email and purpose
+<a href=#282 id=282 data-nosnippet>282</a>    <span class="doccomment">/// Count active (non-expired, unverified) verification codes for an email and purpose
 <a href=#283 id=283 data-nosnippet>283</a>    ///
 <a href=#284 id=284 data-nosnippet>284</a>    /// ### Arguments
 <a href=#285 id=285 data-nosnippet>285</a>    /// - `email`: The email of the user
@@ -296,8 +296,8 @@
 <a href=#296 id=296 data-nosnippet>296</a>        <span class="kw">let </span>now = OffsetDateTime::now_utc();
 <a href=#297 id=297 data-nosnippet>297</a>        <span class="kw">let </span>count: (i64,) = <span class="macro">db_fetch_one_dual!</span>(
 <a href=#298 id=298 data-nosnippet>298</a>            <span class="self">self</span>.pool,
-<a href=#299 id=299 data-nosnippet>299</a>            sqlite: <span class="string">"SELECT COUNT(*) FROM verification_codes WHERE email = ? AND purpose = ? AND expires_at &gt; ?"</span>,
-<a href=#300 id=300 data-nosnippet>300</a>            postgres: <span class="string">"SELECT COUNT(*) FROM verification_codes WHERE email = $1 AND purpose = $2 AND expires_at &gt; to_timestamp($3)"</span>,
+<a href=#299 id=299 data-nosnippet>299</a>            sqlite: <span class="string">"SELECT COUNT(*) FROM verification_codes WHERE email = ? AND purpose = ? AND expires_at &gt; ? AND verified_at IS NULL"</span>,
+<a href=#300 id=300 data-nosnippet>300</a>            postgres: <span class="string">"SELECT COUNT(*) FROM verification_codes WHERE email = $1 AND purpose = $2 AND expires_at &gt; to_timestamp($3) AND verified_at IS NULL"</span>,
 <a href=#301 id=301 data-nosnippet>301</a>            (i64,),
 <a href=#302 id=302 data-nosnippet>302</a>            email,
 <a href=#303 id=303 data-nosnippet>303</a>            purpose,
