@@ -42,7 +42,7 @@
 <a href=#42 id=42 data-nosnippet>42</a>        <span class="self">Self </span>{
 <a href=#43 id=43 data-nosnippet>43</a>            max_attempts: <span class="number">5</span>,
 <a href=#44 id=44 data-nosnippet>44</a>            initial_delay: Duration::from_millis(<span class="number">500</span>),
-<a href=#45 id=45 data-nosnippet>45</a>            max_delay: Duration::from_secs(<span class="number">60</span>),
+<a href=#45 id=45 data-nosnippet>45</a>            max_delay: Duration::from_mins(<span class="number">1</span>),
 <a href=#46 id=46 data-nosnippet>46</a>            backoff_multiplier: <span class="number">2.0</span>,
 <a href=#47 id=47 data-nosnippet>47</a>        }
 <a href=#48 id=48 data-nosnippet>48</a>    }
@@ -153,7 +153,7 @@
 <a href=#153 id=153 data-nosnippet>153</a>    </span><span class="kw">pub fn </span>default_settings() -&gt; <span class="self">Self </span>{
 <a href=#154 id=154 data-nosnippet>154</a>        <span class="self">Self</span>::new(
 <a href=#155 id=155 data-nosnippet>155</a>            Duration::from_secs(<span class="number">1</span>),
-<a href=#156 id=156 data-nosnippet>156</a>            Duration::from_secs(<span class="number">300</span>), <span class="comment">// 5 minutes
+<a href=#156 id=156 data-nosnippet>156</a>            Duration::from_mins(<span class="number">5</span>), <span class="comment">// 5 minutes
 <a href=#157 id=157 data-nosnippet>157</a>            </span><span class="number">2.0</span>,
 <a href=#158 id=158 data-nosnippet>158</a>        )
 <a href=#159 id=159 data-nosnippet>159</a>    }
@@ -257,7 +257,7 @@
 <a href=#257 id=257 data-nosnippet>257</a>    <span class="attr">#[test]
 <a href=#258 id=258 data-nosnippet>258</a>    </span><span class="kw">fn </span>test_backoff_calculator_progression() {
 <a href=#259 id=259 data-nosnippet>259</a>        <span class="kw">let </span><span class="kw-2">mut </span>backoff =
-<a href=#260 id=260 data-nosnippet>260</a>            BackoffCalculator::new(Duration::from_secs(<span class="number">1</span>), Duration::from_secs(<span class="number">60</span>), <span class="number">2.0</span>);
+<a href=#260 id=260 data-nosnippet>260</a>            BackoffCalculator::new(Duration::from_secs(<span class="number">1</span>), Duration::from_mins(<span class="number">1</span>), <span class="number">2.0</span>);
 <a href=#261 id=261 data-nosnippet>261</a>
 <a href=#262 id=262 data-nosnippet>262</a>        <span class="comment">// First failure: 1s
 <a href=#263 id=263 data-nosnippet>263</a>        </span><span class="kw">let </span>delay1 = backoff.record_failure();
