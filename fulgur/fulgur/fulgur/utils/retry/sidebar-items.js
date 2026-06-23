@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["with_retry"],"struct":["BackoffCalculator","RetryConfig"]};
+window.SIDEBAR_ITEMS = {"fn":["interruptible_sleep","with_retry"],"struct":["BackoffCalculator","RetryConfig"]};
