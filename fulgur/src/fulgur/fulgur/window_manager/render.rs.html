@@ -30,7 +30,7 @@
 <a href=#30 id=30 data-nosnippet>30</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>((notification_type, message)) = <span class="self">self</span>.pending_notification.take() {
 <a href=#31 id=31 data-nosnippet>31</a>            window.push_notification((notification_type, message), cx);
 <a href=#32 id=32 data-nosnippet>32</a>        }
-<a href=#33 id=33 data-nosnippet>33</a>        <span class="comment">// Drain pending notifications from every profile's sync state.
+<a href=#33 id=33 data-nosnippet>33</a>        <span class="comment">// Drain every queued notification from every profile's sync state.
 <a href=#34 id=34 data-nosnippet>34</a>        </span><span class="kw">let </span>pending_notifications: Vec&lt;(
 <a href=#35 id=35 data-nosnippet>35</a>            gpui_component::notification::NotificationType,
 <a href=#36 id=36 data-nosnippet>36</a>            gpui::SharedString,
@@ -38,7 +38,7 @@
 <a href=#38 id=38 data-nosnippet>38</a>            <span class="kw">let </span>states = Fulgur::shared_state(cx).sync_states.read();
 <a href=#39 id=39 data-nosnippet>39</a>            states
 <a href=#40 id=40 data-nosnippet>40</a>                .values()
-<a href=#41 id=41 data-nosnippet>41</a>                .filter_map(|state| state.pending_notification.lock().take())
+<a href=#41 id=41 data-nosnippet>41</a>                .flat_map(|state| std::mem::take(<span class="kw-2">&amp;mut *</span>state.pending_notification.lock()))
 <a href=#42 id=42 data-nosnippet>42</a>                .collect()
 <a href=#43 id=43 data-nosnippet>43</a>        };
 <a href=#44 id=44 data-nosnippet>44</a>        <span class="kw">for </span>(notification_type, message) <span class="kw">in </span>pending_notifications {
