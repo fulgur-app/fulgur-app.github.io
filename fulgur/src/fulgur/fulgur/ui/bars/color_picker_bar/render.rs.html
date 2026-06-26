@@ -284,7 +284,7 @@
 <a href=#284 id=284 data-nosnippet>284</a>            <span class="kw">let </span><span class="kw-2">mut </span>settings = Settings::new();
 <a href=#285 id=285 data-nosnippet>285</a>            settings.editor_settings.watch_files = <span class="bool-val">false</span>;
 <a href=#286 id=286 data-nosnippet>286</a>            <span class="kw">let </span>pending_files: Arc&lt;Mutex&lt;Vec&lt;PathBuf&gt;&gt;&gt; = Arc::new(Mutex::new(Vec::new()));
-<a href=#287 id=287 data-nosnippet>287</a>            cx.set_global(SharedAppState::new(settings, pending_files));
+<a href=#287 id=287 data-nosnippet>287</a>            cx.set_global(SharedAppState::new(settings, pending_files, <span class="prelude-val">None</span>));
 <a href=#288 id=288 data-nosnippet>288</a>            cx.set_global(WindowManager::new());
 <a href=#289 id=289 data-nosnippet>289</a>        });
 <a href=#290 id=290 data-nosnippet>290</a>

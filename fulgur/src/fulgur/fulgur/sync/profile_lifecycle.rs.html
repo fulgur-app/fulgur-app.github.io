@@ -174,7 +174,7 @@
 <a href=#174 id=174 data-nosnippet>174</a>            <span class="kw">let </span><span class="kw-2">mut </span>settings = Settings::new();
 <a href=#175 id=175 data-nosnippet>175</a>            settings.editor_settings.watch_files = <span class="bool-val">false</span>;
 <a href=#176 id=176 data-nosnippet>176</a>            <span class="kw">let </span>pending_files: Arc&lt;Mutex&lt;Vec&lt;PathBuf&gt;&gt;&gt; = Arc::new(Mutex::new(Vec::new()));
-<a href=#177 id=177 data-nosnippet>177</a>            cx.set_global(SharedAppState::new(settings, pending_files));
+<a href=#177 id=177 data-nosnippet>177</a>            cx.set_global(SharedAppState::new(settings, pending_files, <span class="prelude-val">None</span>));
 <a href=#178 id=178 data-nosnippet>178</a>            cx.set_global(WindowManager::new());
 <a href=#179 id=179 data-nosnippet>179</a>        });
 <a href=#180 id=180 data-nosnippet>180</a>        <span class="kw">let </span>fulgur_slot: RefCell&lt;<span class="prelude-ty">Option</span>&lt;Entity&lt;Fulgur&gt;&gt;&gt; = RefCell::new(<span class="prelude-val">None</span>);

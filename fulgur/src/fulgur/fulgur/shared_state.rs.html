@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/fulgur/shared_state.rs`."><title>shared_state.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../static.files/rustdoc-17e0aaed.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="fulgur" data-themes="" data-resource-suffix="" data-rustdoc-version="1.96.0 (ac68faa20 2026-05-25)" data-channel="1.96.0" data-search-js="search-b5634cc7.js" data-stringdex-js="stringdex-2da4960a.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../static.files/storage-41dd4d93.js"></script><script defer src="../../../static.files/src-script-813739b1.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-5013f961.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1><div class="sub-heading">fulgur/fulgur/</div>shared_state.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::settings::ProfileId;
-<a href=#2 id=2 data-nosnippet>2</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::state::StateWriter;
+<a href=#2 id=2 data-nosnippet>2</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::state::{StateWriter, WindowsState};
 <a href=#3 id=3 data-nosnippet>3</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::sync::sse::SseState;
 <a href=#4 id=4 data-nosnippet>4</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::sync::ssh::credentials::SshCredentialCache;
 <a href=#5 id=5 data-nosnippet>5</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::sync::ssh::pool::SshSessionPool;
@@ -132,207 +132,220 @@
 <a href=#132 id=132 data-nosnippet>132</a>    </span><span class="kw">pub </span>ssh_session_pool: Arc&lt;SshSessionPool&gt;,
 <a href=#133 id=133 data-nosnippet>133</a>    <span class="doccomment">/// Dedicated background writer for `WindowsState` persistence.
 <a href=#134 id=134 data-nosnippet>134</a>    </span><span class="kw">pub </span>state_writer: Arc&lt;StateWriter&gt;,
-<a href=#135 id=135 data-nosnippet>135</a>}
-<a href=#136 id=136 data-nosnippet>136</a>
-<a href=#137 id=137 data-nosnippet>137</a><span class="kw">impl </span>gpui::Global <span class="kw">for </span>SharedAppState {}
-<a href=#138 id=138 data-nosnippet>138</a>
-<a href=#139 id=139 data-nosnippet>139</a><span class="kw">impl </span>SharedAppState {
-<a href=#140 id=140 data-nosnippet>140</a>    <span class="doccomment">/// Create a new shared app state by orchestrating the initialization of shared application state
-<a href=#141 id=141 data-nosnippet>141</a>    /// by loading themes, and determining the initial synchronization status.
-<a href=#142 id=142 data-nosnippet>142</a>    ///
-<a href=#143 id=143 data-nosnippet>143</a>    /// ### Arguments
-<a href=#144 id=144 data-nosnippet>144</a>    /// - `settings`: Already-loaded application settings
-<a href=#145 id=145 data-nosnippet>145</a>    /// - `pending_files_from_macos`: Arc to the pending files queue from macOS open events
-<a href=#146 id=146 data-nosnippet>146</a>    ///
-<a href=#147 id=147 data-nosnippet>147</a>    /// ### Returns
-<a href=#148 id=148 data-nosnippet>148</a>    /// - `Self`: The new shared app state
-<a href=#149 id=149 data-nosnippet>149</a>    </span><span class="kw">pub fn </span>new(settings: Settings, pending_files_from_macos: Arc&lt;Mutex&lt;Vec&lt;PathBuf&gt;&gt;&gt;) -&gt; <span class="self">Self </span>{
-<a href=#150 id=150 data-nosnippet>150</a>        <span class="kw">let </span>(settings, sync_error) = <span class="self">Self</span>::validate_settings(settings);
-<a href=#151 id=151 data-nosnippet>151</a>        <span class="kw">let </span>themes = <span class="self">Self</span>::load_themes();
-<a href=#152 id=152 data-nosnippet>152</a>        <span class="kw">let </span>synchronization_status = <span class="self">Self</span>::determine_initial_sync_status(<span class="kw-2">&amp;</span>settings);
-<a href=#153 id=153 data-nosnippet>153</a>        <span class="kw">let </span>sync_states = <span class="self">Self</span>::seed_sync_states(<span class="kw-2">&amp;</span>settings, synchronization_status);
-<a href=#154 id=154 data-nosnippet>154</a>
-<a href=#155 id=155 data-nosnippet>155</a>        <span class="self">Self </span>{
-<a href=#156 id=156 data-nosnippet>156</a>            settings: Arc::new(Mutex::new(settings)),
-<a href=#157 id=157 data-nosnippet>157</a>            settings_version: Arc::new(AtomicU64::new(<span class="number">0</span>)),
-<a href=#158 id=158 data-nosnippet>158</a>            themes: Arc::new(Mutex::new(themes)),
-<a href=#159 id=159 data-nosnippet>159</a>            sync_states: Arc::new(RwLock::new(sync_states)),
-<a href=#160 id=160 data-nosnippet>160</a>            sync_initialized: Arc::new(AtomicBool::new(<span class="bool-val">false</span>)),
-<a href=#161 id=161 data-nosnippet>161</a>            sync_error: Arc::new(Mutex::new(sync_error)),
-<a href=#162 id=162 data-nosnippet>162</a>            update_info: Arc::new(Mutex::new(<span class="prelude-val">None</span>)),
-<a href=#163 id=163 data-nosnippet>163</a>            pending_files_from_macos,
-<a href=#164 id=164 data-nosnippet>164</a>            <span class="attr">#[cfg(target_os = <span class="string">"windows"</span>)]
-<a href=#165 id=165 data-nosnippet>165</a>            </span>pending_ipc_commands: Arc::new(Mutex::new(Vec::new())),
-<a href=#166 id=166 data-nosnippet>166</a>            http_agent: Arc::new(ureq::Agent::new_with_config(
-<a href=#167 id=167 data-nosnippet>167</a>                ureq::config::Config::builder()
-<a href=#168 id=168 data-nosnippet>168</a>                    .timeout_connect(<span class="prelude-val">Some</span>(std::time::Duration::from_secs(<span class="number">5</span>)))
-<a href=#169 id=169 data-nosnippet>169</a>                    .timeout_global(<span class="prelude-val">Some</span>(std::time::Duration::from_secs(<span class="number">10</span>)))
-<a href=#170 id=170 data-nosnippet>170</a>                    .build(),
-<a href=#171 id=171 data-nosnippet>171</a>            )),
-<a href=#172 id=172 data-nosnippet>172</a>            sse_http_agent: Arc::new(ureq::Agent::new_with_config(
-<a href=#173 id=173 data-nosnippet>173</a>                ureq::config::Config::builder()
-<a href=#174 id=174 data-nosnippet>174</a>                    .timeout_connect(<span class="prelude-val">Some</span>(std::time::Duration::from_secs(<span class="number">5</span>)))
-<a href=#175 id=175 data-nosnippet>175</a>                    .timeout_global(<span class="prelude-val">Some</span>(std::time::Duration::from_secs(<span class="number">90</span>)))
-<a href=#176 id=176 data-nosnippet>176</a>                    .build(),
-<a href=#177 id=177 data-nosnippet>177</a>            )),
-<a href=#178 id=178 data-nosnippet>178</a>            ssh_session_cache: Arc::new(Mutex::new(SshCredentialCache::new())),
-<a href=#179 id=179 data-nosnippet>179</a>            ssh_session_pool: Arc::new(SshSessionPool::new()),
-<a href=#180 id=180 data-nosnippet>180</a>            state_writer: Arc::new(StateWriter::new()),
-<a href=#181 id=181 data-nosnippet>181</a>        }
-<a href=#182 id=182 data-nosnippet>182</a>    }
-<a href=#183 id=183 data-nosnippet>183</a>
-<a href=#184 id=184 data-nosnippet>184</a>    <span class="doccomment">/// Validate encryption keys against pre-loaded settings.
-<a href=#185 id=185 data-nosnippet>185</a>    ///
-<a href=#186 id=186 data-nosnippet>186</a>    /// If synchronization is activated but keys cannot be validated, disables
-<a href=#187 id=187 data-nosnippet>187</a>    /// synchronization and returns the error message for user notification.
-<a href=#188 id=188 data-nosnippet>188</a>    ///
-<a href=#189 id=189 data-nosnippet>189</a>    /// ### Arguments
-<a href=#190 id=190 data-nosnippet>190</a>    /// - `settings`: Application settings to validate
-<a href=#191 id=191 data-nosnippet>191</a>    ///
-<a href=#192 id=192 data-nosnippet>192</a>    /// ### Returns
-<a href=#193 id=193 data-nosnippet>193</a>    /// - `(Settings, Option&lt;String&gt;)`: The validated settings and an optional error message
-<a href=#194 id=194 data-nosnippet>194</a>    ///   if key validation failed
-<a href=#195 id=195 data-nosnippet>195</a>    </span><span class="kw">fn </span>validate_settings(<span class="kw-2">mut </span>settings: Settings) -&gt; (Settings, <span class="prelude-ty">Option</span>&lt;String&gt;) {
-<a href=#196 id=196 data-nosnippet>196</a>        <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = migrate_legacy_keychain_entries_if_present(<span class="kw-2">&amp;</span>settings) {
-<a href=#197 id=197 data-nosnippet>197</a>            <span class="comment">//TODO: remove in 0.10.0
-<a href=#198 id=198 data-nosnippet>198</a>            </span><span class="macro">log::warn!</span>(<span class="string">"Legacy keychain migration failed: {e}"</span>);
-<a href=#199 id=199 data-nosnippet>199</a>        }
-<a href=#200 id=200 data-nosnippet>200</a>        <span class="kw">let </span>sync_error = <span class="kw">if </span>settings
-<a href=#201 id=201 data-nosnippet>201</a>            .app_settings
-<a href=#202 id=202 data-nosnippet>202</a>            .synchronization_settings
-<a href=#203 id=203 data-nosnippet>203</a>            .is_synchronization_activated
-<a href=#204 id=204 data-nosnippet>204</a>        {
-<a href=#205 id=205 data-nosnippet>205</a>            <span class="kw">match </span>check_private_public_keys(<span class="kw-2">&amp;mut </span>settings) {
-<a href=#206 id=206 data-nosnippet>206</a>                <span class="prelude-val">Ok</span>(()) =&gt; <span class="prelude-val">None</span>,
-<a href=#207 id=207 data-nosnippet>207</a>                <span class="prelude-val">Err</span>(e) =&gt; {
-<a href=#208 id=208 data-nosnippet>208</a>                    <span class="kw">let </span>error_msg = <span class="macro">format!</span>(
-<a href=#209 id=209 data-nosnippet>209</a>                        <span class="string">"Failed to initialize encryption keys. Synchronization has been disabled. Error: {e}"
-<a href=#210 id=210 data-nosnippet>210</a>                    </span>);
-<a href=#211 id=211 data-nosnippet>211</a>                    <span class="macro">log::error!</span>(<span class="string">"{error_msg}"</span>);
-<a href=#212 id=212 data-nosnippet>212</a>                    settings
-<a href=#213 id=213 data-nosnippet>213</a>                        .app_settings
-<a href=#214 id=214 data-nosnippet>214</a>                        .synchronization_settings
-<a href=#215 id=215 data-nosnippet>215</a>                        .is_synchronization_activated = <span class="bool-val">false</span>;
-<a href=#216 id=216 data-nosnippet>216</a>                    <span class="prelude-val">Some</span>(error_msg)
-<a href=#217 id=217 data-nosnippet>217</a>                }
-<a href=#218 id=218 data-nosnippet>218</a>            }
-<a href=#219 id=219 data-nosnippet>219</a>        } <span class="kw">else </span>{
-<a href=#220 id=220 data-nosnippet>220</a>            <span class="prelude-val">None
-<a href=#221 id=221 data-nosnippet>221</a>        </span>};
-<a href=#222 id=222 data-nosnippet>222</a>        (settings, sync_error)
-<a href=#223 id=223 data-nosnippet>223</a>    }
-<a href=#224 id=224 data-nosnippet>224</a>
-<a href=#225 id=225 data-nosnippet>225</a>    <span class="doccomment">/// Load themes from disk
-<a href=#226 id=226 data-nosnippet>226</a>    ///
-<a href=#227 id=227 data-nosnippet>227</a>    /// ### Returns
-<a href=#228 id=228 data-nosnippet>228</a>    /// - `Some(Themes)`: The loaded themes
-<a href=#229 id=229 data-nosnippet>229</a>    /// - `None`: If themes cannot be loaded
-<a href=#230 id=230 data-nosnippet>230</a>    </span><span class="kw">fn </span>load_themes() -&gt; <span class="prelude-ty">Option</span>&lt;Themes&gt; {
-<a href=#231 id=231 data-nosnippet>231</a>        Themes::load().ok()
-<a href=#232 id=232 data-nosnippet>232</a>    }
-<a href=#233 id=233 data-nosnippet>233</a>
-<a href=#234 id=234 data-nosnippet>234</a>    <span class="doccomment">/// Determine the initial synchronization status based on settings
-<a href=#235 id=235 data-nosnippet>235</a>    ///
-<a href=#236 id=236 data-nosnippet>236</a>    /// ### Arguments
-<a href=#237 id=237 data-nosnippet>237</a>    /// - `settings`: The application settings
-<a href=#238 id=238 data-nosnippet>238</a>    ///
-<a href=#239 id=239 data-nosnippet>239</a>    /// ### Returns
-<a href=#240 id=240 data-nosnippet>240</a>    /// - `SynchronizationStatus`: Connecting if sync is activated, `NotActivated` otherwise
-<a href=#241 id=241 data-nosnippet>241</a>    </span><span class="kw">fn </span>determine_initial_sync_status(settings: <span class="kw-2">&amp;</span>Settings) -&gt; SynchronizationStatus {
-<a href=#242 id=242 data-nosnippet>242</a>        <span class="kw">if </span>settings
-<a href=#243 id=243 data-nosnippet>243</a>            .app_settings
-<a href=#244 id=244 data-nosnippet>244</a>            .synchronization_settings
-<a href=#245 id=245 data-nosnippet>245</a>            .is_synchronization_activated
-<a href=#246 id=246 data-nosnippet>246</a>        {
-<a href=#247 id=247 data-nosnippet>247</a>            SynchronizationStatus::Connecting
-<a href=#248 id=248 data-nosnippet>248</a>        } <span class="kw">else </span>{
-<a href=#249 id=249 data-nosnippet>249</a>            SynchronizationStatus::NotActivated
-<a href=#250 id=250 data-nosnippet>250</a>        }
-<a href=#251 id=251 data-nosnippet>251</a>    }
-<a href=#252 id=252 data-nosnippet>252</a>
-<a href=#253 id=253 data-nosnippet>253</a>    <span class="doccomment">/// Build the initial per-profile `SyncState` map from settings.
-<a href=#254 id=254 data-nosnippet>254</a>    ///
-<a href=#255 id=255 data-nosnippet>255</a>    /// ### Arguments
-<a href=#256 id=256 data-nosnippet>256</a>    /// - `settings`: The application settings.
-<a href=#257 id=257 data-nosnippet>257</a>    /// - `default_status`: The status assigned to profiles flagged as active
-<a href=#258 id=258 data-nosnippet>258</a>    ///   when the master switch is on; ignored otherwise.
-<a href=#259 id=259 data-nosnippet>259</a>    ///
-<a href=#260 id=260 data-nosnippet>260</a>    /// ### Returns
-<a href=#261 id=261 data-nosnippet>261</a>    /// - `HashMap&lt;ProfileId, Arc&lt;SyncState&gt;&gt;`: Map keyed by profile id.
-<a href=#262 id=262 data-nosnippet>262</a>    </span><span class="kw">fn </span>seed_sync_states(
-<a href=#263 id=263 data-nosnippet>263</a>        settings: <span class="kw-2">&amp;</span>Settings,
-<a href=#264 id=264 data-nosnippet>264</a>        default_status: SynchronizationStatus,
-<a href=#265 id=265 data-nosnippet>265</a>    ) -&gt; HashMap&lt;ProfileId, Arc&lt;SyncState&gt;&gt; {
-<a href=#266 id=266 data-nosnippet>266</a>        <span class="kw">let </span>master_on = settings
-<a href=#267 id=267 data-nosnippet>267</a>            .app_settings
-<a href=#268 id=268 data-nosnippet>268</a>            .synchronization_settings
-<a href=#269 id=269 data-nosnippet>269</a>            .is_synchronization_activated;
-<a href=#270 id=270 data-nosnippet>270</a>        settings
-<a href=#271 id=271 data-nosnippet>271</a>            .app_settings
-<a href=#272 id=272 data-nosnippet>272</a>            .synchronization_settings
-<a href=#273 id=273 data-nosnippet>273</a>            .profiles
-<a href=#274 id=274 data-nosnippet>274</a>            .iter()
-<a href=#275 id=275 data-nosnippet>275</a>            .map(|profile| {
-<a href=#276 id=276 data-nosnippet>276</a>                <span class="kw">let </span>status = <span class="kw">if </span>master_on &amp;&amp; profile.is_active {
-<a href=#277 id=277 data-nosnippet>277</a>                    default_status
-<a href=#278 id=278 data-nosnippet>278</a>                } <span class="kw">else </span>{
-<a href=#279 id=279 data-nosnippet>279</a>                    SynchronizationStatus::NotActivated
-<a href=#280 id=280 data-nosnippet>280</a>                };
-<a href=#281 id=281 data-nosnippet>281</a>                (profile.id.clone(), Arc::new(SyncState::new(status)))
-<a href=#282 id=282 data-nosnippet>282</a>            })
-<a href=#283 id=283 data-nosnippet>283</a>            .collect()
-<a href=#284 id=284 data-nosnippet>284</a>    }
-<a href=#285 id=285 data-nosnippet>285</a>
-<a href=#286 id=286 data-nosnippet>286</a>    <span class="doccomment">/// Get the `SyncState` for a specific profile, creating it on demand.
-<a href=#287 id=287 data-nosnippet>287</a>    ///
-<a href=#288 id=288 data-nosnippet>288</a>    /// ### Arguments
-<a href=#289 id=289 data-nosnippet>289</a>    /// - `profile_id`: The profile id.
-<a href=#290 id=290 data-nosnippet>290</a>    ///
-<a href=#291 id=291 data-nosnippet>291</a>    /// ### Returns
-<a href=#292 id=292 data-nosnippet>292</a>    /// - `Arc&lt;SyncState&gt;`: The shared sync state for the profile. A fresh
-<a href=#293 id=293 data-nosnippet>293</a>    ///   `NotActivated` state is inserted when the profile is unknown.
-<a href=#294 id=294 data-nosnippet>294</a>    </span><span class="attr">#[must_use]
-<a href=#295 id=295 data-nosnippet>295</a>    </span><span class="kw">pub fn </span>sync_state_for(<span class="kw-2">&amp;</span><span class="self">self</span>, profile_id: <span class="kw-2">&amp;</span>str) -&gt; Arc&lt;SyncState&gt; {
-<a href=#296 id=296 data-nosnippet>296</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(existing) = <span class="self">self</span>.sync_states.read().get(profile_id) {
-<a href=#297 id=297 data-nosnippet>297</a>            <span class="kw">return </span>Arc::clone(existing);
-<a href=#298 id=298 data-nosnippet>298</a>        }
-<a href=#299 id=299 data-nosnippet>299</a>        <span class="kw">let </span><span class="kw-2">mut </span>map = <span class="self">self</span>.sync_states.write();
-<a href=#300 id=300 data-nosnippet>300</a>        Arc::clone(
-<a href=#301 id=301 data-nosnippet>301</a>            map.entry(profile_id.to_string())
-<a href=#302 id=302 data-nosnippet>302</a>                .or_insert_with(|| Arc::new(SyncState::new(SynchronizationStatus::NotActivated))),
-<a href=#303 id=303 data-nosnippet>303</a>        )
-<a href=#304 id=304 data-nosnippet>304</a>    }
-<a href=#305 id=305 data-nosnippet>305</a>
-<a href=#306 id=306 data-nosnippet>306</a>    <span class="doccomment">/// Get the `SyncState` for the first configured profile.
-<a href=#307 id=307 data-nosnippet>307</a>    ///
-<a href=#308 id=308 data-nosnippet>308</a>    /// ### Returns
-<a href=#309 id=309 data-nosnippet>309</a>    /// - `Arc&lt;SyncState&gt;`: The first profile's sync state, or the
-<a href=#310 id=310 data-nosnippet>310</a>    ///   empty-id-keyed fallback state when there are no profiles.
-<a href=#311 id=311 data-nosnippet>311</a>    </span><span class="attr">#[must_use]
-<a href=#312 id=312 data-nosnippet>312</a>    </span><span class="kw">pub fn </span>primary_sync_state(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Arc&lt;SyncState&gt; {
-<a href=#313 id=313 data-nosnippet>313</a>        <span class="kw">let </span>primary_id = <span class="self">self
-<a href=#314 id=314 data-nosnippet>314</a>            </span>.settings
-<a href=#315 id=315 data-nosnippet>315</a>            .lock()
-<a href=#316 id=316 data-nosnippet>316</a>            .app_settings
-<a href=#317 id=317 data-nosnippet>317</a>            .synchronization_settings
-<a href=#318 id=318 data-nosnippet>318</a>            .profiles
-<a href=#319 id=319 data-nosnippet>319</a>            .first()
-<a href=#320 id=320 data-nosnippet>320</a>            .map(|p| p.id.clone())
-<a href=#321 id=321 data-nosnippet>321</a>            .unwrap_or_default();
-<a href=#322 id=322 data-nosnippet>322</a>        <span class="self">self</span>.sync_state_for(<span class="kw-2">&amp;</span>primary_id)
-<a href=#323 id=323 data-nosnippet>323</a>    }
-<a href=#324 id=324 data-nosnippet>324</a>
-<a href=#325 id=325 data-nosnippet>325</a>    <span class="doccomment">/// Remove the `SyncState` entry for a profile and return it.
-<a href=#326 id=326 data-nosnippet>326</a>    ///
-<a href=#327 id=327 data-nosnippet>327</a>    /// ### Arguments
-<a href=#328 id=328 data-nosnippet>328</a>    /// - `profile_id`: The profile id whose state should be dropped.
-<a href=#329 id=329 data-nosnippet>329</a>    ///
-<a href=#330 id=330 data-nosnippet>330</a>    /// ### Returns
-<a href=#331 id=331 data-nosnippet>331</a>    /// - `Some(Arc&lt;SyncState&gt;)`: The removed state if it existed.
-<a href=#332 id=332 data-nosnippet>332</a>    /// - `None`: When no entry exists for the profile.
-<a href=#333 id=333 data-nosnippet>333</a>    </span><span class="attr">#[must_use]
-<a href=#334 id=334 data-nosnippet>334</a>    </span><span class="kw">pub fn </span>remove_sync_state(<span class="kw-2">&amp;</span><span class="self">self</span>, profile_id: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;Arc&lt;SyncState&gt;&gt; {
-<a href=#335 id=335 data-nosnippet>335</a>        <span class="self">self</span>.sync_states.write().remove(profile_id)
+<a href=#135 id=135 data-nosnippet>135</a>    <span class="doccomment">/// In-memory snapshot of `WindowsState` taken once at startup, used to
+<a href=#136 id=136 data-nosnippet>136</a>    /// restore every window without re-reading `state.json` per window.
+<a href=#137 id=137 data-nosnippet>137</a>    ///
+<a href=#138 id=138 data-nosnippet>138</a>    /// Holding the snapshot read-only also closes the consistency window: a
+<a href=#139 id=139 data-nosnippet>139</a>    /// `save_state` landing between a window's spawn and its restore can no
+<a href=#140 id=140 data-nosnippet>140</a>    /// longer change what that window sees.
+<a href=#141 id=141 data-nosnippet>141</a>    </span><span class="kw">pub </span>restore_state: Arc&lt;Mutex&lt;<span class="prelude-ty">Option</span>&lt;WindowsState&gt;&gt;&gt;,
+<a href=#142 id=142 data-nosnippet>142</a>}
+<a href=#143 id=143 data-nosnippet>143</a>
+<a href=#144 id=144 data-nosnippet>144</a><span class="kw">impl </span>gpui::Global <span class="kw">for </span>SharedAppState {}
+<a href=#145 id=145 data-nosnippet>145</a>
+<a href=#146 id=146 data-nosnippet>146</a><span class="kw">impl </span>SharedAppState {
+<a href=#147 id=147 data-nosnippet>147</a>    <span class="doccomment">/// Create a new shared app state by orchestrating the initialization of shared application state
+<a href=#148 id=148 data-nosnippet>148</a>    /// by loading themes, and determining the initial synchronization status.
+<a href=#149 id=149 data-nosnippet>149</a>    ///
+<a href=#150 id=150 data-nosnippet>150</a>    /// ### Arguments
+<a href=#151 id=151 data-nosnippet>151</a>    /// - `settings`: Already-loaded application settings
+<a href=#152 id=152 data-nosnippet>152</a>    /// - `pending_files_from_macos`: Arc to the pending files queue from macOS open events
+<a href=#153 id=153 data-nosnippet>153</a>    /// - `restore_state`: Startup snapshot of `WindowsState` shared with every window for restoration
+<a href=#154 id=154 data-nosnippet>154</a>    ///
+<a href=#155 id=155 data-nosnippet>155</a>    /// ### Returns
+<a href=#156 id=156 data-nosnippet>156</a>    /// - `Self`: The new shared app state
+<a href=#157 id=157 data-nosnippet>157</a>    </span><span class="kw">pub fn </span>new(
+<a href=#158 id=158 data-nosnippet>158</a>        settings: Settings,
+<a href=#159 id=159 data-nosnippet>159</a>        pending_files_from_macos: Arc&lt;Mutex&lt;Vec&lt;PathBuf&gt;&gt;&gt;,
+<a href=#160 id=160 data-nosnippet>160</a>        restore_state: <span class="prelude-ty">Option</span>&lt;WindowsState&gt;,
+<a href=#161 id=161 data-nosnippet>161</a>    ) -&gt; <span class="self">Self </span>{
+<a href=#162 id=162 data-nosnippet>162</a>        <span class="kw">let </span>(settings, sync_error) = <span class="self">Self</span>::validate_settings(settings);
+<a href=#163 id=163 data-nosnippet>163</a>        <span class="kw">let </span>themes = <span class="self">Self</span>::load_themes();
+<a href=#164 id=164 data-nosnippet>164</a>        <span class="kw">let </span>synchronization_status = <span class="self">Self</span>::determine_initial_sync_status(<span class="kw-2">&amp;</span>settings);
+<a href=#165 id=165 data-nosnippet>165</a>        <span class="kw">let </span>sync_states = <span class="self">Self</span>::seed_sync_states(<span class="kw-2">&amp;</span>settings, synchronization_status);
+<a href=#166 id=166 data-nosnippet>166</a>
+<a href=#167 id=167 data-nosnippet>167</a>        <span class="self">Self </span>{
+<a href=#168 id=168 data-nosnippet>168</a>            settings: Arc::new(Mutex::new(settings)),
+<a href=#169 id=169 data-nosnippet>169</a>            settings_version: Arc::new(AtomicU64::new(<span class="number">0</span>)),
+<a href=#170 id=170 data-nosnippet>170</a>            themes: Arc::new(Mutex::new(themes)),
+<a href=#171 id=171 data-nosnippet>171</a>            sync_states: Arc::new(RwLock::new(sync_states)),
+<a href=#172 id=172 data-nosnippet>172</a>            sync_initialized: Arc::new(AtomicBool::new(<span class="bool-val">false</span>)),
+<a href=#173 id=173 data-nosnippet>173</a>            sync_error: Arc::new(Mutex::new(sync_error)),
+<a href=#174 id=174 data-nosnippet>174</a>            update_info: Arc::new(Mutex::new(<span class="prelude-val">None</span>)),
+<a href=#175 id=175 data-nosnippet>175</a>            pending_files_from_macos,
+<a href=#176 id=176 data-nosnippet>176</a>            <span class="attr">#[cfg(target_os = <span class="string">"windows"</span>)]
+<a href=#177 id=177 data-nosnippet>177</a>            </span>pending_ipc_commands: Arc::new(Mutex::new(Vec::new())),
+<a href=#178 id=178 data-nosnippet>178</a>            http_agent: Arc::new(ureq::Agent::new_with_config(
+<a href=#179 id=179 data-nosnippet>179</a>                ureq::config::Config::builder()
+<a href=#180 id=180 data-nosnippet>180</a>                    .timeout_connect(<span class="prelude-val">Some</span>(std::time::Duration::from_secs(<span class="number">5</span>)))
+<a href=#181 id=181 data-nosnippet>181</a>                    .timeout_global(<span class="prelude-val">Some</span>(std::time::Duration::from_secs(<span class="number">10</span>)))
+<a href=#182 id=182 data-nosnippet>182</a>                    .build(),
+<a href=#183 id=183 data-nosnippet>183</a>            )),
+<a href=#184 id=184 data-nosnippet>184</a>            sse_http_agent: Arc::new(ureq::Agent::new_with_config(
+<a href=#185 id=185 data-nosnippet>185</a>                ureq::config::Config::builder()
+<a href=#186 id=186 data-nosnippet>186</a>                    .timeout_connect(<span class="prelude-val">Some</span>(std::time::Duration::from_secs(<span class="number">5</span>)))
+<a href=#187 id=187 data-nosnippet>187</a>                    .timeout_global(<span class="prelude-val">Some</span>(std::time::Duration::from_secs(<span class="number">90</span>)))
+<a href=#188 id=188 data-nosnippet>188</a>                    .build(),
+<a href=#189 id=189 data-nosnippet>189</a>            )),
+<a href=#190 id=190 data-nosnippet>190</a>            ssh_session_cache: Arc::new(Mutex::new(SshCredentialCache::new())),
+<a href=#191 id=191 data-nosnippet>191</a>            ssh_session_pool: Arc::new(SshSessionPool::new()),
+<a href=#192 id=192 data-nosnippet>192</a>            state_writer: Arc::new(StateWriter::new()),
+<a href=#193 id=193 data-nosnippet>193</a>            restore_state: Arc::new(Mutex::new(restore_state)),
+<a href=#194 id=194 data-nosnippet>194</a>        }
+<a href=#195 id=195 data-nosnippet>195</a>    }
+<a href=#196 id=196 data-nosnippet>196</a>
+<a href=#197 id=197 data-nosnippet>197</a>    <span class="doccomment">/// Validate encryption keys against pre-loaded settings.
+<a href=#198 id=198 data-nosnippet>198</a>    ///
+<a href=#199 id=199 data-nosnippet>199</a>    /// If synchronization is activated but keys cannot be validated, disables
+<a href=#200 id=200 data-nosnippet>200</a>    /// synchronization and returns the error message for user notification.
+<a href=#201 id=201 data-nosnippet>201</a>    ///
+<a href=#202 id=202 data-nosnippet>202</a>    /// ### Arguments
+<a href=#203 id=203 data-nosnippet>203</a>    /// - `settings`: Application settings to validate
+<a href=#204 id=204 data-nosnippet>204</a>    ///
+<a href=#205 id=205 data-nosnippet>205</a>    /// ### Returns
+<a href=#206 id=206 data-nosnippet>206</a>    /// - `(Settings, Option&lt;String&gt;)`: The validated settings and an optional error message
+<a href=#207 id=207 data-nosnippet>207</a>    ///   if key validation failed
+<a href=#208 id=208 data-nosnippet>208</a>    </span><span class="kw">fn </span>validate_settings(<span class="kw-2">mut </span>settings: Settings) -&gt; (Settings, <span class="prelude-ty">Option</span>&lt;String&gt;) {
+<a href=#209 id=209 data-nosnippet>209</a>        <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = migrate_legacy_keychain_entries_if_present(<span class="kw-2">&amp;</span>settings) {
+<a href=#210 id=210 data-nosnippet>210</a>            <span class="comment">//TODO: remove in 0.10.0
+<a href=#211 id=211 data-nosnippet>211</a>            </span><span class="macro">log::warn!</span>(<span class="string">"Legacy keychain migration failed: {e}"</span>);
+<a href=#212 id=212 data-nosnippet>212</a>        }
+<a href=#213 id=213 data-nosnippet>213</a>        <span class="kw">let </span>sync_error = <span class="kw">if </span>settings
+<a href=#214 id=214 data-nosnippet>214</a>            .app_settings
+<a href=#215 id=215 data-nosnippet>215</a>            .synchronization_settings
+<a href=#216 id=216 data-nosnippet>216</a>            .is_synchronization_activated
+<a href=#217 id=217 data-nosnippet>217</a>        {
+<a href=#218 id=218 data-nosnippet>218</a>            <span class="kw">match </span>check_private_public_keys(<span class="kw-2">&amp;mut </span>settings) {
+<a href=#219 id=219 data-nosnippet>219</a>                <span class="prelude-val">Ok</span>(()) =&gt; <span class="prelude-val">None</span>,
+<a href=#220 id=220 data-nosnippet>220</a>                <span class="prelude-val">Err</span>(e) =&gt; {
+<a href=#221 id=221 data-nosnippet>221</a>                    <span class="kw">let </span>error_msg = <span class="macro">format!</span>(
+<a href=#222 id=222 data-nosnippet>222</a>                        <span class="string">"Failed to initialize encryption keys. Synchronization has been disabled. Error: {e}"
+<a href=#223 id=223 data-nosnippet>223</a>                    </span>);
+<a href=#224 id=224 data-nosnippet>224</a>                    <span class="macro">log::error!</span>(<span class="string">"{error_msg}"</span>);
+<a href=#225 id=225 data-nosnippet>225</a>                    settings
+<a href=#226 id=226 data-nosnippet>226</a>                        .app_settings
+<a href=#227 id=227 data-nosnippet>227</a>                        .synchronization_settings
+<a href=#228 id=228 data-nosnippet>228</a>                        .is_synchronization_activated = <span class="bool-val">false</span>;
+<a href=#229 id=229 data-nosnippet>229</a>                    <span class="prelude-val">Some</span>(error_msg)
+<a href=#230 id=230 data-nosnippet>230</a>                }
+<a href=#231 id=231 data-nosnippet>231</a>            }
+<a href=#232 id=232 data-nosnippet>232</a>        } <span class="kw">else </span>{
+<a href=#233 id=233 data-nosnippet>233</a>            <span class="prelude-val">None
+<a href=#234 id=234 data-nosnippet>234</a>        </span>};
+<a href=#235 id=235 data-nosnippet>235</a>        (settings, sync_error)
+<a href=#236 id=236 data-nosnippet>236</a>    }
+<a href=#237 id=237 data-nosnippet>237</a>
+<a href=#238 id=238 data-nosnippet>238</a>    <span class="doccomment">/// Load themes from disk
+<a href=#239 id=239 data-nosnippet>239</a>    ///
+<a href=#240 id=240 data-nosnippet>240</a>    /// ### Returns
+<a href=#241 id=241 data-nosnippet>241</a>    /// - `Some(Themes)`: The loaded themes
+<a href=#242 id=242 data-nosnippet>242</a>    /// - `None`: If themes cannot be loaded
+<a href=#243 id=243 data-nosnippet>243</a>    </span><span class="kw">fn </span>load_themes() -&gt; <span class="prelude-ty">Option</span>&lt;Themes&gt; {
+<a href=#244 id=244 data-nosnippet>244</a>        Themes::load().ok()
+<a href=#245 id=245 data-nosnippet>245</a>    }
+<a href=#246 id=246 data-nosnippet>246</a>
+<a href=#247 id=247 data-nosnippet>247</a>    <span class="doccomment">/// Determine the initial synchronization status based on settings
+<a href=#248 id=248 data-nosnippet>248</a>    ///
+<a href=#249 id=249 data-nosnippet>249</a>    /// ### Arguments
+<a href=#250 id=250 data-nosnippet>250</a>    /// - `settings`: The application settings
+<a href=#251 id=251 data-nosnippet>251</a>    ///
+<a href=#252 id=252 data-nosnippet>252</a>    /// ### Returns
+<a href=#253 id=253 data-nosnippet>253</a>    /// - `SynchronizationStatus`: Connecting if sync is activated, `NotActivated` otherwise
+<a href=#254 id=254 data-nosnippet>254</a>    </span><span class="kw">fn </span>determine_initial_sync_status(settings: <span class="kw-2">&amp;</span>Settings) -&gt; SynchronizationStatus {
+<a href=#255 id=255 data-nosnippet>255</a>        <span class="kw">if </span>settings
+<a href=#256 id=256 data-nosnippet>256</a>            .app_settings
+<a href=#257 id=257 data-nosnippet>257</a>            .synchronization_settings
+<a href=#258 id=258 data-nosnippet>258</a>            .is_synchronization_activated
+<a href=#259 id=259 data-nosnippet>259</a>        {
+<a href=#260 id=260 data-nosnippet>260</a>            SynchronizationStatus::Connecting
+<a href=#261 id=261 data-nosnippet>261</a>        } <span class="kw">else </span>{
+<a href=#262 id=262 data-nosnippet>262</a>            SynchronizationStatus::NotActivated
+<a href=#263 id=263 data-nosnippet>263</a>        }
+<a href=#264 id=264 data-nosnippet>264</a>    }
+<a href=#265 id=265 data-nosnippet>265</a>
+<a href=#266 id=266 data-nosnippet>266</a>    <span class="doccomment">/// Build the initial per-profile `SyncState` map from settings.
+<a href=#267 id=267 data-nosnippet>267</a>    ///
+<a href=#268 id=268 data-nosnippet>268</a>    /// ### Arguments
+<a href=#269 id=269 data-nosnippet>269</a>    /// - `settings`: The application settings.
+<a href=#270 id=270 data-nosnippet>270</a>    /// - `default_status`: The status assigned to profiles flagged as active
+<a href=#271 id=271 data-nosnippet>271</a>    ///   when the master switch is on; ignored otherwise.
+<a href=#272 id=272 data-nosnippet>272</a>    ///
+<a href=#273 id=273 data-nosnippet>273</a>    /// ### Returns
+<a href=#274 id=274 data-nosnippet>274</a>    /// - `HashMap&lt;ProfileId, Arc&lt;SyncState&gt;&gt;`: Map keyed by profile id.
+<a href=#275 id=275 data-nosnippet>275</a>    </span><span class="kw">fn </span>seed_sync_states(
+<a href=#276 id=276 data-nosnippet>276</a>        settings: <span class="kw-2">&amp;</span>Settings,
+<a href=#277 id=277 data-nosnippet>277</a>        default_status: SynchronizationStatus,
+<a href=#278 id=278 data-nosnippet>278</a>    ) -&gt; HashMap&lt;ProfileId, Arc&lt;SyncState&gt;&gt; {
+<a href=#279 id=279 data-nosnippet>279</a>        <span class="kw">let </span>master_on = settings
+<a href=#280 id=280 data-nosnippet>280</a>            .app_settings
+<a href=#281 id=281 data-nosnippet>281</a>            .synchronization_settings
+<a href=#282 id=282 data-nosnippet>282</a>            .is_synchronization_activated;
+<a href=#283 id=283 data-nosnippet>283</a>        settings
+<a href=#284 id=284 data-nosnippet>284</a>            .app_settings
+<a href=#285 id=285 data-nosnippet>285</a>            .synchronization_settings
+<a href=#286 id=286 data-nosnippet>286</a>            .profiles
+<a href=#287 id=287 data-nosnippet>287</a>            .iter()
+<a href=#288 id=288 data-nosnippet>288</a>            .map(|profile| {
+<a href=#289 id=289 data-nosnippet>289</a>                <span class="kw">let </span>status = <span class="kw">if </span>master_on &amp;&amp; profile.is_active {
+<a href=#290 id=290 data-nosnippet>290</a>                    default_status
+<a href=#291 id=291 data-nosnippet>291</a>                } <span class="kw">else </span>{
+<a href=#292 id=292 data-nosnippet>292</a>                    SynchronizationStatus::NotActivated
+<a href=#293 id=293 data-nosnippet>293</a>                };
+<a href=#294 id=294 data-nosnippet>294</a>                (profile.id.clone(), Arc::new(SyncState::new(status)))
+<a href=#295 id=295 data-nosnippet>295</a>            })
+<a href=#296 id=296 data-nosnippet>296</a>            .collect()
+<a href=#297 id=297 data-nosnippet>297</a>    }
+<a href=#298 id=298 data-nosnippet>298</a>
+<a href=#299 id=299 data-nosnippet>299</a>    <span class="doccomment">/// Get the `SyncState` for a specific profile, creating it on demand.
+<a href=#300 id=300 data-nosnippet>300</a>    ///
+<a href=#301 id=301 data-nosnippet>301</a>    /// ### Arguments
+<a href=#302 id=302 data-nosnippet>302</a>    /// - `profile_id`: The profile id.
+<a href=#303 id=303 data-nosnippet>303</a>    ///
+<a href=#304 id=304 data-nosnippet>304</a>    /// ### Returns
+<a href=#305 id=305 data-nosnippet>305</a>    /// - `Arc&lt;SyncState&gt;`: The shared sync state for the profile. A fresh
+<a href=#306 id=306 data-nosnippet>306</a>    ///   `NotActivated` state is inserted when the profile is unknown.
+<a href=#307 id=307 data-nosnippet>307</a>    </span><span class="attr">#[must_use]
+<a href=#308 id=308 data-nosnippet>308</a>    </span><span class="kw">pub fn </span>sync_state_for(<span class="kw-2">&amp;</span><span class="self">self</span>, profile_id: <span class="kw-2">&amp;</span>str) -&gt; Arc&lt;SyncState&gt; {
+<a href=#309 id=309 data-nosnippet>309</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(existing) = <span class="self">self</span>.sync_states.read().get(profile_id) {
+<a href=#310 id=310 data-nosnippet>310</a>            <span class="kw">return </span>Arc::clone(existing);
+<a href=#311 id=311 data-nosnippet>311</a>        }
+<a href=#312 id=312 data-nosnippet>312</a>        <span class="kw">let </span><span class="kw-2">mut </span>map = <span class="self">self</span>.sync_states.write();
+<a href=#313 id=313 data-nosnippet>313</a>        Arc::clone(
+<a href=#314 id=314 data-nosnippet>314</a>            map.entry(profile_id.to_string())
+<a href=#315 id=315 data-nosnippet>315</a>                .or_insert_with(|| Arc::new(SyncState::new(SynchronizationStatus::NotActivated))),
+<a href=#316 id=316 data-nosnippet>316</a>        )
+<a href=#317 id=317 data-nosnippet>317</a>    }
+<a href=#318 id=318 data-nosnippet>318</a>
+<a href=#319 id=319 data-nosnippet>319</a>    <span class="doccomment">/// Get the `SyncState` for the first configured profile.
+<a href=#320 id=320 data-nosnippet>320</a>    ///
+<a href=#321 id=321 data-nosnippet>321</a>    /// ### Returns
+<a href=#322 id=322 data-nosnippet>322</a>    /// - `Arc&lt;SyncState&gt;`: The first profile's sync state, or the
+<a href=#323 id=323 data-nosnippet>323</a>    ///   empty-id-keyed fallback state when there are no profiles.
+<a href=#324 id=324 data-nosnippet>324</a>    </span><span class="attr">#[must_use]
+<a href=#325 id=325 data-nosnippet>325</a>    </span><span class="kw">pub fn </span>primary_sync_state(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Arc&lt;SyncState&gt; {
+<a href=#326 id=326 data-nosnippet>326</a>        <span class="kw">let </span>primary_id = <span class="self">self
+<a href=#327 id=327 data-nosnippet>327</a>            </span>.settings
+<a href=#328 id=328 data-nosnippet>328</a>            .lock()
+<a href=#329 id=329 data-nosnippet>329</a>            .app_settings
+<a href=#330 id=330 data-nosnippet>330</a>            .synchronization_settings
+<a href=#331 id=331 data-nosnippet>331</a>            .profiles
+<a href=#332 id=332 data-nosnippet>332</a>            .first()
+<a href=#333 id=333 data-nosnippet>333</a>            .map(|p| p.id.clone())
+<a href=#334 id=334 data-nosnippet>334</a>            .unwrap_or_default();
+<a href=#335 id=335 data-nosnippet>335</a>        <span class="self">self</span>.sync_state_for(<span class="kw-2">&amp;</span>primary_id)
 <a href=#336 id=336 data-nosnippet>336</a>    }
-<a href=#337 id=337 data-nosnippet>337</a>}
+<a href=#337 id=337 data-nosnippet>337</a>
+<a href=#338 id=338 data-nosnippet>338</a>    <span class="doccomment">/// Remove the `SyncState` entry for a profile and return it.
+<a href=#339 id=339 data-nosnippet>339</a>    ///
+<a href=#340 id=340 data-nosnippet>340</a>    /// ### Arguments
+<a href=#341 id=341 data-nosnippet>341</a>    /// - `profile_id`: The profile id whose state should be dropped.
+<a href=#342 id=342 data-nosnippet>342</a>    ///
+<a href=#343 id=343 data-nosnippet>343</a>    /// ### Returns
+<a href=#344 id=344 data-nosnippet>344</a>    /// - `Some(Arc&lt;SyncState&gt;)`: The removed state if it existed.
+<a href=#345 id=345 data-nosnippet>345</a>    /// - `None`: When no entry exists for the profile.
+<a href=#346 id=346 data-nosnippet>346</a>    </span><span class="attr">#[must_use]
+<a href=#347 id=347 data-nosnippet>347</a>    </span><span class="kw">pub fn </span>remove_sync_state(<span class="kw-2">&amp;</span><span class="self">self</span>, profile_id: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;Arc&lt;SyncState&gt;&gt; {
+<a href=#348 id=348 data-nosnippet>348</a>        <span class="self">self</span>.sync_states.write().remove(profile_id)
+<a href=#349 id=349 data-nosnippet>349</a>    }
+<a href=#350 id=350 data-nosnippet>350</a>}
 </code></pre></div></section></main></body></html>

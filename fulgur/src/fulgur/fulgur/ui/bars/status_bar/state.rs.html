@@ -220,7 +220,7 @@
 <a href=#220 id=220 data-nosnippet>220</a>            <span class="kw">let </span><span class="kw-2">mut </span>settings = Settings::new();
 <a href=#221 id=221 data-nosnippet>221</a>            settings.editor_settings.watch_files = <span class="bool-val">false</span>;
 <a href=#222 id=222 data-nosnippet>222</a>            <span class="kw">let </span>pending_files: Arc&lt;Mutex&lt;Vec&lt;PathBuf&gt;&gt;&gt; = Arc::new(Mutex::new(Vec::new()));
-<a href=#223 id=223 data-nosnippet>223</a>            cx.set_global(SharedAppState::new(settings, pending_files));
+<a href=#223 id=223 data-nosnippet>223</a>            cx.set_global(SharedAppState::new(settings, pending_files, <span class="prelude-val">None</span>));
 <a href=#224 id=224 data-nosnippet>224</a>            cx.set_global(WindowManager::new());
 <a href=#225 id=225 data-nosnippet>225</a>        });
 <a href=#226 id=226 data-nosnippet>226</a>
@@ -269,7 +269,7 @@
 <a href=#269 id=269 data-nosnippet>269</a>                .profiles
 <a href=#270 id=270 data-nosnippet>270</a>                .push(profile);
 <a href=#271 id=271 data-nosnippet>271</a>            <span class="kw">let </span>pending_files: Arc&lt;Mutex&lt;Vec&lt;PathBuf&gt;&gt;&gt; = Arc::new(Mutex::new(Vec::new()));
-<a href=#272 id=272 data-nosnippet>272</a>            cx.set_global(SharedAppState::new(settings, pending_files));
+<a href=#272 id=272 data-nosnippet>272</a>            cx.set_global(SharedAppState::new(settings, pending_files, <span class="prelude-val">None</span>));
 <a href=#273 id=273 data-nosnippet>273</a>            cx.set_global(WindowManager::new());
 <a href=#274 id=274 data-nosnippet>274</a>        });
 <a href=#275 id=275 data-nosnippet>275</a>
@@ -451,7 +451,7 @@
 <a href=#451 id=451 data-nosnippet>451</a>                .profiles
 <a href=#452 id=452 data-nosnippet>452</a>                .push(profile_b);
 <a href=#453 id=453 data-nosnippet>453</a>            <span class="kw">let </span>pending_files: Arc&lt;Mutex&lt;Vec&lt;PathBuf&gt;&gt;&gt; = Arc::new(Mutex::new(Vec::new()));
-<a href=#454 id=454 data-nosnippet>454</a>            cx.set_global(SharedAppState::new(settings, pending_files));
+<a href=#454 id=454 data-nosnippet>454</a>            cx.set_global(SharedAppState::new(settings, pending_files, <span class="prelude-val">None</span>));
 <a href=#455 id=455 data-nosnippet>455</a>            cx.set_global(WindowManager::new());
 <a href=#456 id=456 data-nosnippet>456</a>        });
 <a href=#457 id=457 data-nosnippet>457</a>
