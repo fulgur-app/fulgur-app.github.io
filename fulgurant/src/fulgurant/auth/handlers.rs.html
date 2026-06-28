@@ -878,127 +878,129 @@
 <a href=#878 id=878 data-nosnippet>878</a>        <span class="macro">tracing::info!</span>(<span class="string">"Verification email sent"</span>);
 <a href=#879 id=879 data-nosnippet>879</a>    } <span class="kw">else </span>{
 <a href=#880 id=880 data-nosnippet>880</a>        <span class="macro">tracing::info!</span>(
-<a href=#881 id=881 data-nosnippet>881</a>            <span class="string">"Development mode - verification email not sent\nVerification code: {}"</span>,
-<a href=#882 id=882 data-nosnippet>882</a>            <span class="kw-2">&amp;</span>code
-<a href=#883 id=883 data-nosnippet>883</a>        );
-<a href=#884 id=884 data-nosnippet>884</a>    }
-<a href=#885 id=885 data-nosnippet>885</a>    <span class="prelude-val">Ok</span>(code)
-<a href=#886 id=886 data-nosnippet>886</a>}
-<a href=#887 id=887 data-nosnippet>887</a>
-<a href=#888 id=888 data-nosnippet>888</a><span class="doccomment">/// Create a verification code and dispatch its email without blocking the response
-<a href=#889 id=889 data-nosnippet>889</a>///
-<a href=#890 id=890 data-nosnippet>890</a>/// ### Arguments
-<a href=#891 id=891 data-nosnippet>891</a>/// - `state`: The application state
-<a href=#892 id=892 data-nosnippet>892</a>/// - `email`: The user's email
-<a href=#893 id=893 data-nosnippet>893</a>/// - `purpose`: The verification code purpose
-<a href=#894 id=894 data-nosnippet>894</a>///
-<a href=#895 id=895 data-nosnippet>895</a>/// ### Returns
-<a href=#896 id=896 data-nosnippet>896</a>/// - `Ok(())`: The code was created (the email send is dispatched in the background)
-<a href=#897 id=897 data-nosnippet>897</a>/// - `Err(AppError)`: Error occurred while creating the code
-<a href=#898 id=898 data-nosnippet>898</a></span><span class="kw">async fn </span>create_and_spawn_verification_code(
-<a href=#899 id=899 data-nosnippet>899</a>    state: <span class="kw-2">&amp;</span>AppState,
-<a href=#900 id=900 data-nosnippet>900</a>    email: <span class="kw-2">&amp;</span>str,
-<a href=#901 id=901 data-nosnippet>901</a>    purpose: <span class="kw-2">&amp;</span>str,
-<a href=#902 id=902 data-nosnippet>902</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), AppError&gt; {
-<a href=#903 id=903 data-nosnippet>903</a>    <span class="kw">let </span>code = generate_code();
-<a href=#904 id=904 data-nosnippet>904</a>    state
-<a href=#905 id=905 data-nosnippet>905</a>        .verification_code_repository
-<a href=#906 id=906 data-nosnippet>906</a>        .create(email.to_string(), code.clone(), purpose.to_string())
-<a href=#907 id=907 data-nosnippet>907</a>        .<span class="kw">await
-<a href=#908 id=908 data-nosnippet>908</a>        </span>.map_err(|e| {
-<a href=#909 id=909 data-nosnippet>909</a>            <span class="macro">tracing::error!</span>(<span class="string">"Failed to create verification code: {}"</span>, e);
-<a href=#910 id=910 data-nosnippet>910</a>            AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Failed to create verification code: {e}"</span>))
-<a href=#911 id=911 data-nosnippet>911</a>        })<span class="question-mark">?</span>;
-<a href=#912 id=912 data-nosnippet>912</a>    <span class="kw">if </span>state.is_prod {
-<a href=#913 id=913 data-nosnippet>913</a>        <span class="kw">let </span>mailer = state.mailer.clone();
-<a href=#914 id=914 data-nosnippet>914</a>        <span class="kw">let </span>recipient = email.to_string();
-<a href=#915 id=915 data-nosnippet>915</a>        tokio::spawn(<span class="kw">async move </span>{
-<a href=#916 id=916 data-nosnippet>916</a>            <span class="kw">match </span>mailer.send_verification_email(recipient, code).<span class="kw">await </span>{
-<a href=#917 id=917 data-nosnippet>917</a>                <span class="prelude-val">Ok</span>(()) =&gt; <span class="macro">tracing::info!</span>(<span class="string">"Verification email sent"</span>),
-<a href=#918 id=918 data-nosnippet>918</a>                <span class="prelude-val">Err</span>(e) =&gt; <span class="macro">tracing::error!</span>(<span class="string">"Failed to send verification email: {}"</span>, e),
-<a href=#919 id=919 data-nosnippet>919</a>            }
-<a href=#920 id=920 data-nosnippet>920</a>        });
-<a href=#921 id=921 data-nosnippet>921</a>    } <span class="kw">else </span>{
-<a href=#922 id=922 data-nosnippet>922</a>        <span class="macro">tracing::info!</span>(
-<a href=#923 id=923 data-nosnippet>923</a>            <span class="string">"Development mode - verification email not sent\nVerification code: {}"</span>,
-<a href=#924 id=924 data-nosnippet>924</a>            <span class="kw-2">&amp;</span>code
-<a href=#925 id=925 data-nosnippet>925</a>        );
-<a href=#926 id=926 data-nosnippet>926</a>    }
-<a href=#927 id=927 data-nosnippet>927</a>    <span class="prelude-val">Ok</span>(())
-<a href=#928 id=928 data-nosnippet>928</a>}
-<a href=#929 id=929 data-nosnippet>929</a>
-<a href=#930 id=930 data-nosnippet>930</a><span class="doccomment">/// Format verification result into user-friendly error message
-<a href=#931 id=931 data-nosnippet>931</a>///
-<a href=#932 id=932 data-nosnippet>932</a>/// ### Arguments
-<a href=#933 id=933 data-nosnippet>933</a>/// - `result`: The verification result
-<a href=#934 id=934 data-nosnippet>934</a>///
-<a href=#935 id=935 data-nosnippet>935</a>/// ### Returns
-<a href=#936 id=936 data-nosnippet>936</a>/// - `String`: User-friendly error message
-<a href=#937 id=937 data-nosnippet>937</a></span><span class="kw">fn </span>format_verification_error(result: <span class="kw-2">&amp;</span>VerificationResult) -&gt; String {
-<a href=#938 id=938 data-nosnippet>938</a>    <span class="kw">match </span>result {
-<a href=#939 id=939 data-nosnippet>939</a>        VerificationResult::Invalid { attempts_remaining } =&gt; {
-<a href=#940 id=940 data-nosnippet>940</a>            <span class="kw">if </span><span class="kw-2">*</span>attempts_remaining &gt; <span class="number">0 </span>{
-<a href=#941 id=941 data-nosnippet>941</a>                <span class="macro">format!</span>(<span class="string">"Invalid verification code. {attempts_remaining} attempt(s) remaining."</span>)
-<a href=#942 id=942 data-nosnippet>942</a>            } <span class="kw">else </span>{
-<a href=#943 id=943 data-nosnippet>943</a>                <span class="string">"Too many failed attempts. Please request a new code."</span>.to_string()
-<a href=#944 id=944 data-nosnippet>944</a>            }
-<a href=#945 id=945 data-nosnippet>945</a>        }
-<a href=#946 id=946 data-nosnippet>946</a>        VerificationResult::TooManyAttempts =&gt; {
-<a href=#947 id=947 data-nosnippet>947</a>            <span class="string">"Too many failed attempts. Please request a new code."</span>.to_string()
-<a href=#948 id=948 data-nosnippet>948</a>        }
-<a href=#949 id=949 data-nosnippet>949</a>        VerificationResult::Expired =&gt; {
-<a href=#950 id=950 data-nosnippet>950</a>            <span class="string">"Verification code has expired. Please request a new code."</span>.to_string()
-<a href=#951 id=951 data-nosnippet>951</a>        }
-<a href=#952 id=952 data-nosnippet>952</a>        VerificationResult::NotFound =&gt; {
-<a href=#953 id=953 data-nosnippet>953</a>            <span class="string">"No verification code found. Please request a new code."</span>.to_string()
-<a href=#954 id=954 data-nosnippet>954</a>        }
-<a href=#955 id=955 data-nosnippet>955</a>        VerificationResult::Verified =&gt; <span class="string">"Verification failed"</span>.to_string(),
-<a href=#956 id=956 data-nosnippet>956</a>    }
-<a href=#957 id=957 data-nosnippet>957</a>}
-<a href=#958 id=958 data-nosnippet>958</a>
-<a href=#959 id=959 data-nosnippet>959</a><span class="doccomment">/// Hashes a password
-<a href=#960 id=960 data-nosnippet>960</a>///
-<a href=#961 id=961 data-nosnippet>961</a>/// ### Arguments
-<a href=#962 id=962 data-nosnippet>962</a>/// - `password`: The password to hash
-<a href=#963 id=963 data-nosnippet>963</a>///
-<a href=#964 id=964 data-nosnippet>964</a>/// ### Returns
-<a href=#965 id=965 data-nosnippet>965</a>/// - `Ok(String)`: The hashed password
-<a href=#966 id=966 data-nosnippet>966</a>/// - `Err(argon2::password_hash::Error)`: The error if the password cannot be hashed
-<a href=#967 id=967 data-nosnippet>967</a></span><span class="kw">pub fn </span>hash_password(password: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;String, argon2::password_hash::Error&gt; {
-<a href=#968 id=968 data-nosnippet>968</a>    <span class="kw">let </span>salt = SaltString::generate(<span class="kw-2">&amp;mut </span>OsRng);
-<a href=#969 id=969 data-nosnippet>969</a>    <span class="kw">let </span>argon2 = Argon2::default();
-<a href=#970 id=970 data-nosnippet>970</a>    <span class="kw">let </span>hash = argon2.hash_password(password.as_bytes(), <span class="kw-2">&amp;</span>salt)<span class="question-mark">?</span>;
-<a href=#971 id=971 data-nosnippet>971</a>    <span class="prelude-val">Ok</span>(hash.to_string())
-<a href=#972 id=972 data-nosnippet>972</a>}
-<a href=#973 id=973 data-nosnippet>973</a>
-<a href=#974 id=974 data-nosnippet>974</a><span class="doccomment">/// Verifies a password
-<a href=#975 id=975 data-nosnippet>975</a>///
-<a href=#976 id=976 data-nosnippet>976</a>/// ### Arguments
-<a href=#977 id=977 data-nosnippet>977</a>/// - `password`: The password to verify
-<a href=#978 id=978 data-nosnippet>978</a>/// - `password_hash`: The hashed password
-<a href=#979 id=979 data-nosnippet>979</a>///
-<a href=#980 id=980 data-nosnippet>980</a>/// ### Returns
-<a href=#981 id=981 data-nosnippet>981</a>/// - `true` if the password is valid, `false` otherwise (including on malformed hash)
-<a href=#982 id=982 data-nosnippet>982</a></span><span class="kw">fn </span>verify_password(password: <span class="kw-2">&amp;</span>str, password_hash: <span class="kw-2">&amp;</span>str) -&gt; bool {
-<a href=#983 id=983 data-nosnippet>983</a>    <span class="kw">let </span><span class="prelude-val">Ok</span>(password_hash) = PasswordHash::new(password_hash) <span class="kw">else </span>{
-<a href=#984 id=984 data-nosnippet>984</a>        <span class="macro">tracing::warn!</span>(<span class="string">"Failed to parse password hash - treating as invalid"</span>);
-<a href=#985 id=985 data-nosnippet>985</a>        dummy_verify_password();
-<a href=#986 id=986 data-nosnippet>986</a>        <span class="kw">return </span><span class="bool-val">false</span>;
-<a href=#987 id=987 data-nosnippet>987</a>    };
-<a href=#988 id=988 data-nosnippet>988</a>    <span class="kw">let </span>argon2 = Argon2::default();
-<a href=#989 id=989 data-nosnippet>989</a>    argon2
-<a href=#990 id=990 data-nosnippet>990</a>        .verify_password(password.as_bytes(), <span class="kw-2">&amp;</span>password_hash)
-<a href=#991 id=991 data-nosnippet>991</a>        .is_ok()
-<a href=#992 id=992 data-nosnippet>992</a>}
-<a href=#993 id=993 data-nosnippet>993</a>
-<a href=#994 id=994 data-nosnippet>994</a><span class="doccomment">/// A precomputed Argon2 hash of a fixed dummy password.
-<a href=#995 id=995 data-nosnippet>995</a></span><span class="kw">static </span>DUMMY_PASSWORD_HASH: LazyLock&lt;String&gt; = LazyLock::new(|| {
-<a href=#996 id=996 data-nosnippet>996</a>    hash_password(<span class="string">"dummy-password-for-constant-time-verification"</span>)
-<a href=#997 id=997 data-nosnippet>997</a>        .expect(<span class="string">"dummy password hashing must succeed with default Argon2 parameters"</span>)
-<a href=#998 id=998 data-nosnippet>998</a>});
-<a href=#999 id=999 data-nosnippet>999</a>
-<a href=#1000 id=1000 data-nosnippet>1000</a><span class="doccomment">/// Performs a throwaway Argon2 verification against a fixed dummy hash.
-<a href=#1001 id=1001 data-nosnippet>1001</a></span><span class="kw">fn </span>dummy_verify_password() {
-<a href=#1002 id=1002 data-nosnippet>1002</a>    <span class="kw">let _ </span>= verify_password(<span class="string">"dummy-password"</span>, DUMMY_PASSWORD_HASH.as_str());
-<a href=#1003 id=1003 data-nosnippet>1003</a>}
+<a href=#881 id=881 data-nosnippet>881</a>            target: <span class="kw">crate</span>::logging::DEV_CONSOLE_TARGET,
+<a href=#882 id=882 data-nosnippet>882</a>            <span class="string">"Development mode - verification email not sent\nVerification code: {}"</span>,
+<a href=#883 id=883 data-nosnippet>883</a>            <span class="kw-2">&amp;</span>code
+<a href=#884 id=884 data-nosnippet>884</a>        );
+<a href=#885 id=885 data-nosnippet>885</a>    }
+<a href=#886 id=886 data-nosnippet>886</a>    <span class="prelude-val">Ok</span>(code)
+<a href=#887 id=887 data-nosnippet>887</a>}
+<a href=#888 id=888 data-nosnippet>888</a>
+<a href=#889 id=889 data-nosnippet>889</a><span class="doccomment">/// Create a verification code and dispatch its email without blocking the response
+<a href=#890 id=890 data-nosnippet>890</a>///
+<a href=#891 id=891 data-nosnippet>891</a>/// ### Arguments
+<a href=#892 id=892 data-nosnippet>892</a>/// - `state`: The application state
+<a href=#893 id=893 data-nosnippet>893</a>/// - `email`: The user's email
+<a href=#894 id=894 data-nosnippet>894</a>/// - `purpose`: The verification code purpose
+<a href=#895 id=895 data-nosnippet>895</a>///
+<a href=#896 id=896 data-nosnippet>896</a>/// ### Returns
+<a href=#897 id=897 data-nosnippet>897</a>/// - `Ok(())`: The code was created (the email send is dispatched in the background)
+<a href=#898 id=898 data-nosnippet>898</a>/// - `Err(AppError)`: Error occurred while creating the code
+<a href=#899 id=899 data-nosnippet>899</a></span><span class="kw">async fn </span>create_and_spawn_verification_code(
+<a href=#900 id=900 data-nosnippet>900</a>    state: <span class="kw-2">&amp;</span>AppState,
+<a href=#901 id=901 data-nosnippet>901</a>    email: <span class="kw-2">&amp;</span>str,
+<a href=#902 id=902 data-nosnippet>902</a>    purpose: <span class="kw-2">&amp;</span>str,
+<a href=#903 id=903 data-nosnippet>903</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), AppError&gt; {
+<a href=#904 id=904 data-nosnippet>904</a>    <span class="kw">let </span>code = generate_code();
+<a href=#905 id=905 data-nosnippet>905</a>    state
+<a href=#906 id=906 data-nosnippet>906</a>        .verification_code_repository
+<a href=#907 id=907 data-nosnippet>907</a>        .create(email.to_string(), code.clone(), purpose.to_string())
+<a href=#908 id=908 data-nosnippet>908</a>        .<span class="kw">await
+<a href=#909 id=909 data-nosnippet>909</a>        </span>.map_err(|e| {
+<a href=#910 id=910 data-nosnippet>910</a>            <span class="macro">tracing::error!</span>(<span class="string">"Failed to create verification code: {}"</span>, e);
+<a href=#911 id=911 data-nosnippet>911</a>            AppError::InternalError(<span class="macro">anyhow::anyhow!</span>(<span class="string">"Failed to create verification code: {e}"</span>))
+<a href=#912 id=912 data-nosnippet>912</a>        })<span class="question-mark">?</span>;
+<a href=#913 id=913 data-nosnippet>913</a>    <span class="kw">if </span>state.is_prod {
+<a href=#914 id=914 data-nosnippet>914</a>        <span class="kw">let </span>mailer = state.mailer.clone();
+<a href=#915 id=915 data-nosnippet>915</a>        <span class="kw">let </span>recipient = email.to_string();
+<a href=#916 id=916 data-nosnippet>916</a>        tokio::spawn(<span class="kw">async move </span>{
+<a href=#917 id=917 data-nosnippet>917</a>            <span class="kw">match </span>mailer.send_verification_email(recipient, code).<span class="kw">await </span>{
+<a href=#918 id=918 data-nosnippet>918</a>                <span class="prelude-val">Ok</span>(()) =&gt; <span class="macro">tracing::info!</span>(<span class="string">"Verification email sent"</span>),
+<a href=#919 id=919 data-nosnippet>919</a>                <span class="prelude-val">Err</span>(e) =&gt; <span class="macro">tracing::error!</span>(<span class="string">"Failed to send verification email: {}"</span>, e),
+<a href=#920 id=920 data-nosnippet>920</a>            }
+<a href=#921 id=921 data-nosnippet>921</a>        });
+<a href=#922 id=922 data-nosnippet>922</a>    } <span class="kw">else </span>{
+<a href=#923 id=923 data-nosnippet>923</a>        <span class="macro">tracing::info!</span>(
+<a href=#924 id=924 data-nosnippet>924</a>            target: <span class="kw">crate</span>::logging::DEV_CONSOLE_TARGET,
+<a href=#925 id=925 data-nosnippet>925</a>            <span class="string">"Development mode - verification email not sent\nVerification code: {}"</span>,
+<a href=#926 id=926 data-nosnippet>926</a>            <span class="kw-2">&amp;</span>code
+<a href=#927 id=927 data-nosnippet>927</a>        );
+<a href=#928 id=928 data-nosnippet>928</a>    }
+<a href=#929 id=929 data-nosnippet>929</a>    <span class="prelude-val">Ok</span>(())
+<a href=#930 id=930 data-nosnippet>930</a>}
+<a href=#931 id=931 data-nosnippet>931</a>
+<a href=#932 id=932 data-nosnippet>932</a><span class="doccomment">/// Format verification result into user-friendly error message
+<a href=#933 id=933 data-nosnippet>933</a>///
+<a href=#934 id=934 data-nosnippet>934</a>/// ### Arguments
+<a href=#935 id=935 data-nosnippet>935</a>/// - `result`: The verification result
+<a href=#936 id=936 data-nosnippet>936</a>///
+<a href=#937 id=937 data-nosnippet>937</a>/// ### Returns
+<a href=#938 id=938 data-nosnippet>938</a>/// - `String`: User-friendly error message
+<a href=#939 id=939 data-nosnippet>939</a></span><span class="kw">fn </span>format_verification_error(result: <span class="kw-2">&amp;</span>VerificationResult) -&gt; String {
+<a href=#940 id=940 data-nosnippet>940</a>    <span class="kw">match </span>result {
+<a href=#941 id=941 data-nosnippet>941</a>        VerificationResult::Invalid { attempts_remaining } =&gt; {
+<a href=#942 id=942 data-nosnippet>942</a>            <span class="kw">if </span><span class="kw-2">*</span>attempts_remaining &gt; <span class="number">0 </span>{
+<a href=#943 id=943 data-nosnippet>943</a>                <span class="macro">format!</span>(<span class="string">"Invalid verification code. {attempts_remaining} attempt(s) remaining."</span>)
+<a href=#944 id=944 data-nosnippet>944</a>            } <span class="kw">else </span>{
+<a href=#945 id=945 data-nosnippet>945</a>                <span class="string">"Too many failed attempts. Please request a new code."</span>.to_string()
+<a href=#946 id=946 data-nosnippet>946</a>            }
+<a href=#947 id=947 data-nosnippet>947</a>        }
+<a href=#948 id=948 data-nosnippet>948</a>        VerificationResult::TooManyAttempts =&gt; {
+<a href=#949 id=949 data-nosnippet>949</a>            <span class="string">"Too many failed attempts. Please request a new code."</span>.to_string()
+<a href=#950 id=950 data-nosnippet>950</a>        }
+<a href=#951 id=951 data-nosnippet>951</a>        VerificationResult::Expired =&gt; {
+<a href=#952 id=952 data-nosnippet>952</a>            <span class="string">"Verification code has expired. Please request a new code."</span>.to_string()
+<a href=#953 id=953 data-nosnippet>953</a>        }
+<a href=#954 id=954 data-nosnippet>954</a>        VerificationResult::NotFound =&gt; {
+<a href=#955 id=955 data-nosnippet>955</a>            <span class="string">"No verification code found. Please request a new code."</span>.to_string()
+<a href=#956 id=956 data-nosnippet>956</a>        }
+<a href=#957 id=957 data-nosnippet>957</a>        VerificationResult::Verified =&gt; <span class="string">"Verification failed"</span>.to_string(),
+<a href=#958 id=958 data-nosnippet>958</a>    }
+<a href=#959 id=959 data-nosnippet>959</a>}
+<a href=#960 id=960 data-nosnippet>960</a>
+<a href=#961 id=961 data-nosnippet>961</a><span class="doccomment">/// Hashes a password
+<a href=#962 id=962 data-nosnippet>962</a>///
+<a href=#963 id=963 data-nosnippet>963</a>/// ### Arguments
+<a href=#964 id=964 data-nosnippet>964</a>/// - `password`: The password to hash
+<a href=#965 id=965 data-nosnippet>965</a>///
+<a href=#966 id=966 data-nosnippet>966</a>/// ### Returns
+<a href=#967 id=967 data-nosnippet>967</a>/// - `Ok(String)`: The hashed password
+<a href=#968 id=968 data-nosnippet>968</a>/// - `Err(argon2::password_hash::Error)`: The error if the password cannot be hashed
+<a href=#969 id=969 data-nosnippet>969</a></span><span class="kw">pub fn </span>hash_password(password: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;String, argon2::password_hash::Error&gt; {
+<a href=#970 id=970 data-nosnippet>970</a>    <span class="kw">let </span>salt = SaltString::generate(<span class="kw-2">&amp;mut </span>OsRng);
+<a href=#971 id=971 data-nosnippet>971</a>    <span class="kw">let </span>argon2 = Argon2::default();
+<a href=#972 id=972 data-nosnippet>972</a>    <span class="kw">let </span>hash = argon2.hash_password(password.as_bytes(), <span class="kw-2">&amp;</span>salt)<span class="question-mark">?</span>;
+<a href=#973 id=973 data-nosnippet>973</a>    <span class="prelude-val">Ok</span>(hash.to_string())
+<a href=#974 id=974 data-nosnippet>974</a>}
+<a href=#975 id=975 data-nosnippet>975</a>
+<a href=#976 id=976 data-nosnippet>976</a><span class="doccomment">/// Verifies a password
+<a href=#977 id=977 data-nosnippet>977</a>///
+<a href=#978 id=978 data-nosnippet>978</a>/// ### Arguments
+<a href=#979 id=979 data-nosnippet>979</a>/// - `password`: The password to verify
+<a href=#980 id=980 data-nosnippet>980</a>/// - `password_hash`: The hashed password
+<a href=#981 id=981 data-nosnippet>981</a>///
+<a href=#982 id=982 data-nosnippet>982</a>/// ### Returns
+<a href=#983 id=983 data-nosnippet>983</a>/// - `true` if the password is valid, `false` otherwise (including on malformed hash)
+<a href=#984 id=984 data-nosnippet>984</a></span><span class="kw">fn </span>verify_password(password: <span class="kw-2">&amp;</span>str, password_hash: <span class="kw-2">&amp;</span>str) -&gt; bool {
+<a href=#985 id=985 data-nosnippet>985</a>    <span class="kw">let </span><span class="prelude-val">Ok</span>(password_hash) = PasswordHash::new(password_hash) <span class="kw">else </span>{
+<a href=#986 id=986 data-nosnippet>986</a>        <span class="macro">tracing::warn!</span>(<span class="string">"Failed to parse password hash - treating as invalid"</span>);
+<a href=#987 id=987 data-nosnippet>987</a>        dummy_verify_password();
+<a href=#988 id=988 data-nosnippet>988</a>        <span class="kw">return </span><span class="bool-val">false</span>;
+<a href=#989 id=989 data-nosnippet>989</a>    };
+<a href=#990 id=990 data-nosnippet>990</a>    <span class="kw">let </span>argon2 = Argon2::default();
+<a href=#991 id=991 data-nosnippet>991</a>    argon2
+<a href=#992 id=992 data-nosnippet>992</a>        .verify_password(password.as_bytes(), <span class="kw-2">&amp;</span>password_hash)
+<a href=#993 id=993 data-nosnippet>993</a>        .is_ok()
+<a href=#994 id=994 data-nosnippet>994</a>}
+<a href=#995 id=995 data-nosnippet>995</a>
+<a href=#996 id=996 data-nosnippet>996</a><span class="doccomment">/// A precomputed Argon2 hash of a fixed dummy password.
+<a href=#997 id=997 data-nosnippet>997</a></span><span class="kw">static </span>DUMMY_PASSWORD_HASH: LazyLock&lt;String&gt; = LazyLock::new(|| {
+<a href=#998 id=998 data-nosnippet>998</a>    hash_password(<span class="string">"dummy-password-for-constant-time-verification"</span>)
+<a href=#999 id=999 data-nosnippet>999</a>        .expect(<span class="string">"dummy password hashing must succeed with default Argon2 parameters"</span>)
+<a href=#1000 id=1000 data-nosnippet>1000</a>});
+<a href=#1001 id=1001 data-nosnippet>1001</a>
+<a href=#1002 id=1002 data-nosnippet>1002</a><span class="doccomment">/// Performs a throwaway Argon2 verification against a fixed dummy hash.
+<a href=#1003 id=1003 data-nosnippet>1003</a></span><span class="kw">fn </span>dummy_verify_password() {
+<a href=#1004 id=1004 data-nosnippet>1004</a>    <span class="kw">let _ </span>= verify_password(<span class="string">"dummy-password"</span>, DUMMY_PASSWORD_HASH.as_str());
+<a href=#1005 id=1005 data-nosnippet>1005</a>}
 </code></pre></div></section></main></body></html>
