@@ -7,7 +7,7 @@
 <ul>
 <li><code>SessionRepository</code>: The session repository</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.upsert" class="method"><a class="src rightside" href="../../src/fulgurant/session.rs.html#173-200">Source</a><h4 class="code-header">pub async fn <a href="#method.upsert" class="fn">upsert</a>(&amp;self, record: &amp;<a class="struct" href="struct.SessionRecord.html" title="struct fulgurant::session::SessionRecord">SessionRecord</a>) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.102/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>Insert or update a session row.</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.upsert" class="method"><a class="src rightside" href="../../src/fulgurant/session.rs.html#173-200">Source</a><h4 class="code-header">pub async fn <a href="#method.upsert" class="fn">upsert</a>(&amp;self, record: &amp;<a class="struct" href="struct.SessionRecord.html" title="struct fulgurant::session::SessionRecord">SessionRecord</a>) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.103/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>Insert or update a session row.</p>
 <h6 id="arguments-1"><a class="doc-anchor" href="#arguments-1">§</a>Arguments</h6>
 <ul>
 <li><code>record</code>: The session record to persist</li>
@@ -17,7 +17,7 @@
 <li><code>Ok(())</code>: The row was written</li>
 <li><code>Err(anyhow::Error)</code>: The error if the operation fails</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.load" class="method"><a class="src rightside" href="../../src/fulgurant/session.rs.html#211-224">Source</a><h4 class="code-header">pub async fn <a href="#method.load" class="fn">load</a>(&amp;self, id: &amp;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.str.html">str</a>) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.102/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.96.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="struct.SessionRecord.html" title="struct fulgurant::session::SessionRecord">SessionRecord</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>Load a session row by id.</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.load" class="method"><a class="src rightside" href="../../src/fulgurant/session.rs.html#211-224">Source</a><h4 class="code-header">pub async fn <a href="#method.load" class="fn">load</a>(&amp;self, id: &amp;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.str.html">str</a>) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.103/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.96.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="struct.SessionRecord.html" title="struct fulgurant::session::SessionRecord">SessionRecord</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>Load a session row by id.</p>
 <h6 id="arguments-2"><a class="doc-anchor" href="#arguments-2">§</a>Arguments</h6>
 <ul>
 <li><code>id</code>: The session id</li>
@@ -28,7 +28,7 @@
 <li><code>Ok(None)</code>: No matching session, or it has expired</li>
 <li><code>Err(anyhow::Error)</code>: The error if the operation fails</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.delete" class="method"><a class="src rightside" href="../../src/fulgurant/session.rs.html#234-241">Source</a><h4 class="code-header">pub async fn <a href="#method.delete" class="fn">delete</a>(&amp;self, id: &amp;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.str.html">str</a>) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.102/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>Delete a single session row by id.</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.delete" class="method"><a class="src rightside" href="../../src/fulgurant/session.rs.html#234-241">Source</a><h4 class="code-header">pub async fn <a href="#method.delete" class="fn">delete</a>(&amp;self, id: &amp;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.str.html">str</a>) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.103/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>Delete a single session row by id.</p>
 <h6 id="arguments-3"><a class="doc-anchor" href="#arguments-3">§</a>Arguments</h6>
 <ul>
 <li><code>id</code>: The session id</li>
@@ -38,7 +38,7 @@
 <li><code>Ok(())</code>: Always returns Ok, even if no row matched</li>
 <li><code>Err(anyhow::Error)</code>: The error if the operation fails</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.delete_all_for_user" class="method"><a class="src rightside" href="../../src/fulgurant/session.rs.html#251-254">Source</a><h4 class="code-header">pub async fn <a href="#method.delete_all_for_user" class="fn">delete_all_for_user</a>(&amp;self, user_id: <a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.i32.html">i32</a>) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.102/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.u64.html">u64</a>&gt;</h4></section></summary><div class="docblock"><p>Delete every session belonging to a user.</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.delete_all_for_user" class="method"><a class="src rightside" href="../../src/fulgurant/session.rs.html#251-254">Source</a><h4 class="code-header">pub async fn <a href="#method.delete_all_for_user" class="fn">delete_all_for_user</a>(&amp;self, user_id: <a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.i32.html">i32</a>) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.103/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.u64.html">u64</a>&gt;</h4></section></summary><div class="docblock"><p>Delete every session belonging to a user.</p>
 <h6 id="arguments-4"><a class="doc-anchor" href="#arguments-4">§</a>Arguments</h6>
 <ul>
 <li><code>user_id</code>: The user whose sessions should be revoked</li>
@@ -52,7 +52,7 @@
     &amp;self,
     user_id: <a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.i32.html">i32</a>,
     current_id: &amp;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.str.html">str</a>,
-) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.102/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.u64.html">u64</a>&gt;</h4></section></summary><div class="docblock"><p>Delete every session belonging to a user except the one provided.</p>
+) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.103/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.u64.html">u64</a>&gt;</h4></section></summary><div class="docblock"><p>Delete every session belonging to a user except the one provided.</p>
 <h6 id="arguments-5"><a class="doc-anchor" href="#arguments-5">§</a>Arguments</h6>
 <ul>
 <li><code>user_id</code>: The user whose sessions should be revoked</li>
@@ -63,7 +63,7 @@
 <li><code>Ok(u64)</code>: The number of deleted rows</li>
 <li><code>Err(anyhow::Error)</code>: The error if the operation fails</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.list_for_user" class="method"><a class="src rightside" href="../../src/fulgurant/session.rs.html#287-302">Source</a><h4 class="code-header">pub async fn <a href="#method.list_for_user" class="fn">list_for_user</a>(&amp;self, user_id: <a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.i32.html">i32</a>) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.102/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.96.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="struct.SessionRecord.html" title="struct fulgurant::session::SessionRecord">SessionRecord</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>List every active (non-expired) session belonging to a user.</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.list_for_user" class="method"><a class="src rightside" href="../../src/fulgurant/session.rs.html#287-302">Source</a><h4 class="code-header">pub async fn <a href="#method.list_for_user" class="fn">list_for_user</a>(&amp;self, user_id: <a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.i32.html">i32</a>) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.103/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.96.0/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="struct.SessionRecord.html" title="struct fulgurant::session::SessionRecord">SessionRecord</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>List every active (non-expired) session belonging to a user.</p>
 <h6 id="arguments-6"><a class="doc-anchor" href="#arguments-6">§</a>Arguments</h6>
 <ul>
 <li><code>user_id</code>: The user whose sessions should be listed</li>

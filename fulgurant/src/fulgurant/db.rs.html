@@ -67,7 +67,7 @@
 <a href=#67 id=67 data-nosnippet>67</a>            }
 <a href=#68 id=68 data-nosnippet>68</a>            <span class="macro-nonterminal">$crate::db::DbPool::Postgres</span>(pool) =&gt; {
 <a href=#69 id=69 data-nosnippet>69</a>                <span class="kw">let </span>__pg_sql = <span class="macro-nonterminal">$crate::db::pg_params</span>(<span class="macro-nonterminal">$sql</span>);
-<a href=#70 id=70 data-nosnippet>70</a>                sqlx::query(<span class="kw-2">&amp;</span>__pg_sql)
+<a href=#70 id=70 data-nosnippet>70</a>                sqlx::query(sqlx::AssertSqlSafe(__pg_sql))
 <a href=#71 id=71 data-nosnippet>71</a>                    $(.bind(<span class="macro-nonterminal">$bind</span>))*
 <a href=#72 id=72 data-nosnippet>72</a>                    .execute(pool).<span class="kw">await
 <a href=#73 id=73 data-nosnippet>73</a>                    </span>.map(|r| r.rows_affected())
@@ -109,7 +109,7 @@
 <a href=#109 id=109 data-nosnippet>109</a>            </span>}
 <a href=#110 id=110 data-nosnippet>110</a>            <span class="macro-nonterminal">$crate::db::DbPool::Postgres</span>(pool) =&gt; {
 <a href=#111 id=111 data-nosnippet>111</a>                <span class="kw">let </span>__pg_sql = <span class="macro-nonterminal">$crate::db::pg_params</span>(<span class="macro-nonterminal">$sql</span>);
-<a href=#112 id=112 data-nosnippet>112</a>                sqlx::query_as::&lt;<span class="kw">_</span>, <span class="macro-nonterminal">$type</span>&gt;(<span class="kw-2">&amp;</span>__pg_sql)
+<a href=#112 id=112 data-nosnippet>112</a>                sqlx::query_as::&lt;<span class="kw">_</span>, <span class="macro-nonterminal">$type</span>&gt;(sqlx::AssertSqlSafe(__pg_sql))
 <a href=#113 id=113 data-nosnippet>113</a>                    $(.bind(<span class="macro-nonterminal">$bind</span>))*
 <a href=#114 id=114 data-nosnippet>114</a>                    .fetch_optional(pool).<span class="kw">await
 <a href=#115 id=115 data-nosnippet>115</a>            </span>}
@@ -148,7 +148,7 @@
 <a href=#148 id=148 data-nosnippet>148</a>            </span>}
 <a href=#149 id=149 data-nosnippet>149</a>            <span class="macro-nonterminal">$crate::db::DbPool::Postgres</span>(pool) =&gt; {
 <a href=#150 id=150 data-nosnippet>150</a>                <span class="kw">let </span>__pg_sql = <span class="macro-nonterminal">$crate::db::pg_params</span>(<span class="macro-nonterminal">$sql</span>);
-<a href=#151 id=151 data-nosnippet>151</a>                sqlx::query_as::&lt;<span class="kw">_</span>, <span class="macro-nonterminal">$type</span>&gt;(<span class="kw-2">&amp;</span>__pg_sql)
+<a href=#151 id=151 data-nosnippet>151</a>                sqlx::query_as::&lt;<span class="kw">_</span>, <span class="macro-nonterminal">$type</span>&gt;(sqlx::AssertSqlSafe(__pg_sql))
 <a href=#152 id=152 data-nosnippet>152</a>                    $(.bind(<span class="macro-nonterminal">$bind</span>))*
 <a href=#153 id=153 data-nosnippet>153</a>                    .fetch_one(pool).<span class="kw">await
 <a href=#154 id=154 data-nosnippet>154</a>            </span>}
@@ -187,7 +187,7 @@
 <a href=#187 id=187 data-nosnippet>187</a>            </span>}
 <a href=#188 id=188 data-nosnippet>188</a>            <span class="macro-nonterminal">$crate::db::DbPool::Postgres</span>(pool) =&gt; {
 <a href=#189 id=189 data-nosnippet>189</a>                <span class="kw">let </span>__pg_sql = <span class="macro-nonterminal">$crate::db::pg_params</span>(<span class="macro-nonterminal">$sql</span>);
-<a href=#190 id=190 data-nosnippet>190</a>                sqlx::query_as::&lt;<span class="kw">_</span>, <span class="macro-nonterminal">$type</span>&gt;(<span class="kw-2">&amp;</span>__pg_sql)
+<a href=#190 id=190 data-nosnippet>190</a>                sqlx::query_as::&lt;<span class="kw">_</span>, <span class="macro-nonterminal">$type</span>&gt;(sqlx::AssertSqlSafe(__pg_sql))
 <a href=#191 id=191 data-nosnippet>191</a>                    $(.bind(<span class="macro-nonterminal">$bind</span>))*
 <a href=#192 id=192 data-nosnippet>192</a>                    .fetch_all(pool).<span class="kw">await
 <a href=#193 id=193 data-nosnippet>193</a>            </span>}
