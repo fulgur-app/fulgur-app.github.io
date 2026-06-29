@@ -269,7 +269,7 @@ This approach works cross-platform without requiring OS-specific print APIs.</p>
 </div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-6" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/settings/propagation.rs.html#5-146">Source</a><a href="#impl-Fulgur-6" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.update_and_propagate_settings" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/settings/propagation.rs.html#24-80">Source</a><h4 class="code-header">pub fn <a href="#method.update_and_propagate_settings" class="fn">update_and_propagate_settings</a>(
     &amp;mut self,
     cx: &amp;mut Context&lt;'_, Self&gt;,
-) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.102/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>Update settings and propagate to all windows</p>
+) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.103/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>Update settings and propagate to all windows</p>
 <p>This method should be called whenever settings are changed. It will:</p>
 <ol>
 <li>Save settings to disk</li>
@@ -324,7 +324,7 @@ state update and re-render still happen even when saving fails.</p>
 <li><code>cx</code>: The application context</li>
 <li><code>window_index</code>: Index of the window state to restore (0 = first window, etc.)</li>
 </ul>
-</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-8" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/state/operations/save.rs.html#8-218">Source</a><a href="#impl-Fulgur-8" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.save_state" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/state/operations/save.rs.html#22-34">Source</a><h4 class="code-header">pub fn <a href="#method.save_state" class="fn">save_state</a>(&amp;self, cx: &amp;App, window: &amp;Window) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.102/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>Save the current app state to disk (saves all windows in multi-window mode)</p>
+</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-8" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/state/operations/save.rs.html#8-218">Source</a><a href="#impl-Fulgur-8" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.save_state" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/state/operations/save.rs.html#22-34">Source</a><h4 class="code-header">pub fn <a href="#method.save_state" class="fn">save_state</a>(&amp;self, cx: &amp;App, window: &amp;Window) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.103/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>Save the current app state to disk (saves all windows in multi-window mode)</p>
 <h6 id="arguments-27"><a class="doc-anchor" href="#arguments-27">§</a>Arguments</h6>
 <ul>
 <li><code>cx</code>: The application context</li>
@@ -369,7 +369,7 @@ resolution, serialization, or file write failure).</li>
     &amp;mut self,
     profile: <a class="struct" href="settings/struct.ServerProfile.html" title="struct fulgur::fulgur::settings::ServerProfile">ServerProfile</a>,
     cx: &amp;mut Context&lt;'_, Self&gt;,
-) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.102/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>Add a new server profile to the configuration.</p>
+) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.103/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>Add a new server profile to the configuration.</p>
 <h6 id="arguments-31"><a class="doc-anchor" href="#arguments-31">§</a>Arguments</h6>
 <ul>
 <li><code>profile</code>: The fully formed profile to register.</li>
@@ -388,7 +388,7 @@ profile list is left mutated but the on-disk store is unchanged.</li>
     profile_id: &amp;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.str.html">str</a>,
     mutator: F,
     cx: &amp;mut Context&lt;'_, Self&gt;,
-) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.102/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.bool.html">bool</a>&gt;<div class="where">where
+) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.103/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.bool.html">bool</a>&gt;<div class="where">where
     F: <a class="trait" href="https://doc.rust-lang.org/1.96.0/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(&amp;mut <a class="struct" href="settings/struct.ServerProfile.html" title="struct fulgur::fulgur::settings::ServerProfile">ServerProfile</a>),</div></h4></section></summary><div class="docblock"><p>Update an existing profile and propagate the change.</p>
 <h6 id="arguments-32"><a class="doc-anchor" href="#arguments-32">§</a>Arguments</h6>
 <ul>
@@ -408,7 +408,7 @@ profile list is left mutated but the on-disk store is unchanged.</li>
     &amp;mut self,
     profile_id: &amp;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.str.html">str</a>,
     cx: &amp;mut Context&lt;'_, Self&gt;,
-) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.102/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.bool.html">bool</a>&gt;</h4></section></summary><div class="docblock"><p>Delete a server profile and tear down its associated state.</p>
+) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.103/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.96.0/std/primitive.bool.html">bool</a>&gt;</h4></section></summary><div class="docblock"><p>Delete a server profile and tear down its associated state.</p>
 <h6 id="arguments-33"><a class="doc-anchor" href="#arguments-33">§</a>Arguments</h6>
 <ul>
 <li><code>profile_id</code>: The id of the profile to delete.</li>
