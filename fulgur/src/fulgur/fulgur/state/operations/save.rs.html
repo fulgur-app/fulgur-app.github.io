@@ -160,7 +160,7 @@
 <a href=#160 id=160 data-nosnippet>160</a>    /// - `Some(usize)`: the active editor tab index
 <a href=#161 id=161 data-nosnippet>161</a>    /// - `None`: if the active tab is a Settings tab (not persisted).
 <a href=#162 id=162 data-nosnippet>162</a>    </span><span class="kw">fn </span>active_editor_index_for_state(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
-<a href=#163 id=163 data-nosnippet>163</a>        <span class="kw">let </span>active = <span class="self">self</span>.active_tab_index<span class="question-mark">?</span>;
+<a href=#163 id=163 data-nosnippet>163</a>        <span class="kw">let </span>active = <span class="self">self</span>.active_tab_index()<span class="question-mark">?</span>;
 <a href=#164 id=164 data-nosnippet>164</a>        <span class="kw">let </span>active_tab = <span class="self">self</span>.tabs.get(active)<span class="question-mark">?</span>;
 <a href=#165 id=165 data-nosnippet>165</a>        <span class="kw">let </span>editor_tab_id = <span class="kw">match </span>active_tab {
 <a href=#166 id=166 data-nosnippet>166</a>            Tab::Editor(et) =&gt; et.id,

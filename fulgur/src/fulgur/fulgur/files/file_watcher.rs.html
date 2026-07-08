@@ -388,7 +388,7 @@
 <a href=#388 id=388 data-nosnippet>388</a>        {
 <a href=#389 id=389 data-nosnippet>389</a>            <span class="kw">if </span>editor_tab.modified {
 <a href=#390 id=390 data-nosnippet>390</a>                <span class="kw">let </span>tab_id = editor_tab.id;
-<a href=#391 id=391 data-nosnippet>391</a>                <span class="kw">let </span>is_active = <span class="self">self</span>.active_tab_index == <span class="prelude-val">Some</span>(tab_index);
+<a href=#391 id=391 data-nosnippet>391</a>                <span class="kw">let </span>is_active = <span class="self">self</span>.active_tab_index() == <span class="prelude-val">Some</span>(tab_index);
 <a href=#392 id=392 data-nosnippet>392</a>
 <a href=#393 id=393 data-nosnippet>393</a>                <span class="kw">if </span>is_active {
 <a href=#394 id=394 data-nosnippet>394</a>                    <span class="self">self</span>.show_file_conflict_dialog(path, tab_id, window, cx);
@@ -840,7 +840,7 @@
 <a href=#840 id=840 data-nosnippet>840</a>                        input_state.set_value(<span class="string">"local-edits"</span>, window, cx);
 <a href=#841 id=841 data-nosnippet>841</a>                    });
 <a href=#842 id=842 data-nosnippet>842</a>                }
-<a href=#843 id=843 data-nosnippet>843</a>                this.active_tab_index = <span class="prelude-val">Some</span>(<span class="number">0</span>);
+<a href=#843 id=843 data-nosnippet>843</a>                this.active_tab_id = this.tabs.first().map(<span class="kw">crate</span>::fulgur::tab::Tab::id);
 <a href=#844 id=844 data-nosnippet>844</a>                this.handle_file_watch_event(FileWatchEvent::Modified(path.clone()), window, cx);
 <a href=#845 id=845 data-nosnippet>845</a>                <span class="macro">assert!</span>(
 <a href=#846 id=846 data-nosnippet>846</a>                    !this.file_watch_state.pending_conflicts.contains_key(<span class="kw-2">&amp;</span>path),

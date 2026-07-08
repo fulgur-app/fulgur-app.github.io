@@ -178,7 +178,7 @@
 <a href=#178 id=178 data-nosnippet>178</a>            );
 <a href=#179 id=179 data-nosnippet>179</a>        }
 <a href=#180 id=180 data-nosnippet>180</a>
-<a href=#181 id=181 data-nosnippet>181</a>        <span class="self">self</span>.active_tab_index = <span class="prelude-val">Some</span>(tab_index);
+<a href=#181 id=181 data-nosnippet>181</a>        <span class="self">self</span>.active_tab_id = <span class="self">self</span>.tabs.get(tab_index).map(Tab::id);
 <a href=#182 id=182 data-nosnippet>182</a>        <span class="self">self</span>.focus_active_tab(window, cx);
 <a href=#183 id=183 data-nosnippet>183</a>        cx.notify();
 <a href=#184 id=184 data-nosnippet>184</a>    }
@@ -253,22 +253,22 @@
 <a href=#253 id=253 data-nosnippet>253</a>        window
 <a href=#254 id=254 data-nosnippet>254</a>            .update(|window, cx| {
 <a href=#255 id=255 data-nosnippet>255</a>                <span class="kw">_ </span>= view.update(cx, |this, cx| {
-<a href=#256 id=256 data-nosnippet>256</a>                    <span class="kw">let </span><span class="kw-2">mut </span>editor_tab = EditorTab::from_file(
-<a href=#257 id=257 data-nosnippet>257</a>                        FromFileParams {
-<a href=#258 id=258 data-nosnippet>258</a>                            id: this.next_tab_id,
-<a href=#259 id=259 data-nosnippet>259</a>                            path: path.to_path_buf(),
-<a href=#260 id=260 data-nosnippet>260</a>                            contents: decoded.content,
-<a href=#261 id=261 data-nosnippet>261</a>                            encoding: decoded.encoding,
-<a href=#262 id=262 data-nosnippet>262</a>                            is_modified: <span class="bool-val">false</span>,
-<a href=#263 id=263 data-nosnippet>263</a>                        },
-<a href=#264 id=264 data-nosnippet>264</a>                        window,
-<a href=#265 id=265 data-nosnippet>265</a>                        cx,
-<a href=#266 id=266 data-nosnippet>266</a>                        <span class="kw-2">&amp;</span>this.settings.editor_settings,
-<a href=#267 id=267 data-nosnippet>267</a>                    );
-<a href=#268 id=268 data-nosnippet>268</a>                    editor_tab.lossy_decode = decoded.lossy;
-<a href=#269 id=269 data-nosnippet>269</a>                    <span class="kw">let </span>editor_tab_index =
-<a href=#270 id=270 data-nosnippet>270</a>                        this.place_editor_tab_reusing_scratch(Tab::Editor(editor_tab), window, cx);
-<a href=#271 id=271 data-nosnippet>271</a>                    this.next_tab_id += <span class="number">1</span>;
+<a href=#256 id=256 data-nosnippet>256</a>                    <span class="kw">let </span>new_tab_id = this.allocate_tab_id();
+<a href=#257 id=257 data-nosnippet>257</a>                    <span class="kw">let </span><span class="kw-2">mut </span>editor_tab = EditorTab::from_file(
+<a href=#258 id=258 data-nosnippet>258</a>                        FromFileParams {
+<a href=#259 id=259 data-nosnippet>259</a>                            id: new_tab_id,
+<a href=#260 id=260 data-nosnippet>260</a>                            path: path.to_path_buf(),
+<a href=#261 id=261 data-nosnippet>261</a>                            contents: decoded.content,
+<a href=#262 id=262 data-nosnippet>262</a>                            encoding: decoded.encoding,
+<a href=#263 id=263 data-nosnippet>263</a>                            is_modified: <span class="bool-val">false</span>,
+<a href=#264 id=264 data-nosnippet>264</a>                        },
+<a href=#265 id=265 data-nosnippet>265</a>                        window,
+<a href=#266 id=266 data-nosnippet>266</a>                        cx,
+<a href=#267 id=267 data-nosnippet>267</a>                        <span class="kw-2">&amp;</span>this.settings.editor_settings,
+<a href=#268 id=268 data-nosnippet>268</a>                    );
+<a href=#269 id=269 data-nosnippet>269</a>                    editor_tab.lossy_decode = decoded.lossy;
+<a href=#270 id=270 data-nosnippet>270</a>                    <span class="kw">let </span>editor_tab_index =
+<a href=#271 id=271 data-nosnippet>271</a>                        this.place_editor_tab_reusing_scratch(Tab::Editor(editor_tab), window, cx);
 <a href=#272 id=272 data-nosnippet>272</a>                    this.maybe_open_markdown_preview_for_editor(editor_tab_index, cx);
 <a href=#273 id=273 data-nosnippet>273</a>                    this.watch_file(path);
 <a href=#274 id=274 data-nosnippet>274</a>                    <span class="kw">if </span><span class="kw">crate</span>::fulgur::ui::log_view::opens_as_log_by_default(path)
@@ -1009,7 +1009,7 @@
 <a href=#1009 id=1009 data-nosnippet>1009</a>                    tab_count_before,
 <a href=#1010 id=1010 data-nosnippet>1010</a>                    <span class="string">"remote recent should focus existing tab instead of creating a duplicate"
 <a href=#1011 id=1011 data-nosnippet>1011</a>                </span>);
-<a href=#1012 id=1012 data-nosnippet>1012</a>                <span class="macro">assert_eq!</span>(this.active_tab_index, <span class="prelude-val">Some</span>(<span class="number">0</span>));
+<a href=#1012 id=1012 data-nosnippet>1012</a>                <span class="macro">assert_eq!</span>(this.active_tab_index(), <span class="prelude-val">Some</span>(<span class="number">0</span>));
 <a href=#1013 id=1013 data-nosnippet>1013</a>            });
 <a href=#1014 id=1014 data-nosnippet>1014</a>        });
 <a href=#1015 id=1015 data-nosnippet>1015</a>    }

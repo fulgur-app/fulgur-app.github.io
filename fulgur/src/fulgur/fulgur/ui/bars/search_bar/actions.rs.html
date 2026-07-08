@@ -247,7 +247,7 @@
 <a href=#247 id=247 data-nosnippet>247</a>    /// - `cx`: The application context
 <a href=#248 id=248 data-nosnippet>248</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>close_search(<span class="kw-2">&amp;mut </span><span class="self">self</span>, window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
 <a href=#249 id=249 data-nosnippet>249</a>        <span class="self">self</span>.search_state.show_search = <span class="bool-val">false</span>;
-<a href=#250 id=250 data-nosnippet>250</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(active_index) = <span class="self">self</span>.active_tab_index
+<a href=#250 id=250 data-nosnippet>250</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(active_index) = <span class="self">self</span>.active_tab_index()
 <a href=#251 id=251 data-nosnippet>251</a>            &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(tab) = <span class="self">self</span>.tabs.get(active_index)
 <a href=#252 id=252 data-nosnippet>252</a>            &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(editor_tab) = tab.as_editor()
 <a href=#253 id=253 data-nosnippet>253</a>        {
@@ -301,7 +301,7 @@
 <a href=#301 id=301 data-nosnippet>301</a>        <span class="self">self</span>.search_state.last_search_match_whole_word = match_whole_word;
 <a href=#302 id=302 data-nosnippet>302</a>        <span class="self">self</span>.search_state.search_matches.clear();
 <a href=#303 id=303 data-nosnippet>303</a>        <span class="self">self</span>.search_state.current_match_index = <span class="prelude-val">None</span>;
-<a href=#304 id=304 data-nosnippet>304</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(active_index) = <span class="self">self</span>.active_tab_index
+<a href=#304 id=304 data-nosnippet>304</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(active_index) = <span class="self">self</span>.active_tab_index()
 <a href=#305 id=305 data-nosnippet>305</a>            &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(content_entity) = <span class="self">self
 <a href=#306 id=306 data-nosnippet>306</a>                </span>.tabs
 <a href=#307 id=307 data-nosnippet>307</a>                .get(active_index)
@@ -436,7 +436,7 @@
 <a href=#436 id=436 data-nosnippet>436</a>    </span><span class="kw">fn </span>highlight_current_match(<span class="kw-2">&amp;</span><span class="self">self</span>, window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>App) {
 <a href=#437 id=437 data-nosnippet>437</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(match_index) = <span class="self">self</span>.search_state.current_match_index
 <a href=#438 id=438 data-nosnippet>438</a>            &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(search_match) = <span class="self">self</span>.search_state.search_matches.get(match_index)
-<a href=#439 id=439 data-nosnippet>439</a>            &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(active_index) = <span class="self">self</span>.active_tab_index
+<a href=#439 id=439 data-nosnippet>439</a>            &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(active_index) = <span class="self">self</span>.active_tab_index()
 <a href=#440 id=440 data-nosnippet>440</a>            &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(tab) = <span class="self">self</span>.tabs.get(active_index)
 <a href=#441 id=441 data-nosnippet>441</a>            &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(editor_tab) = tab.as_editor()
 <a href=#442 id=442 data-nosnippet>442</a>        {
@@ -475,7 +475,7 @@
 <a href=#475 id=475 data-nosnippet>475</a>        </span><span class="self">self</span>.force_perform_search(window, cx);
 <a href=#476 id=476 data-nosnippet>476</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(match_index) = <span class="self">self</span>.search_state.current_match_index
 <a href=#477 id=477 data-nosnippet>477</a>            &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(search_match) = <span class="self">self</span>.search_state.search_matches.get(match_index).cloned()
-<a href=#478 id=478 data-nosnippet>478</a>            &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(active_index) = <span class="self">self</span>.active_tab_index
+<a href=#478 id=478 data-nosnippet>478</a>            &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(active_index) = <span class="self">self</span>.active_tab_index()
 <a href=#479 id=479 data-nosnippet>479</a>            &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(tab) = <span class="self">self</span>.tabs.get_mut(active_index)
 <a href=#480 id=480 data-nosnippet>480</a>            &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(editor_tab) = tab.as_editor_mut()
 <a href=#481 id=481 data-nosnippet>481</a>        {
@@ -524,7 +524,7 @@
 <a href=#524 id=524 data-nosnippet>524</a>        <span class="kw">if </span><span class="self">self</span>.search_state.search_matches.is_empty() {
 <a href=#525 id=525 data-nosnippet>525</a>            <span class="kw">return</span>;
 <a href=#526 id=526 data-nosnippet>526</a>        }
-<a href=#527 id=527 data-nosnippet>527</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(active_index) = <span class="self">self</span>.active_tab_index {
+<a href=#527 id=527 data-nosnippet>527</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(active_index) = <span class="self">self</span>.active_tab_index() {
 <a href=#528 id=528 data-nosnippet>528</a>            <span class="kw">let </span>replace_text = <span class="self">self</span>.search_state.replace_input.read(cx).text().to_string();
 <a href=#529 id=529 data-nosnippet>529</a>            <span class="kw">let </span>search_query = <span class="self">self</span>.search_state.search_input.read(cx).text().to_string();
 <a href=#530 id=530 data-nosnippet>530</a>            <span class="kw">let </span>match_case = <span class="self">self</span>.search_state.match_case;

@@ -4,7 +4,7 @@
 <a href=#4 id=4 data-nosnippet>4</a>    languages,
 <a href=#5 id=5 data-nosnippet>5</a>    settings::Settings,
 <a href=#6 id=6 data-nosnippet>6</a>    shared_state, sync,
-<a href=#7 id=7 data-nosnippet>7</a>    tab::Tab,
+<a href=#7 id=7 data-nosnippet>7</a>    tab::{Tab, TabId},
 <a href=#8 id=8 data-nosnippet>8</a>    ui::{
 <a href=#9 id=9 data-nosnippet>9</a>        bars::color_picker_bar::ColorPickerBarState,
 <a href=#10 id=10 data-nosnippet>10</a>        bars::search_bar::SearchState,
@@ -80,8 +80,8 @@
 <a href=#80 id=80 data-nosnippet>80</a>                focus_handle: cx.focus_handle(),
 <a href=#81 id=81 data-nosnippet>81</a>                title_bar,
 <a href=#82 id=82 data-nosnippet>82</a>                tabs: <span class="macro">vec!</span>[],
-<a href=#83 id=83 data-nosnippet>83</a>                active_tab_index: <span class="prelude-val">None</span>,
-<a href=#84 id=84 data-nosnippet>84</a>                next_tab_id: <span class="number">0</span>,
+<a href=#83 id=83 data-nosnippet>83</a>                active_tab_id: <span class="prelude-val">None</span>,
+<a href=#84 id=84 data-nosnippet>84</a>                next_tab_id: TabId(<span class="number">0</span>),
 <a href=#85 id=85 data-nosnippet>85</a>                search_state: SearchState::new(search_input, replace_input, search_subscription),
 <a href=#86 id=86 data-nosnippet>86</a>                color_picker_bar_state: ColorPickerBarState::new(window, cx),
 <a href=#87 id=87 data-nosnippet>87</a>                jump_to_line_input,
@@ -143,20 +143,20 @@
 <a href=#143 id=143 data-nosnippet>143</a>            }
 <a href=#144 id=144 data-nosnippet>144</a>            <span class="kw">if </span>window_index == usize::MAX {
 <a href=#145 id=145 data-nosnippet>145</a>                <span class="kw">let </span>initial_tab = Tab::Editor(editor_tab::EditorTab::new(
-<a href=#146 id=146 data-nosnippet>146</a>                    <span class="number">0</span>,
+<a href=#146 id=146 data-nosnippet>146</a>                    TabId(<span class="number">0</span>),
 <a href=#147 id=147 data-nosnippet>147</a>                    <span class="kw">crate</span>::fulgur::ui::components_utils::UNTITLED,
 <a href=#148 id=148 data-nosnippet>148</a>                    window,
 <a href=#149 id=149 data-nosnippet>149</a>                    cx,
 <a href=#150 id=150 data-nosnippet>150</a>                    <span class="kw-2">&amp;</span>this.settings.editor_settings,
 <a href=#151 id=151 data-nosnippet>151</a>                ));
-<a href=#152 id=152 data-nosnippet>152</a>                this.tabs.push(initial_tab);
-<a href=#153 id=153 data-nosnippet>153</a>                this.active_tab_index = <span class="prelude-val">Some</span>(<span class="number">0</span>);
-<a href=#154 id=154 data-nosnippet>154</a>                this.next_tab_id = <span class="number">1</span>;
+<a href=#152 id=152 data-nosnippet>152</a>                this.active_tab_id = <span class="prelude-val">Some</span>(initial_tab.id());
+<a href=#153 id=153 data-nosnippet>153</a>                this.tabs.push(initial_tab);
+<a href=#154 id=154 data-nosnippet>154</a>                this.next_tab_id = TabId(<span class="number">1</span>);
 <a href=#155 id=155 data-nosnippet>155</a>            } <span class="kw">else if </span>window_index &lt; usize::MAX - <span class="number">1 </span>{
 <a href=#156 id=156 data-nosnippet>156</a>                <span class="comment">// usize::MAX - 1 means new window receiving a tab transfer: skip initial tab
 <a href=#157 id=157 data-nosnippet>157</a>                </span>this.load_state(window, cx, window_index);
-<a href=#158 id=158 data-nosnippet>158</a>                this.pending_tab_scroll = this.active_tab_index;
-<a href=#159 id=159 data-nosnippet>159</a>                this.pending_initial_active_tab = this.active_tab_index;
+<a href=#158 id=158 data-nosnippet>158</a>                this.pending_tab_scroll = this.active_tab_id;
+<a href=#159 id=159 data-nosnippet>159</a>                this.pending_initial_active_tab = this.active_tab_id;
 <a href=#160 id=160 data-nosnippet>160</a>            }
 <a href=#161 id=161 data-nosnippet>161</a>            <span class="kw">if </span>this.settings.editor_settings.watch_files {
 <a href=#162 id=162 data-nosnippet>162</a>                this.start_file_watcher();

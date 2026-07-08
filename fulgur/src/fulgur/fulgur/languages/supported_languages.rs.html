@@ -542,7 +542,7 @@
 <a href=#542 id=542 data-nosnippet>542</a>    /// - `SupportedLanguage`: The active tab's language
 <a href=#543 id=543 data-nosnippet>543</a>    </span><span class="attr">#[must_use]
 <a href=#544 id=544 data-nosnippet>544</a>    </span><span class="kw">pub fn </span>get_current_language(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; SupportedLanguage {
-<a href=#545 id=545 data-nosnippet>545</a>        <span class="kw">match </span><span class="self">self</span>.active_tab_index {
+<a href=#545 id=545 data-nosnippet>545</a>        <span class="kw">match </span><span class="self">self</span>.active_tab_index() {
 <a href=#546 id=546 data-nosnippet>546</a>            <span class="prelude-val">Some</span>(index) =&gt; {
 <a href=#547 id=547 data-nosnippet>547</a>                <span class="kw">if let </span><span class="prelude-val">Some</span>(editor_tab) = <span class="self">self</span>.tabs[index].as_editor() {
 <a href=#548 id=548 data-nosnippet>548</a>                    editor_tab.language

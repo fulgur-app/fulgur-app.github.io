@@ -10,66 +10,67 @@
 <a href=#10 id=10 data-nosnippet>10</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::ui::{
 <a href=#11 id=11 data-nosnippet>11</a>    components_utils::{TAB_BAR_BUTTON_SIZE, button_factory},
 <a href=#12 id=12 data-nosnippet>12</a>    icons::CustomIcon,
-<a href=#13 id=13 data-nosnippet>13</a>};
-<a href=#14 id=14 data-nosnippet>14</a>
-<a href=#15 id=15 data-nosnippet>15</a><span class="attr">#[derive(Action, Clone, PartialEq)]
-<a href=#16 id=16 data-nosnippet>16</a>#[action(namespace = fulgur, no_json)]
-<a href=#17 id=17 data-nosnippet>17</a></span><span class="kw">pub struct </span>CloseTabAction(<span class="kw">pub </span>usize);
-<a href=#18 id=18 data-nosnippet>18</a>
-<a href=#19 id=19 data-nosnippet>19</a><span class="attr">#[derive(Action, Clone, PartialEq)]
-<a href=#20 id=20 data-nosnippet>20</a>#[action(namespace = fulgur, no_json)]
-<a href=#21 id=21 data-nosnippet>21</a></span><span class="kw">pub struct </span>CloseTabsToLeft(<span class="kw">pub </span>usize);
-<a href=#22 id=22 data-nosnippet>22</a>
-<a href=#23 id=23 data-nosnippet>23</a><span class="attr">#[derive(Action, Clone, PartialEq)]
-<a href=#24 id=24 data-nosnippet>24</a>#[action(namespace = fulgur, no_json)]
-<a href=#25 id=25 data-nosnippet>25</a></span><span class="kw">pub struct </span>CloseTabsToRight(<span class="kw">pub </span>usize);
-<a href=#26 id=26 data-nosnippet>26</a>
-<a href=#27 id=27 data-nosnippet>27</a><span class="attr">#[derive(Action, Clone, PartialEq)]
-<a href=#28 id=28 data-nosnippet>28</a>#[action(namespace = fulgur, no_json)]
-<a href=#29 id=29 data-nosnippet>29</a></span><span class="kw">pub struct </span>CloseAllOtherTabs(<span class="kw">pub </span>usize);
-<a href=#30 id=30 data-nosnippet>30</a>
-<a href=#31 id=31 data-nosnippet>31</a><span class="attr">#[derive(Action, Clone, PartialEq)]
-<a href=#32 id=32 data-nosnippet>32</a>#[action(namespace = fulgur, no_json)]
-<a href=#33 id=33 data-nosnippet>33</a></span><span class="kw">pub struct </span>ShowInFileManager(<span class="kw">pub </span>usize);
-<a href=#34 id=34 data-nosnippet>34</a>
-<a href=#35 id=35 data-nosnippet>35</a><span class="attr">#[derive(Action, Clone, PartialEq)]
-<a href=#36 id=36 data-nosnippet>36</a>#[action(namespace = fulgur, no_json)]
-<a href=#37 id=37 data-nosnippet>37</a></span><span class="kw">pub struct </span>CopyPath(<span class="kw">pub </span>usize);
-<a href=#38 id=38 data-nosnippet>38</a>
-<a href=#39 id=39 data-nosnippet>39</a><span class="attr">#[derive(Action, Clone, PartialEq)]
-<a href=#40 id=40 data-nosnippet>40</a>#[action(namespace = fulgur, no_json)]
-<a href=#41 id=41 data-nosnippet>41</a></span><span class="kw">pub struct </span>DuplicateTab(<span class="kw">pub </span>usize);
-<a href=#42 id=42 data-nosnippet>42</a>
-<a href=#43 id=43 data-nosnippet>43</a><span class="macro">gpui::actions!</span>(fulgur, [CloseAllTabsAction, SendTabToWindowNoOp]);
-<a href=#44 id=44 data-nosnippet>44</a>
-<a href=#45 id=45 data-nosnippet>45</a><span class="doccomment">/// Create a tab bar button
-<a href=#46 id=46 data-nosnippet>46</a>///
-<a href=#47 id=47 data-nosnippet>47</a>/// ### Arguments
-<a href=#48 id=48 data-nosnippet>48</a>/// - `id`: The ID of the button
-<a href=#49 id=49 data-nosnippet>49</a>/// - `tooltip`: The tooltip of the button
-<a href=#50 id=50 data-nosnippet>50</a>/// - `icon`: The icon of the button
-<a href=#51 id=51 data-nosnippet>51</a>/// - `border_color`: The color of the border
-<a href=#52 id=52 data-nosnippet>52</a>///
-<a href=#53 id=53 data-nosnippet>53</a>/// ### Returns
-<a href=#54 id=54 data-nosnippet>54</a>/// - `Button`: A tab bar button
-<a href=#55 id=55 data-nosnippet>55</a></span><span class="kw">pub fn </span>tab_bar_button_factory(
-<a href=#56 id=56 data-nosnippet>56</a>    id: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
-<a href=#57 id=57 data-nosnippet>57</a>    tooltip: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
-<a href=#58 id=58 data-nosnippet>58</a>    icon: CustomIcon,
-<a href=#59 id=59 data-nosnippet>59</a>    border_color: Hsla,
-<a href=#60 id=60 data-nosnippet>60</a>) -&gt; Button {
-<a href=#61 id=61 data-nosnippet>61</a>    button_factory(id, tooltip, icon, border_color)
-<a href=#62 id=62 data-nosnippet>62</a>        .border_b_1()
-<a href=#63 id=63 data-nosnippet>63</a>        .h(TAB_BAR_BUTTON_SIZE)
-<a href=#64 id=64 data-nosnippet>64</a>        .w(TAB_BAR_BUTTON_SIZE)
-<a href=#65 id=65 data-nosnippet>65</a>}
-<a href=#66 id=66 data-nosnippet>66</a>
-<a href=#67 id=67 data-nosnippet>67</a><span class="doccomment">/// Opens the theme repository in the default browser
-<a href=#68 id=68 data-nosnippet>68</a>///
-<a href=#69 id=69 data-nosnippet>69</a>/// This is a standalone helper function for the `GetTheme` action.
-<a href=#70 id=70 data-nosnippet>70</a></span><span class="kw">pub fn </span>open_theme_repository() {
-<a href=#71 id=71 data-nosnippet>71</a>    <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = open::that(<span class="string">"https://github.com/longbridge/gpui-component/tree/main/themes"</span>) {
-<a href=#72 id=72 data-nosnippet>72</a>        <span class="macro">log::error!</span>(<span class="string">"Failed to open browser: {e}"</span>);
-<a href=#73 id=73 data-nosnippet>73</a>    }
-<a href=#74 id=74 data-nosnippet>74</a>}
+<a href=#13 id=13 data-nosnippet>13</a>    tabs::tab::TabId,
+<a href=#14 id=14 data-nosnippet>14</a>};
+<a href=#15 id=15 data-nosnippet>15</a>
+<a href=#16 id=16 data-nosnippet>16</a><span class="attr">#[derive(Action, Clone, PartialEq)]
+<a href=#17 id=17 data-nosnippet>17</a>#[action(namespace = fulgur, no_json)]
+<a href=#18 id=18 data-nosnippet>18</a></span><span class="kw">pub struct </span>CloseTabAction(<span class="kw">pub </span>TabId);
+<a href=#19 id=19 data-nosnippet>19</a>
+<a href=#20 id=20 data-nosnippet>20</a><span class="attr">#[derive(Action, Clone, PartialEq)]
+<a href=#21 id=21 data-nosnippet>21</a>#[action(namespace = fulgur, no_json)]
+<a href=#22 id=22 data-nosnippet>22</a></span><span class="kw">pub struct </span>CloseTabsToLeft(<span class="kw">pub </span>TabId);
+<a href=#23 id=23 data-nosnippet>23</a>
+<a href=#24 id=24 data-nosnippet>24</a><span class="attr">#[derive(Action, Clone, PartialEq)]
+<a href=#25 id=25 data-nosnippet>25</a>#[action(namespace = fulgur, no_json)]
+<a href=#26 id=26 data-nosnippet>26</a></span><span class="kw">pub struct </span>CloseTabsToRight(<span class="kw">pub </span>TabId);
+<a href=#27 id=27 data-nosnippet>27</a>
+<a href=#28 id=28 data-nosnippet>28</a><span class="attr">#[derive(Action, Clone, PartialEq)]
+<a href=#29 id=29 data-nosnippet>29</a>#[action(namespace = fulgur, no_json)]
+<a href=#30 id=30 data-nosnippet>30</a></span><span class="kw">pub struct </span>CloseAllOtherTabs(<span class="kw">pub </span>TabId);
+<a href=#31 id=31 data-nosnippet>31</a>
+<a href=#32 id=32 data-nosnippet>32</a><span class="attr">#[derive(Action, Clone, PartialEq)]
+<a href=#33 id=33 data-nosnippet>33</a>#[action(namespace = fulgur, no_json)]
+<a href=#34 id=34 data-nosnippet>34</a></span><span class="kw">pub struct </span>ShowInFileManager(<span class="kw">pub </span>TabId);
+<a href=#35 id=35 data-nosnippet>35</a>
+<a href=#36 id=36 data-nosnippet>36</a><span class="attr">#[derive(Action, Clone, PartialEq)]
+<a href=#37 id=37 data-nosnippet>37</a>#[action(namespace = fulgur, no_json)]
+<a href=#38 id=38 data-nosnippet>38</a></span><span class="kw">pub struct </span>CopyPath(<span class="kw">pub </span>TabId);
+<a href=#39 id=39 data-nosnippet>39</a>
+<a href=#40 id=40 data-nosnippet>40</a><span class="attr">#[derive(Action, Clone, PartialEq)]
+<a href=#41 id=41 data-nosnippet>41</a>#[action(namespace = fulgur, no_json)]
+<a href=#42 id=42 data-nosnippet>42</a></span><span class="kw">pub struct </span>DuplicateTab(<span class="kw">pub </span>TabId);
+<a href=#43 id=43 data-nosnippet>43</a>
+<a href=#44 id=44 data-nosnippet>44</a><span class="macro">gpui::actions!</span>(fulgur, [CloseAllTabsAction, SendTabToWindowNoOp]);
+<a href=#45 id=45 data-nosnippet>45</a>
+<a href=#46 id=46 data-nosnippet>46</a><span class="doccomment">/// Create a tab bar button
+<a href=#47 id=47 data-nosnippet>47</a>///
+<a href=#48 id=48 data-nosnippet>48</a>/// ### Arguments
+<a href=#49 id=49 data-nosnippet>49</a>/// - `id`: The ID of the button
+<a href=#50 id=50 data-nosnippet>50</a>/// - `tooltip`: The tooltip of the button
+<a href=#51 id=51 data-nosnippet>51</a>/// - `icon`: The icon of the button
+<a href=#52 id=52 data-nosnippet>52</a>/// - `border_color`: The color of the border
+<a href=#53 id=53 data-nosnippet>53</a>///
+<a href=#54 id=54 data-nosnippet>54</a>/// ### Returns
+<a href=#55 id=55 data-nosnippet>55</a>/// - `Button`: A tab bar button
+<a href=#56 id=56 data-nosnippet>56</a></span><span class="kw">pub fn </span>tab_bar_button_factory(
+<a href=#57 id=57 data-nosnippet>57</a>    id: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+<a href=#58 id=58 data-nosnippet>58</a>    tooltip: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
+<a href=#59 id=59 data-nosnippet>59</a>    icon: CustomIcon,
+<a href=#60 id=60 data-nosnippet>60</a>    border_color: Hsla,
+<a href=#61 id=61 data-nosnippet>61</a>) -&gt; Button {
+<a href=#62 id=62 data-nosnippet>62</a>    button_factory(id, tooltip, icon, border_color)
+<a href=#63 id=63 data-nosnippet>63</a>        .border_b_1()
+<a href=#64 id=64 data-nosnippet>64</a>        .h(TAB_BAR_BUTTON_SIZE)
+<a href=#65 id=65 data-nosnippet>65</a>        .w(TAB_BAR_BUTTON_SIZE)
+<a href=#66 id=66 data-nosnippet>66</a>}
+<a href=#67 id=67 data-nosnippet>67</a>
+<a href=#68 id=68 data-nosnippet>68</a><span class="doccomment">/// Opens the theme repository in the default browser
+<a href=#69 id=69 data-nosnippet>69</a>///
+<a href=#70 id=70 data-nosnippet>70</a>/// This is a standalone helper function for the `GetTheme` action.
+<a href=#71 id=71 data-nosnippet>71</a></span><span class="kw">pub fn </span>open_theme_repository() {
+<a href=#72 id=72 data-nosnippet>72</a>    <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = open::that(<span class="string">"https://github.com/longbridge/gpui-component/tree/main/themes"</span>) {
+<a href=#73 id=73 data-nosnippet>73</a>        <span class="macro">log::error!</span>(<span class="string">"Failed to open browser: {e}"</span>);
+<a href=#74 id=74 data-nosnippet>74</a>    }
+<a href=#75 id=75 data-nosnippet>75</a>}
 </code></pre></div></section></main></body></html>

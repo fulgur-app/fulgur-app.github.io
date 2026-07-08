@@ -30,7 +30,7 @@
 <a href=#30 id=30 data-nosnippet>30</a>        window: <span class="kw-2">&amp;mut </span>Window,
 <a href=#31 id=31 data-nosnippet>31</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
 <a href=#32 id=32 data-nosnippet>32</a>    ) {
-<a href=#33 id=33 data-nosnippet>33</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(index) = <span class="self">self</span>.active_tab_index
+<a href=#33 id=33 data-nosnippet>33</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(index) = <span class="self">self</span>.active_tab_index()
 <a href=#34 id=34 data-nosnippet>34</a>            &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(<span class="kw">crate</span>::fulgur::tab::Tab::Editor(editor_tab)) = <span class="self">self</span>.tabs.get_mut(index)
 <a href=#35 id=35 data-nosnippet>35</a>        {
 <a href=#36 id=36 data-nosnippet>36</a>            editor_tab.content.update(cx, |input_state, cx| {
@@ -381,7 +381,7 @@
 <a href=#381 id=381 data-nosnippet>381</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#382 id=382 data-nosnippet>382</a>        visual_cx.update(|window, cx| {
 <a href=#383 id=383 data-nosnippet>383</a>            fulgur.update(cx, |this, cx| {
-<a href=#384 id=384 data-nosnippet>384</a>                this.active_tab_index = <span class="prelude-val">None</span>;
+<a href=#384 id=384 data-nosnippet>384</a>                this.active_tab_id = <span class="prelude-val">None</span>;
 <a href=#385 id=385 data-nosnippet>385</a>                this.insert_color_value(<span class="string">"#FF0000"</span>.to_string(), window, cx);
 <a href=#386 id=386 data-nosnippet>386</a>            });
 <a href=#387 id=387 data-nosnippet>387</a>        });
