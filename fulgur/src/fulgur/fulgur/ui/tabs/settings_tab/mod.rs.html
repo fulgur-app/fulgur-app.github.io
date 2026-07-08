@@ -106,7 +106,7 @@
 <a href=#106 id=106 data-nosnippet>106</a>            editor_page::create_editor_page(<span class="kw-2">&amp;</span>entity, font_family_select),
 <a href=#107 id=107 data-nosnippet>107</a>            application_page::create_application_page(<span class="kw-2">&amp;</span>entity),
 <a href=#108 id=108 data-nosnippet>108</a>        ];
-<a href=#109 id=109 data-nosnippet>109</a>        <span class="kw">let </span>themes = Fulgur::shared_state(cx).themes.lock().clone();
+<a href=#109 id=109 data-nosnippet>109</a>        <span class="kw">let </span>themes = Fulgur::shared_state(cx).themes.clone();
 <a href=#110 id=110 data-nosnippet>110</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>themes) = themes {
 <a href=#111 id=111 data-nosnippet>111</a>            pages.push(<span class="self">Self</span>::create_themes_page(<span class="kw-2">&amp;</span>entity, themes));
 <a href=#112 id=112 data-nosnippet>112</a>        }
