@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"macro":["register_action"],"mod":["fulgur"]};
+window.SIDEBAR_ITEMS = {"macro":[["register_action",1]],"mod":["fulgur"]};
