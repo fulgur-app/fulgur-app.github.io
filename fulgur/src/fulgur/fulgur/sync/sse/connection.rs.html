@@ -15,14 +15,14 @@
 <a href=#15 id=15 data-nosnippet>15</a>    utils::retry::{BackoffCalculator, interruptible_sleep},
 <a href=#16 id=16 data-nosnippet>16</a>};
 <a href=#17 id=17 data-nosnippet>17</a><span class="kw">use </span>fulgur_common::api::shares::SharedFileResponse;
-<a href=#18 id=18 data-nosnippet>18</a><span class="kw">use </span>parking_lot::Mutex;
-<a href=#19 id=19 data-nosnippet>19</a><span class="kw">use </span>std::{
-<a href=#20 id=20 data-nosnippet>20</a>    collections::HashSet,
-<a href=#21 id=21 data-nosnippet>21</a>    io::{BufReader, Read},
-<a href=#22 id=22 data-nosnippet>22</a>    sync::{
-<a href=#23 id=23 data-nosnippet>23</a>        Arc,
-<a href=#24 id=24 data-nosnippet>24</a>        atomic::{AtomicBool, AtomicU64, Ordering},
-<a href=#25 id=25 data-nosnippet>25</a>        mpsc::Sender,
+<a href=#18 id=18 data-nosnippet>18</a><span class="kw">use </span>futures::channel::mpsc::UnboundedSender;
+<a href=#19 id=19 data-nosnippet>19</a><span class="kw">use </span>parking_lot::Mutex;
+<a href=#20 id=20 data-nosnippet>20</a><span class="kw">use </span>std::{
+<a href=#21 id=21 data-nosnippet>21</a>    collections::HashSet,
+<a href=#22 id=22 data-nosnippet>22</a>    io::{BufReader, Read},
+<a href=#23 id=23 data-nosnippet>23</a>    sync::{
+<a href=#24 id=24 data-nosnippet>24</a>        Arc,
+<a href=#25 id=25 data-nosnippet>25</a>        atomic::{AtomicBool, AtomicU64, Ordering},
 <a href=#26 id=26 data-nosnippet>26</a>    },
 <a href=#27 id=27 data-nosnippet>27</a>    thread,
 <a href=#28 id=28 data-nosnippet>28</a>    time::{Duration, Instant},
@@ -371,7 +371,7 @@
 <a href=#371 id=371 data-nosnippet>371</a>/// - `Err(SynchronizationError)`: If required profile fields are missing
 <a href=#372 id=372 data-nosnippet>372</a></span><span class="kw">pub fn </span>connect_sse(
 <a href=#373 id=373 data-nosnippet>373</a>    profile: <span class="kw-2">&amp;</span>ServerProfile,
-<a href=#374 id=374 data-nosnippet>374</a>    event_tx: Sender&lt;SseEvent&gt;,
+<a href=#374 id=374 data-nosnippet>374</a>    event_tx: UnboundedSender&lt;SseEvent&gt;,
 <a href=#375 id=375 data-nosnippet>375</a>    shutdown_flag: Arc&lt;AtomicBool&gt;,
 <a href=#376 id=376 data-nosnippet>376</a>    sync_server_connection_status: Arc&lt;Mutex&lt;SynchronizationStatus&gt;&gt;,
 <a href=#377 id=377 data-nosnippet>377</a>    token_state: <span class="kw-2">&amp;</span>Arc&lt;TokenStateManager&gt;,
@@ -441,7 +441,7 @@
 <a href=#441 id=441 data-nosnippet>441</a>                        <span class="kw-2">&amp;</span>sync_server_connection_status,
 <a href=#442 id=442 data-nosnippet>442</a>                        SynchronizationStatus::Disconnected,
 <a href=#443 id=443 data-nosnippet>443</a>                    );
-<a href=#444 id=444 data-nosnippet>444</a>                    event_tx.send(SseEvent::Error(e.to_string())).ok();
+<a href=#444 id=444 data-nosnippet>444</a>                    event_tx.unbounded_send(SseEvent::Error(e.to_string())).ok();
 <a href=#445 id=445 data-nosnippet>445</a>                    <span class="kw">if </span>shutdown_flag.load(Ordering::Relaxed) {
 <a href=#446 id=446 data-nosnippet>446</a>                        <span class="macro">log::info!</span>(<span class="string">"SSE connection shutdown requested, stopping..."</span>);
 <a href=#447 id=447 data-nosnippet>447</a>                        <span class="kw">break</span>;
@@ -559,7 +559,7 @@
 <a href=#559 id=559 data-nosnippet>559</a>                                    );
 <a href=#560 id=560 data-nosnippet>560</a>                                }
 <a href=#561 id=561 data-nosnippet>561</a>                            }
-<a href=#562 id=562 data-nosnippet>562</a>                            <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = event_tx.send(event) {
+<a href=#562 id=562 data-nosnippet>562</a>                            <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = event_tx.unbounded_send(event) {
 <a href=#563 id=563 data-nosnippet>563</a>                                <span class="macro">log::error!</span>(<span class="string">"Failed to send SSE event: {e}"</span>);
 <a href=#564 id=564 data-nosnippet>564</a>                                receiver_gone = <span class="bool-val">true</span>;
 <a href=#565 id=565 data-nosnippet>565</a>                                <span class="kw">break</span>;
@@ -582,7 +582,7 @@
 <a href=#582 id=582 data-nosnippet>582</a>                            <span class="kw-2">&amp;</span>sync_server_connection_status,
 <a href=#583 id=583 data-nosnippet>583</a>                            SynchronizationStatus::Disconnected,
 <a href=#584 id=584 data-nosnippet>584</a>                        );
-<a href=#585 id=585 data-nosnippet>585</a>                        event_tx.send(SseEvent::Error(e.to_string())).ok();
+<a href=#585 id=585 data-nosnippet>585</a>                        event_tx.unbounded_send(SseEvent::Error(e.to_string())).ok();
 <a href=#586 id=586 data-nosnippet>586</a>                        <span class="kw">break</span>;
 <a href=#587 id=587 data-nosnippet>587</a>                    }
 <a href=#588 id=588 data-nosnippet>588</a>                }

@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["collect_events"]};
+window.SIDEBAR_ITEMS = {};

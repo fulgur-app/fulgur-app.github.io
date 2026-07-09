@@ -18,7 +18,7 @@
 <a href=#18 id=18 data-nosnippet>18</a>    Entity, EntityId, FocusHandle, Pixels, Point, ScrollHandle, SharedString, Subscription,
 <a href=#19 id=19 data-nosnippet>19</a>    WindowId,
 <a href=#20 id=20 data-nosnippet>20</a>};
-<a href=#21 id=21 data-nosnippet>21</a><span class="kw">use </span>gpui_component::{input::InputState, menu::PopupMenu, notification::NotificationType};
+<a href=#21 id=21 data-nosnippet>21</a><span class="kw">use </span>gpui_component::{input::InputState, menu::PopupMenu};
 <a href=#22 id=22 data-nosnippet>22</a><span class="kw">use </span>settings::Settings;
 <a href=#23 id=23 data-nosnippet>23</a><span class="kw">use </span>std::{collections::HashMap, collections::HashSet, sync::Arc, sync::atomic::AtomicBool};
 <a href=#24 id=24 data-nosnippet>24</a><span class="kw">use </span>tab::{Tab, TabId};
@@ -59,38 +59,37 @@
 <a href=#59 id=59 data-nosnippet>59</a>    </span>tab_scroll_handle: ScrollHandle, <span class="comment">// Scroll handle for the tab bar to scroll active tab into view
 <a href=#60 id=60 data-nosnippet>60</a>    </span>pending_tab_scroll: <span class="prelude-ty">Option</span>&lt;TabId&gt;, <span class="comment">// Deferred scroll-to-tab request (needs one render cycle for layout)
 <a href=#61 id=61 data-nosnippet>61</a>    </span><span class="kw">pub </span>file_watch_state: FileWatchState, <span class="comment">// File watching state for external file change detection
-<a href=#62 id=62 data-nosnippet>62</a>    </span><span class="kw">pub </span>pending_notification: <span class="prelude-ty">Option</span>&lt;(NotificationType, SharedString)&gt;, <span class="comment">// Pending notification to display on next render
-<a href=#63 id=63 data-nosnippet>63</a>    </span>save_failed_once: bool, <span class="comment">// Flag: save already failed once, allow force-close on next attempt
-<a href=#64 id=64 data-nosnippet>64</a>    </span><span class="kw">pub </span>share_sheet_state: <span class="prelude-ty">Option</span>&lt;Arc&lt;ui::sheets::share_file::ShareSheetState&gt;&gt;, <span class="comment">// When Some, a share sheet is open and devices are being fetched per profile
-<a href=#65 id=65 data-nosnippet>65</a>    </span>cached_window_bounds: <span class="prelude-ty">Option</span>&lt;state::SerializedWindowBounds&gt;, <span class="comment">// Cached window bounds for cross-window saves
-<a href=#66 id=66 data-nosnippet>66</a>    </span>font_select_subscription: <span class="prelude-ty">Option</span>&lt;Subscription&gt;, <span class="comment">// Subscription for font family selection events (set when settings tab is opened)
-<a href=#67 id=67 data-nosnippet>67</a>    </span>editor_context_menu: <span class="prelude-ty">Option</span>&lt;(Point&lt;Pixels&gt;, Entity&lt;PopupMenu&gt;)&gt;, <span class="comment">// Custom right-click context menu for the editor
-<a href=#68 id=68 data-nosnippet>68</a>    </span>editor_context_menu_subscription: <span class="prelude-ty">Option</span>&lt;Subscription&gt;, <span class="comment">// Subscription to clear editor_context_menu on dismiss
-<a href=#69 id=69 data-nosnippet>69</a>    </span>drag_ghost: <span class="prelude-ty">Option</span>&lt;(usize, ui::tabs::tab_drag::DraggedTab)&gt;, <span class="comment">// Ghost tab shown at insertion point during tab drag
-<a href=#70 id=70 data-nosnippet>70</a>    </span>status_bar_cache: StatusBarCache, <span class="comment">// Cached status bar label strings (refreshed each render)
-<a href=#71 id=71 data-nosnippet>71</a>    </span>cached_tab_filename_counts: HashMap&lt;String, usize&gt;, <span class="comment">// Cached tab filename frequency map (refreshed when tabs change)
-<a href=#72 id=72 data-nosnippet>72</a>    </span>tab_filename_fp: u64, <span class="comment">// Fingerprint of the tab list used to detect when cached_tab_filename_counts is stale
-<a href=#73 id=73 data-nosnippet>73</a>    </span><span class="kw">pub </span>pending_tab_transfer: <span class="prelude-ty">Option</span>&lt;editor_tab::TabTransferData&gt;, <span class="comment">// Incoming tab state from another window, processed on next render
-<a href=#74 id=74 data-nosnippet>74</a>    </span>pending_tab_removal: <span class="prelude-ty">Option</span>&lt;TabId&gt;, <span class="comment">// Tab ID to remove after it has been sent to another window
-<a href=#75 id=75 data-nosnippet>75</a>    </span>pending_transfer_scroll: <span class="prelude-ty">Option</span>&lt;gpui_component::input::Position&gt;, <span class="comment">// Deferred scroll-to-cursor after tab transfer (needs one render cycle for layout)
-<a href=#76 id=76 data-nosnippet>76</a>    </span>pending_remote_open: Arc&lt;parking_lot::Mutex&lt;Vec&lt;PendingRemoteOpenOutcome&gt;&gt;&gt;, <span class="comment">// Queue for SSH background threads to deliver loaded remote files
-<a href=#77 id=77 data-nosnippet>77</a>    </span>next_remote_request_id: u64, <span class="comment">// Monotonic identifier for remote open/save operations targeting existing tabs
-<a href=#78 id=78 data-nosnippet>78</a>    </span>latest_remote_open_request_by_tab: HashMap&lt;TabId, u64&gt;, <span class="comment">// Latest remote-open request id expected per tab id
-<a href=#79 id=79 data-nosnippet>79</a>    </span>latest_remote_save_request_by_tab: HashMap&lt;TabId, u64&gt;, <span class="comment">// Latest remote-save request id expected per tab id
-<a href=#80 id=80 data-nosnippet>80</a>    </span>last_failed_remote_open_url: <span class="prelude-ty">Option</span>&lt;String&gt;, <span class="comment">// Last attempted remote URL kept for retry prefill after connection/open failures
-<a href=#81 id=81 data-nosnippet>81</a>    </span>pending_remote_restore: HashSet&lt;TabId&gt;, <span class="comment">// Restored remote tab ids that should lazily reconnect on first activation/save
-<a href=#82 id=82 data-nosnippet>82</a>    </span>inflight_remote_restore: HashSet&lt;TabId&gt;, <span class="comment">// Restored remote tabs currently running a reconnect task
-<a href=#83 id=83 data-nosnippet>83</a>    </span>pending_initial_active_tab: <span class="prelude-ty">Option</span>&lt;TabId&gt;, <span class="comment">// Active tab to re-activate after first render so dialogs can open safely
-<a href=#84 id=84 data-nosnippet>84</a>    </span>has_rendered_once: bool, <span class="comment">// Tracks first render completion for startup actions that require mounted Root layers
-<a href=#85 id=85 data-nosnippet>85</a>    </span><span class="attr">#[cfg(any(target_os = <span class="string">"macos"</span>, target_os = <span class="string">"windows"</span>))]
-<a href=#86 id=86 data-nosnippet>86</a>    </span>local_window_menu_fingerprint: u64, <span class="comment">// Cached local menu-state fingerprint published to WindowManager
-<a href=#87 id=87 data-nosnippet>87</a>    </span><span class="attr">#[cfg(target_os = <span class="string">"macos"</span>)]
-<a href=#88 id=88 data-nosnippet>88</a>    </span>last_dock_menu_revision: u64, <span class="comment">// Last global menu-state revision processed by dock menu updater
-<a href=#89 id=89 data-nosnippet>89</a>    </span><span class="attr">#[cfg(target_os = <span class="string">"macos"</span>)]
-<a href=#90 id=90 data-nosnippet>90</a>    </span>last_dock_menu_hash: u64, <span class="comment">// Hash of the last dock menu state to avoid unnecessary rebuilds
-<a href=#91 id=91 data-nosnippet>91</a>    </span><span class="attr">#[cfg(target_os = <span class="string">"windows"</span>)]
-<a href=#92 id=92 data-nosnippet>92</a>    </span>last_jump_list_revision: u64, <span class="comment">// Last global menu-state revision processed by jump list updater
-<a href=#93 id=93 data-nosnippet>93</a>    </span><span class="attr">#[cfg(target_os = <span class="string">"windows"</span>)]
-<a href=#94 id=94 data-nosnippet>94</a>    </span>last_jump_list_hash: u64, <span class="comment">// Hash of the last jump list state to avoid unnecessary rebuilds
-<a href=#95 id=95 data-nosnippet>95</a></span>}
+<a href=#62 id=62 data-nosnippet>62</a>    </span>save_failed_once: bool, <span class="comment">// Flag: save already failed once, allow force-close on next attempt
+<a href=#63 id=63 data-nosnippet>63</a>    </span><span class="kw">pub </span>share_sheet_state: <span class="prelude-ty">Option</span>&lt;Arc&lt;ui::sheets::share_file::ShareSheetState&gt;&gt;, <span class="comment">// When Some, a share sheet is open and devices are being fetched per profile
+<a href=#64 id=64 data-nosnippet>64</a>    </span>cached_window_bounds: <span class="prelude-ty">Option</span>&lt;state::SerializedWindowBounds&gt;, <span class="comment">// Cached window bounds for cross-window saves
+<a href=#65 id=65 data-nosnippet>65</a>    </span>font_select_subscription: <span class="prelude-ty">Option</span>&lt;Subscription&gt;, <span class="comment">// Subscription for font family selection events (set when settings tab is opened)
+<a href=#66 id=66 data-nosnippet>66</a>    </span>editor_context_menu: <span class="prelude-ty">Option</span>&lt;(Point&lt;Pixels&gt;, Entity&lt;PopupMenu&gt;)&gt;, <span class="comment">// Custom right-click context menu for the editor
+<a href=#67 id=67 data-nosnippet>67</a>    </span>editor_context_menu_subscription: <span class="prelude-ty">Option</span>&lt;Subscription&gt;, <span class="comment">// Subscription to clear editor_context_menu on dismiss
+<a href=#68 id=68 data-nosnippet>68</a>    </span>drag_ghost: <span class="prelude-ty">Option</span>&lt;(usize, ui::tabs::tab_drag::DraggedTab)&gt;, <span class="comment">// Ghost tab shown at insertion point during tab drag
+<a href=#69 id=69 data-nosnippet>69</a>    </span>status_bar_cache: StatusBarCache, <span class="comment">// Cached status bar label strings (refreshed each render)
+<a href=#70 id=70 data-nosnippet>70</a>    </span>cached_tab_filename_counts: HashMap&lt;String, usize&gt;, <span class="comment">// Cached tab filename frequency map (refreshed when tabs change)
+<a href=#71 id=71 data-nosnippet>71</a>    </span>tab_filename_fp: u64, <span class="comment">// Fingerprint of the tab list used to detect when cached_tab_filename_counts is stale
+<a href=#72 id=72 data-nosnippet>72</a>    </span><span class="kw">pub </span>pending_tab_transfer: <span class="prelude-ty">Option</span>&lt;editor_tab::TabTransferData&gt;, <span class="comment">// Incoming tab state from another window, processed on next render
+<a href=#73 id=73 data-nosnippet>73</a>    </span>pending_tab_removal: <span class="prelude-ty">Option</span>&lt;TabId&gt;, <span class="comment">// Tab ID to remove after it has been sent to another window
+<a href=#74 id=74 data-nosnippet>74</a>    </span>pending_transfer_scroll: <span class="prelude-ty">Option</span>&lt;gpui_component::input::Position&gt;, <span class="comment">// Deferred scroll-to-cursor after tab transfer (needs one render cycle for layout)
+<a href=#75 id=75 data-nosnippet>75</a>    </span>pending_remote_open: Arc&lt;parking_lot::Mutex&lt;Vec&lt;PendingRemoteOpenOutcome&gt;&gt;&gt;, <span class="comment">// Queue for SSH background threads to deliver loaded remote files
+<a href=#76 id=76 data-nosnippet>76</a>    </span>next_remote_request_id: u64, <span class="comment">// Monotonic identifier for remote open/save operations targeting existing tabs
+<a href=#77 id=77 data-nosnippet>77</a>    </span>latest_remote_open_request_by_tab: HashMap&lt;TabId, u64&gt;, <span class="comment">// Latest remote-open request id expected per tab id
+<a href=#78 id=78 data-nosnippet>78</a>    </span>latest_remote_save_request_by_tab: HashMap&lt;TabId, u64&gt;, <span class="comment">// Latest remote-save request id expected per tab id
+<a href=#79 id=79 data-nosnippet>79</a>    </span>last_failed_remote_open_url: <span class="prelude-ty">Option</span>&lt;String&gt;, <span class="comment">// Last attempted remote URL kept for retry prefill after connection/open failures
+<a href=#80 id=80 data-nosnippet>80</a>    </span>pending_remote_restore: HashSet&lt;TabId&gt;, <span class="comment">// Restored remote tab ids that should lazily reconnect on first activation/save
+<a href=#81 id=81 data-nosnippet>81</a>    </span>inflight_remote_restore: HashSet&lt;TabId&gt;, <span class="comment">// Restored remote tabs currently running a reconnect task
+<a href=#82 id=82 data-nosnippet>82</a>    </span>pending_initial_active_tab: <span class="prelude-ty">Option</span>&lt;TabId&gt;, <span class="comment">// Active tab to re-activate after first render so dialogs can open safely
+<a href=#83 id=83 data-nosnippet>83</a>    </span>has_rendered_once: bool, <span class="comment">// Tracks first render completion for startup actions that require mounted Root layers
+<a href=#84 id=84 data-nosnippet>84</a>    </span><span class="attr">#[cfg(any(target_os = <span class="string">"macos"</span>, target_os = <span class="string">"windows"</span>))]
+<a href=#85 id=85 data-nosnippet>85</a>    </span>local_window_menu_fingerprint: u64, <span class="comment">// Cached local menu-state fingerprint published to WindowManager
+<a href=#86 id=86 data-nosnippet>86</a>    </span><span class="attr">#[cfg(target_os = <span class="string">"macos"</span>)]
+<a href=#87 id=87 data-nosnippet>87</a>    </span>last_dock_menu_revision: u64, <span class="comment">// Last global menu-state revision processed by dock menu updater
+<a href=#88 id=88 data-nosnippet>88</a>    </span><span class="attr">#[cfg(target_os = <span class="string">"macos"</span>)]
+<a href=#89 id=89 data-nosnippet>89</a>    </span>last_dock_menu_hash: u64, <span class="comment">// Hash of the last dock menu state to avoid unnecessary rebuilds
+<a href=#90 id=90 data-nosnippet>90</a>    </span><span class="attr">#[cfg(target_os = <span class="string">"windows"</span>)]
+<a href=#91 id=91 data-nosnippet>91</a>    </span>last_jump_list_revision: u64, <span class="comment">// Last global menu-state revision processed by jump list updater
+<a href=#92 id=92 data-nosnippet>92</a>    </span><span class="attr">#[cfg(target_os = <span class="string">"windows"</span>)]
+<a href=#93 id=93 data-nosnippet>93</a>    </span>last_jump_list_hash: u64, <span class="comment">// Hash of the last jump list state to avoid unnecessary rebuilds
+<a href=#94 id=94 data-nosnippet>94</a></span>}
 </code></pre></div></section></main></body></html>

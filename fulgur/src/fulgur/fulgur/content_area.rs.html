@@ -4,10 +4,10 @@
 <a href=#4 id=4 data-nosnippet>4</a>};
 <a href=#5 id=5 data-nosnippet>5</a><span class="kw">use </span>gpui::{
 <a href=#6 id=6 data-nosnippet>6</a>    AnyElement, Context, DismissEvent, Entity, Focusable, InteractiveElement, IntoElement,
-<a href=#7 id=7 data-nosnippet>7</a>    MouseButton, MouseDownEvent, ParentElement, Styled, Window, div, px,
+<a href=#7 id=7 data-nosnippet>7</a>    MouseButton, MouseDownEvent, ParentElement, SharedString, Styled, Window, div, px,
 <a href=#8 id=8 data-nosnippet>8</a>};
 <a href=#9 id=9 data-nosnippet>9</a><span class="kw">use </span>gpui_component::{
-<a href=#10 id=10 data-nosnippet>10</a>    ActiveTheme,
+<a href=#10 id=10 data-nosnippet>10</a>    ActiveTheme, WindowExt,
 <a href=#11 id=11 data-nosnippet>11</a>    input::{Input, InputState},
 <a href=#12 id=12 data-nosnippet>12</a>    menu::PopupMenu,
 <a href=#13 id=13 data-nosnippet>13</a>    notification::NotificationType,
@@ -130,7 +130,7 @@
 <a href=#130 id=130 data-nosnippet>130</a>            <span class="prelude-val">None
 <a href=#131 id=131 data-nosnippet>131</a>        </span>};
 <a href=#132 id=132 data-nosnippet>132</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(message) = csv_table_warning {
-<a href=#133 id=133 data-nosnippet>133</a>            <span class="self">self</span>.pending_notification = <span class="prelude-val">Some</span>((NotificationType::Warning, message.into()));
+<a href=#133 id=133 data-nosnippet>133</a>            window.push_notification((NotificationType::Warning, SharedString::from(message)), cx);
 <a href=#134 id=134 data-nosnippet>134</a>        }
 <a href=#135 id=135 data-nosnippet>135</a>
 <a href=#136 id=136 data-nosnippet>136</a>        <span class="kw">let </span>tabs_ref = <span class="kw-2">&amp;</span><span class="self">self</span>.tabs;
