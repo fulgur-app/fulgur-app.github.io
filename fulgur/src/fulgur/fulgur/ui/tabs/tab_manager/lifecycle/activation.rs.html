@@ -19,7 +19,7 @@
 <a href=#19 id=19 data-nosnippet>19</a>                <span class="self">self</span>.stop_log_poll_task(prev_id);
 <a href=#20 id=20 data-nosnippet>20</a>            }
 <a href=#21 id=21 data-nosnippet>21</a>            <span class="self">self</span>.active_tab_id = new_tab_id;
-<a href=#22 id=22 data-nosnippet>22</a>            <span class="self">self</span>.tab_scroll_handle.scroll_to_item(index);
+<a href=#22 id=22 data-nosnippet>22</a>            <span class="self">self</span>.tab_bar.update(cx, |bar, <span class="kw">_</span>| bar.scroll_to_index(index));
 <a href=#23 id=23 data-nosnippet>23</a>            <span class="kw">let </span>pending_path = <span class="kw">if let </span><span class="prelude-val">Some</span>(Tab::Editor(editor_tab)) = <span class="self">self</span>.tabs.get(index) {
 <a href=#24 id=24 data-nosnippet>24</a>                <span class="kw">if let </span><span class="prelude-val">Some</span>(path) = editor_tab.file_path() {
 <a href=#25 id=25 data-nosnippet>25</a>                    <span class="kw">if </span><span class="self">self
