@@ -85,14 +85,14 @@
 <a href=#85 id=85 data-nosnippet>85</a>    /// - `window`: The window to focus the tab in
 <a href=#86 id=86 data-nosnippet>86</a>    /// - `cx`: The application context
 <a href=#87 id=87 data-nosnippet>87</a>    </span><span class="kw">pub fn </span>focus_active_tab(<span class="kw-2">&amp;</span><span class="self">self</span>, window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>App) {
-<a href=#88 id=88 data-nosnippet>88</a>        <span class="comment">// Settings and preview tabs have no focusable input content, so only
-<a href=#89 id=89 data-nosnippet>89</a>        // editor tabs move the focus.
-<a href=#90 id=90 data-nosnippet>90</a>        </span><span class="kw">let </span>content = <span class="self">self
-<a href=#91 id=91 data-nosnippet>91</a>            </span>.get_active_editor_tab(cx)
-<a href=#92 id=92 data-nosnippet>92</a>            .map(|editor_tab| editor_tab.content.clone());
-<a href=#93 id=93 data-nosnippet>93</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(content) = content {
-<a href=#94 id=94 data-nosnippet>94</a>            <span class="kw">let </span>focus_handle = content.read(cx).focus_handle(cx);
-<a href=#95 id=95 data-nosnippet>95</a>            window.focus(<span class="kw-2">&amp;</span>focus_handle, cx);
+<a href=#88 id=88 data-nosnippet>88</a>        <span class="kw">let </span>content = <span class="self">self
+<a href=#89 id=89 data-nosnippet>89</a>            </span>.get_active_editor_tab(cx)
+<a href=#90 id=90 data-nosnippet>90</a>            .map(|editor_tab| editor_tab.content.clone());
+<a href=#91 id=91 data-nosnippet>91</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(content) = content {
+<a href=#92 id=92 data-nosnippet>92</a>            <span class="kw">let </span>focus_handle = content.read(cx).focus_handle(cx);
+<a href=#93 id=93 data-nosnippet>93</a>            window.focus(<span class="kw-2">&amp;</span>focus_handle, cx);
+<a href=#94 id=94 data-nosnippet>94</a>        } <span class="kw">else </span>{
+<a href=#95 id=95 data-nosnippet>95</a>            window.focus(<span class="kw-2">&amp;</span><span class="self">self</span>.focus_handle, cx);
 <a href=#96 id=96 data-nosnippet>96</a>        }
 <a href=#97 id=97 data-nosnippet>97</a>    }
 <a href=#98 id=98 data-nosnippet>98</a>}
