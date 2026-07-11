@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["SseEvent"],"fn":["connect_sse"],"struct":["HeartbeatData","ShareNotification","SseAgents","SseShareState","SseState"]};
+window.SIDEBAR_ITEMS = {"constant":["SSE_WORKER_JOIN_TIMEOUT"],"enum":["SseEvent"],"fn":["connect_sse"],"struct":["HeartbeatData","ShareNotification","SseAgents","SseShareState","SseState"]};
