@@ -55,8 +55,8 @@
 <a href=#55 id=55 data-nosnippet>55</a>                <span class="kw">if </span>cancel.load(Ordering::Acquire) {
 <a href=#56 id=56 data-nosnippet>56</a>                    <span class="kw">break</span>;
 <a href=#57 id=57 data-nosnippet>57</a>                }
-<a href=#58 id=58 data-nosnippet>58</a>                <span class="kw">let </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(offset))) =
-<a href=#59 id=59 data-nosnippet>59</a>                    window.update(|<span class="kw">_</span>, cx| view.update(cx, |this, <span class="kw">_</span>| this.log_tail_offset(tab_id)))
+<a href=#58 id=58 data-nosnippet>58</a>                <span class="kw">let </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(offset))) = window
+<a href=#59 id=59 data-nosnippet>59</a>                    .update(|<span class="kw">_</span>, cx| view.update(cx, |this, cx| this.log_tail_offset(tab_id, cx)))
 <a href=#60 id=60 data-nosnippet>60</a>                <span class="kw">else </span>{
 <a href=#61 id=61 data-nosnippet>61</a>                    <span class="kw">break</span>;
 <a href=#62 id=62 data-nosnippet>62</a>                };
@@ -92,8 +92,8 @@
 <a href=#92 id=92 data-nosnippet>92</a>    /// ### Returns
 <a href=#93 id=93 data-nosnippet>93</a>    /// - `Some(u64)`: The byte offset when the tab is still in log view
 <a href=#94 id=94 data-nosnippet>94</a>    /// - `None`: When the tab is gone or no longer in log view (poll should stop)
-<a href=#95 id=95 data-nosnippet>95</a>    </span><span class="kw">fn </span>log_tail_offset(<span class="kw-2">&amp;</span><span class="self">self</span>, tab_id: TabId) -&gt; <span class="prelude-ty">Option</span>&lt;u64&gt; {
-<a href=#96 id=96 data-nosnippet>96</a>        <span class="kw">let </span>editor = <span class="self">self</span>.editor_tab(tab_id)<span class="question-mark">?</span>;
+<a href=#95 id=95 data-nosnippet>95</a>    </span><span class="kw">fn </span>log_tail_offset(<span class="kw-2">&amp;</span><span class="self">self</span>, tab_id: TabId, cx: <span class="kw-2">&amp;</span>gpui::App) -&gt; <span class="prelude-ty">Option</span>&lt;u64&gt; {
+<a href=#96 id=96 data-nosnippet>96</a>        <span class="kw">let </span>editor = <span class="self">self</span>.editor_tab(tab_id, cx)<span class="question-mark">?</span>;
 <a href=#97 id=97 data-nosnippet>97</a>        <span class="kw">if </span>!editor.log_view {
 <a href=#98 id=98 data-nosnippet>98</a>            <span class="kw">return </span><span class="prelude-val">None</span>;
 <a href=#99 id=99 data-nosnippet>99</a>        }
@@ -120,7 +120,7 @@
 <a href=#120 id=120 data-nosnippet>120</a>        window: <span class="kw-2">&amp;mut </span>Window,
 <a href=#121 id=121 data-nosnippet>121</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
 <a href=#122 id=122 data-nosnippet>122</a>    ) {
-<a href=#123 id=123 data-nosnippet>123</a>        <span class="kw">let </span>(log_content, log_full, follow) = <span class="kw">match </span><span class="self">self</span>.editor_tab(tab_id) {
+<a href=#123 id=123 data-nosnippet>123</a>        <span class="kw">let </span>(log_content, log_full, follow) = <span class="kw">match </span><span class="self">self</span>.editor_tab(tab_id, cx) {
 <a href=#124 id=124 data-nosnippet>124</a>            <span class="prelude-val">Some</span>(editor) =&gt; <span class="kw">match </span>editor.log_content.clone() {
 <a href=#125 id=125 data-nosnippet>125</a>                <span class="prelude-val">Some</span>(log_content) =&gt; (log_content, editor.log_full, editor.log_follow),
 <a href=#126 id=126 data-nosnippet>126</a>                <span class="prelude-val">None </span>=&gt; <span class="kw">return</span>,
@@ -191,7 +191,7 @@
 <a href=#191 id=191 data-nosnippet>191</a>        window: <span class="kw-2">&amp;mut </span>Window,
 <a href=#192 id=192 data-nosnippet>192</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
 <a href=#193 id=193 data-nosnippet>193</a>    ) {
-<a href=#194 id=194 data-nosnippet>194</a>        <span class="kw">let </span>(log_content, log_full) = <span class="kw">match </span><span class="self">self</span>.editor_tab(tab_id) {
+<a href=#194 id=194 data-nosnippet>194</a>        <span class="kw">let </span>(log_content, log_full) = <span class="kw">match </span><span class="self">self</span>.editor_tab(tab_id, cx) {
 <a href=#195 id=195 data-nosnippet>195</a>            <span class="prelude-val">Some</span>(editor) =&gt; <span class="kw">match </span>editor.log_content.clone() {
 <a href=#196 id=196 data-nosnippet>196</a>                <span class="prelude-val">Some</span>(log_content) =&gt; (log_content, editor.log_full),
 <a href=#197 id=197 data-nosnippet>197</a>                <span class="prelude-val">None </span>=&gt; <span class="kw">return</span>,
@@ -226,10 +226,11 @@
 <a href=#226 id=226 data-nosnippet>226</a>    /// ### Arguments
 <a href=#227 id=227 data-nosnippet>227</a>    /// - `tab_id`: The tab to update
 <a href=#228 id=228 data-nosnippet>228</a>    /// - `follow`: The new follow state
-<a href=#229 id=229 data-nosnippet>229</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>set_log_follow(<span class="kw-2">&amp;mut </span><span class="self">self</span>, tab_id: TabId, follow: bool) {
-<a href=#230 id=230 data-nosnippet>230</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(editor) = <span class="self">self</span>.editor_tab_mut(tab_id) {
-<a href=#231 id=231 data-nosnippet>231</a>            editor.log_follow = follow;
-<a href=#232 id=232 data-nosnippet>232</a>        }
-<a href=#233 id=233 data-nosnippet>233</a>    }
-<a href=#234 id=234 data-nosnippet>234</a>}
+<a href=#229 id=229 data-nosnippet>229</a>    /// - `cx`: The application context
+<a href=#230 id=230 data-nosnippet>230</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>set_log_follow(<span class="kw-2">&amp;mut </span><span class="self">self</span>, tab_id: TabId, follow: bool, cx: <span class="kw-2">&amp;mut </span>gpui::App) {
+<a href=#231 id=231 data-nosnippet>231</a>        <span class="self">self</span>.update_editor_tab(tab_id, cx, |editor, <span class="kw">_</span>| {
+<a href=#232 id=232 data-nosnippet>232</a>            editor.log_follow = follow;
+<a href=#233 id=233 data-nosnippet>233</a>        });
+<a href=#234 id=234 data-nosnippet>234</a>    }
+<a href=#235 id=235 data-nosnippet>235</a>}
 </code></pre></div></section></main></body></html>

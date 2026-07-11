@@ -125,36 +125,39 @@
 <a href=#125 id=125 data-nosnippet>125</a>        window: <span class="kw-2">&amp;mut </span>Window,
 <a href=#126 id=126 data-nosnippet>126</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
 <a href=#127 id=127 data-nosnippet>127</a>    ) {
-<a href=#128 id=128 data-nosnippet>128</a>        <span class="kw">let </span><span class="prelude-val">Some</span>(editor_tab) = <span class="self">self</span>.tabs.iter_mut().find_map(|tab| <span class="kw">match </span>tab {
-<a href=#129 id=129 data-nosnippet>129</a>            Tab::Editor(editor_tab) <span class="kw">if </span>editor_tab.id == tab_id =&gt; <span class="prelude-val">Some</span>(editor_tab),
-<a href=#130 id=130 data-nosnippet>130</a>            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-<a href=#131 id=131 data-nosnippet>131</a>        }) <span class="kw">else </span>{
-<a href=#132 id=132 data-nosnippet>132</a>            <span class="kw">return</span>;
-<a href=#133 id=133 data-nosnippet>133</a>        };
-<a href=#134 id=134 data-nosnippet>134</a>
-<a href=#135 id=135 data-nosnippet>135</a>        editor_tab.content.update(cx, |input_state, cx| {
-<a href=#136 id=136 data-nosnippet>136</a>            input_state.set_value(<span class="kw-2">&amp;</span>remote_file.content, window, cx);
-<a href=#137 id=137 data-nosnippet>137</a>        });
-<a href=#138 id=138 data-nosnippet>138</a>        editor_tab.location =
-<a href=#139 id=139 data-nosnippet>139</a>            <span class="kw">crate</span>::fulgur::editor_tab::TabLocation::Remote(remote_file.spec.clone());
-<a href=#140 id=140 data-nosnippet>140</a>        editor_tab.encoding = remote_file.encoding;
-<a href=#141 id=141 data-nosnippet>141</a>        editor_tab.set_original_content_from_str(<span class="kw-2">&amp;</span>remote_file.content);
-<a href=#142 id=142 data-nosnippet>142</a>        editor_tab.modified = <span class="bool-val">false</span>;
-<a href=#143 id=143 data-nosnippet>143</a>        editor_tab.update_file_tooltip_cache(remote_file.file_size);
-<a href=#144 id=144 data-nosnippet>144</a>        <span class="kw">let </span>filename = remote_file
-<a href=#145 id=145 data-nosnippet>145</a>            .spec
-<a href=#146 id=146 data-nosnippet>146</a>            .path
-<a href=#147 id=147 data-nosnippet>147</a>            .rsplit(<span class="string">'/'</span>)
-<a href=#148 id=148 data-nosnippet>148</a>            .next()
-<a href=#149 id=149 data-nosnippet>149</a>            .unwrap_or(<span class="kw-2">&amp;</span>remote_file.spec.path)
-<a href=#150 id=150 data-nosnippet>150</a>            .to_string();
-<a href=#151 id=151 data-nosnippet>151</a>        editor_tab.title = filename.into();
-<a href=#152 id=152 data-nosnippet>152</a>        <span class="kw">let </span>language = <span class="kw">crate</span>::fulgur::languages::supported_languages::language_from_content(
-<a href=#153 id=153 data-nosnippet>153</a>            editor_tab.title.as_ref(),
-<a href=#154 id=154 data-nosnippet>154</a>            <span class="kw-2">&amp;</span>remote_file.content,
-<a href=#155 id=155 data-nosnippet>155</a>        );
-<a href=#156 id=156 data-nosnippet>156</a>        editor_tab.force_language(window, cx, language, <span class="kw-2">&amp;</span><span class="self">self</span>.settings.editor_settings);
-<a href=#157 id=157 data-nosnippet>157</a>        cx.notify();
-<a href=#158 id=158 data-nosnippet>158</a>    }
-<a href=#159 id=159 data-nosnippet>159</a>}
+<a href=#128 id=128 data-nosnippet>128</a>        <span class="kw">let </span><span class="prelude-val">Some</span>(tab_entity) = <span class="self">self</span>.tab_entity_of(tab_id, cx) <span class="kw">else </span>{
+<a href=#129 id=129 data-nosnippet>129</a>            <span class="kw">return</span>;
+<a href=#130 id=130 data-nosnippet>130</a>        };
+<a href=#131 id=131 data-nosnippet>131</a>        <span class="kw">let </span>settings = <span class="self">self</span>.settings.editor_settings.clone();
+<a href=#132 id=132 data-nosnippet>132</a>        tab_entity.update(cx, |tab, cx| {
+<a href=#133 id=133 data-nosnippet>133</a>            <span class="kw">let </span><span class="prelude-val">Some</span>(editor_tab) = tab.as_editor_mut() <span class="kw">else </span>{
+<a href=#134 id=134 data-nosnippet>134</a>                <span class="kw">return</span>;
+<a href=#135 id=135 data-nosnippet>135</a>            };
+<a href=#136 id=136 data-nosnippet>136</a>            editor_tab.content.update(cx, |input_state, cx| {
+<a href=#137 id=137 data-nosnippet>137</a>                input_state.set_value(<span class="kw-2">&amp;</span>remote_file.content, window, cx);
+<a href=#138 id=138 data-nosnippet>138</a>            });
+<a href=#139 id=139 data-nosnippet>139</a>            editor_tab.location =
+<a href=#140 id=140 data-nosnippet>140</a>                <span class="kw">crate</span>::fulgur::editor_tab::TabLocation::Remote(remote_file.spec.clone());
+<a href=#141 id=141 data-nosnippet>141</a>            editor_tab.encoding = remote_file.encoding;
+<a href=#142 id=142 data-nosnippet>142</a>            editor_tab.set_original_content_from_str(<span class="kw-2">&amp;</span>remote_file.content);
+<a href=#143 id=143 data-nosnippet>143</a>            editor_tab.modified = <span class="bool-val">false</span>;
+<a href=#144 id=144 data-nosnippet>144</a>            editor_tab.update_file_tooltip_cache(remote_file.file_size);
+<a href=#145 id=145 data-nosnippet>145</a>            <span class="kw">let </span>filename = remote_file
+<a href=#146 id=146 data-nosnippet>146</a>                .spec
+<a href=#147 id=147 data-nosnippet>147</a>                .path
+<a href=#148 id=148 data-nosnippet>148</a>                .rsplit(<span class="string">'/'</span>)
+<a href=#149 id=149 data-nosnippet>149</a>                .next()
+<a href=#150 id=150 data-nosnippet>150</a>                .unwrap_or(<span class="kw-2">&amp;</span>remote_file.spec.path)
+<a href=#151 id=151 data-nosnippet>151</a>                .to_string();
+<a href=#152 id=152 data-nosnippet>152</a>            editor_tab.title = filename.into();
+<a href=#153 id=153 data-nosnippet>153</a>            <span class="kw">let </span>language = <span class="kw">crate</span>::fulgur::languages::supported_languages::language_from_content(
+<a href=#154 id=154 data-nosnippet>154</a>                editor_tab.title.as_ref(),
+<a href=#155 id=155 data-nosnippet>155</a>                <span class="kw-2">&amp;</span>remote_file.content,
+<a href=#156 id=156 data-nosnippet>156</a>            );
+<a href=#157 id=157 data-nosnippet>157</a>            tab.force_language(window, cx, language, <span class="kw-2">&amp;</span>settings);
+<a href=#158 id=158 data-nosnippet>158</a>            cx.notify();
+<a href=#159 id=159 data-nosnippet>159</a>        });
+<a href=#160 id=160 data-nosnippet>160</a>        cx.notify();
+<a href=#161 id=161 data-nosnippet>161</a>    }
+<a href=#162 id=162 data-nosnippet>162</a>}
 </code></pre></div></section></main></body></html>

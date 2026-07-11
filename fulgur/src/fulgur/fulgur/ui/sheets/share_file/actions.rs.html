@@ -41,7 +41,7 @@
 <a href=#41 id=41 data-nosnippet>41</a>/// - `ShareContext`: The captured file content, name, and optional file path.
 <a href=#42 id=42 data-nosnippet>42</a></span><span class="kw">fn </span>capture_share_context(entity: <span class="kw-2">&amp;</span>Entity&lt;Fulgur&gt;, cx: <span class="kw-2">&amp;mut </span>App) -&gt; ShareContext {
 <a href=#43 id=43 data-nosnippet>43</a>    entity.update(cx, |this, cx| {
-<a href=#44 id=44 data-nosnippet>44</a>        <span class="kw">let </span>active_tab = this.get_active_editor_tab();
+<a href=#44 id=44 data-nosnippet>44</a>        <span class="kw">let </span>active_tab = this.get_active_editor_tab(cx);
 <a href=#45 id=45 data-nosnippet>45</a>        <span class="kw">let </span>content: Arc&lt;str&gt; = active_tab.as_ref().map_or_else(
 <a href=#46 id=46 data-nosnippet>46</a>            || Arc::from(<span class="string">""</span>),
 <a href=#47 id=47 data-nosnippet>47</a>            |tab| Arc::from(tab.content.read(cx).value().as_str()),

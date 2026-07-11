@@ -40,8 +40,8 @@
 <a href=#40 id=40 data-nosnippet>40</a>        cx: <span class="kw-2">&amp;mut </span>gpui::Context&lt;<span class="self">Self</span>&gt;,
 <a href=#41 id=41 data-nosnippet>41</a>        spec: RemoteSpec,
 <a href=#42 id=42 data-nosnippet>42</a>    ) {
-<a href=#43 id=43 data-nosnippet>43</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(tab_index) = <span class="self">self</span>.find_tab_by_remote_spec(<span class="kw-2">&amp;</span>spec) {
-<a href=#44 id=44 data-nosnippet>44</a>            <span class="self">self</span>.active_tab_id = <span class="self">self</span>.tabs.get(tab_index).map(<span class="kw">crate</span>::fulgur::tab::Tab::id);
+<a href=#43 id=43 data-nosnippet>43</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(tab_index) = <span class="self">self</span>.find_tab_by_remote_spec(<span class="kw-2">&amp;</span>spec, cx) {
+<a href=#44 id=44 data-nosnippet>44</a>            <span class="self">self</span>.active_tab_id = <span class="self">self</span>.tabs.get(tab_index).map(|t| t.read(cx).id());
 <a href=#45 id=45 data-nosnippet>45</a>            <span class="self">self</span>.focus_active_tab(window, cx);
 <a href=#46 id=46 data-nosnippet>46</a>            cx.notify();
 <a href=#47 id=47 data-nosnippet>47</a>            <span class="kw">return</span>;

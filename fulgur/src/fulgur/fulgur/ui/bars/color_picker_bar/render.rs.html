@@ -323,20 +323,20 @@
 <a href=#323 id=323 data-nosnippet>323</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#324 id=324 data-nosnippet>324</a>        visual_cx.update(|window, cx| {
 <a href=#325 id=325 data-nosnippet>325</a>            <span class="kw">let </span>bar = fulgur.update(cx, |this, cx| {
-<a href=#326 id=326 data-nosnippet>326</a>                <span class="kw">let </span>editor = this
-<a href=#327 id=327 data-nosnippet>327</a>                    .get_active_editor_tab_mut()
-<a href=#328 id=328 data-nosnippet>328</a>                    .expect(<span class="string">"expected active editor tab"</span>);
-<a href=#329 id=329 data-nosnippet>329</a>                editor.content.update(cx, |content, cx| {
-<a href=#330 id=330 data-nosnippet>330</a>                    content.set_value(<span class="string">"color: ;"</span>, window, cx);
-<a href=#331 id=331 data-nosnippet>331</a>                    content.set_cursor_position(
-<a href=#332 id=332 data-nosnippet>332</a>                        Position {
-<a href=#333 id=333 data-nosnippet>333</a>                            line: <span class="number">0</span>,
-<a href=#334 id=334 data-nosnippet>334</a>                            character: <span class="number">7</span>,
-<a href=#335 id=335 data-nosnippet>335</a>                        },
-<a href=#336 id=336 data-nosnippet>336</a>                        window,
-<a href=#337 id=337 data-nosnippet>337</a>                        cx,
-<a href=#338 id=338 data-nosnippet>338</a>                    );
-<a href=#339 id=339 data-nosnippet>339</a>                });
+<a href=#326 id=326 data-nosnippet>326</a>                this.update_active_editor_tab(cx, |editor, cx| {
+<a href=#327 id=327 data-nosnippet>327</a>                    editor.content.update(cx, |content, cx| {
+<a href=#328 id=328 data-nosnippet>328</a>                        content.set_value(<span class="string">"color: ;"</span>, window, cx);
+<a href=#329 id=329 data-nosnippet>329</a>                        content.set_cursor_position(
+<a href=#330 id=330 data-nosnippet>330</a>                            Position {
+<a href=#331 id=331 data-nosnippet>331</a>                                line: <span class="number">0</span>,
+<a href=#332 id=332 data-nosnippet>332</a>                                character: <span class="number">7</span>,
+<a href=#333 id=333 data-nosnippet>333</a>                            },
+<a href=#334 id=334 data-nosnippet>334</a>                            window,
+<a href=#335 id=335 data-nosnippet>335</a>                            cx,
+<a href=#336 id=336 data-nosnippet>336</a>                        );
+<a href=#337 id=337 data-nosnippet>337</a>                    });
+<a href=#338 id=338 data-nosnippet>338</a>                })
+<a href=#339 id=339 data-nosnippet>339</a>                .expect(<span class="string">"expected active editor tab"</span>);
 <a href=#340 id=340 data-nosnippet>340</a>                this.color_picker_bar.clone()
 <a href=#341 id=341 data-nosnippet>341</a>            });
 <a href=#342 id=342 data-nosnippet>342</a>            bar.update(cx, |bar, cx| {
@@ -344,7 +344,7 @@
 <a href=#344 id=344 data-nosnippet>344</a>            });
 <a href=#345 id=345 data-nosnippet>345</a>            <span class="kw">let </span>text = fulgur
 <a href=#346 id=346 data-nosnippet>346</a>                .read(cx)
-<a href=#347 id=347 data-nosnippet>347</a>                .get_active_editor_tab()
+<a href=#347 id=347 data-nosnippet>347</a>                .get_active_editor_tab(cx)
 <a href=#348 id=348 data-nosnippet>348</a>                .expect(<span class="string">"expected active editor tab"</span>)
 <a href=#349 id=349 data-nosnippet>349</a>                .content
 <a href=#350 id=350 data-nosnippet>350</a>                .read(cx)

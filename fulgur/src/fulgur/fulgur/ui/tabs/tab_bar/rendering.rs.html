@@ -203,7 +203,7 @@
 <a href=#203 id=203 data-nosnippet>203</a>        <span class="kw">let </span>ghost = <span class="kw">if </span>cx.has_active_drag() {
 <a href=#204 id=204 data-nosnippet>204</a>            <span class="self">self</span>.drag_ghost.as_ref().and_then(|(slot, dragged)| {
 <a href=#205 id=205 data-nosnippet>205</a>                <span class="kw">let </span>is_noop = fulgur
-<a href=#206 id=206 data-nosnippet>206</a>                    .tab_index_of(dragged.tab_id)
+<a href=#206 id=206 data-nosnippet>206</a>                    .tab_index_of(dragged.tab_id, cx)
 <a href=#207 id=207 data-nosnippet>207</a>                    .is_some_and(|from| <span class="kw-2">*</span>slot == from || <span class="kw-2">*</span>slot == from + <span class="number">1</span>);
 <a href=#208 id=208 data-nosnippet>208</a>                <span class="kw">if </span>is_noop {
 <a href=#209 id=209 data-nosnippet>209</a>                    <span class="prelude-val">None
@@ -214,14 +214,14 @@
 <a href=#214 id=214 data-nosnippet>214</a>        } <span class="kw">else </span>{
 <a href=#215 id=215 data-nosnippet>215</a>            <span class="prelude-val">None
 <a href=#216 id=216 data-nosnippet>216</a>        </span>};
-<a href=#217 id=217 data-nosnippet>217</a>        <span class="kw">let </span>filename_counts = <span class="self">Self</span>::build_tab_filename_counts(<span class="kw-2">&amp;</span>fulgur.tabs);
+<a href=#217 id=217 data-nosnippet>217</a>        <span class="kw">let </span>filename_counts = <span class="self">Self</span>::build_tab_filename_counts(<span class="kw-2">&amp;</span>fulgur.tabs, cx);
 <a href=#218 id=218 data-nosnippet>218</a>        <span class="kw">let </span>capacity = fulgur.tabs.len() + usize::from(ghost.is_some());
 <a href=#219 id=219 data-nosnippet>219</a>        <span class="kw">let </span><span class="kw-2">mut </span>elements: Vec&lt;AnyElement&gt; = Vec::with_capacity(capacity);
 <a href=#220 id=220 data-nosnippet>220</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>((<span class="number">0</span>, dragged)) = ghost {
 <a href=#221 id=221 data-nosnippet>221</a>            elements.push(<span class="self">Self</span>::render_ghost_tab(<span class="number">0</span>, dragged, cx));
 <a href=#222 id=222 data-nosnippet>222</a>        }
 <a href=#223 id=223 data-nosnippet>223</a>        <span class="kw">for </span>(index, tab) <span class="kw">in </span>fulgur.tabs.iter().enumerate() {
-<a href=#224 id=224 data-nosnippet>224</a>            elements.push(<span class="self">self</span>.render_tab(fulgur, index, tab, <span class="kw-2">&amp;</span>filename_counts, cx));
+<a href=#224 id=224 data-nosnippet>224</a>            elements.push(<span class="self">self</span>.render_tab(fulgur, index, tab.read(cx), <span class="kw-2">&amp;</span>filename_counts, cx));
 <a href=#225 id=225 data-nosnippet>225</a>            <span class="kw">if let </span><span class="prelude-val">Some</span>((slot, dragged)) = ghost
 <a href=#226 id=226 data-nosnippet>226</a>                &amp;&amp; slot == index + <span class="number">1
 <a href=#227 id=227 data-nosnippet>227</a>            </span>{
