@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["WindowManager"]};
+window.SIDEBAR_ITEMS = {"mod":["system_menus"],"struct":["WindowManager"]};

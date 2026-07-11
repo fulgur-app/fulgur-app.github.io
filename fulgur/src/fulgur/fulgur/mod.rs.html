@@ -75,15 +75,5 @@
 <a href=#75 id=75 data-nosnippet>75</a>    </span>inflight_remote_restore: HashSet&lt;TabId&gt;, <span class="comment">// Restored remote tabs currently running a reconnect task
 <a href=#76 id=76 data-nosnippet>76</a>    </span>pending_initial_active_tab: <span class="prelude-ty">Option</span>&lt;TabId&gt;, <span class="comment">// Active tab to re-activate after first render so dialogs can open safely
 <a href=#77 id=77 data-nosnippet>77</a>    </span>has_rendered_once: bool, <span class="comment">// Tracks first render completion for startup actions that require mounted Root layers
-<a href=#78 id=78 data-nosnippet>78</a>    </span><span class="attr">#[cfg(any(target_os = <span class="string">"macos"</span>, target_os = <span class="string">"windows"</span>))]
-<a href=#79 id=79 data-nosnippet>79</a>    </span>local_window_menu_fingerprint: u64, <span class="comment">// Cached local menu-state fingerprint published to WindowManager
-<a href=#80 id=80 data-nosnippet>80</a>    </span><span class="attr">#[cfg(target_os = <span class="string">"macos"</span>)]
-<a href=#81 id=81 data-nosnippet>81</a>    </span>last_dock_menu_revision: u64, <span class="comment">// Last global menu-state revision processed by dock menu updater
-<a href=#82 id=82 data-nosnippet>82</a>    </span><span class="attr">#[cfg(target_os = <span class="string">"macos"</span>)]
-<a href=#83 id=83 data-nosnippet>83</a>    </span>last_dock_menu_hash: u64, <span class="comment">// Hash of the last dock menu state to avoid unnecessary rebuilds
-<a href=#84 id=84 data-nosnippet>84</a>    </span><span class="attr">#[cfg(target_os = <span class="string">"windows"</span>)]
-<a href=#85 id=85 data-nosnippet>85</a>    </span>last_jump_list_revision: u64, <span class="comment">// Last global menu-state revision processed by jump list updater
-<a href=#86 id=86 data-nosnippet>86</a>    </span><span class="attr">#[cfg(target_os = <span class="string">"windows"</span>)]
-<a href=#87 id=87 data-nosnippet>87</a>    </span>last_jump_list_hash: u64, <span class="comment">// Hash of the last jump list state to avoid unnecessary rebuilds
-<a href=#88 id=88 data-nosnippet>88</a></span>}
+<a href=#78 id=78 data-nosnippet>78</a></span>}
 </code></pre></div></section></main></body></html>
