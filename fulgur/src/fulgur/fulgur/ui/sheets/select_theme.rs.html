@@ -375,72 +375,80 @@
 <a href=#375 id=375 data-nosnippet>375</a>
 <a href=#376 id=376 data-nosnippet>376</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
 <a href=#377 id=377 data-nosnippet>377</a>    #[gpui::test]
-<a href=#378 id=378 data-nosnippet>378</a>    </span><span class="kw">fn </span>test_switch_active_theme_from_sheet_updates_current_theme(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
-<a href=#379 id=379 data-nosnippet>379</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
-<a href=#380 id=380 data-nosnippet>380</a>        <span class="kw">let </span>current_theme = fulgur.read_with(<span class="kw-2">&amp;</span>visual_cx, |this, <span class="kw">_</span>| {
-<a href=#381 id=381 data-nosnippet>381</a>            this.settings.app_settings.theme.to_string()
-<a href=#382 id=382 data-nosnippet>382</a>        });
-<a href=#383 id=383 data-nosnippet>383</a>
-<a href=#384 id=384 data-nosnippet>384</a>        <span class="kw">let </span>current_theme_for_lookup = current_theme.clone();
-<a href=#385 id=385 data-nosnippet>385</a>        <span class="kw">let </span>target_theme = visual_cx.update(|_window, cx| {
-<a href=#386 id=386 data-nosnippet>386</a>            <span class="kw">let </span>themes = ThemeRegistry::global(cx).sorted_themes();
-<a href=#387 id=387 data-nosnippet>387</a>            themes
-<a href=#388 id=388 data-nosnippet>388</a>                .iter()
-<a href=#389 id=389 data-nosnippet>389</a>                .map(|theme| theme.name.to_string())
-<a href=#390 id=390 data-nosnippet>390</a>                .find(|name| name != <span class="kw-2">&amp;</span>current_theme_for_lookup)
-<a href=#391 id=391 data-nosnippet>391</a>                .or_else(|| themes.first().map(|theme| theme.name.to_string()))
-<a href=#392 id=392 data-nosnippet>392</a>                .expect(<span class="string">"expected at least one registered theme"</span>)
-<a href=#393 id=393 data-nosnippet>393</a>        });
-<a href=#394 id=394 data-nosnippet>394</a>
-<a href=#395 id=395 data-nosnippet>395</a>        <span class="kw">let </span>current_theme_shared = Arc::new(Mutex::new(current_theme.clone()));
-<a href=#396 id=396 data-nosnippet>396</a>        <span class="kw">let </span>target_theme_for_apply = target_theme.clone();
-<a href=#397 id=397 data-nosnippet>397</a>        <span class="kw">let </span>current_theme_shared_for_apply = current_theme_shared.clone();
-<a href=#398 id=398 data-nosnippet>398</a>        <span class="kw">let </span>applied = visual_cx.update(|_window, cx| {
-<a href=#399 id=399 data-nosnippet>399</a>            fulgur.update(cx, |this, cx| {
-<a href=#400 id=400 data-nosnippet>400</a>                this.switch_active_theme_from_sheet(
-<a href=#401 id=401 data-nosnippet>401</a>                    cx,
-<a href=#402 id=402 data-nosnippet>402</a>                    target_theme_for_apply.as_str(),
-<a href=#403 id=403 data-nosnippet>403</a>                    <span class="kw-2">&amp;</span>current_theme_shared_for_apply,
-<a href=#404 id=404 data-nosnippet>404</a>                )
-<a href=#405 id=405 data-nosnippet>405</a>            })
-<a href=#406 id=406 data-nosnippet>406</a>        });
-<a href=#407 id=407 data-nosnippet>407</a>
-<a href=#408 id=408 data-nosnippet>408</a>        <span class="macro">assert!</span>(applied);
-<a href=#409 id=409 data-nosnippet>409</a>
-<a href=#410 id=410 data-nosnippet>410</a>        <span class="kw">let </span>switched_theme = fulgur.read_with(<span class="kw-2">&amp;</span>visual_cx, |this, <span class="kw">_</span>| {
-<a href=#411 id=411 data-nosnippet>411</a>            this.settings.app_settings.theme.to_string()
-<a href=#412 id=412 data-nosnippet>412</a>        });
-<a href=#413 id=413 data-nosnippet>413</a>        <span class="macro">assert_eq!</span>(switched_theme, target_theme);
-<a href=#414 id=414 data-nosnippet>414</a>        <span class="macro">assert_eq!</span>(<span class="kw-2">*</span>current_theme_shared.lock(), target_theme);
-<a href=#415 id=415 data-nosnippet>415</a>    }
-<a href=#416 id=416 data-nosnippet>416</a>
-<a href=#417 id=417 data-nosnippet>417</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#418 id=418 data-nosnippet>418</a>    #[gpui::test]
-<a href=#419 id=419 data-nosnippet>419</a>    </span><span class="kw">fn </span>test_switch_active_theme_from_sheet_is_noop_for_unknown_theme(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
-<a href=#420 id=420 data-nosnippet>420</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
-<a href=#421 id=421 data-nosnippet>421</a>        <span class="kw">let </span>initial_theme = fulgur.read_with(<span class="kw-2">&amp;</span>visual_cx, |this, <span class="kw">_</span>| {
-<a href=#422 id=422 data-nosnippet>422</a>            this.settings.app_settings.theme.to_string()
-<a href=#423 id=423 data-nosnippet>423</a>        });
-<a href=#424 id=424 data-nosnippet>424</a>        <span class="kw">let </span>current_theme_shared = Arc::new(Mutex::new(initial_theme.clone()));
-<a href=#425 id=425 data-nosnippet>425</a>        <span class="kw">let </span>current_theme_shared_for_apply = current_theme_shared.clone();
-<a href=#426 id=426 data-nosnippet>426</a>
-<a href=#427 id=427 data-nosnippet>427</a>        <span class="kw">let </span>applied = visual_cx.update(|_window, cx| {
-<a href=#428 id=428 data-nosnippet>428</a>            fulgur.update(cx, |this, cx| {
-<a href=#429 id=429 data-nosnippet>429</a>                this.switch_active_theme_from_sheet(
-<a href=#430 id=430 data-nosnippet>430</a>                    cx,
-<a href=#431 id=431 data-nosnippet>431</a>                    <span class="string">"__missing_theme_for_test__"</span>,
-<a href=#432 id=432 data-nosnippet>432</a>                    <span class="kw-2">&amp;</span>current_theme_shared_for_apply,
-<a href=#433 id=433 data-nosnippet>433</a>                )
-<a href=#434 id=434 data-nosnippet>434</a>            })
-<a href=#435 id=435 data-nosnippet>435</a>        });
-<a href=#436 id=436 data-nosnippet>436</a>
-<a href=#437 id=437 data-nosnippet>437</a>        <span class="macro">assert!</span>(!applied);
-<a href=#438 id=438 data-nosnippet>438</a>
-<a href=#439 id=439 data-nosnippet>439</a>        <span class="kw">let </span>final_theme = fulgur.read_with(<span class="kw-2">&amp;</span>visual_cx, |this, <span class="kw">_</span>| {
-<a href=#440 id=440 data-nosnippet>440</a>            this.settings.app_settings.theme.to_string()
-<a href=#441 id=441 data-nosnippet>441</a>        });
-<a href=#442 id=442 data-nosnippet>442</a>        <span class="macro">assert_eq!</span>(final_theme, initial_theme);
-<a href=#443 id=443 data-nosnippet>443</a>        <span class="macro">assert_eq!</span>(<span class="kw-2">*</span>current_theme_shared.lock(), initial_theme);
-<a href=#444 id=444 data-nosnippet>444</a>    }
-<a href=#445 id=445 data-nosnippet>445</a>}
+<a href=#378 id=378 data-nosnippet>378</a>    #[cfg_attr(
+<a href=#379 id=379 data-nosnippet>379</a>        target_os = <span class="string">"macos"</span>,
+<a href=#380 id=380 data-nosnippet>380</a>        ignore = <span class="string">"known upstream a11y panic on gpui TestWindow"
+<a href=#381 id=381 data-nosnippet>381</a>    </span>)]
+<a href=#382 id=382 data-nosnippet>382</a>    </span><span class="kw">fn </span>test_switch_active_theme_from_sheet_updates_current_theme(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
+<a href=#383 id=383 data-nosnippet>383</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
+<a href=#384 id=384 data-nosnippet>384</a>        <span class="kw">let </span>current_theme = fulgur.read_with(<span class="kw-2">&amp;</span>visual_cx, |this, <span class="kw">_</span>| {
+<a href=#385 id=385 data-nosnippet>385</a>            this.settings.app_settings.theme.to_string()
+<a href=#386 id=386 data-nosnippet>386</a>        });
+<a href=#387 id=387 data-nosnippet>387</a>
+<a href=#388 id=388 data-nosnippet>388</a>        <span class="kw">let </span>current_theme_for_lookup = current_theme.clone();
+<a href=#389 id=389 data-nosnippet>389</a>        <span class="kw">let </span>target_theme = visual_cx.update(|_window, cx| {
+<a href=#390 id=390 data-nosnippet>390</a>            <span class="kw">let </span>themes = ThemeRegistry::global(cx).sorted_themes();
+<a href=#391 id=391 data-nosnippet>391</a>            themes
+<a href=#392 id=392 data-nosnippet>392</a>                .iter()
+<a href=#393 id=393 data-nosnippet>393</a>                .map(|theme| theme.name.to_string())
+<a href=#394 id=394 data-nosnippet>394</a>                .find(|name| name != <span class="kw-2">&amp;</span>current_theme_for_lookup)
+<a href=#395 id=395 data-nosnippet>395</a>                .or_else(|| themes.first().map(|theme| theme.name.to_string()))
+<a href=#396 id=396 data-nosnippet>396</a>                .expect(<span class="string">"expected at least one registered theme"</span>)
+<a href=#397 id=397 data-nosnippet>397</a>        });
+<a href=#398 id=398 data-nosnippet>398</a>
+<a href=#399 id=399 data-nosnippet>399</a>        <span class="kw">let </span>current_theme_shared = Arc::new(Mutex::new(current_theme.clone()));
+<a href=#400 id=400 data-nosnippet>400</a>        <span class="kw">let </span>target_theme_for_apply = target_theme.clone();
+<a href=#401 id=401 data-nosnippet>401</a>        <span class="kw">let </span>current_theme_shared_for_apply = current_theme_shared.clone();
+<a href=#402 id=402 data-nosnippet>402</a>        <span class="kw">let </span>applied = visual_cx.update(|_window, cx| {
+<a href=#403 id=403 data-nosnippet>403</a>            fulgur.update(cx, |this, cx| {
+<a href=#404 id=404 data-nosnippet>404</a>                this.switch_active_theme_from_sheet(
+<a href=#405 id=405 data-nosnippet>405</a>                    cx,
+<a href=#406 id=406 data-nosnippet>406</a>                    target_theme_for_apply.as_str(),
+<a href=#407 id=407 data-nosnippet>407</a>                    <span class="kw-2">&amp;</span>current_theme_shared_for_apply,
+<a href=#408 id=408 data-nosnippet>408</a>                )
+<a href=#409 id=409 data-nosnippet>409</a>            })
+<a href=#410 id=410 data-nosnippet>410</a>        });
+<a href=#411 id=411 data-nosnippet>411</a>
+<a href=#412 id=412 data-nosnippet>412</a>        <span class="macro">assert!</span>(applied);
+<a href=#413 id=413 data-nosnippet>413</a>
+<a href=#414 id=414 data-nosnippet>414</a>        <span class="kw">let </span>switched_theme = fulgur.read_with(<span class="kw-2">&amp;</span>visual_cx, |this, <span class="kw">_</span>| {
+<a href=#415 id=415 data-nosnippet>415</a>            this.settings.app_settings.theme.to_string()
+<a href=#416 id=416 data-nosnippet>416</a>        });
+<a href=#417 id=417 data-nosnippet>417</a>        <span class="macro">assert_eq!</span>(switched_theme, target_theme);
+<a href=#418 id=418 data-nosnippet>418</a>        <span class="macro">assert_eq!</span>(<span class="kw-2">*</span>current_theme_shared.lock(), target_theme);
+<a href=#419 id=419 data-nosnippet>419</a>    }
+<a href=#420 id=420 data-nosnippet>420</a>
+<a href=#421 id=421 data-nosnippet>421</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
+<a href=#422 id=422 data-nosnippet>422</a>    #[gpui::test]
+<a href=#423 id=423 data-nosnippet>423</a>    #[cfg_attr(
+<a href=#424 id=424 data-nosnippet>424</a>        target_os = <span class="string">"macos"</span>,
+<a href=#425 id=425 data-nosnippet>425</a>        ignore = <span class="string">"known upstream a11y panic on gpui TestWindow"
+<a href=#426 id=426 data-nosnippet>426</a>    </span>)]
+<a href=#427 id=427 data-nosnippet>427</a>    </span><span class="kw">fn </span>test_switch_active_theme_from_sheet_is_noop_for_unknown_theme(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
+<a href=#428 id=428 data-nosnippet>428</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
+<a href=#429 id=429 data-nosnippet>429</a>        <span class="kw">let </span>initial_theme = fulgur.read_with(<span class="kw-2">&amp;</span>visual_cx, |this, <span class="kw">_</span>| {
+<a href=#430 id=430 data-nosnippet>430</a>            this.settings.app_settings.theme.to_string()
+<a href=#431 id=431 data-nosnippet>431</a>        });
+<a href=#432 id=432 data-nosnippet>432</a>        <span class="kw">let </span>current_theme_shared = Arc::new(Mutex::new(initial_theme.clone()));
+<a href=#433 id=433 data-nosnippet>433</a>        <span class="kw">let </span>current_theme_shared_for_apply = current_theme_shared.clone();
+<a href=#434 id=434 data-nosnippet>434</a>
+<a href=#435 id=435 data-nosnippet>435</a>        <span class="kw">let </span>applied = visual_cx.update(|_window, cx| {
+<a href=#436 id=436 data-nosnippet>436</a>            fulgur.update(cx, |this, cx| {
+<a href=#437 id=437 data-nosnippet>437</a>                this.switch_active_theme_from_sheet(
+<a href=#438 id=438 data-nosnippet>438</a>                    cx,
+<a href=#439 id=439 data-nosnippet>439</a>                    <span class="string">"__missing_theme_for_test__"</span>,
+<a href=#440 id=440 data-nosnippet>440</a>                    <span class="kw-2">&amp;</span>current_theme_shared_for_apply,
+<a href=#441 id=441 data-nosnippet>441</a>                )
+<a href=#442 id=442 data-nosnippet>442</a>            })
+<a href=#443 id=443 data-nosnippet>443</a>        });
+<a href=#444 id=444 data-nosnippet>444</a>
+<a href=#445 id=445 data-nosnippet>445</a>        <span class="macro">assert!</span>(!applied);
+<a href=#446 id=446 data-nosnippet>446</a>
+<a href=#447 id=447 data-nosnippet>447</a>        <span class="kw">let </span>final_theme = fulgur.read_with(<span class="kw-2">&amp;</span>visual_cx, |this, <span class="kw">_</span>| {
+<a href=#448 id=448 data-nosnippet>448</a>            this.settings.app_settings.theme.to_string()
+<a href=#449 id=449 data-nosnippet>449</a>        });
+<a href=#450 id=450 data-nosnippet>450</a>        <span class="macro">assert_eq!</span>(final_theme, initial_theme);
+<a href=#451 id=451 data-nosnippet>451</a>        <span class="macro">assert_eq!</span>(<span class="kw-2">*</span>current_theme_shared.lock(), initial_theme);
+<a href=#452 id=452 data-nosnippet>452</a>    }
+<a href=#453 id=453 data-nosnippet>453</a>}
 </code></pre></div></section></main></body></html>

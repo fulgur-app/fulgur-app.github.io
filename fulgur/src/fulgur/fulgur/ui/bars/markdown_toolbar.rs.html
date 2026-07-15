@@ -426,89 +426,97 @@
 <a href=#426 id=426 data-nosnippet>426</a>
 <a href=#427 id=427 data-nosnippet>427</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
 <a href=#428 id=428 data-nosnippet>428</a>    #[gpui::test]
-<a href=#429 id=429 data-nosnippet>429</a>    </span><span class="kw">fn </span>test_insert_or_surround_wraps_selected_text(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
-<a href=#430 id=430 data-nosnippet>430</a>        <span class="kw">let </span>(fulgur, toolbar, <span class="kw-2">mut </span>visual_cx) = setup_toolbar(cx);
-<a href=#431 id=431 data-nosnippet>431</a>
-<a href=#432 id=432 data-nosnippet>432</a>        visual_cx.update(|window, cx| {
-<a href=#433 id=433 data-nosnippet>433</a>            fulgur.update(cx, |this, cx| {
-<a href=#434 id=434 data-nosnippet>434</a>                this.update_active_editor_tab(cx, |editor, cx| {
-<a href=#435 id=435 data-nosnippet>435</a>                    editor.content.update(cx, |content, cx| {
-<a href=#436 id=436 data-nosnippet>436</a>                        content.set_value(<span class="string">"hello"</span>, window, cx);
-<a href=#437 id=437 data-nosnippet>437</a>                    });
-<a href=#438 id=438 data-nosnippet>438</a>                })
-<a href=#439 id=439 data-nosnippet>439</a>                .expect(<span class="string">"expected active editor tab"</span>);
-<a href=#440 id=440 data-nosnippet>440</a>
-<a href=#441 id=441 data-nosnippet>441</a>                this.focus_active_tab(window, cx);
-<a href=#442 id=442 data-nosnippet>442</a>                <span class="kw">let </span>focus = this
-<a href=#443 id=443 data-nosnippet>443</a>                    .get_active_editor_tab(cx)
-<a href=#444 id=444 data-nosnippet>444</a>                    .expect(<span class="string">"expected active editor tab"</span>)
-<a href=#445 id=445 data-nosnippet>445</a>                    .content
-<a href=#446 id=446 data-nosnippet>446</a>                    .read(cx)
-<a href=#447 id=447 data-nosnippet>447</a>                    .focus_handle(cx);
-<a href=#448 id=448 data-nosnippet>448</a>                focus.dispatch_action(<span class="kw-2">&amp;</span>SelectAll, window, cx);
-<a href=#449 id=449 data-nosnippet>449</a>                <span class="kw">let </span>selected = this
-<a href=#450 id=450 data-nosnippet>450</a>                    .get_active_editor_tab(cx)
-<a href=#451 id=451 data-nosnippet>451</a>                    .expect(<span class="string">"expected active editor tab"</span>)
-<a href=#452 id=452 data-nosnippet>452</a>                    .content
-<a href=#453 id=453 data-nosnippet>453</a>                    .read(cx)
-<a href=#454 id=454 data-nosnippet>454</a>                    .selected_value()
-<a href=#455 id=455 data-nosnippet>455</a>                    .to_string();
-<a href=#456 id=456 data-nosnippet>456</a>                <span class="macro">assert_eq!</span>(selected, <span class="string">"hello"</span>);
-<a href=#457 id=457 data-nosnippet>457</a>            });
-<a href=#458 id=458 data-nosnippet>458</a>
-<a href=#459 id=459 data-nosnippet>459</a>            toolbar.update(cx, |bar, cx| {
-<a href=#460 id=460 data-nosnippet>460</a>                bar.insert_or_surround(<span class="string">"**"</span>, <span class="string">"**"</span>, window, cx);
+<a href=#429 id=429 data-nosnippet>429</a>    #[cfg_attr(
+<a href=#430 id=430 data-nosnippet>430</a>        target_os = <span class="string">"macos"</span>,
+<a href=#431 id=431 data-nosnippet>431</a>        ignore = <span class="string">"known upstream a11y panic on gpui TestWindow"
+<a href=#432 id=432 data-nosnippet>432</a>    </span>)]
+<a href=#433 id=433 data-nosnippet>433</a>    </span><span class="kw">fn </span>test_insert_or_surround_wraps_selected_text(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
+<a href=#434 id=434 data-nosnippet>434</a>        <span class="kw">let </span>(fulgur, toolbar, <span class="kw-2">mut </span>visual_cx) = setup_toolbar(cx);
+<a href=#435 id=435 data-nosnippet>435</a>
+<a href=#436 id=436 data-nosnippet>436</a>        visual_cx.update(|window, cx| {
+<a href=#437 id=437 data-nosnippet>437</a>            fulgur.update(cx, |this, cx| {
+<a href=#438 id=438 data-nosnippet>438</a>                this.update_active_editor_tab(cx, |editor, cx| {
+<a href=#439 id=439 data-nosnippet>439</a>                    editor.content.update(cx, |content, cx| {
+<a href=#440 id=440 data-nosnippet>440</a>                        content.set_value(<span class="string">"hello"</span>, window, cx);
+<a href=#441 id=441 data-nosnippet>441</a>                    });
+<a href=#442 id=442 data-nosnippet>442</a>                })
+<a href=#443 id=443 data-nosnippet>443</a>                .expect(<span class="string">"expected active editor tab"</span>);
+<a href=#444 id=444 data-nosnippet>444</a>
+<a href=#445 id=445 data-nosnippet>445</a>                this.focus_active_tab(window, cx);
+<a href=#446 id=446 data-nosnippet>446</a>                <span class="kw">let </span>focus = this
+<a href=#447 id=447 data-nosnippet>447</a>                    .get_active_editor_tab(cx)
+<a href=#448 id=448 data-nosnippet>448</a>                    .expect(<span class="string">"expected active editor tab"</span>)
+<a href=#449 id=449 data-nosnippet>449</a>                    .content
+<a href=#450 id=450 data-nosnippet>450</a>                    .read(cx)
+<a href=#451 id=451 data-nosnippet>451</a>                    .focus_handle(cx);
+<a href=#452 id=452 data-nosnippet>452</a>                focus.dispatch_action(<span class="kw-2">&amp;</span>SelectAll, window, cx);
+<a href=#453 id=453 data-nosnippet>453</a>                <span class="kw">let </span>selected = this
+<a href=#454 id=454 data-nosnippet>454</a>                    .get_active_editor_tab(cx)
+<a href=#455 id=455 data-nosnippet>455</a>                    .expect(<span class="string">"expected active editor tab"</span>)
+<a href=#456 id=456 data-nosnippet>456</a>                    .content
+<a href=#457 id=457 data-nosnippet>457</a>                    .read(cx)
+<a href=#458 id=458 data-nosnippet>458</a>                    .selected_value()
+<a href=#459 id=459 data-nosnippet>459</a>                    .to_string();
+<a href=#460 id=460 data-nosnippet>460</a>                <span class="macro">assert_eq!</span>(selected, <span class="string">"hello"</span>);
 <a href=#461 id=461 data-nosnippet>461</a>            });
 <a href=#462 id=462 data-nosnippet>462</a>
-<a href=#463 id=463 data-nosnippet>463</a>            <span class="kw">let </span>text = fulgur
-<a href=#464 id=464 data-nosnippet>464</a>                .read(cx)
-<a href=#465 id=465 data-nosnippet>465</a>                .get_active_editor_tab(cx)
-<a href=#466 id=466 data-nosnippet>466</a>                .expect(<span class="string">"expected active editor tab"</span>)
-<a href=#467 id=467 data-nosnippet>467</a>                .content
+<a href=#463 id=463 data-nosnippet>463</a>            toolbar.update(cx, |bar, cx| {
+<a href=#464 id=464 data-nosnippet>464</a>                bar.insert_or_surround(<span class="string">"**"</span>, <span class="string">"**"</span>, window, cx);
+<a href=#465 id=465 data-nosnippet>465</a>            });
+<a href=#466 id=466 data-nosnippet>466</a>
+<a href=#467 id=467 data-nosnippet>467</a>            <span class="kw">let </span>text = fulgur
 <a href=#468 id=468 data-nosnippet>468</a>                .read(cx)
-<a href=#469 id=469 data-nosnippet>469</a>                .text()
-<a href=#470 id=470 data-nosnippet>470</a>                .to_string();
-<a href=#471 id=471 data-nosnippet>471</a>            <span class="macro">assert_eq!</span>(text, <span class="string">"**hello**"</span>);
-<a href=#472 id=472 data-nosnippet>472</a>        });
-<a href=#473 id=473 data-nosnippet>473</a>    }
-<a href=#474 id=474 data-nosnippet>474</a>
-<a href=#475 id=475 data-nosnippet>475</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#476 id=476 data-nosnippet>476</a>    #[gpui::test]
-<a href=#477 id=477 data-nosnippet>477</a>    </span><span class="kw">fn </span>test_insert_or_surround_inserts_at_cursor_when_no_selection(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
-<a href=#478 id=478 data-nosnippet>478</a>        <span class="kw">let </span>(fulgur, toolbar, <span class="kw-2">mut </span>visual_cx) = setup_toolbar(cx);
-<a href=#479 id=479 data-nosnippet>479</a>
-<a href=#480 id=480 data-nosnippet>480</a>        visual_cx.update(|window, cx| {
-<a href=#481 id=481 data-nosnippet>481</a>            fulgur.update(cx, |this, cx| {
-<a href=#482 id=482 data-nosnippet>482</a>                this.update_active_editor_tab(cx, |editor, cx| {
-<a href=#483 id=483 data-nosnippet>483</a>                    editor.content.update(cx, |content, cx| {
-<a href=#484 id=484 data-nosnippet>484</a>                        content.set_value(<span class="string">"hello"</span>, window, cx);
-<a href=#485 id=485 data-nosnippet>485</a>                        content.set_cursor_position(
-<a href=#486 id=486 data-nosnippet>486</a>                            Position {
-<a href=#487 id=487 data-nosnippet>487</a>                                line: <span class="number">0</span>,
-<a href=#488 id=488 data-nosnippet>488</a>                                character: <span class="number">5</span>,
-<a href=#489 id=489 data-nosnippet>489</a>                            },
-<a href=#490 id=490 data-nosnippet>490</a>                            window,
-<a href=#491 id=491 data-nosnippet>491</a>                            cx,
-<a href=#492 id=492 data-nosnippet>492</a>                        );
-<a href=#493 id=493 data-nosnippet>493</a>                    });
-<a href=#494 id=494 data-nosnippet>494</a>                })
-<a href=#495 id=495 data-nosnippet>495</a>                .expect(<span class="string">"expected active editor tab"</span>);
-<a href=#496 id=496 data-nosnippet>496</a>            });
-<a href=#497 id=497 data-nosnippet>497</a>
-<a href=#498 id=498 data-nosnippet>498</a>            toolbar.update(cx, |bar, cx| {
-<a href=#499 id=499 data-nosnippet>499</a>                bar.insert_or_surround(<span class="string">"["</span>, <span class="string">"](https://)"</span>, window, cx);
-<a href=#500 id=500 data-nosnippet>500</a>            });
-<a href=#501 id=501 data-nosnippet>501</a>
-<a href=#502 id=502 data-nosnippet>502</a>            <span class="kw">let </span>text = fulgur
-<a href=#503 id=503 data-nosnippet>503</a>                .read(cx)
-<a href=#504 id=504 data-nosnippet>504</a>                .get_active_editor_tab(cx)
-<a href=#505 id=505 data-nosnippet>505</a>                .expect(<span class="string">"expected active editor tab"</span>)
-<a href=#506 id=506 data-nosnippet>506</a>                .content
-<a href=#507 id=507 data-nosnippet>507</a>                .read(cx)
-<a href=#508 id=508 data-nosnippet>508</a>                .text()
-<a href=#509 id=509 data-nosnippet>509</a>                .to_string();
-<a href=#510 id=510 data-nosnippet>510</a>            <span class="macro">assert_eq!</span>(text, <span class="string">"hello[](https://)"</span>);
-<a href=#511 id=511 data-nosnippet>511</a>        });
-<a href=#512 id=512 data-nosnippet>512</a>    }
-<a href=#513 id=513 data-nosnippet>513</a>}
+<a href=#469 id=469 data-nosnippet>469</a>                .get_active_editor_tab(cx)
+<a href=#470 id=470 data-nosnippet>470</a>                .expect(<span class="string">"expected active editor tab"</span>)
+<a href=#471 id=471 data-nosnippet>471</a>                .content
+<a href=#472 id=472 data-nosnippet>472</a>                .read(cx)
+<a href=#473 id=473 data-nosnippet>473</a>                .text()
+<a href=#474 id=474 data-nosnippet>474</a>                .to_string();
+<a href=#475 id=475 data-nosnippet>475</a>            <span class="macro">assert_eq!</span>(text, <span class="string">"**hello**"</span>);
+<a href=#476 id=476 data-nosnippet>476</a>        });
+<a href=#477 id=477 data-nosnippet>477</a>    }
+<a href=#478 id=478 data-nosnippet>478</a>
+<a href=#479 id=479 data-nosnippet>479</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
+<a href=#480 id=480 data-nosnippet>480</a>    #[gpui::test]
+<a href=#481 id=481 data-nosnippet>481</a>    #[cfg_attr(
+<a href=#482 id=482 data-nosnippet>482</a>        target_os = <span class="string">"macos"</span>,
+<a href=#483 id=483 data-nosnippet>483</a>        ignore = <span class="string">"known upstream a11y panic on gpui TestWindow"
+<a href=#484 id=484 data-nosnippet>484</a>    </span>)]
+<a href=#485 id=485 data-nosnippet>485</a>    </span><span class="kw">fn </span>test_insert_or_surround_inserts_at_cursor_when_no_selection(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
+<a href=#486 id=486 data-nosnippet>486</a>        <span class="kw">let </span>(fulgur, toolbar, <span class="kw-2">mut </span>visual_cx) = setup_toolbar(cx);
+<a href=#487 id=487 data-nosnippet>487</a>
+<a href=#488 id=488 data-nosnippet>488</a>        visual_cx.update(|window, cx| {
+<a href=#489 id=489 data-nosnippet>489</a>            fulgur.update(cx, |this, cx| {
+<a href=#490 id=490 data-nosnippet>490</a>                this.update_active_editor_tab(cx, |editor, cx| {
+<a href=#491 id=491 data-nosnippet>491</a>                    editor.content.update(cx, |content, cx| {
+<a href=#492 id=492 data-nosnippet>492</a>                        content.set_value(<span class="string">"hello"</span>, window, cx);
+<a href=#493 id=493 data-nosnippet>493</a>                        content.set_cursor_position(
+<a href=#494 id=494 data-nosnippet>494</a>                            Position {
+<a href=#495 id=495 data-nosnippet>495</a>                                line: <span class="number">0</span>,
+<a href=#496 id=496 data-nosnippet>496</a>                                character: <span class="number">5</span>,
+<a href=#497 id=497 data-nosnippet>497</a>                            },
+<a href=#498 id=498 data-nosnippet>498</a>                            window,
+<a href=#499 id=499 data-nosnippet>499</a>                            cx,
+<a href=#500 id=500 data-nosnippet>500</a>                        );
+<a href=#501 id=501 data-nosnippet>501</a>                    });
+<a href=#502 id=502 data-nosnippet>502</a>                })
+<a href=#503 id=503 data-nosnippet>503</a>                .expect(<span class="string">"expected active editor tab"</span>);
+<a href=#504 id=504 data-nosnippet>504</a>            });
+<a href=#505 id=505 data-nosnippet>505</a>
+<a href=#506 id=506 data-nosnippet>506</a>            toolbar.update(cx, |bar, cx| {
+<a href=#507 id=507 data-nosnippet>507</a>                bar.insert_or_surround(<span class="string">"["</span>, <span class="string">"](https://)"</span>, window, cx);
+<a href=#508 id=508 data-nosnippet>508</a>            });
+<a href=#509 id=509 data-nosnippet>509</a>
+<a href=#510 id=510 data-nosnippet>510</a>            <span class="kw">let </span>text = fulgur
+<a href=#511 id=511 data-nosnippet>511</a>                .read(cx)
+<a href=#512 id=512 data-nosnippet>512</a>                .get_active_editor_tab(cx)
+<a href=#513 id=513 data-nosnippet>513</a>                .expect(<span class="string">"expected active editor tab"</span>)
+<a href=#514 id=514 data-nosnippet>514</a>                .content
+<a href=#515 id=515 data-nosnippet>515</a>                .read(cx)
+<a href=#516 id=516 data-nosnippet>516</a>                .text()
+<a href=#517 id=517 data-nosnippet>517</a>                .to_string();
+<a href=#518 id=518 data-nosnippet>518</a>            <span class="macro">assert_eq!</span>(text, <span class="string">"hello[](https://)"</span>);
+<a href=#519 id=519 data-nosnippet>519</a>        });
+<a href=#520 id=520 data-nosnippet>520</a>    }
+<a href=#521 id=521 data-nosnippet>521</a>}
 </code></pre></div></section></main></body></html>
