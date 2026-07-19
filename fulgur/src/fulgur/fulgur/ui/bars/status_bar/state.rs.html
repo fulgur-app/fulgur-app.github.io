@@ -4,69 +4,69 @@
 <a href=#4 id=4 data-nosnippet>4</a>    languages::supported_languages::{SupportedLanguage, pretty_name},
 <a href=#5 id=5 data-nosnippet>5</a>    settings::{MarkdownPreviewMode, ServerProfile},
 <a href=#6 id=6 data-nosnippet>6</a>    sync::synchronization::SynchronizationStatus,
-<a href=#7 id=7 data-nosnippet>7</a>    ui::components_utils::{EMPTY, UTF_8},
-<a href=#8 id=8 data-nosnippet>8</a>};
-<a href=#9 id=9 data-nosnippet>9</a><span class="kw">use </span>gpui::{App, Context, EventEmitter, WeakEntity, Window};
-<a href=#10 id=10 data-nosnippet>10</a><span class="kw">use </span>gpui_component::input::Position;
-<a href=#11 id=11 data-nosnippet>11</a><span class="kw">use </span>std::time::{Duration, Instant};
-<a href=#12 id=12 data-nosnippet>12</a>
-<a href=#13 id=13 data-nosnippet>13</a><span class="doccomment">/// Delay before showing the connecting spinner (to avoid flickering on fast connections)
-<a href=#14 id=14 data-nosnippet>14</a></span><span class="kw">const </span>CONNECTING_SPINNER_DELAY: Duration = Duration::from_millis(<span class="number">500</span>);
-<a href=#15 id=15 data-nosnippet>15</a>
-<a href=#16 id=16 data-nosnippet>16</a><span class="doccomment">/// The status bar at the bottom of the window, rendered as its own entity
-<a href=#17 id=17 data-nosnippet>17</a></span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>StatusBar {
-<a href=#18 id=18 data-nosnippet>18</a>    <span class="kw">pub</span>(<span class="kw">super</span>) fulgur: WeakEntity&lt;Fulgur&gt;,
-<a href=#19 id=19 data-nosnippet>19</a>}
-<a href=#20 id=20 data-nosnippet>20</a>
-<a href=#21 id=21 data-nosnippet>21</a><span class="doccomment">/// Typed events emitted by the status bar toward the owning `Fulgur` window
-<a href=#22 id=22 data-nosnippet>22</a></span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-<a href=#23 id=23 data-nosnippet>23</a></span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>StatusBarEvent {
-<a href=#24 id=24 data-nosnippet>24</a>    JumpToLine,
-<a href=#25 id=25 data-nosnippet>25</a>    SelectLanguage,
-<a href=#26 id=26 data-nosnippet>26</a>    ToggleMarkdownPreview,
-<a href=#27 id=27 data-nosnippet>27</a>    ToggleMarkdownToolbar,
-<a href=#28 id=28 data-nosnippet>28</a>    ToggleCsvView,
-<a href=#29 id=29 data-nosnippet>29</a>    ToggleLogView,
-<a href=#30 id=30 data-nosnippet>30</a>    ToggleLogFollow,
-<a href=#31 id=31 data-nosnippet>31</a>    LoadFullLog,
-<a href=#32 id=32 data-nosnippet>32</a>    OpenShareSheet,
-<a href=#33 id=33 data-nosnippet>33</a>    ToggleColorPicker,
-<a href=#34 id=34 data-nosnippet>34</a>}
-<a href=#35 id=35 data-nosnippet>35</a>
-<a href=#36 id=36 data-nosnippet>36</a><span class="kw">impl </span>EventEmitter&lt;StatusBarEvent&gt; <span class="kw">for </span>StatusBar {}
-<a href=#37 id=37 data-nosnippet>37</a>
-<a href=#38 id=38 data-nosnippet>38</a><span class="doccomment">/// Display label strings derived from the active tab
-<a href=#39 id=39 data-nosnippet>39</a></span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct </span>StatusBarLabels {
-<a href=#40 id=40 data-nosnippet>40</a>    <span class="kw">pub</span>(<span class="kw">super</span>) line_col: String,
-<a href=#41 id=41 data-nosnippet>41</a>    <span class="kw">pub</span>(<span class="kw">super</span>) language_label: String,
-<a href=#42 id=42 data-nosnippet>42</a>    <span class="kw">pub</span>(<span class="kw">super</span>) encoding_label: String,
-<a href=#43 id=43 data-nosnippet>43</a>}
-<a href=#44 id=44 data-nosnippet>44</a>
-<a href=#45 id=45 data-nosnippet>45</a><span class="kw">impl </span>StatusBar {
-<a href=#46 id=46 data-nosnippet>46</a>    <span class="doccomment">/// Create a new status bar view
-<a href=#47 id=47 data-nosnippet>47</a>    ///
-<a href=#48 id=48 data-nosnippet>48</a>    /// ### Arguments
-<a href=#49 id=49 data-nosnippet>49</a>    /// - `fulgur`: Weak handle to the owning window entity the bar reads its state from
-<a href=#50 id=50 data-nosnippet>50</a>    ///
-<a href=#51 id=51 data-nosnippet>51</a>    /// ### Returns
-<a href=#52 id=52 data-nosnippet>52</a>    /// - `StatusBar`: The new status bar view
-<a href=#53 id=53 data-nosnippet>53</a>    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(fulgur: WeakEntity&lt;Fulgur&gt;) -&gt; <span class="self">Self </span>{
-<a href=#54 id=54 data-nosnippet>54</a>        <span class="self">Self </span>{ fulgur }
-<a href=#55 id=55 data-nosnippet>55</a>    }
-<a href=#56 id=56 data-nosnippet>56</a>
-<a href=#57 id=57 data-nosnippet>57</a>    <span class="doccomment">/// Compute the status bar label strings from the active tab's cursor, language, and encoding
-<a href=#58 id=58 data-nosnippet>58</a>    ///
-<a href=#59 id=59 data-nosnippet>59</a>    /// ### Arguments
-<a href=#60 id=60 data-nosnippet>60</a>    /// - `fulgur`: The owning window to derive the labels from
-<a href=#61 id=61 data-nosnippet>61</a>    /// - `cx`: The application context
-<a href=#62 id=62 data-nosnippet>62</a>    ///
-<a href=#63 id=63 data-nosnippet>63</a>    /// ### Returns
-<a href=#64 id=64 data-nosnippet>64</a>    /// - `StatusBarLabels`: The line/column, language, and encoding labels
-<a href=#65 id=65 data-nosnippet>65</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>compute_labels(fulgur: <span class="kw-2">&amp;</span>Fulgur, cx: <span class="kw-2">&amp;</span>App) -&gt; StatusBarLabels {
-<a href=#66 id=66 data-nosnippet>66</a>        <span class="kw">let </span>active_tab_index = fulgur.active_tab_index(cx);
-<a href=#67 id=67 data-nosnippet>67</a>        <span class="kw">let </span>(cursor_pos, language, encoding) = <span class="kw">match </span>active_tab_index {
-<a href=#68 id=68 data-nosnippet>68</a>            <span class="prelude-val">Some</span>(index) =&gt; {
-<a href=#69 id=69 data-nosnippet>69</a>                <span class="kw">if let </span><span class="prelude-val">Some</span>(editor_tab) = fulgur.tabs[index].read(cx).as_editor() {
+<a href=#7 id=7 data-nosnippet>7</a>    tab::Tab,
+<a href=#8 id=8 data-nosnippet>8</a>    ui::components_utils::{EMPTY, UTF_8},
+<a href=#9 id=9 data-nosnippet>9</a>};
+<a href=#10 id=10 data-nosnippet>10</a><span class="kw">use </span>gpui::{App, Context, EventEmitter, WeakEntity, Window};
+<a href=#11 id=11 data-nosnippet>11</a><span class="kw">use </span>gpui_component::input::Position;
+<a href=#12 id=12 data-nosnippet>12</a><span class="kw">use </span>std::time::{Duration, Instant};
+<a href=#13 id=13 data-nosnippet>13</a>
+<a href=#14 id=14 data-nosnippet>14</a><span class="doccomment">/// Delay before showing the connecting spinner (to avoid flickering on fast connections)
+<a href=#15 id=15 data-nosnippet>15</a></span><span class="kw">const </span>CONNECTING_SPINNER_DELAY: Duration = Duration::from_millis(<span class="number">500</span>);
+<a href=#16 id=16 data-nosnippet>16</a>
+<a href=#17 id=17 data-nosnippet>17</a><span class="doccomment">/// The status bar at the bottom of the window, rendered as its own entity
+<a href=#18 id=18 data-nosnippet>18</a></span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>StatusBar {
+<a href=#19 id=19 data-nosnippet>19</a>    <span class="kw">pub</span>(<span class="kw">super</span>) fulgur: WeakEntity&lt;Fulgur&gt;,
+<a href=#20 id=20 data-nosnippet>20</a>}
+<a href=#21 id=21 data-nosnippet>21</a>
+<a href=#22 id=22 data-nosnippet>22</a><span class="doccomment">/// Typed events emitted by the status bar toward the owning `Fulgur` window
+<a href=#23 id=23 data-nosnippet>23</a></span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+<a href=#24 id=24 data-nosnippet>24</a></span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>StatusBarEvent {
+<a href=#25 id=25 data-nosnippet>25</a>    JumpToLine,
+<a href=#26 id=26 data-nosnippet>26</a>    SelectLanguage,
+<a href=#27 id=27 data-nosnippet>27</a>    ToggleMarkdownPreview,
+<a href=#28 id=28 data-nosnippet>28</a>    ToggleMarkdownToolbar,
+<a href=#29 id=29 data-nosnippet>29</a>    ToggleCsvView,
+<a href=#30 id=30 data-nosnippet>30</a>    ToggleLogView,
+<a href=#31 id=31 data-nosnippet>31</a>    ToggleLogFollow,
+<a href=#32 id=32 data-nosnippet>32</a>    LoadFullLog,
+<a href=#33 id=33 data-nosnippet>33</a>    OpenShareSheet,
+<a href=#34 id=34 data-nosnippet>34</a>    ToggleColorPicker,
+<a href=#35 id=35 data-nosnippet>35</a>}
+<a href=#36 id=36 data-nosnippet>36</a>
+<a href=#37 id=37 data-nosnippet>37</a><span class="kw">impl </span>EventEmitter&lt;StatusBarEvent&gt; <span class="kw">for </span>StatusBar {}
+<a href=#38 id=38 data-nosnippet>38</a>
+<a href=#39 id=39 data-nosnippet>39</a><span class="doccomment">/// Display label strings derived from the active tab
+<a href=#40 id=40 data-nosnippet>40</a></span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct </span>StatusBarLabels {
+<a href=#41 id=41 data-nosnippet>41</a>    <span class="kw">pub</span>(<span class="kw">super</span>) line_col: String,
+<a href=#42 id=42 data-nosnippet>42</a>    <span class="kw">pub</span>(<span class="kw">super</span>) language_label: String,
+<a href=#43 id=43 data-nosnippet>43</a>    <span class="kw">pub</span>(<span class="kw">super</span>) encoding_label: String,
+<a href=#44 id=44 data-nosnippet>44</a>}
+<a href=#45 id=45 data-nosnippet>45</a>
+<a href=#46 id=46 data-nosnippet>46</a><span class="kw">impl </span>StatusBar {
+<a href=#47 id=47 data-nosnippet>47</a>    <span class="doccomment">/// Create a new status bar view
+<a href=#48 id=48 data-nosnippet>48</a>    ///
+<a href=#49 id=49 data-nosnippet>49</a>    /// ### Arguments
+<a href=#50 id=50 data-nosnippet>50</a>    /// - `fulgur`: Weak handle to the owning window entity the bar reads its state from
+<a href=#51 id=51 data-nosnippet>51</a>    ///
+<a href=#52 id=52 data-nosnippet>52</a>    /// ### Returns
+<a href=#53 id=53 data-nosnippet>53</a>    /// - `StatusBar`: The new status bar view
+<a href=#54 id=54 data-nosnippet>54</a>    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(fulgur: WeakEntity&lt;Fulgur&gt;) -&gt; <span class="self">Self </span>{
+<a href=#55 id=55 data-nosnippet>55</a>        <span class="self">Self </span>{ fulgur }
+<a href=#56 id=56 data-nosnippet>56</a>    }
+<a href=#57 id=57 data-nosnippet>57</a>
+<a href=#58 id=58 data-nosnippet>58</a>    <span class="doccomment">/// Compute the status bar label strings from the active tab's cursor, language, and encoding
+<a href=#59 id=59 data-nosnippet>59</a>    ///
+<a href=#60 id=60 data-nosnippet>60</a>    /// ### Arguments
+<a href=#61 id=61 data-nosnippet>61</a>    /// - `active_tab`: The active tab to derive the labels from, if any
+<a href=#62 id=62 data-nosnippet>62</a>    /// - `cx`: The application context
+<a href=#63 id=63 data-nosnippet>63</a>    ///
+<a href=#64 id=64 data-nosnippet>64</a>    /// ### Returns
+<a href=#65 id=65 data-nosnippet>65</a>    /// - `StatusBarLabels`: The line/column, language, and encoding labels
+<a href=#66 id=66 data-nosnippet>66</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>compute_labels(active_tab: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Tab&gt;, cx: <span class="kw-2">&amp;</span>App) -&gt; StatusBarLabels {
+<a href=#67 id=67 data-nosnippet>67</a>        <span class="kw">let </span>(cursor_pos, language, encoding) = <span class="kw">match </span>active_tab {
+<a href=#68 id=68 data-nosnippet>68</a>            <span class="prelude-val">Some</span>(tab) =&gt; {
+<a href=#69 id=69 data-nosnippet>69</a>                <span class="kw">if let </span><span class="prelude-val">Some</span>(editor_tab) = tab.as_editor() {
 <a href=#70 id=70 data-nosnippet>70</a>                    <span class="kw">let </span>cursor = editor_tab.content.read(cx).cursor_position();
 <a href=#71 id=71 data-nosnippet>71</a>                    <span class="kw">let </span>enc = editor_tab.encoding.clone();
 <a href=#72 id=72 data-nosnippet>72</a>                    (cursor, <span class="prelude-val">Some</span>(editor_tab.language), enc)
@@ -85,7 +85,7 @@
 <a href=#85 id=85 data-nosnippet>85</a>            <span class="prelude-val">Some</span>(lang) =&gt; pretty_name(lang),
 <a href=#86 id=86 data-nosnippet>86</a>            <span class="prelude-val">None </span>=&gt; EMPTY.to_string(),
 <a href=#87 id=87 data-nosnippet>87</a>        };
-<a href=#88 id=88 data-nosnippet>88</a>        <span class="kw">let </span>encoding_label = <span class="kw">match </span>active_tab_index {
+<a href=#88 id=88 data-nosnippet>88</a>        <span class="kw">let </span>encoding_label = <span class="kw">match </span>active_tab {
 <a href=#89 id=89 data-nosnippet>89</a>            <span class="prelude-val">Some</span>(<span class="kw">_</span>) =&gt; encoding,
 <a href=#90 id=90 data-nosnippet>90</a>            <span class="prelude-val">None </span>=&gt; UTF_8.to_string(),
 <a href=#91 id=91 data-nosnippet>91</a>        };
@@ -373,7 +373,7 @@
 <a href=#373 id=373 data-nosnippet>373</a>                })
 <a href=#374 id=374 data-nosnippet>374</a>                .expect(<span class="string">"expected active editor tab"</span>);
 <a href=#375 id=375 data-nosnippet>375</a>
-<a href=#376 id=376 data-nosnippet>376</a>                <span class="kw">let </span>labels = StatusBar::compute_labels(this, cx);
+<a href=#376 id=376 data-nosnippet>376</a>                <span class="kw">let </span>labels = StatusBar::compute_labels(this.active_tab(cx), cx);
 <a href=#377 id=377 data-nosnippet>377</a>                <span class="macro">assert_eq!</span>(labels.language_label, <span class="string">"Rust"</span>);
 <a href=#378 id=378 data-nosnippet>378</a>                <span class="macro">assert_eq!</span>(labels.encoding_label, <span class="string">"ISO-8859-1"</span>);
 <a href=#379 id=379 data-nosnippet>379</a>                <span class="macro">assert_eq!</span>(labels.line_col, <span class="string">"Ln 2, Col 5"</span>);
@@ -389,7 +389,7 @@
 <a href=#389 id=389 data-nosnippet>389</a>            fulgur.update(cx, |this, cx| {
 <a href=#390 id=390 data-nosnippet>390</a>                this.active_tab_id = <span class="prelude-val">None</span>;
 <a href=#391 id=391 data-nosnippet>391</a>
-<a href=#392 id=392 data-nosnippet>392</a>                <span class="kw">let </span>labels = StatusBar::compute_labels(this, cx);
+<a href=#392 id=392 data-nosnippet>392</a>                <span class="kw">let </span>labels = StatusBar::compute_labels(this.active_tab(cx), cx);
 <a href=#393 id=393 data-nosnippet>393</a>                <span class="macro">assert!</span>(labels.language_label.is_empty());
 <a href=#394 id=394 data-nosnippet>394</a>                <span class="macro">assert_eq!</span>(labels.encoding_label, UTF_8);
 <a href=#395 id=395 data-nosnippet>395</a>                <span class="macro">assert_eq!</span>(labels.line_col, <span class="string">"Ln 1, Col 1"</span>);
