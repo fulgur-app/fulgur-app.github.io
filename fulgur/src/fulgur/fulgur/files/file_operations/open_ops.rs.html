@@ -322,9 +322,9 @@
 <a href=#322 id=322 data-nosnippet>322</a>                        update_link.as_deref(),
 <a href=#323 id=323 data-nosnippet>323</a>                    );
 <a href=#324 id=324 data-nosnippet>324</a>                    this.update_menus(menus, cx);
-<a href=#325 id=325 data-nosnippet>325</a>                    <span class="kw">let </span>title = path
-<a href=#326 id=326 data-nosnippet>326</a>                        .file_name()
-<a href=#327 id=327 data-nosnippet>327</a>                        .map(|file_name| file_name.to_string_lossy().to_string());
+<a href=#325 id=325 data-nosnippet>325</a>                    <span class="kw">let </span>title = path.file_name().map(|file_name| {
+<a href=#326 id=326 data-nosnippet>326</a>                        SharedString::from(file_name.to_string_lossy().to_string())
+<a href=#327 id=327 data-nosnippet>327</a>                    });
 <a href=#328 id=328 data-nosnippet>328</a>                    this.set_title(title, cx);
 <a href=#329 id=329 data-nosnippet>329</a>                    <span class="macro">log::debug!</span>(<span class="string">"File opened successfully in new tab: {}"</span>, path.display());
 <a href=#330 id=330 data-nosnippet>330</a>                    this.save_state_async(cx, window);

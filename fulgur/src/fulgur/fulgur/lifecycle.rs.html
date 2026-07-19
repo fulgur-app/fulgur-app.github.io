@@ -18,7 +18,7 @@
 <a href=#18 id=18 data-nosnippet>18</a>    },
 <a href=#19 id=19 data-nosnippet>19</a>    window_manager,
 <a href=#20 id=20 data-nosnippet>20</a>};
-<a href=#21 id=21 data-nosnippet>21</a><span class="kw">use </span>gpui::{App, AppContext, Context, Entity, Window, WindowId};
+<a href=#21 id=21 data-nosnippet>21</a><span class="kw">use </span>gpui::{App, AppContext, Context, Entity, SharedString, Window, WindowId};
 <a href=#22 id=22 data-nosnippet>22</a><span class="kw">use </span>gpui_component::input::InputState;
 <a href=#23 id=23 data-nosnippet>23</a><span class="kw">use </span>gpui_component::notification::NotificationType;
 <a href=#24 id=24 data-nosnippet>24</a><span class="kw">use </span>std::collections::{HashMap, HashSet};
@@ -213,19 +213,27 @@
 <a href=#213 id=213 data-nosnippet>213</a>    ///
 <a href=#214 id=214 data-nosnippet>214</a>    /// Looks up the current window name from the global `WindowManager` and passes it to
 <a href=#215 id=215 data-nosnippet>215</a>    /// `CustomTitleBar::set_title` so the suffix is automatically included when multiple
-<a href=#216 id=216 data-nosnippet>216</a>    /// windows are open.
-<a href=#217 id=217 data-nosnippet>217</a>    ///
-<a href=#218 id=218 data-nosnippet>218</a>    /// ### Arguments
-<a href=#219 id=219 data-nosnippet>219</a>    /// - `title`: The title to set (if None, the default title is used)
-<a href=#220 id=220 data-nosnippet>220</a>    /// - `cx`: The application context
-<a href=#221 id=221 data-nosnippet>221</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>set_title(<span class="kw-2">&amp;</span><span class="self">self</span>, title: <span class="prelude-ty">Option</span>&lt;String&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
-<a href=#222 id=222 data-nosnippet>222</a>        <span class="kw">let </span>window_name = cx
-<a href=#223 id=223 data-nosnippet>223</a>            .global::&lt;window_manager::WindowManager&gt;()
-<a href=#224 id=224 data-nosnippet>224</a>            .get_window_name(<span class="self">self</span>.window_id)
-<a href=#225 id=225 data-nosnippet>225</a>            .map(std::string::ToString::to_string);
-<a href=#226 id=226 data-nosnippet>226</a>        <span class="self">self</span>.title_bar.update(cx, |this, _cx| {
-<a href=#227 id=227 data-nosnippet>227</a>            this.set_title(title, window_name.as_deref());
-<a href=#228 id=228 data-nosnippet>228</a>        });
-<a href=#229 id=229 data-nosnippet>229</a>    }
-<a href=#230 id=230 data-nosnippet>230</a>}
+<a href=#216 id=216 data-nosnippet>216</a>    /// windows are open. Returns early without touching the title bar entity when the
+<a href=#217 id=217 data-nosnippet>217</a>    /// displayed title already matches, since this runs on every render.
+<a href=#218 id=218 data-nosnippet>218</a>    ///
+<a href=#219 id=219 data-nosnippet>219</a>    /// ### Arguments
+<a href=#220 id=220 data-nosnippet>220</a>    /// - `title`: The title to set (if None, the default title is used)
+<a href=#221 id=221 data-nosnippet>221</a>    /// - `cx`: The application context
+<a href=#222 id=222 data-nosnippet>222</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>set_title(<span class="kw-2">&amp;</span><span class="self">self</span>, title: <span class="prelude-ty">Option</span>&lt;SharedString&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
+<a href=#223 id=223 data-nosnippet>223</a>        <span class="kw">let </span>window_name = cx
+<a href=#224 id=224 data-nosnippet>224</a>            .global::&lt;window_manager::WindowManager&gt;()
+<a href=#225 id=225 data-nosnippet>225</a>            .get_window_name(<span class="self">self</span>.window_id);
+<a href=#226 id=226 data-nosnippet>226</a>        <span class="kw">if </span><span class="self">self
+<a href=#227 id=227 data-nosnippet>227</a>            </span>.title_bar
+<a href=#228 id=228 data-nosnippet>228</a>            .read(cx)
+<a href=#229 id=229 data-nosnippet>229</a>            .title_matches(title.as_deref(), window_name)
+<a href=#230 id=230 data-nosnippet>230</a>        {
+<a href=#231 id=231 data-nosnippet>231</a>            <span class="kw">return</span>;
+<a href=#232 id=232 data-nosnippet>232</a>        }
+<a href=#233 id=233 data-nosnippet>233</a>        <span class="kw">let </span>window_name = window_name.map(std::string::ToString::to_string);
+<a href=#234 id=234 data-nosnippet>234</a>        <span class="self">self</span>.title_bar.update(cx, |this, _cx| {
+<a href=#235 id=235 data-nosnippet>235</a>            this.set_title(title, window_name.as_deref());
+<a href=#236 id=236 data-nosnippet>236</a>        });
+<a href=#237 id=237 data-nosnippet>237</a>    }
+<a href=#238 id=238 data-nosnippet>238</a>}
 </code></pre></div></section></main></body></html>

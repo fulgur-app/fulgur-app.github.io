@@ -241,7 +241,7 @@
 <a href=#241 id=241 data-nosnippet>241</a>    /// ### Arguments
 <a href=#242 id=242 data-nosnippet>242</a>    /// - `cx`: The application context
 <a href=#243 id=243 data-nosnippet>243</a>    </span><span class="kw">fn </span>refresh_window_title(<span class="kw-2">&amp;</span><span class="self">self</span>, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
-<a href=#244 id=244 data-nosnippet>244</a>        <span class="kw">let </span>title = <span class="self">self</span>.active_tab(cx).map(|tab| tab.title().to_string());
+<a href=#244 id=244 data-nosnippet>244</a>        <span class="kw">let </span>title = <span class="self">self</span>.active_tab(cx).map(Tab::title);
 <a href=#245 id=245 data-nosnippet>245</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(title) = title {
 <a href=#246 id=246 data-nosnippet>246</a>            <span class="self">self</span>.set_title(<span class="prelude-val">Some</span>(title), cx);
 <a href=#247 id=247 data-nosnippet>247</a>        }
