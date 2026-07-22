@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["sanitize_filename"]};
+window.SIDEBAR_ITEMS = {"fn":["sanitize_filename","sanitize_markdown_preview"]};
