@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["rewrite_markdown_image_paths"]};
