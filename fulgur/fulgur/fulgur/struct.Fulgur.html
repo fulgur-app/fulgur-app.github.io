@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `Fulgur` struct in crate `fulgur`."><title>Fulgur in fulgur::fulgur - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-17e0aaed.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="fulgur" data-themes="" data-resource-suffix="" data-rustdoc-version="1.97.1 (8bab26f4f 2026-07-14)" data-channel="1.97.1" data-search-js="search-fd9372ac.js" data-stringdex-js="stringdex-2da4960a.js" data-settings-js="settings-170eb4bf.js" ><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-fcd733ba.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc struct"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Fulgur</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../fulgur/index.html">fulgur</a><span class="version">0.10.0</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Fulgur</a></h2><h3><a href="#fields">Fields</a></h3><ul class="block structfield"><li><a href="#structfield.file_watch_state" title="file_watch_state">file_watch_state</a></li><li><a href="#structfield.jump_to_line_input" title="jump_to_line_input">jump_to_line_input</a></li><li><a href="#structfield.pending_tab_transfer" title="pending_tab_transfer">pending_tab_transfer</a></li><li><a href="#structfield.settings" title="settings">settings</a></li><li><a href="#structfield.share_sheet_state" title="share_sheet_state">share_sheet_state</a></li><li><a href="#structfield.window_id" title="window_id">window_id</a></li></ul><h3><a href="#implementations">Associated Functions</a></h3><ul class="block method"><li><a href="#method.new" title="new">new</a></li><li><a href="#method.init" title="init">init</a></li><li><a href="#method.spawn_sse_event_consumer" title="spawn_sse_event_consumer">spawn_sse_event_consumer</a></li><li><a href="#method.handle_sse_event_for_profile" title="handle_sse_event_for_profile">handle_sse_event_for_profile</a></li><li><a href="#method.create_themes_page" title="create_themes_page">create_themes_page</a></li></ul><h3><a href="#implementations">Methods</a></h3><ul class="block method"><li><a href="#method.active_tab" title="active_tab">active_tab</a></li><li><a href="#method.active_tab_entity" title="active_tab_entity">active_tab_entity</a></li><li><a href="#method.active_tab_index" title="active_tab_index">active_tab_index</a></li><li><a href="#method.add_profile" title="add_profile">add_profile</a></li><li><a href="#method.add_theme" title="add_theme">add_theme</a></li><li><a href="#method.apply_editor_settings_to_tabs" title="apply_editor_settings_to_tabs">apply_editor_settings_to_tabs</a></li><li><a href="#method.build_window_state" title="build_window_state">build_window_state</a></li><li><a href="#method.build_window_state_without_bounds" title="build_window_state_without_bounds">build_window_state_without_bounds</a></li><li><a href="#method.check_for_updates" title="check_for_updates">check_for_updates</a></li><li><a href="#method.clear_recent_files" title="clear_recent_files">clear_recent_files</a></li><li><a href="#method.close_active_tab" title="close_active_tab">close_active_tab</a></li><li><a href="#method.close_all_tabs" title="close_all_tabs">close_all_tabs</a></li><li><a href="#method.close_other_tabs" title="close_other_tabs">close_other_tabs</a></li><li><a href="#method.close_tab" title="close_tab">close_tab</a></li><li><a href="#method.close_tab_manage_focus" title="close_tab_manage_focus">close_tab_manage_focus</a></li><li><a href="#method.close_tabs_to_left" title="close_tabs_to_left">close_tabs_to_left</a></li><li><a href="#method.close_tabs_to_right" title="close_tabs_to_right">close_tabs_to_right</a></li><li><a href="#method.delete_profile" title="delete_profile">delete_profile</a></li><li><a href="#method.do_open_file" title="do_open_file">do_open_file</a></li><li><a href="#method.do_open_recent_file" title="do_open_recent_file">do_open_recent_file</a></li><li><a href="#method.do_open_remote_file" title="do_open_remote_file">do_open_remote_file</a></li><li><a href="#method.drive_large_file_close_warnings" title="drive_large_file_close_warnings">drive_large_file_close_warnings</a></li><li><a href="#method.duplicate_tab" title="duplicate_tab">duplicate_tab</a></li><li><a href="#method.ensure_remote_tab_loaded" title="ensure_remote_tab_loaded">ensure_remote_tab_loaded</a></li><li><a href="#method.extract_tab_transfer_data" title="extract_tab_transfer_data">extract_tab_transfer_data</a></li><li><a href="#method.find_in_file" title="find_in_file">find_in_file</a></li><li><a href="#method.find_tab_by_path" title="find_tab_by_path">find_tab_by_path</a></li><li><a href="#method.find_tab_by_remote_spec" title="find_tab_by_remote_spec">find_tab_by_remote_spec</a></li><li><a href="#method.focus_active_tab" title="focus_active_tab">focus_active_tab</a></li><li><a href="#method.get_active_editor_tab" title="get_active_editor_tab">get_active_editor_tab</a></li><li><a href="#method.get_current_language" title="get_current_language">get_current_language</a></li><li><a href="#method.handle_dock_activate_tab" title="handle_dock_activate_tab">handle_dock_activate_tab</a></li><li><a href="#method.handle_dock_activate_tab_by_title" title="handle_dock_activate_tab_by_title">handle_dock_activate_tab_by_title</a></li><li><a href="#method.handle_external_paths_drop" title="handle_external_paths_drop">handle_external_paths_drop</a></li><li><a href="#method.handle_file_watch_event" title="handle_file_watch_event">handle_file_watch_event</a></li><li><a href="#method.handle_open_file_from_cli" title="handle_open_file_from_cli">handle_open_file_from_cli</a></li><li><a href="#method.handle_pending_jump_to_line" title="handle_pending_jump_to_line">handle_pending_jump_to_line</a></li><li><a href="#method.handle_pending_tab_removal" title="handle_pending_tab_removal">handle_pending_tab_removal</a></li><li><a href="#method.handle_pending_tab_transfer" title="handle_pending_tab_transfer">handle_pending_tab_transfer</a></li><li><a href="#method.handle_pending_transfer_scroll" title="handle_pending_transfer_scroll">handle_pending_transfer_scroll</a></li><li><a href="#method.handle_tab_drop" title="handle_tab_drop">handle_tab_drop</a></li><li><a href="#method.insert_preview_tabs_for_markdown" title="insert_preview_tabs_for_markdown">insert_preview_tabs_for_markdown</a></li><li><a href="#method.is_connected" title="is_connected">is_connected</a></li><li><a href="#method.is_markdown" title="is_markdown">is_markdown</a></li><li><a href="#method.large_modified_local_tabs" title="large_modified_local_tabs">large_modified_local_tabs</a></li><li><a href="#method.load_full_log" title="load_full_log">load_full_log</a></li><li><a href="#method.load_state" title="load_state">load_state</a></li><li><a href="#method.maybe_open_markdown_preview_for_editor" title="maybe_open_markdown_preview_for_editor">maybe_open_markdown_preview_for_editor</a></li><li><a href="#method.new_tab" title="new_tab">new_tab</a></li><li><a href="#method.on_close_all_other_tabs_action" title="on_close_all_other_tabs_action">on_close_all_other_tabs_action</a></li><li><a href="#method.on_close_all_tabs_action" title="on_close_all_tabs_action">on_close_all_tabs_action</a></li><li><a href="#method.on_close_tab_action" title="on_close_tab_action">on_close_tab_action</a></li><li><a href="#method.on_close_tabs_to_left" title="on_close_tabs_to_left">on_close_tabs_to_left</a></li><li><a href="#method.on_close_tabs_to_right" title="on_close_tabs_to_right">on_close_tabs_to_right</a></li><li><a href="#method.on_copy_path" title="on_copy_path">on_copy_path</a></li><li><a href="#method.on_duplicate_tab" title="on_duplicate_tab">on_duplicate_tab</a></li><li><a href="#method.on_next_tab" title="on_next_tab">on_next_tab</a></li><li><a href="#method.on_previous_tab" title="on_previous_tab">on_previous_tab</a></li><li><a href="#method.on_show_in_file_manager" title="on_show_in_file_manager">on_show_in_file_manager</a></li><li><a href="#method.on_window_close_requested" title="on_window_close_requested">on_window_close_requested</a></li><li><a href="#method.open_edit_profile_sheet" title="open_edit_profile_sheet">open_edit_profile_sheet</a></li><li><a href="#method.open_file" title="open_file">open_file</a></li><li><a href="#method.open_markdown_preview_tab" title="open_markdown_preview_tab">open_markdown_preview_tab</a></li><li><a href="#method.open_new_window" title="open_new_window">open_new_window</a></li><li><a href="#method.open_new_window_with_tab" title="open_new_window_with_tab">open_new_window_with_tab</a></li><li><a href="#method.open_settings" title="open_settings">open_settings</a></li><li><a href="#method.open_share_file_sheet" title="open_share_file_sheet">open_share_file_sheet</a></li><li><a href="#method.place_editor_tab_reusing_scratch" title="place_editor_tab_reusing_scratch">place_editor_tab_reusing_scratch</a></li><li><a href="#method.print_file" title="print_file">print_file</a></li><li><a href="#method.process_pending_files_from_macos" title="process_pending_files_from_macos">process_pending_files_from_macos</a></li><li><a href="#method.process_pending_share_sheet" title="process_pending_share_sheet">process_pending_share_sheet</a></li><li><a href="#method.process_shared_files_from_sync" title="process_shared_files_from_sync">process_shared_files_from_sync</a></li><li><a href="#method.process_window_state_updates" title="process_window_state_updates">process_window_state_updates</a></li><li><a href="#method.quit" title="quit">quit</a></li><li><a href="#method.reload_tab_from_disk" title="reload_tab_from_disk">reload_tab_from_disk</a></li><li><a href="#method.remove_tab_by_id" title="remove_tab_by_id">remove_tab_by_id</a></li><li><a href="#method.render_select_language_sheet" title="render_select_language_sheet">render_select_language_sheet</a></li><li><a href="#method.render_settings" title="render_settings">render_settings</a></li><li><a href="#method.reorder_tab" title="reorder_tab">reorder_tab</a></li><li><a href="#method.restart_sse_connection_for" title="restart_sse_connection_for">restart_sse_connection_for</a></li><li><a href="#method.restart_sse_connection_for_with_progress" title="restart_sse_connection_for_with_progress">restart_sse_connection_for_with_progress</a></li><li><a href="#method.save_file" title="save_file">save_file</a></li><li><a href="#method.save_file_as" title="save_file_as">save_file_as</a></li><li><a href="#method.save_state" title="save_state">save_state</a></li><li><a href="#method.save_state_async" title="save_state_async">save_state_async</a></li><li><a href="#method.select_theme_sheet" title="select_theme_sheet">select_theme_sheet</a></li><li><a href="#method.set_active_tab" title="set_active_tab">set_active_tab</a></li><li><a href="#method.show_file_conflict_dialog" title="show_file_conflict_dialog">show_file_conflict_dialog</a></li><li><a href="#method.show_jump_to_line_dialog" title="show_jump_to_line_dialog">show_jump_to_line_dialog</a></li><li><a href="#method.show_lossy_save_as_dialog" title="show_lossy_save_as_dialog">show_lossy_save_as_dialog</a></li><li><a href="#method.show_lossy_save_dialog" title="show_lossy_save_dialog">show_lossy_save_dialog</a></li><li><a href="#method.show_open_from_path_dialog" title="show_open_from_path_dialog">show_open_from_path_dialog</a></li><li><a href="#method.show_open_remote_dialog" title="show_open_remote_dialog">show_open_remote_dialog</a></li><li><a href="#method.show_remote_path_browser_dialog" title="show_remote_path_browser_dialog">show_remote_path_browser_dialog</a></li><li><a href="#method.show_reopen_modified_file_dialog" title="show_reopen_modified_file_dialog">show_reopen_modified_file_dialog</a></li><li><a href="#method.show_ssh_host_fingerprint_dialog" title="show_ssh_host_fingerprint_dialog">show_ssh_host_fingerprint_dialog</a></li><li><a href="#method.show_ssh_password_dialog" title="show_ssh_password_dialog">show_ssh_password_dialog</a></li><li><a href="#method.show_unsaved_changes_dialog" title="show_unsaved_changes_dialog">show_unsaved_changes_dialog</a></li><li><a href="#method.start_file_watcher" title="start_file_watcher">start_file_watcher</a></li><li><a href="#method.stop_file_watcher" title="stop_file_watcher">stop_file_watcher</a></li><li><a href="#method.switch_to_theme" title="switch_to_theme">switch_to_theme</a></li><li><a href="#method.tab_entity_of" title="tab_entity_of">tab_entity_of</a></li><li><a href="#method.tab_index_of" title="tab_index_of">tab_index_of</a></li><li><a href="#method.toggle_color_picker" title="toggle_color_picker">toggle_color_picker</a></li><li><a href="#method.toggle_csv_view_mode" title="toggle_csv_view_mode">toggle_csv_view_mode</a></li><li><a href="#method.toggle_log_follow" title="toggle_log_follow">toggle_log_follow</a></li><li><a href="#method.toggle_log_view" title="toggle_log_view">toggle_log_view</a></li><li><a href="#method.unwatch_file" title="unwatch_file">unwatch_file</a></li><li><a href="#method.update_active_editor_tab" title="update_active_editor_tab">update_active_editor_tab</a></li><li><a href="#method.update_and_propagate_settings" title="update_and_propagate_settings">update_and_propagate_settings</a></li><li><a href="#method.update_editor_tab" title="update_editor_tab">update_editor_tab</a></li><li><a href="#method.update_menus" title="update_menus">update_menus</a></li><li><a href="#method.update_profile" title="update_profile">update_profile</a></li><li><a href="#method.watch_file" title="watch_file">watch_file</a></li></ul><h3><a href="#trait-implementations">Trait Implementations</a></h3><ul class="block trait-implementation"><li><a href="#impl-Focusable-for-Fulgur" title="Focusable">Focusable</a></li><li><a href="#impl-Render-for-Fulgur" title="Render">Render</a></li></ul><h3><a href="#synthetic-implementations">Auto Trait Implementations</a></h3><ul class="block synthetic-implementation"><li><a href="#impl-RefUnwindSafe-for-Fulgur" title="!RefUnwindSafe">!RefUnwindSafe</a></li><li><a href="#impl-Send-for-Fulgur" title="!Send">!Send</a></li><li><a href="#impl-Sync-for-Fulgur" title="!Sync">!Sync</a></li><li><a href="#impl-UnwindSafe-for-Fulgur" title="!UnwindSafe">!UnwindSafe</a></li><li><a href="#impl-Freeze-for-Fulgur" title="Freeze">Freeze</a></li><li><a href="#impl-Unpin-for-Fulgur" title="Unpin">Unpin</a></li><li><a href="#impl-UnsafeUnpin-for-Fulgur" title="UnsafeUnpin">UnsafeUnpin</a></li></ul><h3><a href="#blanket-implementations">Blanket Implementations</a></h3><ul class="block blanket-implementation"><li><a href="#impl-Any-for-T" title="Any">Any</a></li><li><a href="#impl-Borrow%3CT%3E-for-T" title="Borrow&#60;T&#62;">Borrow&#60;T&#62;</a></li><li><a href="#impl-BorrowMut%3CT%3E-for-T" title="BorrowMut&#60;T&#62;">BorrowMut&#60;T&#62;</a></li><li><a href="#impl-From%3CT%3E-for-T" title="From&#60;T&#62;">From&#60;T&#62;</a></li><li><a href="#impl-Instrument-for-T" title="Instrument">Instrument</a></li><li><a href="#impl-Into%3CU%3E-for-T" title="Into&#60;U&#62;">Into&#60;U&#62;</a></li><li><a href="#impl-IntoEither-for-T" title="IntoEither">IntoEither</a></li><li><a href="#impl-Pointable-for-T" title="Pointable">Pointable</a></li><li><a href="#impl-Same-for-T" title="Same">Same</a></li><li><a href="#impl-TryFrom%3CU%3E-for-T" title="TryFrom&#60;U&#62;">TryFrom&#60;U&#62;</a></li><li><a href="#impl-TryInto%3CU%3E-for-T" title="TryInto&#60;U&#62;">TryInto&#60;U&#62;</a></li><li><a href="#impl-VZip%3CV%3E-for-T" title="VZip&#60;V&#62;">VZip&#60;V&#62;</a></li><li><a href="#impl-WithSubscriber-for-T" title="WithSubscriber">WithSubscriber</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">In fulgur::<wbr>fulgur</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">fulgur</a>::<wbr><a href="index.html">fulgur</a></div><h1>Struct <span class="struct">Fulgur</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/fulgur/fulgur/mod.rs.html#38-84">Source</a> </span></div><pre class="rust item-decl"><code>pub struct Fulgur {
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `Fulgur` struct in crate `fulgur`."><title>Fulgur in fulgur::fulgur - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-17e0aaed.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="fulgur" data-themes="" data-resource-suffix="" data-rustdoc-version="1.97.1 (8bab26f4f 2026-07-14)" data-channel="1.97.1" data-search-js="search-fd9372ac.js" data-stringdex-js="stringdex-2da4960a.js" data-settings-js="settings-170eb4bf.js" ><script src="../../static.files/storage-41dd4d93.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../static.files/main-fcd733ba.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc struct"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Fulgur</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../fulgur/index.html">fulgur</a><span class="version">0.10.0</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">Fulgur</a></h2><h3><a href="#fields">Fields</a></h3><ul class="block structfield"><li><a href="#structfield.file_watch_state" title="file_watch_state">file_watch_state</a></li><li><a href="#structfield.jump_to_line_input" title="jump_to_line_input">jump_to_line_input</a></li><li><a href="#structfield.pending_tab_transfer" title="pending_tab_transfer">pending_tab_transfer</a></li><li><a href="#structfield.settings" title="settings">settings</a></li><li><a href="#structfield.share_sheet_state" title="share_sheet_state">share_sheet_state</a></li><li><a href="#structfield.window_id" title="window_id">window_id</a></li></ul><h3><a href="#implementations">Associated Functions</a></h3><ul class="block method"><li><a href="#method.new" title="new">new</a></li><li><a href="#method.init" title="init">init</a></li><li><a href="#method.spawn_sse_event_consumer" title="spawn_sse_event_consumer">spawn_sse_event_consumer</a></li><li><a href="#method.handle_sse_event_for_profile" title="handle_sse_event_for_profile">handle_sse_event_for_profile</a></li><li><a href="#method.create_themes_page" title="create_themes_page">create_themes_page</a></li></ul><h3><a href="#implementations">Methods</a></h3><ul class="block method"><li><a href="#method.active_tab" title="active_tab">active_tab</a></li><li><a href="#method.active_tab_entity" title="active_tab_entity">active_tab_entity</a></li><li><a href="#method.active_tab_index" title="active_tab_index">active_tab_index</a></li><li><a href="#method.add_profile" title="add_profile">add_profile</a></li><li><a href="#method.add_theme" title="add_theme">add_theme</a></li><li><a href="#method.apply_editor_settings_to_tabs" title="apply_editor_settings_to_tabs">apply_editor_settings_to_tabs</a></li><li><a href="#method.build_window_state" title="build_window_state">build_window_state</a></li><li><a href="#method.build_window_state_without_bounds" title="build_window_state_without_bounds">build_window_state_without_bounds</a></li><li><a href="#method.check_for_updates" title="check_for_updates">check_for_updates</a></li><li><a href="#method.clear_recent_files" title="clear_recent_files">clear_recent_files</a></li><li><a href="#method.close_active_tab" title="close_active_tab">close_active_tab</a></li><li><a href="#method.close_all_tabs" title="close_all_tabs">close_all_tabs</a></li><li><a href="#method.close_other_tabs" title="close_other_tabs">close_other_tabs</a></li><li><a href="#method.close_tab" title="close_tab">close_tab</a></li><li><a href="#method.close_tab_manage_focus" title="close_tab_manage_focus">close_tab_manage_focus</a></li><li><a href="#method.close_tabs_to_left" title="close_tabs_to_left">close_tabs_to_left</a></li><li><a href="#method.close_tabs_to_right" title="close_tabs_to_right">close_tabs_to_right</a></li><li><a href="#method.delete_profile" title="delete_profile">delete_profile</a></li><li><a href="#method.do_open_file" title="do_open_file">do_open_file</a></li><li><a href="#method.do_open_recent_file" title="do_open_recent_file">do_open_recent_file</a></li><li><a href="#method.do_open_remote_file" title="do_open_remote_file">do_open_remote_file</a></li><li><a href="#method.drive_large_file_close_warnings" title="drive_large_file_close_warnings">drive_large_file_close_warnings</a></li><li><a href="#method.duplicate_tab" title="duplicate_tab">duplicate_tab</a></li><li><a href="#method.ensure_remote_tab_loaded" title="ensure_remote_tab_loaded">ensure_remote_tab_loaded</a></li><li><a href="#method.extract_tab_transfer_data" title="extract_tab_transfer_data">extract_tab_transfer_data</a></li><li><a href="#method.find_in_file" title="find_in_file">find_in_file</a></li><li><a href="#method.find_tab_by_path" title="find_tab_by_path">find_tab_by_path</a></li><li><a href="#method.find_tab_by_remote_spec" title="find_tab_by_remote_spec">find_tab_by_remote_spec</a></li><li><a href="#method.focus_active_tab" title="focus_active_tab">focus_active_tab</a></li><li><a href="#method.get_active_editor_tab" title="get_active_editor_tab">get_active_editor_tab</a></li><li><a href="#method.get_current_language" title="get_current_language">get_current_language</a></li><li><a href="#method.handle_dock_activate_tab" title="handle_dock_activate_tab">handle_dock_activate_tab</a></li><li><a href="#method.handle_dock_activate_tab_by_title" title="handle_dock_activate_tab_by_title">handle_dock_activate_tab_by_title</a></li><li><a href="#method.handle_external_paths_drop" title="handle_external_paths_drop">handle_external_paths_drop</a></li><li><a href="#method.handle_file_watch_event" title="handle_file_watch_event">handle_file_watch_event</a></li><li><a href="#method.handle_open_file_from_cli" title="handle_open_file_from_cli">handle_open_file_from_cli</a></li><li><a href="#method.handle_pending_jump_to_line" title="handle_pending_jump_to_line">handle_pending_jump_to_line</a></li><li><a href="#method.handle_pending_tab_removal" title="handle_pending_tab_removal">handle_pending_tab_removal</a></li><li><a href="#method.handle_pending_tab_transfer" title="handle_pending_tab_transfer">handle_pending_tab_transfer</a></li><li><a href="#method.handle_pending_transfer_scroll" title="handle_pending_transfer_scroll">handle_pending_transfer_scroll</a></li><li><a href="#method.handle_tab_drop" title="handle_tab_drop">handle_tab_drop</a></li><li><a href="#method.insert_preview_tabs_for_markdown" title="insert_preview_tabs_for_markdown">insert_preview_tabs_for_markdown</a></li><li><a href="#method.is_connected" title="is_connected">is_connected</a></li><li><a href="#method.is_markdown" title="is_markdown">is_markdown</a></li><li><a href="#method.large_modified_local_tabs" title="large_modified_local_tabs">large_modified_local_tabs</a></li><li><a href="#method.load_full_log" title="load_full_log">load_full_log</a></li><li><a href="#method.load_state" title="load_state">load_state</a></li><li><a href="#method.maybe_open_markdown_preview_for_editor" title="maybe_open_markdown_preview_for_editor">maybe_open_markdown_preview_for_editor</a></li><li><a href="#method.new_tab" title="new_tab">new_tab</a></li><li><a href="#method.on_close_all_other_tabs_action" title="on_close_all_other_tabs_action">on_close_all_other_tabs_action</a></li><li><a href="#method.on_close_all_tabs_action" title="on_close_all_tabs_action">on_close_all_tabs_action</a></li><li><a href="#method.on_close_tab_action" title="on_close_tab_action">on_close_tab_action</a></li><li><a href="#method.on_close_tabs_to_left" title="on_close_tabs_to_left">on_close_tabs_to_left</a></li><li><a href="#method.on_close_tabs_to_right" title="on_close_tabs_to_right">on_close_tabs_to_right</a></li><li><a href="#method.on_copy_path" title="on_copy_path">on_copy_path</a></li><li><a href="#method.on_duplicate_tab" title="on_duplicate_tab">on_duplicate_tab</a></li><li><a href="#method.on_next_tab" title="on_next_tab">on_next_tab</a></li><li><a href="#method.on_previous_tab" title="on_previous_tab">on_previous_tab</a></li><li><a href="#method.on_set_tab_color" title="on_set_tab_color">on_set_tab_color</a></li><li><a href="#method.on_show_in_file_manager" title="on_show_in_file_manager">on_show_in_file_manager</a></li><li><a href="#method.on_window_close_requested" title="on_window_close_requested">on_window_close_requested</a></li><li><a href="#method.open_edit_profile_sheet" title="open_edit_profile_sheet">open_edit_profile_sheet</a></li><li><a href="#method.open_file" title="open_file">open_file</a></li><li><a href="#method.open_markdown_preview_tab" title="open_markdown_preview_tab">open_markdown_preview_tab</a></li><li><a href="#method.open_new_window" title="open_new_window">open_new_window</a></li><li><a href="#method.open_new_window_with_tab" title="open_new_window_with_tab">open_new_window_with_tab</a></li><li><a href="#method.open_settings" title="open_settings">open_settings</a></li><li><a href="#method.open_share_file_sheet" title="open_share_file_sheet">open_share_file_sheet</a></li><li><a href="#method.place_editor_tab_reusing_scratch" title="place_editor_tab_reusing_scratch">place_editor_tab_reusing_scratch</a></li><li><a href="#method.print_file" title="print_file">print_file</a></li><li><a href="#method.process_pending_files_from_macos" title="process_pending_files_from_macos">process_pending_files_from_macos</a></li><li><a href="#method.process_pending_share_sheet" title="process_pending_share_sheet">process_pending_share_sheet</a></li><li><a href="#method.process_shared_files_from_sync" title="process_shared_files_from_sync">process_shared_files_from_sync</a></li><li><a href="#method.process_window_state_updates" title="process_window_state_updates">process_window_state_updates</a></li><li><a href="#method.quit" title="quit">quit</a></li><li><a href="#method.reload_tab_from_disk" title="reload_tab_from_disk">reload_tab_from_disk</a></li><li><a href="#method.remove_tab_by_id" title="remove_tab_by_id">remove_tab_by_id</a></li><li><a href="#method.render_select_language_sheet" title="render_select_language_sheet">render_select_language_sheet</a></li><li><a href="#method.render_settings" title="render_settings">render_settings</a></li><li><a href="#method.reorder_tab" title="reorder_tab">reorder_tab</a></li><li><a href="#method.restart_sse_connection_for" title="restart_sse_connection_for">restart_sse_connection_for</a></li><li><a href="#method.restart_sse_connection_for_with_progress" title="restart_sse_connection_for_with_progress">restart_sse_connection_for_with_progress</a></li><li><a href="#method.save_file" title="save_file">save_file</a></li><li><a href="#method.save_file_as" title="save_file_as">save_file_as</a></li><li><a href="#method.save_state" title="save_state">save_state</a></li><li><a href="#method.save_state_async" title="save_state_async">save_state_async</a></li><li><a href="#method.select_theme_sheet" title="select_theme_sheet">select_theme_sheet</a></li><li><a href="#method.set_active_tab" title="set_active_tab">set_active_tab</a></li><li><a href="#method.show_file_conflict_dialog" title="show_file_conflict_dialog">show_file_conflict_dialog</a></li><li><a href="#method.show_jump_to_line_dialog" title="show_jump_to_line_dialog">show_jump_to_line_dialog</a></li><li><a href="#method.show_lossy_save_as_dialog" title="show_lossy_save_as_dialog">show_lossy_save_as_dialog</a></li><li><a href="#method.show_lossy_save_dialog" title="show_lossy_save_dialog">show_lossy_save_dialog</a></li><li><a href="#method.show_open_from_path_dialog" title="show_open_from_path_dialog">show_open_from_path_dialog</a></li><li><a href="#method.show_open_remote_dialog" title="show_open_remote_dialog">show_open_remote_dialog</a></li><li><a href="#method.show_remote_path_browser_dialog" title="show_remote_path_browser_dialog">show_remote_path_browser_dialog</a></li><li><a href="#method.show_reopen_modified_file_dialog" title="show_reopen_modified_file_dialog">show_reopen_modified_file_dialog</a></li><li><a href="#method.show_ssh_host_fingerprint_dialog" title="show_ssh_host_fingerprint_dialog">show_ssh_host_fingerprint_dialog</a></li><li><a href="#method.show_ssh_password_dialog" title="show_ssh_password_dialog">show_ssh_password_dialog</a></li><li><a href="#method.show_unsaved_changes_dialog" title="show_unsaved_changes_dialog">show_unsaved_changes_dialog</a></li><li><a href="#method.start_file_watcher" title="start_file_watcher">start_file_watcher</a></li><li><a href="#method.stop_file_watcher" title="stop_file_watcher">stop_file_watcher</a></li><li><a href="#method.switch_to_theme" title="switch_to_theme">switch_to_theme</a></li><li><a href="#method.tab_entity_of" title="tab_entity_of">tab_entity_of</a></li><li><a href="#method.tab_index_of" title="tab_index_of">tab_index_of</a></li><li><a href="#method.toggle_color_picker" title="toggle_color_picker">toggle_color_picker</a></li><li><a href="#method.toggle_csv_view_mode" title="toggle_csv_view_mode">toggle_csv_view_mode</a></li><li><a href="#method.toggle_log_follow" title="toggle_log_follow">toggle_log_follow</a></li><li><a href="#method.toggle_log_view" title="toggle_log_view">toggle_log_view</a></li><li><a href="#method.unwatch_file" title="unwatch_file">unwatch_file</a></li><li><a href="#method.update_active_editor_tab" title="update_active_editor_tab">update_active_editor_tab</a></li><li><a href="#method.update_and_propagate_settings" title="update_and_propagate_settings">update_and_propagate_settings</a></li><li><a href="#method.update_editor_tab" title="update_editor_tab">update_editor_tab</a></li><li><a href="#method.update_menus" title="update_menus">update_menus</a></li><li><a href="#method.update_profile" title="update_profile">update_profile</a></li><li><a href="#method.watch_file" title="watch_file">watch_file</a></li></ul><h3><a href="#trait-implementations">Trait Implementations</a></h3><ul class="block trait-implementation"><li><a href="#impl-Focusable-for-Fulgur" title="Focusable">Focusable</a></li><li><a href="#impl-Render-for-Fulgur" title="Render">Render</a></li></ul><h3><a href="#synthetic-implementations">Auto Trait Implementations</a></h3><ul class="block synthetic-implementation"><li><a href="#impl-RefUnwindSafe-for-Fulgur" title="!RefUnwindSafe">!RefUnwindSafe</a></li><li><a href="#impl-Send-for-Fulgur" title="!Send">!Send</a></li><li><a href="#impl-Sync-for-Fulgur" title="!Sync">!Sync</a></li><li><a href="#impl-UnwindSafe-for-Fulgur" title="!UnwindSafe">!UnwindSafe</a></li><li><a href="#impl-Freeze-for-Fulgur" title="Freeze">Freeze</a></li><li><a href="#impl-Unpin-for-Fulgur" title="Unpin">Unpin</a></li><li><a href="#impl-UnsafeUnpin-for-Fulgur" title="UnsafeUnpin">UnsafeUnpin</a></li></ul><h3><a href="#blanket-implementations">Blanket Implementations</a></h3><ul class="block blanket-implementation"><li><a href="#impl-Any-for-T" title="Any">Any</a></li><li><a href="#impl-Borrow%3CT%3E-for-T" title="Borrow&#60;T&#62;">Borrow&#60;T&#62;</a></li><li><a href="#impl-BorrowMut%3CT%3E-for-T" title="BorrowMut&#60;T&#62;">BorrowMut&#60;T&#62;</a></li><li><a href="#impl-From%3CT%3E-for-T" title="From&#60;T&#62;">From&#60;T&#62;</a></li><li><a href="#impl-Instrument-for-T" title="Instrument">Instrument</a></li><li><a href="#impl-Into%3CU%3E-for-T" title="Into&#60;U&#62;">Into&#60;U&#62;</a></li><li><a href="#impl-IntoEither-for-T" title="IntoEither">IntoEither</a></li><li><a href="#impl-Pointable-for-T" title="Pointable">Pointable</a></li><li><a href="#impl-Same-for-T" title="Same">Same</a></li><li><a href="#impl-TryFrom%3CU%3E-for-T" title="TryFrom&#60;U&#62;">TryFrom&#60;U&#62;</a></li><li><a href="#impl-TryInto%3CU%3E-for-T" title="TryInto&#60;U&#62;">TryInto&#60;U&#62;</a></li><li><a href="#impl-VZip%3CV%3E-for-T" title="VZip&#60;V&#62;">VZip&#60;V&#62;</a></li><li><a href="#impl-WithSubscriber-for-T" title="WithSubscriber">WithSubscriber</a></li></ul></section><div id="rustdoc-modnav"><h2><a href="index.html">In fulgur::<wbr>fulgur</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="../index.html">fulgur</a>::<wbr><a href="index.html">fulgur</a></div><h1>Struct <span class="struct">Fulgur</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../../src/fulgur/fulgur/mod.rs.html#38-84">Source</a> </span></div><pre class="rust item-decl"><code>pub struct Fulgur {
     pub window_id: WindowId,
     pub jump_to_line_input: Entity&lt;InputState&gt;,
     pub settings: <a class="struct" href="settings/struct.Settings.html" title="struct fulgur::fulgur::settings::Settings">Settings</a>,
@@ -289,7 +289,7 @@ state update and re-render still happen even when saving fails.</p>
 <li><code>window</code>: The window containing the tabs</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-7" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/state/operations/load.rs.html#18-268">Source</a><a href="#impl-Fulgur-7" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.load_state" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/state/operations/load.rs.html#25-96">Source</a><h4 class="code-header">pub fn <a href="#method.load_state" class="fn">load_state</a>(
+</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-7" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/state/operations/load.rs.html#19-273">Source</a><a href="#impl-Fulgur-7" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.load_state" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/state/operations/load.rs.html#26-97">Source</a><h4 class="code-header">pub fn <a href="#method.load_state" class="fn">load_state</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
@@ -301,7 +301,7 @@ state update and re-render still happen even when saving fails.</p>
 <li><code>cx</code>: The application context</li>
 <li><code>window_index</code>: Index of the window state to restore (0 = first window, etc.)</li>
 </ul>
-</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-8" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/state/operations/save.rs.html#8-232">Source</a><a href="#impl-Fulgur-8" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.save_state" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/state/operations/save.rs.html#22-34">Source</a><h4 class="code-header">pub fn <a href="#method.save_state" class="fn">save_state</a>(&amp;self, cx: &amp;App, window: &amp;Window) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.104/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.97.1/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>Save the current app state to disk (saves all windows in multi-window mode)</p>
+</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-8" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/state/operations/save.rs.html#8-236">Source</a><a href="#impl-Fulgur-8" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.save_state" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/state/operations/save.rs.html#22-34">Source</a><h4 class="code-header">pub fn <a href="#method.save_state" class="fn">save_state</a>(&amp;self, cx: &amp;App, window: &amp;Window) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.104/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.97.1/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>Save the current app state to disk (saves all windows in multi-window mode)</p>
 <h6 id="arguments-26"><a class="doc-anchor" href="#arguments-26">§</a>Arguments</h6>
 <ul>
 <li><code>cx</code>: The application context</li>
@@ -323,7 +323,7 @@ resolution, serialization, or file write failure).</li>
 <li><code>cx</code>: The application context</li>
 <li><code>window</code>: The window to save (needed for window bounds)</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.build_window_state_without_bounds" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/state/operations/save.rs.html#203-210">Source</a><h4 class="code-header">pub fn <a href="#method.build_window_state_without_bounds" class="fn">build_window_state_without_bounds</a>(&amp;self, cx: &amp;App) -&gt; <a class="struct" href="state/struct.WindowState.html" title="struct fulgur::fulgur::state::WindowState">WindowState</a></h4></section></summary><div class="docblock"><p>Build <code>WindowState</code> for this window without window bounds (for cross-window saves)</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.build_window_state_without_bounds" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/state/operations/save.rs.html#207-214">Source</a><h4 class="code-header">pub fn <a href="#method.build_window_state_without_bounds" class="fn">build_window_state_without_bounds</a>(&amp;self, cx: &amp;App) -&gt; <a class="struct" href="state/struct.WindowState.html" title="struct fulgur::fulgur::state::WindowState">WindowState</a></h4></section></summary><div class="docblock"><p>Build <code>WindowState</code> for this window without window bounds (for cross-window saves)</p>
 <h6 id="arguments-28"><a class="doc-anchor" href="#arguments-28">§</a>Arguments</h6>
 <ul>
 <li><code>cx</code>: The application context</li>
@@ -332,7 +332,7 @@ resolution, serialization, or file write failure).</li>
 <ul>
 <li><code>WindowState</code>: The <code>WindowState</code> for this window (with cached bounds)</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.build_window_state" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/state/operations/save.rs.html#220-231">Source</a><h4 class="code-header">pub fn <a href="#method.build_window_state" class="fn">build_window_state</a>(&amp;self, cx: &amp;App, window: &amp;Window) -&gt; <a class="struct" href="state/struct.WindowState.html" title="struct fulgur::fulgur::state::WindowState">WindowState</a></h4></section></summary><div class="docblock"><p>Build <code>WindowState</code> for this window (with window bounds)</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.build_window_state" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/state/operations/save.rs.html#224-235">Source</a><h4 class="code-header">pub fn <a href="#method.build_window_state" class="fn">build_window_state</a>(&amp;self, cx: &amp;App, window: &amp;Window) -&gt; <a class="struct" href="state/struct.WindowState.html" title="struct fulgur::fulgur::state::WindowState">WindowState</a></h4></section></summary><div class="docblock"><p>Build <code>WindowState</code> for this window (with window bounds)</p>
 <h6 id="arguments-29"><a class="doc-anchor" href="#arguments-29">§</a>Arguments</h6>
 <ul>
 <li><code>cx</code>: The application context</li>
@@ -857,7 +857,7 @@ password field. Calls <code>on_confirm</code> with the resolved username and pas
 <li><code>Some(R)</code>: The closure result when the active tab is an editor tab</li>
 <li><code>None</code>: If there is no active editor tab</li>
 </ul>
-</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-33" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_bar/actions.rs.html#9-225">Source</a><a href="#impl-Fulgur-33" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.on_close_tab_action" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_bar/actions.rs.html#16-23">Source</a><h4 class="code-header">pub fn <a href="#method.on_close_tab_action" class="fn">on_close_tab_action</a>(
+</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-33" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_bar/actions.rs.html#9-250">Source</a><a href="#impl-Fulgur-33" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.on_close_tab_action" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_bar/actions.rs.html#16-23">Source</a><h4 class="code-header">pub fn <a href="#method.on_close_tab_action" class="fn">on_close_tab_action</a>(
     &amp;mut self,
     action: &amp;CloseTabAction,
     window: &amp;mut Window,
@@ -958,29 +958,43 @@ universal “reveal file” command across desktop environments.</p>
 <li><code>window</code>: The window context</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.on_next_tab" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_bar/actions.rs.html#183-188">Source</a><h4 class="code-header">pub fn <a href="#method.on_next_tab" class="fn">on_next_tab</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Handle next tab action</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.on_set_tab_color" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_bar/actions.rs.html#187-201">Source</a><h4 class="code-header">pub fn <a href="#method.on_set_tab_color" class="fn">on_set_tab_color</a>(
+    &amp;mut self,
+    action: &amp;SetTabColor,
+    window: &amp;mut Window,
+    cx: &amp;mut Context&lt;'_, Self&gt;,
+)</h4></section></summary><div class="docblock"><p>Handle set tab color action from the context menu.</p>
+<p>Applies the chosen color tag (or clears it when <code>None</code>) to the target
+editor tab and persists the change to the state file.</p>
 <h6 id="arguments-81"><a class="doc-anchor" href="#arguments-81">§</a>Arguments</h6>
 <ul>
+<li><code>action</code>: The action carrying the tab ID and the selected color tag</li>
 <li><code>window</code>: The window context</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.on_previous_tab" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_bar/actions.rs.html#195-200">Source</a><h4 class="code-header">pub fn <a href="#method.on_previous_tab" class="fn">on_previous_tab</a>(
-    &amp;mut self,
-    window: &amp;mut Window,
-    cx: &amp;mut Context&lt;'_, Self&gt;,
-)</h4></section></summary><div class="docblock"><p>Handle previous tab action</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.on_next_tab" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_bar/actions.rs.html#208-213">Source</a><h4 class="code-header">pub fn <a href="#method.on_next_tab" class="fn">on_next_tab</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Handle next tab action</p>
 <h6 id="arguments-82"><a class="doc-anchor" href="#arguments-82">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window context</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.switch_to_theme" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_bar/actions.rs.html#209-224">Source</a><h4 class="code-header">pub fn <a href="#method.switch_to_theme" class="fn">switch_to_theme</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.on_previous_tab" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_bar/actions.rs.html#220-225">Source</a><h4 class="code-header">pub fn <a href="#method.on_previous_tab" class="fn">on_previous_tab</a>(
+    &amp;mut self,
+    window: &amp;mut Window,
+    cx: &amp;mut Context&lt;'_, Self&gt;,
+)</h4></section></summary><div class="docblock"><p>Handle previous tab action</p>
+<h6 id="arguments-83"><a class="doc-anchor" href="#arguments-83">§</a>Arguments</h6>
+<ul>
+<li><code>window</code>: The window context</li>
+<li><code>cx</code>: The application context</li>
+</ul>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.switch_to_theme" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_bar/actions.rs.html#234-249">Source</a><h4 class="code-header">pub fn <a href="#method.switch_to_theme" class="fn">switch_to_theme</a>(
     &amp;mut self,
     theme_name: SharedString,
     cx: &amp;mut Context&lt;'_, Self&gt;,
 )</h4></section></summary><div class="docblock"><p>Handle theme switching action.</p>
 <p>Applies the selected theme, updates settings, refreshes windows, and rebuilds menus.</p>
-<h6 id="arguments-83"><a class="doc-anchor" href="#arguments-83">§</a>Arguments</h6>
+<h6 id="arguments-84"><a class="doc-anchor" href="#arguments-84">§</a>Arguments</h6>
 <ul>
 <li><code>theme_name</code>: The name of the theme to switch to (as <code>SharedString</code> from action)</li>
 <li><code>cx</code>: The application context</li>
@@ -991,14 +1005,14 @@ universal “reveal file” command across desktop environments.</p>
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
 )</h4></section></summary><div class="docblock"><p>Set the active tab. If search is open, re-run search on new tab.</p>
-<h6 id="arguments-84"><a class="doc-anchor" href="#arguments-84">§</a>Arguments</h6>
+<h6 id="arguments-85"><a class="doc-anchor" href="#arguments-85">§</a>Arguments</h6>
 <ul>
 <li><code>index</code>: The index of the tab to set as active</li>
 <li><code>window</code>: The window to set the active tab in</li>
 <li><code>cx</code>: The application context</li>
 </ul>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.focus_active_tab" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/lifecycle/activation.rs.html#87-97">Source</a><h4 class="code-header">pub fn <a href="#method.focus_active_tab" class="fn">focus_active_tab</a>(&amp;self, window: &amp;mut Window, cx: &amp;mut App)</h4></section></summary><div class="docblock"><p>Focus the active tab’s content</p>
-<h6 id="arguments-85"><a class="doc-anchor" href="#arguments-85">§</a>Arguments</h6>
+<h6 id="arguments-86"><a class="doc-anchor" href="#arguments-86">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window to focus the tab in</li>
 <li><code>cx</code>: The application context</li>
@@ -1009,7 +1023,7 @@ universal “reveal file” command across desktop environments.</p>
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
 )</h4></section></summary><div class="docblock"><p>Close a tab</p>
-<h6 id="arguments-86"><a class="doc-anchor" href="#arguments-86">§</a>Arguments</h6>
+<h6 id="arguments-87"><a class="doc-anchor" href="#arguments-87">§</a>Arguments</h6>
 <ul>
 <li><code>tab_id</code>: The ID of the tab to close</li>
 <li><code>window</code>: The window to close the tab in</li>
@@ -1020,7 +1034,7 @@ universal “reveal file” command across desktop environments.</p>
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
 )</h4></section></summary><div class="docblock"><p>Close the currently active tab</p>
-<h6 id="arguments-87"><a class="doc-anchor" href="#arguments-87">§</a>Arguments</h6>
+<h6 id="arguments-88"><a class="doc-anchor" href="#arguments-88">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window context</li>
 <li><code>cx</code>: The application context</li>
@@ -1031,7 +1045,7 @@ universal “reveal file” command across desktop environments.</p>
     cx: &amp;mut Context&lt;'_, Self&gt;,
     pos: <a class="primitive" href="https://doc.rust-lang.org/1.97.1/std/primitive.usize.html">usize</a>,
 )</h4></section></summary><div class="docblock"><p>Re-anchor the active tab after a removal and manage the focus</p>
-<h6 id="arguments-88"><a class="doc-anchor" href="#arguments-88">§</a>Arguments</h6>
+<h6 id="arguments-89"><a class="doc-anchor" href="#arguments-89">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window to close the tab in</li>
 <li><code>cx</code>: The application context</li>
@@ -1042,7 +1056,7 @@ universal “reveal file” command across desktop environments.</p>
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
 )</h4></section></summary><div class="docblock"><p>Close all tabs</p>
-<h6 id="arguments-89"><a class="doc-anchor" href="#arguments-89">§</a>Arguments</h6>
+<h6 id="arguments-90"><a class="doc-anchor" href="#arguments-90">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window to close all tabs in</li>
 <li><code>cx</code>: The application context</li>
@@ -1053,7 +1067,7 @@ universal “reveal file” command across desktop environments.</p>
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
 )</h4></section></summary><div class="docblock"><p>Close all tabs to the left of the specified index</p>
-<h6 id="arguments-90"><a class="doc-anchor" href="#arguments-90">§</a>Arguments</h6>
+<h6 id="arguments-91"><a class="doc-anchor" href="#arguments-91">§</a>Arguments</h6>
 <ul>
 <li><code>index</code>: The index of the tab (tabs to the left will be closed)</li>
 <li><code>window</code>: The window to close tabs in</li>
@@ -1065,7 +1079,7 @@ universal “reveal file” command across desktop environments.</p>
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
 )</h4></section></summary><div class="docblock"><p>Close all tabs to the right of the specified index</p>
-<h6 id="arguments-91"><a class="doc-anchor" href="#arguments-91">§</a>Arguments</h6>
+<h6 id="arguments-92"><a class="doc-anchor" href="#arguments-92">§</a>Arguments</h6>
 <ul>
 <li><code>index</code>: The index of the tab (tabs to the right will be closed)</li>
 <li><code>window</code>: The window to close tabs in</li>
@@ -1076,7 +1090,7 @@ universal “reveal file” command across desktop environments.</p>
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
 )</h4></section></summary><div class="docblock"><p>Close all tabs except the active one</p>
-<h6 id="arguments-92"><a class="doc-anchor" href="#arguments-92">§</a>Arguments</h6>
+<h6 id="arguments-93"><a class="doc-anchor" href="#arguments-93">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window to close tabs in</li>
 <li><code>cx</code>: The application context</li>
@@ -1087,14 +1101,14 @@ universal “reveal file” command across desktop environments.</p>
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
 )</h4></section></summary><div class="docblock"><p>Remove a tab by ID and manage focus</p>
-<h6 id="arguments-93"><a class="doc-anchor" href="#arguments-93">§</a>Arguments</h6>
+<h6 id="arguments-94"><a class="doc-anchor" href="#arguments-94">§</a>Arguments</h6>
 <ul>
 <li><code>tab_id</code>: The ID of the tab to remove</li>
 <li><code>window</code>: The window context</li>
 <li><code>cx</code>: The application context</li>
 </ul>
 </div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-36" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/lifecycle/creation.rs.html#15-168">Source</a><a href="#impl-Fulgur-36" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.new_tab" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/lifecycle/creation.rs.html#21-36">Source</a><h4 class="code-header">pub fn <a href="#method.new_tab" class="fn">new_tab</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Create a new tab</p>
-<h6 id="arguments-94"><a class="doc-anchor" href="#arguments-94">§</a>Arguments</h6>
+<h6 id="arguments-95"><a class="doc-anchor" href="#arguments-95">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window to create the tab in</li>
 <li><code>cx</code>: The application context</li>
@@ -1105,7 +1119,7 @@ universal “reveal file” command across desktop environments.</p>
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
 ) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.97.1/std/primitive.usize.html">usize</a></h4></section></summary><div class="docblock"><p>Place a freshly built editor tab, reusing a trailing empty scratch tab</p>
-<h6 id="arguments-95"><a class="doc-anchor" href="#arguments-95">§</a>Arguments</h6>
+<h6 id="arguments-96"><a class="doc-anchor" href="#arguments-96">§</a>Arguments</h6>
 <ul>
 <li><code>tab</code>: The editor tab to place</li>
 <li><code>window</code>: The window context</li>
@@ -1116,7 +1130,7 @@ universal “reveal file” command across desktop environments.</p>
 <li><code>usize</code>: The index where the tab was placed.</li>
 </ul>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.open_settings" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/lifecycle/creation.rs.html#93-123">Source</a><h4 class="code-header">pub fn <a href="#method.open_settings" class="fn">open_settings</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Open settings in a new tab or switch to existing settings tab</p>
-<h6 id="arguments-96"><a class="doc-anchor" href="#arguments-96">§</a>Arguments</h6>
+<h6 id="arguments-97"><a class="doc-anchor" href="#arguments-97">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window to open settings in</li>
 <li><code>cx</code>: The application context</li>
@@ -1130,7 +1144,7 @@ universal “reveal file” command across desktop environments.</p>
 <p>The duplicate is an editor tab with the same content, language, and encoding, but no
 file path (it is treated as unsaved). Only editor tabs can be duplicated; calling this
 with the index of a non-editor tab is a no-op.</p>
-<h6 id="arguments-97"><a class="doc-anchor" href="#arguments-97">§</a>Arguments</h6>
+<h6 id="arguments-98"><a class="doc-anchor" href="#arguments-98">§</a>Arguments</h6>
 <ul>
 <li><code>index</code>: The index of the tab to duplicate</li>
 <li><code>window</code>: The window context</li>
@@ -1143,14 +1157,14 @@ with the index of a non-editor tab is a no-op.</p>
     on_confirm: F,
 )<div class="where">where
     F: <a class="trait" href="https://doc.rust-lang.org/1.97.1/core/ops/function/trait.Fn.html" title="trait core::ops::function::Fn">Fn</a>(&amp;mut <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a>, &amp;mut Window, &amp;mut Context&lt;'_, <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a>&gt;) + 'static + <a class="trait" href="https://doc.rust-lang.org/1.97.1/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a>,</div></h4></section></summary><div class="docblock"><p>Show confirmation dialog for unsaved changes</p>
-<h6 id="arguments-98"><a class="doc-anchor" href="#arguments-98">§</a>Arguments</h6>
+<h6 id="arguments-99"><a class="doc-anchor" href="#arguments-99">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window context</li>
 <li><code>cx</code>: The application context</li>
 <li><code>on_confirm</code>: Callback executed when user confirms closing</li>
 </ul>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.quit" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/lifecycle/dialogs.rs.html#58-70">Source</a><h4 class="code-header">pub fn <a href="#method.quit" class="fn">quit</a>(&amp;mut self, window: &amp;mut Window, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Quit the application.</p>
-<h6 id="arguments-99"><a class="doc-anchor" href="#arguments-99">§</a>Arguments</h6>
+<h6 id="arguments-100"><a class="doc-anchor" href="#arguments-100">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window to quit the application in</li>
 <li><code>cx</code>: The application context</li>
@@ -1160,13 +1174,13 @@ with the index of a non-editor tab is a no-op.</p>
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
 )</h4></section></summary><div class="docblock"><p>Open or close the Markdown preview tab.</p>
-<h6 id="arguments-100"><a class="doc-anchor" href="#arguments-100">§</a>Arguments</h6>
+<h6 id="arguments-101"><a class="doc-anchor" href="#arguments-101">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window context</li>
 <li><code>cx</code>: The application context</li>
 </ul>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.insert_preview_tabs_for_markdown" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/markdown_preview.rs.html#59-94">Source</a><h4 class="code-header">pub fn <a href="#method.insert_preview_tabs_for_markdown" class="fn">insert_preview_tabs_for_markdown</a>(&amp;mut self, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Insert Markdown preview tabs for all eligible editor tabs.</p>
-<h6 id="arguments-101"><a class="doc-anchor" href="#arguments-101">§</a>Arguments</h6>
+<h6 id="arguments-102"><a class="doc-anchor" href="#arguments-102">§</a>Arguments</h6>
 <ul>
 <li><code>cx</code>: The application context, used to allocate per-preview view state</li>
 </ul>
@@ -1175,7 +1189,7 @@ with the index of a non-editor tab is a no-op.</p>
     editor_tab_index: <a class="primitive" href="https://doc.rust-lang.org/1.97.1/std/primitive.usize.html">usize</a>,
     cx: &amp;mut Context&lt;'_, Self&gt;,
 )</h4></section></summary><div class="docblock"><p>Insert a Markdown preview tab after the given editor tab if conditions are met.</p>
-<h6 id="arguments-102"><a class="doc-anchor" href="#arguments-102">§</a>Arguments</h6>
+<h6 id="arguments-103"><a class="doc-anchor" href="#arguments-103">§</a>Arguments</h6>
 <ul>
 <li><code>editor_tab_index</code>: Index of the editor tab in <code>self.tabs</code></li>
 <li><code>cx</code>: The application context, used to allocate per-preview view state</li>
@@ -1189,7 +1203,7 @@ with the index of a non-editor tab is a no-op.</p>
 )</h4></section></summary><div class="docblock"><p>Reorder a tab from one index to another within this window.</p>
 <p><code>to</code> is the logical insertion slot (0 = before all tabs, N = after all tabs).
 No-op when the operation would leave the tab in its current position.</p>
-<h6 id="arguments-103"><a class="doc-anchor" href="#arguments-103">§</a>Arguments</h6>
+<h6 id="arguments-104"><a class="doc-anchor" href="#arguments-104">§</a>Arguments</h6>
 <ul>
 <li><code>from</code>: The current index of the tab to move</li>
 <li><code>to</code>: The insertion slot index (<code>0..=tabs.len()</code>)</li>
@@ -1204,19 +1218,19 @@ No-op when the operation would leave the tab in its current position.</p>
     cx: &amp;mut Context&lt;'_, Self&gt;,
 )</h4></section></summary><div class="docblock"><p>Handle a tab drop onto an insertion slot.</p>
 <p>Called by <code>on_drop</code> handlers on the slot divs in the tab bar.</p>
-<h6 id="arguments-104"><a class="doc-anchor" href="#arguments-104">§</a>Arguments</h6>
+<h6 id="arguments-105"><a class="doc-anchor" href="#arguments-105">§</a>Arguments</h6>
 <ul>
 <li><code>dragged</code>: The drag payload</li>
 <li><code>slot_index</code>: The insertion slot (0 = before first tab, N = after last tab)</li>
 <li><code>window</code>: The window context</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-40" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/transfer.rs.html#8-122">Source</a><a href="#impl-Fulgur-40" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.extract_tab_transfer_data" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/transfer.rs.html#18-45">Source</a><h4 class="code-header">pub fn <a href="#method.extract_tab_transfer_data" class="fn">extract_tab_transfer_data</a>(
+</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-40" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/transfer.rs.html#8-123">Source</a><a href="#impl-Fulgur-40" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.extract_tab_transfer_data" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/transfer.rs.html#18-46">Source</a><h4 class="code-header">pub fn <a href="#method.extract_tab_transfer_data" class="fn">extract_tab_transfer_data</a>(
     &amp;self,
     tab_id: TabId,
     cx: &amp;App,
 ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.97.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;TabTransferData&gt;</h4></section></summary><div class="docblock"><p>Extract all transferable state from an editor tab identified by <code>tab_id</code>.</p>
-<h6 id="arguments-105"><a class="doc-anchor" href="#arguments-105">§</a>Arguments</h6>
+<h6 id="arguments-106"><a class="doc-anchor" href="#arguments-106">§</a>Arguments</h6>
 <ul>
 <li><code>tab_id</code>: The unique ID of the tab to snapshot</li>
 <li><code>cx</code>: The application context (read-only)</li>
@@ -1226,7 +1240,7 @@ No-op when the operation would leave the tab in its current position.</p>
 <li><code>Some(TabTransferData)</code>: Snapshot of all transferable tab state</li>
 <li><code>None</code>: If <code>tab_id</code> does not refer to an existing editor tab</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_pending_tab_transfer" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/transfer.rs.html#56-78">Source</a><h4 class="code-header">pub fn <a href="#method.handle_pending_tab_transfer" class="fn">handle_pending_tab_transfer</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_pending_tab_transfer" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/transfer.rs.html#57-79">Source</a><h4 class="code-header">pub fn <a href="#method.handle_pending_tab_transfer" class="fn">handle_pending_tab_transfer</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
@@ -1234,12 +1248,12 @@ No-op when the operation would leave the tab in its current position.</p>
 <p>Called from the render loop when <code>pending_tab_transfer</code> is set. Creates
 the <code>EditorTab</code>, starts file-watching if applicable, scrolls to and
 focuses the new tab, then persists state.</p>
-<h6 id="arguments-106"><a class="doc-anchor" href="#arguments-106">§</a>Arguments</h6>
+<h6 id="arguments-107"><a class="doc-anchor" href="#arguments-107">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The target window context</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_pending_transfer_scroll" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/transfer.rs.html#90-100">Source</a><h4 class="code-header">pub fn <a href="#method.handle_pending_transfer_scroll" class="fn">handle_pending_transfer_scroll</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_pending_transfer_scroll" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/transfer.rs.html#91-101">Source</a><h4 class="code-header">pub fn <a href="#method.handle_pending_transfer_scroll" class="fn">handle_pending_transfer_scroll</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
@@ -1248,12 +1262,12 @@ focuses the new tab, then persists state.</p>
 ensuring the <code>InputState</code> has gone through layout so <code>scroll_to</code> can
 compute pixel offsets. The field is set by <code>handle_pending_tab_transfer</code>
 and consumed here on the following render cycle.</p>
-<h6 id="arguments-107"><a class="doc-anchor" href="#arguments-107">§</a>Arguments</h6>
+<h6 id="arguments-108"><a class="doc-anchor" href="#arguments-108">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The target window context</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_pending_tab_removal" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/transfer.rs.html#112-121">Source</a><h4 class="code-header">pub fn <a href="#method.handle_pending_tab_removal" class="fn">handle_pending_tab_removal</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_pending_tab_removal" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/transfer.rs.html#113-122">Source</a><h4 class="code-header">pub fn <a href="#method.handle_pending_tab_removal" class="fn">handle_pending_tab_removal</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
@@ -1262,7 +1276,7 @@ and consumed here on the following render cycle.</p>
 <code>remove_tab_by_id</code> so focus management, file-unwatching, and linked
 markdown-preview cleanup all happen correctly. If the removed tab was
 the last one in this window, the window itself is closed.</p>
-<h6 id="arguments-108"><a class="doc-anchor" href="#arguments-108">§</a>Arguments</h6>
+<h6 id="arguments-109"><a class="doc-anchor" href="#arguments-109">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The source window context</li>
 <li><code>cx</code>: The application context</li>
@@ -1274,7 +1288,7 @@ the last one in this window, the window itself is closed.</p>
     cx: &amp;mut Context&lt;'_, Self&gt;,
 )</h4></section></summary><div class="docblock"><p>Handle the <code>DockActivateTab</code> action: focus the tab with the given file path,
 switching to the correct window if necessary.</p>
-<h6 id="arguments-109"><a class="doc-anchor" href="#arguments-109">§</a>Arguments</h6>
+<h6 id="arguments-110"><a class="doc-anchor" href="#arguments-110">§</a>Arguments</h6>
 <ul>
 <li><code>action</code>: The <code>DockActivateTab</code> action containing the file path</li>
 <li><code>window</code>: The current window</li>
@@ -1287,7 +1301,7 @@ switching to the correct window if necessary.</p>
     cx: &amp;mut Context&lt;'_, Self&gt;,
 )</h4></section></summary><div class="docblock"><p>Handle the <code>DockActivateTabByTitle</code> action: focus the tab with the given title,
 switching to the correct window if necessary.</p>
-<h6 id="arguments-110"><a class="doc-anchor" href="#arguments-110">§</a>Arguments</h6>
+<h6 id="arguments-111"><a class="doc-anchor" href="#arguments-111">§</a>Arguments</h6>
 <ul>
 <li><code>action</code>: The <code>DockActivateTabByTitle</code> action containing the tab title</li>
 <li><code>window</code>: The current window</li>
@@ -1303,7 +1317,7 @@ switching to the correct window if necessary.</p>
 <li>If this is the last window: treat as quit (show confirm dialog if enabled)</li>
 <li>If multiple windows exist: just close this window (after saving state)</li>
 </ul>
-<h6 id="arguments-111"><a class="doc-anchor" href="#arguments-111">§</a>Arguments</h6>
+<h6 id="arguments-112"><a class="doc-anchor" href="#arguments-112">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window being closed</li>
 <li><code>cx</code>: The application context</li>
@@ -1314,7 +1328,7 @@ switching to the correct window if necessary.</p>
 <li><code>false</code>: Prevent window from closing (e.g., waiting for user confirmation)</li>
 </ul>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.open_new_window" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/window_manager/lifecycle.rs.html#137-175">Source</a><h4 class="code-header">pub fn <a href="#method.open_new_window" class="fn">open_new_window</a>(&amp;self, cx: &amp;mut Context&lt;'_, Self&gt;)</h4></section></summary><div class="docblock"><p>Open a new Fulgur window (completely empty)</p>
-<h6 id="arguments-112"><a class="doc-anchor" href="#arguments-112">§</a>Arguments</h6>
+<h6 id="arguments-113"><a class="doc-anchor" href="#arguments-113">§</a>Arguments</h6>
 <ul>
 <li><code>cx</code> - The context for the application</li>
 </ul>
@@ -1326,7 +1340,7 @@ switching to the correct window if necessary.</p>
 <p>Behaves like <code>open_new_window</code> but sets <code>pending_tab_transfer</code> on the new
 window entity before the first render cycle, so the tab lands in the new
 window as if it had been sent via the normal cross-window transfer path.</p>
-<h6 id="arguments-113"><a class="doc-anchor" href="#arguments-113">§</a>Arguments</h6>
+<h6 id="arguments-114"><a class="doc-anchor" href="#arguments-114">§</a>Arguments</h6>
 <ul>
 <li><code>data</code> - The serialized tab state to transfer</li>
 <li><code>cx</code> - The context for the application</li>
@@ -1342,13 +1356,13 @@ window as if it had been sent via the normal cross-window transfer path.</p>
 only when it is the OS-active window (renders also fire for background
 windows, so render order is not a reliable focus signal)</li>
 </ol>
-<h6 id="arguments-114"><a class="doc-anchor" href="#arguments-114">§</a>Arguments</h6>
+<h6 id="arguments-115"><a class="doc-anchor" href="#arguments-115">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window being rendered</li>
 <li><code>cx</code>: The application context</li>
 </ul>
 </div></details></div></details></div><h2 id="trait-implementations" class="section-header">Trait Implementations<a href="#trait-implementations" class="anchor">§</a></h2><div id="trait-implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Focusable-for-Fulgur" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/render.rs.html#15-26">Source</a><a href="#impl-Focusable-for-Fulgur" class="anchor">§</a><h3 class="code-header">impl Focusable for <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.focus_handle" class="method trait-impl"><a class="src rightside" href="../../src/fulgur/fulgur/render.rs.html#23-25">Source</a><a href="#method.focus_handle" class="anchor">§</a><h4 class="code-header">fn <a class="fn">focus_handle</a>(&amp;self, _cx: &amp;App) -&gt; FocusHandle</h4></section></summary><div class="docblock"><p>Get the focus handle for the Fulgur instance</p>
-<h6 id="arguments-115"><a class="doc-anchor" href="#arguments-115">§</a>Arguments</h6>
+<h6 id="arguments-116"><a class="doc-anchor" href="#arguments-116">§</a>Arguments</h6>
 <ul>
 <li><code>_cx</code>: The application context</li>
 </ul>
@@ -1361,7 +1375,7 @@ windows, so render order is not a reliable focus signal)</li>
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
 ) -&gt; impl IntoElement</h4></section></summary><div class="docblock"><p>Render the Fulgur instance</p>
-<h6 id="arguments-116"><a class="doc-anchor" href="#arguments-116">§</a>Arguments</h6>
+<h6 id="arguments-117"><a class="doc-anchor" href="#arguments-117">§</a>Arguments</h6>
 <ul>
 <li><code>window</code>: The window to render the Fulgur instance in</li>
 <li><code>cx</code>: The application context</li>
