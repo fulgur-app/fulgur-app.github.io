@@ -2,7 +2,7 @@
 <a href=#2 id=2 data-nosnippet>2</a>    SerializedRemoteSpec, SerializedWindowBounds, TabState, WindowState, WindowsState,
 <a href=#3 id=3 data-nosnippet>3</a>    get_file_modified_time,
 <a href=#4 id=4 data-nosnippet>4</a>};
-<a href=#5 id=5 data-nosnippet>5</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::{Fulgur, editor_tab::TabLocation, tab::Tab};
+<a href=#5 id=5 data-nosnippet>5</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::{Fulgur, editor_tab::TabLocation, tab::Tab, ui::components_utils::UNTITLED};
 <a href=#6 id=6 data-nosnippet>6</a><span class="kw">use </span>gpui::{App, Window};
 <a href=#7 id=7 data-nosnippet>7</a>
 <a href=#8 id=8 data-nosnippet>8</a><span class="kw">impl </span>Fulgur {
@@ -146,7 +146,7 @@
 <a href=#146 id=146 data-nosnippet>146</a>                            <span class="kw">continue</span>;
 <a href=#147 id=147 data-nosnippet>147</a>                        }
 <a href=#148 id=148 data-nosnippet>148</a>                        <span class="kw">let </span>current_content = editor_tab.content.read(cx).text().to_string();
-<a href=#149 id=149 data-nosnippet>149</a>                        <span class="kw">if </span>current_content.is_empty() {
+<a href=#149 id=149 data-nosnippet>149</a>                        <span class="kw">if </span>current_content.is_empty() &amp;&amp; editor_tab.title.starts_with(UNTITLED) {
 <a href=#150 id=150 data-nosnippet>150</a>                            <span class="kw">continue</span>;
 <a href=#151 id=151 data-nosnippet>151</a>                        }
 <a href=#152 id=152 data-nosnippet>152</a>                        TabState {
