@@ -104,8 +104,10 @@
 <a href=#104 id=104 data-nosnippet>104</a>
 <a href=#105 id=105 data-nosnippet>105</a>    <span class="attr">#[test]
 <a href=#106 id=106 data-nosnippet>106</a>    </span><span class="kw">fn </span>read_file_uri_rejects_missing_file() {
-<a href=#107 id=107 data-nosnippet>107</a>        <span class="kw">let </span>url = Url::from_file_path(<span class="string">"/nonexistent/fulgur/image.png"</span>).expect(<span class="string">"file url"</span>);
-<a href=#108 id=108 data-nosnippet>108</a>        <span class="macro">assert!</span>(read_file_uri(url.as_str()).is_err());
-<a href=#109 id=109 data-nosnippet>109</a>    }
-<a href=#110 id=110 data-nosnippet>110</a>}
+<a href=#107 id=107 data-nosnippet>107</a>        <span class="kw">let </span>missing = std::env::temp_dir().join(<span class="string">"fulgur-nonexistent-image.png"</span>);
+<a href=#108 id=108 data-nosnippet>108</a>        <span class="kw">let _ </span>= std::fs::remove_file(<span class="kw-2">&amp;</span>missing);
+<a href=#109 id=109 data-nosnippet>109</a>        <span class="kw">let </span>url = Url::from_file_path(<span class="kw-2">&amp;</span>missing).expect(<span class="string">"file url"</span>);
+<a href=#110 id=110 data-nosnippet>110</a>        <span class="macro">assert!</span>(read_file_uri(url.as_str()).is_err());
+<a href=#111 id=111 data-nosnippet>111</a>    }
+<a href=#112 id=112 data-nosnippet>112</a>}
 </code></pre></div></section></main></body></html>
