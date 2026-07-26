@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["TabRestoreDecision"],"fn":["determine_tab_restore_strategy","get_file_modified_time","is_file_newer"],"struct":["SerializedRemoteSpec","SerializedWindowBounds","StateWriter","TabState","WindowState","WindowsState"]};
+window.SIDEBAR_ITEMS = {"enum":["TabContent","TabRestoreDecision"],"fn":["determine_tab_restore_strategy","get_file_modified_time","is_file_newer"],"struct":["SerializedRemoteSpec","SerializedWindowBounds","StateWriter","TabState","WindowState","WindowsState"]};
