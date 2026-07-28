@@ -680,7 +680,7 @@
 <a href=#680 id=680 data-nosnippet>680</a>            settings.editor_settings.watch_files = <span class="bool-val">false</span>;
 <a href=#681 id=681 data-nosnippet>681</a>            <span class="kw">let </span>pending_files: Arc&lt;ParkingMutex&lt;Vec&lt;PathBuf&gt;&gt;&gt; =
 <a href=#682 id=682 data-nosnippet>682</a>                Arc::new(ParkingMutex::new(Vec::new()));
-<a href=#683 id=683 data-nosnippet>683</a>            cx.set_global(SharedAppState::new(settings, pending_files, <span class="prelude-val">None</span>));
+<a href=#683 id=683 data-nosnippet>683</a>            cx.set_global(SharedAppState::new(settings, pending_files, <span class="prelude-val">None</span>, <span class="prelude-val">None</span>));
 <a href=#684 id=684 data-nosnippet>684</a>            cx.set_global(WindowManager::new());
 <a href=#685 id=685 data-nosnippet>685</a>        });
 <a href=#686 id=686 data-nosnippet>686</a>        <span class="kw">let </span>fulgur_slot: RefCell&lt;<span class="prelude-ty">Option</span>&lt;Entity&lt;Fulgur&gt;&gt;&gt; = RefCell::new(<span class="prelude-val">None</span>);
