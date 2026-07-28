@@ -6,22 +6,24 @@
 <a href=#6 id=6 data-nosnippet>6</a><span class="kw">mod </span>shared_files;
 <a href=#7 id=7 data-nosnippet>7</a><span class="kw">mod </span>version;
 <a href=#8 id=8 data-nosnippet>8</a>
-<a href=#9 id=9 data-nosnippet>9</a><span class="kw">pub use </span>begin::{InitialSyncOutcome, initial_synchronization, list_pending_share_ids_v2};
-<a href=#10 id=10 data-nosnippet>10</a><span class="kw">pub use </span>bootstrap::{
-<a href=#11 id=11 data-nosnippet>11</a>    begin_synchronization, perform_initial_synchronization,
-<a href=#12 id=12 data-nosnippet>12</a>    perform_initial_synchronization_with_progress, record_fulgurant_version,
-<a href=#13 id=13 data-nosnippet>13</a>    record_server_min_fulgur_version, set_sync_server_connection_status,
-<a href=#14 id=14 data-nosnippet>14</a>};
-<a href=#15 id=15 data-nosnippet>15</a><span class="kw">pub use </span>error::{SynchronizationError, SynchronizationStatus, handle_ureq_error};
-<a href=#16 id=16 data-nosnippet>16</a><span class="kw">pub use </span>limits::{
-<a href=#17 id=17 data-nosnippet>17</a>    MAX_HTTP_DEVICES_RESPONSE_BYTES, MAX_HTTP_SINGLE_SHARE_RESPONSE_BYTES,
-<a href=#18 id=18 data-nosnippet>18</a>    MAX_HTTP_SMALL_RESPONSE_BYTES, max_http_bulk_shares_response_bytes,
-<a href=#19 id=19 data-nosnippet>19</a>    max_http_single_share_response_bytes, resolve_server_max_file_size, store_server_max_file_size,
-<a href=#20 id=20 data-nosnippet>20</a>};
-<a href=#21 id=21 data-nosnippet>21</a><span class="kw">pub use </span>ping::{perform_ping_with_progress, ping_server};
-<a href=#22 id=22 data-nosnippet>22</a><span class="kw">pub use </span>version::{
-<a href=#23 id=23 data-nosnippet>23</a>    FULGURANT_VERSION_HEADER, FULGURANT_VERSION_WITHOUT_HEADER, RECOMMENDED_FULGURANT_VERSION,
-<a href=#24 id=24 data-nosnippet>24</a>    VersionCompatibility, compare_required_version, version_supports_per_id_fetch,
-<a href=#25 id=25 data-nosnippet>25</a>    version_supports_v2_share_flow,
-<a href=#26 id=26 data-nosnippet>26</a>};
+<a href=#9 id=9 data-nosnippet>9</a><span class="kw">pub use </span>begin::{
+<a href=#10 id=10 data-nosnippet>10</a>    BeginOutcome, InitialSyncOutcome, initial_synchronization, list_pending_share_ids,
+<a href=#11 id=11 data-nosnippet>11</a>};
+<a href=#12 id=12 data-nosnippet>12</a><span class="kw">pub use </span>bootstrap::{
+<a href=#13 id=13 data-nosnippet>13</a>    begin_synchronization, perform_initial_synchronization,
+<a href=#14 id=14 data-nosnippet>14</a>    perform_initial_synchronization_with_progress, record_fulgurant_version,
+<a href=#15 id=15 data-nosnippet>15</a>    record_server_min_fulgur_version, set_sync_server_connection_status,
+<a href=#16 id=16 data-nosnippet>16</a>};
+<a href=#17 id=17 data-nosnippet>17</a><span class="kw">pub use </span>error::{SynchronizationError, SynchronizationStatus, handle_ureq_error};
+<a href=#18 id=18 data-nosnippet>18</a><span class="kw">pub use </span>limits::{
+<a href=#19 id=19 data-nosnippet>19</a>    MAX_HTTP_DEVICES_RESPONSE_BYTES, MAX_HTTP_SINGLE_SHARE_RESPONSE_BYTES,
+<a href=#20 id=20 data-nosnippet>20</a>    MAX_HTTP_SMALL_RESPONSE_BYTES, max_http_single_share_response_bytes,
+<a href=#21 id=21 data-nosnippet>21</a>    resolve_server_max_file_size, store_server_max_file_size,
+<a href=#22 id=22 data-nosnippet>22</a>};
+<a href=#23 id=23 data-nosnippet>23</a><span class="kw">pub use </span>ping::{perform_ping_with_progress, ping_server};
+<a href=#24 id=24 data-nosnippet>24</a><span class="kw">pub use </span>version::{
+<a href=#25 id=25 data-nosnippet>25</a>    FULGURANT_VERSION_HEADER, FULGURANT_VERSION_WITHOUT_HEADER,
+<a href=#26 id=26 data-nosnippet>26</a>    MIN_SUPPORTED_FULGURANT_VERSION_DISPLAY, RECOMMENDED_FULGURANT_VERSION, VersionCompatibility,
+<a href=#27 id=27 data-nosnippet>27</a>    compare_required_version, server_meets_minimum_version,
+<a href=#28 id=28 data-nosnippet>28</a>};
 </code></pre></div></section></main></body></html>
