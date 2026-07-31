@@ -87,89 +87,88 @@
 <a href=#87 id=87 data-nosnippet>87</a>    /// - `cx`: The context
 <a href=#88 id=88 data-nosnippet>88</a>    ///
 <a href=#89 id=89 data-nosnippet>89</a>    /// ### Returns
-<a href=#90 id=90 data-nosnippet>90</a>    /// - `Vec&lt;SettingPage&gt;`: The settings pages
+<a href=#90 id=90 data-nosnippet>90</a>    /// - `Vec&lt;SettingPage&gt;`: The settings pages, or an empty vector when no settings tab is open
 <a href=#91 id=91 data-nosnippet>91</a>    </span><span class="kw">fn </span>create_settings_pages(
 <a href=#92 id=92 data-nosnippet>92</a>        <span class="kw-2">&amp;</span><span class="self">self</span>,
 <a href=#93 id=93 data-nosnippet>93</a>        _window: <span class="kw-2">&amp;mut </span>Window,
 <a href=#94 id=94 data-nosnippet>94</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
 <a href=#95 id=95 data-nosnippet>95</a>    ) -&gt; Vec&lt;SettingPage&gt; {
 <a href=#96 id=96 data-nosnippet>96</a>        <span class="kw">let </span>entity = cx.entity();
-<a href=#97 id=97 data-nosnippet>97</a>        <span class="kw">let </span>font_family_select = <span class="self">self
-<a href=#98 id=98 data-nosnippet>98</a>            </span>.tabs
-<a href=#99 id=99 data-nosnippet>99</a>            .iter()
-<a href=#100 id=100 data-nosnippet>100</a>            .find_map(|t| {
-<a href=#101 id=101 data-nosnippet>101</a>                <span class="kw">if let </span>Tab::Settings(s) = t.read(cx) {
-<a href=#102 id=102 data-nosnippet>102</a>                    <span class="prelude-val">Some</span>(s.font_family_select.clone())
-<a href=#103 id=103 data-nosnippet>103</a>                } <span class="kw">else </span>{
-<a href=#104 id=104 data-nosnippet>104</a>                    <span class="prelude-val">None
-<a href=#105 id=105 data-nosnippet>105</a>                </span>}
-<a href=#106 id=106 data-nosnippet>106</a>            })
-<a href=#107 id=107 data-nosnippet>107</a>            .expect(<span class="string">"create_settings_pages called without a settings tab in self.tabs"</span>);
-<a href=#108 id=108 data-nosnippet>108</a>        <span class="kw">let </span><span class="kw-2">mut </span>pages = <span class="macro">vec!</span>[
-<a href=#109 id=109 data-nosnippet>109</a>            editor_page::create_editor_page(<span class="kw-2">&amp;</span>entity, font_family_select),
-<a href=#110 id=110 data-nosnippet>110</a>            application_page::create_application_page(<span class="kw-2">&amp;</span>entity),
-<a href=#111 id=111 data-nosnippet>111</a>        ];
-<a href=#112 id=112 data-nosnippet>112</a>        <span class="kw">let </span>themes = Fulgur::shared_state(cx).themes.clone();
-<a href=#113 id=113 data-nosnippet>113</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>themes) = themes {
-<a href=#114 id=114 data-nosnippet>114</a>            pages.push(<span class="self">Self</span>::create_themes_page(<span class="kw-2">&amp;</span>entity, themes));
-<a href=#115 id=115 data-nosnippet>115</a>        }
-<a href=#116 id=116 data-nosnippet>116</a>        pages
-<a href=#117 id=117 data-nosnippet>117</a>    }
-<a href=#118 id=118 data-nosnippet>118</a>
-<a href=#119 id=119 data-nosnippet>119</a>    <span class="doccomment">/// Render the settings
-<a href=#120 id=120 data-nosnippet>120</a>    ///
-<a href=#121 id=121 data-nosnippet>121</a>    /// ### Arguments
-<a href=#122 id=122 data-nosnippet>122</a>    /// - `window`: The window
-<a href=#123 id=123 data-nosnippet>123</a>    /// - `cx`: The context
-<a href=#124 id=124 data-nosnippet>124</a>    ///
-<a href=#125 id=125 data-nosnippet>125</a>    /// ### Returns
-<a href=#126 id=126 data-nosnippet>126</a>    /// - `impl IntoElement`: The settings UI
-<a href=#127 id=127 data-nosnippet>127</a>    </span><span class="kw">pub fn </span>render_settings(<span class="kw-2">&amp;</span><span class="self">self</span>, window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) -&gt; <span class="kw">impl </span>IntoElement {
-<a href=#128 id=128 data-nosnippet>128</a>        <span class="kw">const </span>MAX_WIDTH: f32 = <span class="number">1400.0</span>;
-<a href=#129 id=129 data-nosnippet>129</a>        <span class="kw">let </span>show_side_borders = window.viewport_size().width &gt;= px(MAX_WIDTH);
-<a href=#130 id=130 data-nosnippet>130</a>        div()
-<a href=#131 id=131 data-nosnippet>131</a>            .id(<span class="string">"settings-scroll-container"</span>)
-<a href=#132 id=132 data-nosnippet>132</a>            .size_full()
-<a href=#133 id=133 data-nosnippet>133</a>            .overflow_x_scroll()
-<a href=#134 id=134 data-nosnippet>134</a>            .child(
-<a href=#135 id=135 data-nosnippet>135</a>                v_flex()
-<a href=#136 id=136 data-nosnippet>136</a>                    <span class="comment">//.w(px(980.0))
-<a href=#137 id=137 data-nosnippet>137</a>                    </span>.h_full()
-<a href=#138 id=138 data-nosnippet>138</a>                    .mx_auto()
-<a href=#139 id=139 data-nosnippet>139</a>                    .max_w(px(MAX_WIDTH))
-<a href=#140 id=140 data-nosnippet>140</a>                    .min_w(px(<span class="number">980.0</span>))
-<a href=#141 id=141 data-nosnippet>141</a>                    .text_color(cx.theme().foreground)
-<a href=#142 id=142 data-nosnippet>142</a>                    .text_size(px(<span class="number">12.0</span>))
-<a href=#143 id=143 data-nosnippet>143</a>                    .when(show_side_borders, |el: gpui::Div| {
-<a href=#144 id=144 data-nosnippet>144</a>                        el.border_l_1().border_r_1().border_color(cx.theme().border)
-<a href=#145 id=145 data-nosnippet>145</a>                    })
-<a href=#146 id=146 data-nosnippet>146</a>                    .child(
-<a href=#147 id=147 data-nosnippet>147</a>                        SettingsComponent::new(<span class="string">"fulgur-settings"</span>)
-<a href=#148 id=148 data-nosnippet>148</a>                            .with_size(Size::Medium)
-<a href=#149 id=149 data-nosnippet>149</a>                            .with_group_variant(GroupBoxVariant::Outline)
-<a href=#150 id=150 data-nosnippet>150</a>                            .pages(<span class="self">self</span>.create_settings_pages(window, cx)),
-<a href=#151 id=151 data-nosnippet>151</a>                    ),
-<a href=#152 id=152 data-nosnippet>152</a>            )
-<a href=#153 id=153 data-nosnippet>153</a>    }
-<a href=#154 id=154 data-nosnippet>154</a>
-<a href=#155 id=155 data-nosnippet>155</a>    <span class="doccomment">/// Clear the recent files
-<a href=#156 id=156 data-nosnippet>156</a>    ///
-<a href=#157 id=157 data-nosnippet>157</a>    /// ### Arguments
-<a href=#158 id=158 data-nosnippet>158</a>    /// - `cx`: The context
-<a href=#159 id=159 data-nosnippet>159</a>    </span><span class="kw">pub fn </span>clear_recent_files(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
-<a href=#160 id=160 data-nosnippet>160</a>        <span class="self">self</span>.settings.recent_files.clear();
-<a href=#161 id=161 data-nosnippet>161</a>        <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = <span class="self">self</span>.update_and_propagate_settings(cx) {
-<a href=#162 id=162 data-nosnippet>162</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to save settings: {e}"</span>);
-<a href=#163 id=163 data-nosnippet>163</a>        }
-<a href=#164 id=164 data-nosnippet>164</a>        <span class="kw">let </span>menus = <span class="kw">crate</span>::fulgur::ui::menus::build_menus(
-<a href=#165 id=165 data-nosnippet>165</a>            <span class="self">self</span>.settings.recent_files.get_files(),
-<a href=#166 id=166 data-nosnippet>166</a>            Fulgur::shared_state(cx)
-<a href=#167 id=167 data-nosnippet>167</a>                .update_info
-<a href=#168 id=168 data-nosnippet>168</a>                .lock()
-<a href=#169 id=169 data-nosnippet>169</a>                .as_ref()
-<a href=#170 id=170 data-nosnippet>170</a>                .map(|info| info.download_url.as_str()),
-<a href=#171 id=171 data-nosnippet>171</a>        );
-<a href=#172 id=172 data-nosnippet>172</a>        <span class="self">self</span>.update_menus(menus, cx);
-<a href=#173 id=173 data-nosnippet>173</a>    }
-<a href=#174 id=174 data-nosnippet>174</a>}
+<a href=#97 id=97 data-nosnippet>97</a>        <span class="kw">let </span><span class="prelude-val">Some</span>(font_family_select) = <span class="self">self</span>.tabs.iter().find_map(|t| {
+<a href=#98 id=98 data-nosnippet>98</a>            <span class="kw">if let </span>Tab::Settings(s) = t.read(cx) {
+<a href=#99 id=99 data-nosnippet>99</a>                <span class="prelude-val">Some</span>(s.font_family_select.clone())
+<a href=#100 id=100 data-nosnippet>100</a>            } <span class="kw">else </span>{
+<a href=#101 id=101 data-nosnippet>101</a>                <span class="prelude-val">None
+<a href=#102 id=102 data-nosnippet>102</a>            </span>}
+<a href=#103 id=103 data-nosnippet>103</a>        }) <span class="kw">else </span>{
+<a href=#104 id=104 data-nosnippet>104</a>            <span class="macro">log::error!</span>(<span class="string">"Cannot build the settings pages: no settings tab is open"</span>);
+<a href=#105 id=105 data-nosnippet>105</a>            <span class="kw">return </span>Vec::new();
+<a href=#106 id=106 data-nosnippet>106</a>        };
+<a href=#107 id=107 data-nosnippet>107</a>        <span class="kw">let </span><span class="kw-2">mut </span>pages = <span class="macro">vec!</span>[
+<a href=#108 id=108 data-nosnippet>108</a>            editor_page::create_editor_page(<span class="kw-2">&amp;</span>entity, font_family_select),
+<a href=#109 id=109 data-nosnippet>109</a>            application_page::create_application_page(<span class="kw-2">&amp;</span>entity),
+<a href=#110 id=110 data-nosnippet>110</a>        ];
+<a href=#111 id=111 data-nosnippet>111</a>        <span class="kw">let </span>themes = Fulgur::shared_state(cx).themes.clone();
+<a href=#112 id=112 data-nosnippet>112</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>themes) = themes {
+<a href=#113 id=113 data-nosnippet>113</a>            pages.push(<span class="self">Self</span>::create_themes_page(<span class="kw-2">&amp;</span>entity, themes));
+<a href=#114 id=114 data-nosnippet>114</a>        }
+<a href=#115 id=115 data-nosnippet>115</a>        pages
+<a href=#116 id=116 data-nosnippet>116</a>    }
+<a href=#117 id=117 data-nosnippet>117</a>
+<a href=#118 id=118 data-nosnippet>118</a>    <span class="doccomment">/// Render the settings
+<a href=#119 id=119 data-nosnippet>119</a>    ///
+<a href=#120 id=120 data-nosnippet>120</a>    /// ### Arguments
+<a href=#121 id=121 data-nosnippet>121</a>    /// - `window`: The window
+<a href=#122 id=122 data-nosnippet>122</a>    /// - `cx`: The context
+<a href=#123 id=123 data-nosnippet>123</a>    ///
+<a href=#124 id=124 data-nosnippet>124</a>    /// ### Returns
+<a href=#125 id=125 data-nosnippet>125</a>    /// - `impl IntoElement`: The settings UI
+<a href=#126 id=126 data-nosnippet>126</a>    </span><span class="kw">pub fn </span>render_settings(<span class="kw-2">&amp;</span><span class="self">self</span>, window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) -&gt; <span class="kw">impl </span>IntoElement {
+<a href=#127 id=127 data-nosnippet>127</a>        <span class="kw">const </span>MAX_WIDTH: f32 = <span class="number">1400.0</span>;
+<a href=#128 id=128 data-nosnippet>128</a>        <span class="kw">let </span>show_side_borders = window.viewport_size().width &gt;= px(MAX_WIDTH);
+<a href=#129 id=129 data-nosnippet>129</a>        div()
+<a href=#130 id=130 data-nosnippet>130</a>            .id(<span class="string">"settings-scroll-container"</span>)
+<a href=#131 id=131 data-nosnippet>131</a>            .size_full()
+<a href=#132 id=132 data-nosnippet>132</a>            .overflow_x_scroll()
+<a href=#133 id=133 data-nosnippet>133</a>            .child(
+<a href=#134 id=134 data-nosnippet>134</a>                v_flex()
+<a href=#135 id=135 data-nosnippet>135</a>                    <span class="comment">//.w(px(980.0))
+<a href=#136 id=136 data-nosnippet>136</a>                    </span>.h_full()
+<a href=#137 id=137 data-nosnippet>137</a>                    .mx_auto()
+<a href=#138 id=138 data-nosnippet>138</a>                    .max_w(px(MAX_WIDTH))
+<a href=#139 id=139 data-nosnippet>139</a>                    .min_w(px(<span class="number">980.0</span>))
+<a href=#140 id=140 data-nosnippet>140</a>                    .text_color(cx.theme().foreground)
+<a href=#141 id=141 data-nosnippet>141</a>                    .text_size(px(<span class="number">12.0</span>))
+<a href=#142 id=142 data-nosnippet>142</a>                    .when(show_side_borders, |el: gpui::Div| {
+<a href=#143 id=143 data-nosnippet>143</a>                        el.border_l_1().border_r_1().border_color(cx.theme().border)
+<a href=#144 id=144 data-nosnippet>144</a>                    })
+<a href=#145 id=145 data-nosnippet>145</a>                    .child(
+<a href=#146 id=146 data-nosnippet>146</a>                        SettingsComponent::new(<span class="string">"fulgur-settings"</span>)
+<a href=#147 id=147 data-nosnippet>147</a>                            .with_size(Size::Medium)
+<a href=#148 id=148 data-nosnippet>148</a>                            .with_group_variant(GroupBoxVariant::Outline)
+<a href=#149 id=149 data-nosnippet>149</a>                            .pages(<span class="self">self</span>.create_settings_pages(window, cx)),
+<a href=#150 id=150 data-nosnippet>150</a>                    ),
+<a href=#151 id=151 data-nosnippet>151</a>            )
+<a href=#152 id=152 data-nosnippet>152</a>    }
+<a href=#153 id=153 data-nosnippet>153</a>
+<a href=#154 id=154 data-nosnippet>154</a>    <span class="doccomment">/// Clear the recent files
+<a href=#155 id=155 data-nosnippet>155</a>    ///
+<a href=#156 id=156 data-nosnippet>156</a>    /// ### Arguments
+<a href=#157 id=157 data-nosnippet>157</a>    /// - `cx`: The context
+<a href=#158 id=158 data-nosnippet>158</a>    </span><span class="kw">pub fn </span>clear_recent_files(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
+<a href=#159 id=159 data-nosnippet>159</a>        <span class="self">self</span>.settings.recent_files.clear();
+<a href=#160 id=160 data-nosnippet>160</a>        <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = <span class="self">self</span>.update_and_propagate_settings(cx) {
+<a href=#161 id=161 data-nosnippet>161</a>            <span class="macro">log::error!</span>(<span class="string">"Failed to save settings: {e}"</span>);
+<a href=#162 id=162 data-nosnippet>162</a>        }
+<a href=#163 id=163 data-nosnippet>163</a>        <span class="kw">let </span>menus = <span class="kw">crate</span>::fulgur::ui::menus::build_menus(
+<a href=#164 id=164 data-nosnippet>164</a>            <span class="self">self</span>.settings.recent_files.get_files(),
+<a href=#165 id=165 data-nosnippet>165</a>            Fulgur::shared_state(cx)
+<a href=#166 id=166 data-nosnippet>166</a>                .update_info
+<a href=#167 id=167 data-nosnippet>167</a>                .lock()
+<a href=#168 id=168 data-nosnippet>168</a>                .as_ref()
+<a href=#169 id=169 data-nosnippet>169</a>                .map(|info| info.download_url.as_str()),
+<a href=#170 id=170 data-nosnippet>170</a>        );
+<a href=#171 id=171 data-nosnippet>171</a>        <span class="self">self</span>.update_menus(menus, cx);
+<a href=#172 id=172 data-nosnippet>172</a>    }
+<a href=#173 id=173 data-nosnippet>173</a>}
 </code></pre></div></section></main></body></html>
