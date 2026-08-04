@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["create_window","has_url_scheme","main","url_to_path"],"static":["GLOBAL"],"struct":["Assets"]};
+window.SIDEBAR_ITEMS = {"fn":["create_window","has_url_scheme","main","report_window_creation_failure","url_to_path"],"static":["GLOBAL"],"struct":["Assets"]};
