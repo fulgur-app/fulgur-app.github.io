@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["Worker","WorkerHooks"],"type":["WorkerHandleSlot"]};
+window.SIDEBAR_ITEMS = {"fn":["dispose_off_thread"],"struct":["Worker","WorkerHooks"],"type":["WorkerHandleSlot"]};

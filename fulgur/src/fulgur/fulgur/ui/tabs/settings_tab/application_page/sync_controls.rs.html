@@ -117,64 +117,68 @@
 <a href=#117 id=117 data-nosnippet>117</a>            .map(|p| p.id.clone())
 <a href=#118 id=118 data-nosnippet>118</a>            .collect();
 <a href=#119 id=119 data-nosnippet>119</a>        <span class="kw">for </span>profile_id <span class="kw">in </span><span class="kw-2">&amp;</span>ids {
-<a href=#120 id=120 data-nosnippet>120</a>            this.restart_sse_connection_for(profile_id, cx);
-<a href=#121 id=121 data-nosnippet>121</a>        }
-<a href=#122 id=122 data-nosnippet>122</a>        ids
-<a href=#123 id=123 data-nosnippet>123</a>    });
-<a href=#124 id=124 data-nosnippet>124</a>    <span class="macro">log::debug!</span>(
-<a href=#125 id=125 data-nosnippet>125</a>        <span class="string">"Master switch toggled to {value}; refreshed SSE for {} active profile(s)"</span>,
-<a href=#126 id=126 data-nosnippet>126</a>        active_profile_ids.len()
-<a href=#127 id=127 data-nosnippet>127</a>    );
-<a href=#128 id=128 data-nosnippet>128</a>}
-<a href=#129 id=129 data-nosnippet>129</a>
-<a href=#130 id=130 data-nosnippet>130</a><span class="doccomment">/// Render the right-aligned "Add server" button.
-<a href=#131 id=131 data-nosnippet>131</a>///
-<a href=#132 id=132 data-nosnippet>132</a>/// ### Arguments
-<a href=#133 id=133 data-nosnippet>133</a>/// - `entity`: The Fulgur entity.
-<a href=#134 id=134 data-nosnippet>134</a>///
-<a href=#135 id=135 data-nosnippet>135</a>/// ### Returns
-<a href=#136 id=136 data-nosnippet>136</a>/// - `SettingItem`: The button row.
-<a href=#137 id=137 data-nosnippet>137</a></span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>render_add_server_button(entity: <span class="kw-2">&amp;</span>Entity&lt;Fulgur&gt;) -&gt; SettingItem {
-<a href=#138 id=138 data-nosnippet>138</a>    <span class="kw">let </span>entity = entity.clone();
-<a href=#139 id=139 data-nosnippet>139</a>    SettingItem::render(<span class="kw">move </span>|_options, _window, _cx| {
-<a href=#140 id=140 data-nosnippet>140</a>        <span class="kw">let </span>entity = entity.clone();
-<a href=#141 id=141 data-nosnippet>141</a>        h_flex()
-<a href=#142 id=142 data-nosnippet>142</a>            .w_full()
-<a href=#143 id=143 data-nosnippet>143</a>            .justify_end()
-<a href=#144 id=144 data-nosnippet>144</a>            .mt_2()
-<a href=#145 id=145 data-nosnippet>145</a>            .child(
-<a href=#146 id=146 data-nosnippet>146</a>                Button::new(<span class="string">"add-server-profile"</span>)
-<a href=#147 id=147 data-nosnippet>147</a>                    .child(<span class="string">"Add Fulgurant instance"</span>)
-<a href=#148 id=148 data-nosnippet>148</a>                    .small()
-<a href=#149 id=149 data-nosnippet>149</a>                    .primary()
-<a href=#150 id=150 data-nosnippet>150</a>                    .cursor_pointer()
-<a href=#151 id=151 data-nosnippet>151</a>                    .on_click(<span class="kw">move </span>|<span class="kw">_</span>, window, cx| {
-<a href=#152 id=152 data-nosnippet>152</a>                        <span class="kw">let </span>already_at_cap = entity
-<a href=#153 id=153 data-nosnippet>153</a>                            .read(cx)
-<a href=#154 id=154 data-nosnippet>154</a>                            .settings
-<a href=#155 id=155 data-nosnippet>155</a>                            .app_settings
-<a href=#156 id=156 data-nosnippet>156</a>                            .synchronization_settings
-<a href=#157 id=157 data-nosnippet>157</a>                            .profiles
-<a href=#158 id=158 data-nosnippet>158</a>                            .len()
-<a href=#159 id=159 data-nosnippet>159</a>                            &gt;= MAX_PROFILES;
-<a href=#160 id=160 data-nosnippet>160</a>                        <span class="kw">if </span>already_at_cap {
-<a href=#161 id=161 data-nosnippet>161</a>                            window.push_notification(
-<a href=#162 id=162 data-nosnippet>162</a>                                (
-<a href=#163 id=163 data-nosnippet>163</a>                                    gpui_component::notification::NotificationType::Error,
-<a href=#164 id=164 data-nosnippet>164</a>                                    SharedString::from(<span class="macro">format!</span>(
-<a href=#165 id=165 data-nosnippet>165</a>                                        <span class="string">"Maximum of {MAX_PROFILES} Fulgurant instances reached."
-<a href=#166 id=166 data-nosnippet>166</a>                                    </span>)),
-<a href=#167 id=167 data-nosnippet>167</a>                                ),
-<a href=#168 id=168 data-nosnippet>168</a>                                cx,
-<a href=#169 id=169 data-nosnippet>169</a>                            );
-<a href=#170 id=170 data-nosnippet>170</a>                            <span class="kw">return</span>;
-<a href=#171 id=171 data-nosnippet>171</a>                        }
-<a href=#172 id=172 data-nosnippet>172</a>                        entity.update(cx, |this, cx| {
-<a href=#173 id=173 data-nosnippet>173</a>                            this.open_edit_profile_sheet(<span class="prelude-val">None</span>, window, cx);
-<a href=#174 id=174 data-nosnippet>174</a>                        });
-<a href=#175 id=175 data-nosnippet>175</a>                    }),
-<a href=#176 id=176 data-nosnippet>176</a>            )
-<a href=#177 id=177 data-nosnippet>177</a>            .into_any_element()
-<a href=#178 id=178 data-nosnippet>178</a>    })
-<a href=#179 id=179 data-nosnippet>179</a>}
+<a href=#120 id=120 data-nosnippet>120</a>            <span class="kw">if </span>value {
+<a href=#121 id=121 data-nosnippet>121</a>                this.restart_sse_connection_for(profile_id, cx);
+<a href=#122 id=122 data-nosnippet>122</a>            } <span class="kw">else </span>{
+<a href=#123 id=123 data-nosnippet>123</a>                this.stop_sse_connection_for(profile_id, cx);
+<a href=#124 id=124 data-nosnippet>124</a>            }
+<a href=#125 id=125 data-nosnippet>125</a>        }
+<a href=#126 id=126 data-nosnippet>126</a>        ids
+<a href=#127 id=127 data-nosnippet>127</a>    });
+<a href=#128 id=128 data-nosnippet>128</a>    <span class="macro">log::debug!</span>(
+<a href=#129 id=129 data-nosnippet>129</a>        <span class="string">"Master switch toggled to {value}; refreshed SSE for {} active profile(s)"</span>,
+<a href=#130 id=130 data-nosnippet>130</a>        active_profile_ids.len()
+<a href=#131 id=131 data-nosnippet>131</a>    );
+<a href=#132 id=132 data-nosnippet>132</a>}
+<a href=#133 id=133 data-nosnippet>133</a>
+<a href=#134 id=134 data-nosnippet>134</a><span class="doccomment">/// Render the right-aligned "Add server" button.
+<a href=#135 id=135 data-nosnippet>135</a>///
+<a href=#136 id=136 data-nosnippet>136</a>/// ### Arguments
+<a href=#137 id=137 data-nosnippet>137</a>/// - `entity`: The Fulgur entity.
+<a href=#138 id=138 data-nosnippet>138</a>///
+<a href=#139 id=139 data-nosnippet>139</a>/// ### Returns
+<a href=#140 id=140 data-nosnippet>140</a>/// - `SettingItem`: The button row.
+<a href=#141 id=141 data-nosnippet>141</a></span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>render_add_server_button(entity: <span class="kw-2">&amp;</span>Entity&lt;Fulgur&gt;) -&gt; SettingItem {
+<a href=#142 id=142 data-nosnippet>142</a>    <span class="kw">let </span>entity = entity.clone();
+<a href=#143 id=143 data-nosnippet>143</a>    SettingItem::render(<span class="kw">move </span>|_options, _window, _cx| {
+<a href=#144 id=144 data-nosnippet>144</a>        <span class="kw">let </span>entity = entity.clone();
+<a href=#145 id=145 data-nosnippet>145</a>        h_flex()
+<a href=#146 id=146 data-nosnippet>146</a>            .w_full()
+<a href=#147 id=147 data-nosnippet>147</a>            .justify_end()
+<a href=#148 id=148 data-nosnippet>148</a>            .mt_2()
+<a href=#149 id=149 data-nosnippet>149</a>            .child(
+<a href=#150 id=150 data-nosnippet>150</a>                Button::new(<span class="string">"add-server-profile"</span>)
+<a href=#151 id=151 data-nosnippet>151</a>                    .child(<span class="string">"Add Fulgurant instance"</span>)
+<a href=#152 id=152 data-nosnippet>152</a>                    .small()
+<a href=#153 id=153 data-nosnippet>153</a>                    .primary()
+<a href=#154 id=154 data-nosnippet>154</a>                    .cursor_pointer()
+<a href=#155 id=155 data-nosnippet>155</a>                    .on_click(<span class="kw">move </span>|<span class="kw">_</span>, window, cx| {
+<a href=#156 id=156 data-nosnippet>156</a>                        <span class="kw">let </span>already_at_cap = entity
+<a href=#157 id=157 data-nosnippet>157</a>                            .read(cx)
+<a href=#158 id=158 data-nosnippet>158</a>                            .settings
+<a href=#159 id=159 data-nosnippet>159</a>                            .app_settings
+<a href=#160 id=160 data-nosnippet>160</a>                            .synchronization_settings
+<a href=#161 id=161 data-nosnippet>161</a>                            .profiles
+<a href=#162 id=162 data-nosnippet>162</a>                            .len()
+<a href=#163 id=163 data-nosnippet>163</a>                            &gt;= MAX_PROFILES;
+<a href=#164 id=164 data-nosnippet>164</a>                        <span class="kw">if </span>already_at_cap {
+<a href=#165 id=165 data-nosnippet>165</a>                            window.push_notification(
+<a href=#166 id=166 data-nosnippet>166</a>                                (
+<a href=#167 id=167 data-nosnippet>167</a>                                    gpui_component::notification::NotificationType::Error,
+<a href=#168 id=168 data-nosnippet>168</a>                                    SharedString::from(<span class="macro">format!</span>(
+<a href=#169 id=169 data-nosnippet>169</a>                                        <span class="string">"Maximum of {MAX_PROFILES} Fulgurant instances reached."
+<a href=#170 id=170 data-nosnippet>170</a>                                    </span>)),
+<a href=#171 id=171 data-nosnippet>171</a>                                ),
+<a href=#172 id=172 data-nosnippet>172</a>                                cx,
+<a href=#173 id=173 data-nosnippet>173</a>                            );
+<a href=#174 id=174 data-nosnippet>174</a>                            <span class="kw">return</span>;
+<a href=#175 id=175 data-nosnippet>175</a>                        }
+<a href=#176 id=176 data-nosnippet>176</a>                        entity.update(cx, |this, cx| {
+<a href=#177 id=177 data-nosnippet>177</a>                            this.open_edit_profile_sheet(<span class="prelude-val">None</span>, window, cx);
+<a href=#178 id=178 data-nosnippet>178</a>                        });
+<a href=#179 id=179 data-nosnippet>179</a>                    }),
+<a href=#180 id=180 data-nosnippet>180</a>            )
+<a href=#181 id=181 data-nosnippet>181</a>            .into_any_element()
+<a href=#182 id=182 data-nosnippet>182</a>    })
+<a href=#183 id=183 data-nosnippet>183</a>}
 </code></pre></div></section></main></body></html>
