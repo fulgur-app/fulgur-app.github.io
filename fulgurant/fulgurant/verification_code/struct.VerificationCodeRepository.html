@@ -12,7 +12,7 @@
     email: <a class="struct" href="https://doc.rust-lang.org/1.97.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>,
     code: <a class="struct" href="https://doc.rust-lang.org/1.97.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>,
     purpose: <a class="struct" href="https://doc.rust-lang.org/1.97.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>,
-) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.103/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="struct" href="struct.VerificationCode.html" title="struct fulgurant::verification_code::VerificationCode">VerificationCode</a>&gt;</h4></section></summary><div class="docblock"><p>Create a new verification code</p>
+) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.104/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="struct" href="struct.VerificationCode.html" title="struct fulgurant::verification_code::VerificationCode">VerificationCode</a>&gt;</h4></section></summary><div class="docblock"><p>Create a new verification code</p>
 <h6 id="arguments-1"><a class="doc-anchor" href="#arguments-1">§</a>Arguments</h6>
 <ul>
 <li><code>email</code>: The email of the user</li>
@@ -24,7 +24,7 @@
 <li><code>Ok(VerificationCode)</code>: The created verification code</li>
 <li><code>Err(anyhow::Error)</code>: The error if the operation fails</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.delete_for" class="method"><a class="src rightside" href="../../src/fulgurant/verification_code.rs.html#163-171">Source</a><h4 class="code-header">pub async fn <a href="#method.delete_for" class="fn">delete_for</a>(&amp;self, email: <a class="struct" href="https://doc.rust-lang.org/1.97.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>, purpose: <a class="struct" href="https://doc.rust-lang.org/1.97.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.103/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.97.1/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>Delete a verification code for an email and purpose</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.delete_for" class="method"><a class="src rightside" href="../../src/fulgurant/verification_code.rs.html#163-171">Source</a><h4 class="code-header">pub async fn <a href="#method.delete_for" class="fn">delete_for</a>(&amp;self, email: <a class="struct" href="https://doc.rust-lang.org/1.97.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>, purpose: <a class="struct" href="https://doc.rust-lang.org/1.97.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.104/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.97.1/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>Delete a verification code for an email and purpose</p>
 <h6 id="arguments-2"><a class="doc-anchor" href="#arguments-2">§</a>Arguments</h6>
 <ul>
 <li><code>email</code>: The email of the user</li>
@@ -39,7 +39,7 @@
     &amp;self,
     email: <a class="struct" href="https://doc.rust-lang.org/1.97.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>,
     purpose: <a class="struct" href="https://doc.rust-lang.org/1.97.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>,
-) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.103/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.97.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="struct.VerificationCode.html" title="struct fulgurant::verification_code::VerificationCode">VerificationCode</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>Get the most recent active verification code for an email and purpose</p>
+) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.104/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.97.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="struct.VerificationCode.html" title="struct fulgurant::verification_code::VerificationCode">VerificationCode</a>&gt;&gt;</h4></section></summary><div class="docblock"><p>Get the most recent active verification code for an email and purpose</p>
 <p>Up to <code>VERIFICATION_CODE_MAX_ATTEMPTS</code> unverified codes can coexist for a
 given (email, purpose) because of the resend rate limit. The newest one
 (highest <code>created_at</code>) is always returned so that a freshly resent code is
@@ -54,7 +54,7 @@ the one verified against, rather than a backend-dependent arbitrary row.</p>
 <li><code>Ok(Option&lt;VerificationCode&gt;)</code>: The most recent unverified code if any, otherwise None</li>
 <li><code>Err(anyhow::Error)</code>: The error if the operation fails</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.claim_attempt" class="method"><a class="src rightside" href="../../src/fulgurant/verification_code.rs.html#211-218">Source</a><h4 class="code-header">pub async fn <a href="#method.claim_attempt" class="fn">claim_attempt</a>(&amp;self, id: <a class="struct" href="https://doc.rust-lang.org/1.97.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.103/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.97.1/std/primitive.bool.html">bool</a>&gt;</h4></section></summary><div class="docblock"><p>Atomically claim a verification attempt for a code</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.claim_attempt" class="method"><a class="src rightside" href="../../src/fulgurant/verification_code.rs.html#211-218">Source</a><h4 class="code-header">pub async fn <a href="#method.claim_attempt" class="fn">claim_attempt</a>(&amp;self, id: <a class="struct" href="https://doc.rust-lang.org/1.97.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.104/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.97.1/std/primitive.bool.html">bool</a>&gt;</h4></section></summary><div class="docblock"><p>Atomically claim a verification attempt for a code</p>
 <h6 id="arguments-4"><a class="doc-anchor" href="#arguments-4">§</a>Arguments</h6>
 <ul>
 <li><code>id</code>: The ID of the verification code</li>
@@ -65,7 +65,7 @@ the one verified against, rather than a backend-dependent arbitrary row.</p>
 <li><code>Ok(false)</code>: The attempt cap was already reached; no attempt claimed</li>
 <li><code>Err(anyhow::Error)</code>: The error if the operation fails</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.mark_as_verified" class="method"><a class="src rightside" href="../../src/fulgurant/verification_code.rs.html#228-238">Source</a><h4 class="code-header">pub async fn <a href="#method.mark_as_verified" class="fn">mark_as_verified</a>(&amp;self, id: <a class="struct" href="https://doc.rust-lang.org/1.97.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.103/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.97.1/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>Mark a verification code as verified</p>
+</div></details><details class="toggle method-toggle" open><summary><section id="method.mark_as_verified" class="method"><a class="src rightside" href="../../src/fulgurant/verification_code.rs.html#228-238">Source</a><h4 class="code-header">pub async fn <a href="#method.mark_as_verified" class="fn">mark_as_verified</a>(&amp;self, id: <a class="struct" href="https://doc.rust-lang.org/1.97.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.104/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.97.1/std/primitive.unit.html">()</a>&gt;</h4></section></summary><div class="docblock"><p>Mark a verification code as verified</p>
 <h6 id="arguments-5"><a class="doc-anchor" href="#arguments-5">§</a>Arguments</h6>
 <ul>
 <li><code>id</code>: The ID of the verification code</li>
@@ -80,7 +80,7 @@ the one verified against, rather than a backend-dependent arbitrary row.</p>
     code: <a class="struct" href="https://doc.rust-lang.org/1.97.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>,
     email: <a class="struct" href="https://doc.rust-lang.org/1.97.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>,
     purpose: <a class="struct" href="https://doc.rust-lang.org/1.97.1/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>,
-) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.103/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="enum" href="enum.VerificationResult.html" title="enum fulgurant::verification_code::VerificationResult">VerificationResult</a>&gt;</h4></section></summary><div class="docblock"><p>Verify a validationcode</p>
+) -&gt; <a class="type" href="https://docs.rs/anyhow/1.0.104/anyhow/type.Result.html" title="type anyhow::Result">Result</a>&lt;<a class="enum" href="enum.VerificationResult.html" title="enum fulgurant::verification_code::VerificationResult">VerificationResult</a>&gt;</h4></section></summary><div class="docblock"><p>Verify a validationcode</p>
 <h6 id="arguments-6"><a class="doc-anchor" href="#arguments-6">§</a>Arguments</h6>
 <ul>
 <li><code>code</code>: The code to verify</li>
