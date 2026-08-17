@@ -6,7 +6,7 @@
 <a href=#6 id=6 data-nosnippet>6</a>};
 <a href=#7 id=7 data-nosnippet>7</a><span class="kw">use </span>gpui_component::{
 <a href=#8 id=8 data-nosnippet>8</a>    color_picker::{ColorPickerEvent, ColorPickerState},
-<a href=#9 id=9 data-nosnippet>9</a>    input::{InputEvent, InputState},
+<a href=#9 id=9 data-nosnippet>9</a>    input::{EditorState, InputEvent, InputState},
 <a href=#10 id=10 data-nosnippet>10</a>};
 <a href=#11 id=11 data-nosnippet>11</a>
 <a href=#12 id=12 data-nosnippet>12</a><span class="kw">use </span><span class="kw">super</span>::color::{format_hsla, format_oklch, parse_hex, parse_hsla, parse_oklch};
@@ -220,9 +220,9 @@
 <a href=#220 id=220 data-nosnippet>220</a>    /// - `cx`: The application context
 <a href=#221 id=221 data-nosnippet>221</a>    ///
 <a href=#222 id=222 data-nosnippet>222</a>    /// ### Returns
-<a href=#223 id=223 data-nosnippet>223</a>    /// - `Some(Entity&lt;InputState&gt;)`: The active editor tab's content
+<a href=#223 id=223 data-nosnippet>223</a>    /// - `Some(Entity&lt;EditorState&gt;)`: The active editor tab's content
 <a href=#224 id=224 data-nosnippet>224</a>    /// - `None`: If the window is gone or the active tab is not an editor
-<a href=#225 id=225 data-nosnippet>225</a>    </span><span class="kw">fn </span>active_editor_content(<span class="kw-2">&amp;</span><span class="self">self</span>, cx: <span class="kw-2">&amp;</span>App) -&gt; <span class="prelude-ty">Option</span>&lt;Entity&lt;InputState&gt;&gt; {
+<a href=#225 id=225 data-nosnippet>225</a>    </span><span class="kw">fn </span>active_editor_content(<span class="kw-2">&amp;</span><span class="self">self</span>, cx: <span class="kw-2">&amp;</span>App) -&gt; <span class="prelude-ty">Option</span>&lt;Entity&lt;EditorState&gt;&gt; {
 <a href=#226 id=226 data-nosnippet>226</a>        <span class="kw">let </span>fulgur = <span class="self">self</span>.fulgur.upgrade()<span class="question-mark">?</span>;
 <a href=#227 id=227 data-nosnippet>227</a>        fulgur
 <a href=#228 id=228 data-nosnippet>228</a>            .read(cx)

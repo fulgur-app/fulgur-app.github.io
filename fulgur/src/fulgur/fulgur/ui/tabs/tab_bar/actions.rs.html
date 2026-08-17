@@ -4,7 +4,7 @@
 <a href=#4 id=4 data-nosnippet>4</a>};
 <a href=#5 id=5 data-nosnippet>5</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::Fulgur;
 <a href=#6 id=6 data-nosnippet>6</a><span class="kw">use </span>gpui::{ClipboardItem, Context, Window};
-<a href=#7 id=7 data-nosnippet>7</a><span class="kw">use </span>gpui_component::{ActiveTheme, Theme, ThemeRegistry};
+<a href=#7 id=7 data-nosnippet>7</a><span class="kw">use </span>gpui_component::{ActiveTheme, ThemeRegistry};
 <a href=#8 id=8 data-nosnippet>8</a>
 <a href=#9 id=9 data-nosnippet>9</a><span class="kw">impl </span>Fulgur {
 <a href=#10 id=10 data-nosnippet>10</a>    <span class="doccomment">/// Handle close tab action from context menu
@@ -252,9 +252,9 @@
 <a href=#252 id=252 data-nosnippet>252</a>            .get(theme_name.as_ref())
 <a href=#253 id=253 data-nosnippet>253</a>            .cloned()
 <a href=#254 id=254 data-nosnippet>254</a>        {
-<a href=#255 id=255 data-nosnippet>255</a>            Theme::global_mut(cx).apply_config(<span class="kw-2">&amp;</span>theme_config);
+<a href=#255 id=255 data-nosnippet>255</a>            <span class="kw">crate</span>::fulgur::ui::themes::apply_theme_config(<span class="kw-2">&amp;</span>theme_config, cx);
 <a href=#256 id=256 data-nosnippet>256</a>            <span class="self">self</span>.settings.app_settings.theme = theme_name;
-<a href=#257 id=257 data-nosnippet>257</a>            <span class="self">self</span>.settings.app_settings.scrollbar_show = <span class="prelude-val">Some</span>(cx.theme().scrollbar_show);
+<a href=#257 id=257 data-nosnippet>257</a>            <span class="self">self</span>.settings.app_settings.scrollbar_show = <span class="prelude-val">Some</span>(cx.theme().scrollbar_mode);
 <a href=#258 id=258 data-nosnippet>258</a>            <span class="kw">let _ </span>= <span class="self">self</span>.update_and_propagate_settings(cx);
 <a href=#259 id=259 data-nosnippet>259</a>        }
 <a href=#260 id=260 data-nosnippet>260</a>        cx.refresh_windows();

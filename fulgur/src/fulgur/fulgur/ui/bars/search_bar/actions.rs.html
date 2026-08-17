@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/fulgur/ui/bars/search_bar/actions.rs`."><title>actions.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-17e0aaed.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="fulgur" data-themes="" data-resource-suffix="" data-rustdoc-version="1.97.1 (8bab26f4f 2026-07-14)" data-channel="1.97.1" data-search-js="search-fd9372ac.js" data-stringdex-js="stringdex-2da4960a.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../../../../static.files/storage-41dd4d93.js"></script><script defer src="../../../../../../static.files/src-script-813739b1.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-fcd733ba.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1><div class="sub-heading">fulgur/fulgur/ui/bars/search_bar/</div>actions.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::Fulgur;
 <a href=#2 id=2 data-nosnippet>2</a><span class="kw">use </span>gpui::{App, Context, Entity, Focusable, Window};
-<a href=#3 id=3 data-nosnippet>3</a><span class="kw">use </span>gpui_component::input::{InputState, Position};
+<a href=#3 id=3 data-nosnippet>3</a><span class="kw">use </span>gpui_component::input::{EditorState, Position};
 <a href=#4 id=4 data-nosnippet>4</a><span class="kw">use </span>lsp_types::{Diagnostic, DiagnosticSeverity};
 <a href=#5 id=5 data-nosnippet>5</a>
 <a href=#6 id=6 data-nosnippet>6</a><span class="kw">use </span><span class="kw">super</span>::matching::find_matches_with_scratch;
@@ -15,7 +15,7 @@
 <a href=#15 id=15 data-nosnippet>15</a>    /// - `cx`: The search bar context
 <a href=#16 id=16 data-nosnippet>16</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>toggle(
 <a href=#17 id=17 data-nosnippet>17</a>        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-<a href=#18 id=18 data-nosnippet>18</a>        content: <span class="prelude-ty">Option</span>&lt;Entity&lt;InputState&gt;&gt;,
+<a href=#18 id=18 data-nosnippet>18</a>        content: <span class="prelude-ty">Option</span>&lt;Entity&lt;EditorState&gt;&gt;,
 <a href=#19 id=19 data-nosnippet>19</a>        window: <span class="kw-2">&amp;mut </span>Window,
 <a href=#20 id=20 data-nosnippet>20</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
 <a href=#21 id=21 data-nosnippet>21</a>    ) {
@@ -35,7 +35,7 @@
 <a href=#35 id=35 data-nosnippet>35</a>    /// ### Arguments
 <a href=#36 id=36 data-nosnippet>36</a>    /// - `content`: The active editor tab's content to clear highlighting from, if any
 <a href=#37 id=37 data-nosnippet>37</a>    /// - `cx`: The search bar context
-<a href=#38 id=38 data-nosnippet>38</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>close(<span class="kw-2">&amp;mut </span><span class="self">self</span>, content: <span class="prelude-ty">Option</span>&lt;Entity&lt;InputState&gt;&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
+<a href=#38 id=38 data-nosnippet>38</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>close(<span class="kw-2">&amp;mut </span><span class="self">self</span>, content: <span class="prelude-ty">Option</span>&lt;Entity&lt;EditorState&gt;&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
 <a href=#39 id=39 data-nosnippet>39</a>        <span class="self">self</span>.show_search = <span class="bool-val">false</span>;
 <a href=#40 id=40 data-nosnippet>40</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(content) = content {
 <a href=#41 id=41 data-nosnippet>41</a>            content.update(cx, |content, _cx| {
@@ -70,7 +70,7 @@
 <a href=#70 id=70 data-nosnippet>70</a>    /// - `cx`: The search bar context
 <a href=#71 id=71 data-nosnippet>71</a>    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>refresh_matches(
 <a href=#72 id=72 data-nosnippet>72</a>        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-<a href=#73 id=73 data-nosnippet>73</a>        content: <span class="prelude-ty">Option</span>&lt;Entity&lt;InputState&gt;&gt;,
+<a href=#73 id=73 data-nosnippet>73</a>        content: <span class="prelude-ty">Option</span>&lt;Entity&lt;EditorState&gt;&gt;,
 <a href=#74 id=74 data-nosnippet>74</a>        window: <span class="kw-2">&amp;mut </span>Window,
 <a href=#75 id=75 data-nosnippet>75</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
 <a href=#76 id=76 data-nosnippet>76</a>    ) {
@@ -86,7 +86,7 @@
 <a href=#86 id=86 data-nosnippet>86</a>    /// - `cx`: The search bar context
 <a href=#87 id=87 data-nosnippet>87</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>perform_search(
 <a href=#88 id=88 data-nosnippet>88</a>        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-<a href=#89 id=89 data-nosnippet>89</a>        content: <span class="prelude-ty">Option</span>&lt;Entity&lt;InputState&gt;&gt;,
+<a href=#89 id=89 data-nosnippet>89</a>        content: <span class="prelude-ty">Option</span>&lt;Entity&lt;EditorState&gt;&gt;,
 <a href=#90 id=90 data-nosnippet>90</a>        window: <span class="kw-2">&amp;mut </span>Window,
 <a href=#91 id=91 data-nosnippet>91</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
 <a href=#92 id=92 data-nosnippet>92</a>    ) {
@@ -193,7 +193,7 @@
 <a href=#193 id=193 data-nosnippet>193</a>    /// - `cx`: The search bar context
 <a href=#194 id=194 data-nosnippet>194</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>search_next(
 <a href=#195 id=195 data-nosnippet>195</a>        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-<a href=#196 id=196 data-nosnippet>196</a>        content: <span class="prelude-ty">Option</span>&lt;Entity&lt;InputState&gt;&gt;,
+<a href=#196 id=196 data-nosnippet>196</a>        content: <span class="prelude-ty">Option</span>&lt;Entity&lt;EditorState&gt;&gt;,
 <a href=#197 id=197 data-nosnippet>197</a>        window: <span class="kw-2">&amp;mut </span>Window,
 <a href=#198 id=198 data-nosnippet>198</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
 <a href=#199 id=199 data-nosnippet>199</a>    ) {
@@ -219,7 +219,7 @@
 <a href=#219 id=219 data-nosnippet>219</a>    /// - `cx`: The search bar context
 <a href=#220 id=220 data-nosnippet>220</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>search_previous(
 <a href=#221 id=221 data-nosnippet>221</a>        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-<a href=#222 id=222 data-nosnippet>222</a>        content: <span class="prelude-ty">Option</span>&lt;Entity&lt;InputState&gt;&gt;,
+<a href=#222 id=222 data-nosnippet>222</a>        content: <span class="prelude-ty">Option</span>&lt;Entity&lt;EditorState&gt;&gt;,
 <a href=#223 id=223 data-nosnippet>223</a>        window: <span class="kw-2">&amp;mut </span>Window,
 <a href=#224 id=224 data-nosnippet>224</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
 <a href=#225 id=225 data-nosnippet>225</a>    ) {
@@ -249,7 +249,7 @@
 <a href=#249 id=249 data-nosnippet>249</a>    /// - `cx`: The application context
 <a href=#250 id=250 data-nosnippet>250</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>highlight_current_match(
 <a href=#251 id=251 data-nosnippet>251</a>        <span class="kw-2">&amp;</span><span class="self">self</span>,
-<a href=#252 id=252 data-nosnippet>252</a>        content: <span class="kw-2">&amp;</span>Entity&lt;InputState&gt;,
+<a href=#252 id=252 data-nosnippet>252</a>        content: <span class="kw-2">&amp;</span>Entity&lt;EditorState&gt;,
 <a href=#253 id=253 data-nosnippet>253</a>        window: <span class="kw-2">&amp;mut </span>Window,
 <a href=#254 id=254 data-nosnippet>254</a>        cx: <span class="kw-2">&amp;mut </span>App,
 <a href=#255 id=255 data-nosnippet>255</a>    ) {

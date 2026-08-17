@@ -84,63 +84,62 @@
 <a href=#84 id=84 data-nosnippet>84</a>                        .ok_text(<span class="string">"OK"</span>)
 <a href=#85 id=85 data-nosnippet>85</a>                        .ok_variant(ButtonVariant::Primary),
 <a href=#86 id=86 data-nosnippet>86</a>                )
-<a href=#87 id=87 data-nosnippet>87</a>                .overlay_closable(<span class="bool-val">true</span>)
-<a href=#88 id=88 data-nosnippet>88</a>                .close_button(<span class="bool-val">false</span>)
-<a href=#89 id=89 data-nosnippet>89</a>                .child(Input::new(<span class="kw-2">&amp;</span>input))
-<a href=#90 id=90 data-nosnippet>90</a>                .on_ok(<span class="kw">move </span>|<span class="kw">_</span>, window, cx| {
-<a href=#91 id=91 data-nosnippet>91</a>                    <span class="kw">let </span>value = input_for_ok.read(cx).value().to_string();
-<a href=#92 id=92 data-nosnippet>92</a>                    table_for_ok.update(cx, |state, cx| {
-<a href=#93 id=93 data-nosnippet>93</a>                        state.delegate_mut().apply_edit(target, value, window, cx);
-<a href=#94 id=94 data-nosnippet>94</a>                    });
-<a href=#95 id=95 data-nosnippet>95</a>                    <span class="bool-val">true
-<a href=#96 id=96 data-nosnippet>96</a>                </span>})
-<a href=#97 id=97 data-nosnippet>97</a>        });
-<a href=#98 id=98 data-nosnippet>98</a>    }
-<a href=#99 id=99 data-nosnippet>99</a>
-<a href=#100 id=100 data-nosnippet>100</a>    <span class="doccomment">/// Write an edited value back into the model and the canonical buffer.
-<a href=#101 id=101 data-nosnippet>101</a>    ///
-<a href=#102 id=102 data-nosnippet>102</a>    /// ### Arguments
-<a href=#103 id=103 data-nosnippet>103</a>    /// - `target`: The header or cell being edited (data indices)
-<a href=#104 id=104 data-nosnippet>104</a>    /// - `value`: The new value
-<a href=#105 id=105 data-nosnippet>105</a>    /// - `window`: The active window
-<a href=#106 id=106 data-nosnippet>106</a>    /// - `cx`: The table state context
-<a href=#107 id=107 data-nosnippet>107</a>    </span><span class="kw">fn </span>apply_edit(
-<a href=#108 id=108 data-nosnippet>108</a>        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-<a href=#109 id=109 data-nosnippet>109</a>        target: EditTarget,
-<a href=#110 id=110 data-nosnippet>110</a>        value: String,
-<a href=#111 id=111 data-nosnippet>111</a>        window: <span class="kw-2">&amp;mut </span>Window,
-<a href=#112 id=112 data-nosnippet>112</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;TableState&lt;<span class="self">Self</span>&gt;&gt;,
-<a href=#113 id=113 data-nosnippet>113</a>    ) {
-<a href=#114 id=114 data-nosnippet>114</a>        <span class="self">Self</span>::apply_edit_in(<span class="kw-2">&amp;mut </span><span class="self">self</span>.headers, <span class="kw-2">&amp;mut </span><span class="self">self</span>.rows, target, value);
-<a href=#115 id=115 data-nosnippet>115</a>        <span class="self">self</span>.commit_and_refresh(window, cx);
-<a href=#116 id=116 data-nosnippet>116</a>    }
-<a href=#117 id=117 data-nosnippet>117</a>
-<a href=#118 id=118 data-nosnippet>118</a>    <span class="doccomment">/// Write an edited value into a plain headers/rows model, ignoring
-<a href=#119 id=119 data-nosnippet>119</a>    /// out-of-bounds targets.
-<a href=#120 id=120 data-nosnippet>120</a>    ///
-<a href=#121 id=121 data-nosnippet>121</a>    /// ### Arguments
-<a href=#122 id=122 data-nosnippet>122</a>    /// - `headers`: The column headers
-<a href=#123 id=123 data-nosnippet>123</a>    /// - `rows`: The data rows
-<a href=#124 id=124 data-nosnippet>124</a>    /// - `target`: The header or cell being edited (data indices)
-<a href=#125 id=125 data-nosnippet>125</a>    /// - `value`: The new value
-<a href=#126 id=126 data-nosnippet>126</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>apply_edit_in(
-<a href=#127 id=127 data-nosnippet>127</a>        headers: <span class="kw-2">&amp;mut </span>[String],
-<a href=#128 id=128 data-nosnippet>128</a>        rows: <span class="kw-2">&amp;mut </span>[Vec&lt;String&gt;],
-<a href=#129 id=129 data-nosnippet>129</a>        target: EditTarget,
-<a href=#130 id=130 data-nosnippet>130</a>        value: String,
-<a href=#131 id=131 data-nosnippet>131</a>    ) {
-<a href=#132 id=132 data-nosnippet>132</a>        <span class="kw">match </span>target {
-<a href=#133 id=133 data-nosnippet>133</a>            EditTarget::Header(col) =&gt; {
-<a href=#134 id=134 data-nosnippet>134</a>                <span class="kw">if let </span><span class="prelude-val">Some</span>(header) = headers.get_mut(col) {
-<a href=#135 id=135 data-nosnippet>135</a>                    <span class="kw-2">*</span>header = value;
-<a href=#136 id=136 data-nosnippet>136</a>                }
-<a href=#137 id=137 data-nosnippet>137</a>            }
-<a href=#138 id=138 data-nosnippet>138</a>            EditTarget::Cell(row, col) =&gt; {
-<a href=#139 id=139 data-nosnippet>139</a>                <span class="kw">if let </span><span class="prelude-val">Some</span>(cell) = rows.get_mut(row).and_then(|cells| cells.get_mut(col)) {
-<a href=#140 id=140 data-nosnippet>140</a>                    <span class="kw-2">*</span>cell = value;
-<a href=#141 id=141 data-nosnippet>141</a>                }
-<a href=#142 id=142 data-nosnippet>142</a>            }
-<a href=#143 id=143 data-nosnippet>143</a>        }
-<a href=#144 id=144 data-nosnippet>144</a>    }
-<a href=#145 id=145 data-nosnippet>145</a>}
+<a href=#87 id=87 data-nosnippet>87</a>                .close_button(<span class="bool-val">false</span>)
+<a href=#88 id=88 data-nosnippet>88</a>                .child(Input::new(<span class="kw-2">&amp;</span>input))
+<a href=#89 id=89 data-nosnippet>89</a>                .on_ok(<span class="kw">move </span>|<span class="kw">_</span>, window, cx| {
+<a href=#90 id=90 data-nosnippet>90</a>                    <span class="kw">let </span>value = input_for_ok.read(cx).value().to_string();
+<a href=#91 id=91 data-nosnippet>91</a>                    table_for_ok.update(cx, |state, cx| {
+<a href=#92 id=92 data-nosnippet>92</a>                        state.delegate_mut().apply_edit(target, value, window, cx);
+<a href=#93 id=93 data-nosnippet>93</a>                    });
+<a href=#94 id=94 data-nosnippet>94</a>                    <span class="bool-val">true
+<a href=#95 id=95 data-nosnippet>95</a>                </span>})
+<a href=#96 id=96 data-nosnippet>96</a>        });
+<a href=#97 id=97 data-nosnippet>97</a>    }
+<a href=#98 id=98 data-nosnippet>98</a>
+<a href=#99 id=99 data-nosnippet>99</a>    <span class="doccomment">/// Write an edited value back into the model and the canonical buffer.
+<a href=#100 id=100 data-nosnippet>100</a>    ///
+<a href=#101 id=101 data-nosnippet>101</a>    /// ### Arguments
+<a href=#102 id=102 data-nosnippet>102</a>    /// - `target`: The header or cell being edited (data indices)
+<a href=#103 id=103 data-nosnippet>103</a>    /// - `value`: The new value
+<a href=#104 id=104 data-nosnippet>104</a>    /// - `window`: The active window
+<a href=#105 id=105 data-nosnippet>105</a>    /// - `cx`: The table state context
+<a href=#106 id=106 data-nosnippet>106</a>    </span><span class="kw">fn </span>apply_edit(
+<a href=#107 id=107 data-nosnippet>107</a>        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+<a href=#108 id=108 data-nosnippet>108</a>        target: EditTarget,
+<a href=#109 id=109 data-nosnippet>109</a>        value: String,
+<a href=#110 id=110 data-nosnippet>110</a>        window: <span class="kw-2">&amp;mut </span>Window,
+<a href=#111 id=111 data-nosnippet>111</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;TableState&lt;<span class="self">Self</span>&gt;&gt;,
+<a href=#112 id=112 data-nosnippet>112</a>    ) {
+<a href=#113 id=113 data-nosnippet>113</a>        <span class="self">Self</span>::apply_edit_in(<span class="kw-2">&amp;mut </span><span class="self">self</span>.headers, <span class="kw-2">&amp;mut </span><span class="self">self</span>.rows, target, value);
+<a href=#114 id=114 data-nosnippet>114</a>        <span class="self">self</span>.commit_and_refresh(window, cx);
+<a href=#115 id=115 data-nosnippet>115</a>    }
+<a href=#116 id=116 data-nosnippet>116</a>
+<a href=#117 id=117 data-nosnippet>117</a>    <span class="doccomment">/// Write an edited value into a plain headers/rows model, ignoring
+<a href=#118 id=118 data-nosnippet>118</a>    /// out-of-bounds targets.
+<a href=#119 id=119 data-nosnippet>119</a>    ///
+<a href=#120 id=120 data-nosnippet>120</a>    /// ### Arguments
+<a href=#121 id=121 data-nosnippet>121</a>    /// - `headers`: The column headers
+<a href=#122 id=122 data-nosnippet>122</a>    /// - `rows`: The data rows
+<a href=#123 id=123 data-nosnippet>123</a>    /// - `target`: The header or cell being edited (data indices)
+<a href=#124 id=124 data-nosnippet>124</a>    /// - `value`: The new value
+<a href=#125 id=125 data-nosnippet>125</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>apply_edit_in(
+<a href=#126 id=126 data-nosnippet>126</a>        headers: <span class="kw-2">&amp;mut </span>[String],
+<a href=#127 id=127 data-nosnippet>127</a>        rows: <span class="kw-2">&amp;mut </span>[Vec&lt;String&gt;],
+<a href=#128 id=128 data-nosnippet>128</a>        target: EditTarget,
+<a href=#129 id=129 data-nosnippet>129</a>        value: String,
+<a href=#130 id=130 data-nosnippet>130</a>    ) {
+<a href=#131 id=131 data-nosnippet>131</a>        <span class="kw">match </span>target {
+<a href=#132 id=132 data-nosnippet>132</a>            EditTarget::Header(col) =&gt; {
+<a href=#133 id=133 data-nosnippet>133</a>                <span class="kw">if let </span><span class="prelude-val">Some</span>(header) = headers.get_mut(col) {
+<a href=#134 id=134 data-nosnippet>134</a>                    <span class="kw-2">*</span>header = value;
+<a href=#135 id=135 data-nosnippet>135</a>                }
+<a href=#136 id=136 data-nosnippet>136</a>            }
+<a href=#137 id=137 data-nosnippet>137</a>            EditTarget::Cell(row, col) =&gt; {
+<a href=#138 id=138 data-nosnippet>138</a>                <span class="kw">if let </span><span class="prelude-val">Some</span>(cell) = rows.get_mut(row).and_then(|cells| cells.get_mut(col)) {
+<a href=#139 id=139 data-nosnippet>139</a>                    <span class="kw-2">*</span>cell = value;
+<a href=#140 id=140 data-nosnippet>140</a>                }
+<a href=#141 id=141 data-nosnippet>141</a>            }
+<a href=#142 id=142 data-nosnippet>142</a>        }
+<a href=#143 id=143 data-nosnippet>143</a>    }
+<a href=#144 id=144 data-nosnippet>144</a>}
 </code></pre></div></section></main></body></html>

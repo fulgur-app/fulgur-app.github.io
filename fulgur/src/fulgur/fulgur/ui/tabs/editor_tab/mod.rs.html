@@ -13,7 +13,7 @@
 <a href=#13 id=13 data-nosnippet>13</a><span class="kw">pub use </span>navigation::{Jump, extract_line_number};
 <a href=#14 id=14 data-nosnippet>14</a>
 <a href=#15 id=15 data-nosnippet>15</a><span class="kw">use </span>gpui::{App, AppContext, Context, Entity, SharedString, Window};
-<a href=#16 id=16 data-nosnippet>16</a><span class="kw">use </span>gpui_component::input::{InputState, Rope, TabSize};
+<a href=#16 id=16 data-nosnippet>16</a><span class="kw">use </span>gpui_component::input::{EditorState, InputState, Rope, TabSize};
 <a href=#17 id=17 data-nosnippet>17</a><span class="kw">use </span>gpui_component::table::TableState;
 <a href=#18 id=18 data-nosnippet>18</a><span class="kw">use </span>std::path::PathBuf;
 <a href=#19 id=19 data-nosnippet>19</a><span class="kw">use </span>std::rc::Rc;
@@ -51,7 +51,7 @@
 <a href=#51 id=51 data-nosnippet>51</a></span><span class="kw">pub struct </span>EditorTab {
 <a href=#52 id=52 data-nosnippet>52</a>    <span class="kw">pub </span>id: TabId,
 <a href=#53 id=53 data-nosnippet>53</a>    <span class="kw">pub </span>title: SharedString,
-<a href=#54 id=54 data-nosnippet>54</a>    <span class="kw">pub </span>content: Entity&lt;InputState&gt;,
+<a href=#54 id=54 data-nosnippet>54</a>    <span class="kw">pub </span>content: Entity&lt;EditorState&gt;,
 <a href=#55 id=55 data-nosnippet>55</a>    <span class="kw">pub </span>location: TabLocation,
 <a href=#56 id=56 data-nosnippet>56</a>    <span class="kw">pub </span>modified: bool,
 <a href=#57 id=57 data-nosnippet>57</a>    <span class="kw">pub </span>original_content_hash: u64,
@@ -84,7 +84,7 @@
 <a href=#84 id=84 data-nosnippet>84</a>    <span class="doccomment">/// Dedicated read-only display buffer for the tailed log, created lazily when
 <a href=#85 id=85 data-nosnippet>85</a>    /// log view first activates. Kept separate from the editable `content` so the
 <a href=#86 id=86 data-nosnippet>86</a>    /// line cap never truncates the saveable buffer.
-<a href=#87 id=87 data-nosnippet>87</a>    </span><span class="kw">pub </span>log_content: <span class="prelude-ty">Option</span>&lt;Entity&lt;InputState&gt;&gt;,
+<a href=#87 id=87 data-nosnippet>87</a>    </span><span class="kw">pub </span>log_content: <span class="prelude-ty">Option</span>&lt;Entity&lt;EditorState&gt;&gt;,
 <a href=#88 id=88 data-nosnippet>88</a>    <span class="doccomment">/// Subscription to the content entity keeping `modified` current. Owned by
 <a href=#89 id=89 data-nosnippet>89</a>    /// the tab entity, attached by `Tab::attach_content_subscription`, and
 <a href=#90 id=90 data-nosnippet>90</a>    /// replaced whenever the content entity is swapped.
@@ -258,26 +258,26 @@
 <a href=#258 id=258 data-nosnippet>258</a>    <span class="kw">pub </span>is_modified: bool,
 <a href=#259 id=259 data-nosnippet>259</a>}
 <a href=#260 id=260 data-nosnippet>260</a>
-<a href=#261 id=261 data-nosnippet>261</a><span class="doccomment">/// Create a new input state with syntax highlighting
+<a href=#261 id=261 data-nosnippet>261</a><span class="doccomment">/// Create a new editor state with syntax highlighting
 <a href=#262 id=262 data-nosnippet>262</a>///
 <a href=#263 id=263 data-nosnippet>263</a>/// ### Arguments
-<a href=#264 id=264 data-nosnippet>264</a>/// - `window`: The window to create the input state in
+<a href=#264 id=264 data-nosnippet>264</a>/// - `window`: The window to create the editor state in
 <a href=#265 id=265 data-nosnippet>265</a>/// - `cx`: The application context
 <a href=#266 id=266 data-nosnippet>266</a>/// - `language_name`: The language registry name for syntax highlighting
-<a href=#267 id=267 data-nosnippet>267</a>/// - `content`: The content of the input state
-<a href=#268 id=268 data-nosnippet>268</a>/// - `settings`: The settings for the input state
+<a href=#267 id=267 data-nosnippet>267</a>/// - `content`: The content of the editor state
+<a href=#268 id=268 data-nosnippet>268</a>/// - `settings`: The settings for the editor state
 <a href=#269 id=269 data-nosnippet>269</a>/// - `large_file`: Whether to open in large-file mode
 <a href=#270 id=270 data-nosnippet>270</a>///
 <a href=#271 id=271 data-nosnippet>271</a>/// ### Returns
-<a href=#272 id=272 data-nosnippet>272</a>/// - `InputState`: The new input state
+<a href=#272 id=272 data-nosnippet>272</a>/// - `EditorState`: The new editor state
 <a href=#273 id=273 data-nosnippet>273</a></span><span class="kw">fn </span>make_input_state(
 <a href=#274 id=274 data-nosnippet>274</a>    window: <span class="kw-2">&amp;mut </span>Window,
-<a href=#275 id=275 data-nosnippet>275</a>    cx: <span class="kw-2">&amp;mut </span>Context&lt;InputState&gt;,
+<a href=#275 id=275 data-nosnippet>275</a>    cx: <span class="kw-2">&amp;mut </span>Context&lt;EditorState&gt;,
 <a href=#276 id=276 data-nosnippet>276</a>    language_name: <span class="kw-2">&amp;</span>str,
 <a href=#277 id=277 data-nosnippet>277</a>    content: <span class="prelude-ty">Option</span>&lt;String&gt;,
 <a href=#278 id=278 data-nosnippet>278</a>    settings: <span class="kw-2">&amp;</span>EditorSettings,
 <a href=#279 id=279 data-nosnippet>279</a>    large_file: bool,
-<a href=#280 id=280 data-nosnippet>280</a>) -&gt; InputState {
+<a href=#280 id=280 data-nosnippet>280</a>) -&gt; EditorState {
 <a href=#281 id=281 data-nosnippet>281</a>    <span class="comment">// In large-file mode, substitute a language with no registered grammar so
 <a href=#282 id=282 data-nosnippet>282</a>    // the background tree-sitter parser short-circuits and never runs.
 <a href=#283 id=283 data-nosnippet>283</a>    </span><span class="kw">let </span>language_name = <span class="kw">if </span>large_file {
@@ -285,8 +285,8 @@
 <a href=#285 id=285 data-nosnippet>285</a>    } <span class="kw">else </span>{
 <a href=#286 id=286 data-nosnippet>286</a>        language_name
 <a href=#287 id=287 data-nosnippet>287</a>    };
-<a href=#288 id=288 data-nosnippet>288</a>    <span class="kw">let </span><span class="kw-2">mut </span>state = InputState::new(window, cx)
-<a href=#289 id=289 data-nosnippet>289</a>        .code_editor(language_name.to_string())
+<a href=#288 id=288 data-nosnippet>288</a>    <span class="kw">let </span><span class="kw-2">mut </span>state = EditorState::new(window, cx)
+<a href=#289 id=289 data-nosnippet>289</a>        .language(language_name.to_string())
 <a href=#290 id=290 data-nosnippet>290</a>        .line_number(settings.show_line_numbers)
 <a href=#291 id=291 data-nosnippet>291</a>        .indent_guides(settings.show_indent_guides &amp;&amp; !large_file)
 <a href=#292 id=292 data-nosnippet>292</a>        .tab_size(TabSize {
@@ -299,7 +299,7 @@
 <a href=#299 id=299 data-nosnippet>299</a>        .default_value(content.unwrap_or_default());
 <a href=#300 id=300 data-nosnippet>300</a>
 <a href=#301 id=301 data-nosnippet>301</a>    <span class="kw">if </span>settings.highlight_colors &amp;&amp; !large_file {
-<a href=#302 id=302 data-nosnippet>302</a>        state.lsp.document_color_provider =
+<a href=#302 id=302 data-nosnippet>302</a>        state.lsp_mut().document_color_provider =
 <a href=#303 id=303 data-nosnippet>303</a>            <span class="prelude-val">Some</span>(Rc::new(hex_color_provider::ColorHighlightProvider));
 <a href=#304 id=304 data-nosnippet>304</a>    }
 <a href=#305 id=305 data-nosnippet>305</a>

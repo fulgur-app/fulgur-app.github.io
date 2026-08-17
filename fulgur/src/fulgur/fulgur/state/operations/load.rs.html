@@ -215,8 +215,8 @@
 <a href=#215 id=215 data-nosnippet>215</a>            <span class="kw">let </span>(csv_view_mode, csv_delimiter) =
 <a href=#216 id=216 data-nosnippet>216</a>                <span class="kw">crate</span>::fulgur::ui::tabs::editor_tab::initial_csv_state(language, <span class="kw-2">&amp;</span>content);
 <a href=#217 id=217 data-nosnippet>217</a>            <span class="kw">let </span>content_entity = cx.new(|cx| {
-<a href=#218 id=218 data-nosnippet>218</a>                gpui_component::input::InputState::new(window, cx)
-<a href=#219 id=219 data-nosnippet>219</a>                    .code_editor(language_name)
+<a href=#218 id=218 data-nosnippet>218</a>                gpui_component::input::EditorState::new(window, cx)
+<a href=#219 id=219 data-nosnippet>219</a>                    .language(language_name)
 <a href=#220 id=220 data-nosnippet>220</a>                    .line_number(<span class="self">self</span>.settings.editor_settings.show_line_numbers)
 <a href=#221 id=221 data-nosnippet>221</a>                    .indent_guides(<span class="self">self</span>.settings.editor_settings.show_indent_guides)
 <a href=#222 id=222 data-nosnippet>222</a>                    .tab_size(TabSize {

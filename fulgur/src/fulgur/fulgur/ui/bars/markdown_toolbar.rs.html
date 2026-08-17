@@ -7,7 +7,7 @@
 <a href=#7 id=7 data-nosnippet>7</a><span class="kw">use </span>gpui::{
 <a href=#8 id=8 data-nosnippet>8</a>    App, Context, Entity, Hsla, IntoElement, ParentElement, Render, Styled, WeakEntity, Window, div,
 <a href=#9 id=9 data-nosnippet>9</a>};
-<a href=#10 id=10 data-nosnippet>10</a><span class="kw">use </span>gpui_component::{ActiveTheme, button::Button, h_flex, input::InputState};
+<a href=#10 id=10 data-nosnippet>10</a><span class="kw">use </span>gpui_component::{ActiveTheme, button::Button, h_flex, input::EditorState};
 <a href=#11 id=11 data-nosnippet>11</a>
 <a href=#12 id=12 data-nosnippet>12</a><span class="doccomment">/// Create a markdown bar button
 <a href=#13 id=13 data-nosnippet>13</a>///
@@ -53,9 +53,9 @@
 <a href=#53 id=53 data-nosnippet>53</a>    /// - `cx`: The application context
 <a href=#54 id=54 data-nosnippet>54</a>    ///
 <a href=#55 id=55 data-nosnippet>55</a>    /// ### Returns
-<a href=#56 id=56 data-nosnippet>56</a>    /// - `Some(Entity&lt;InputState&gt;)`: The active editor tab's content
+<a href=#56 id=56 data-nosnippet>56</a>    /// - `Some(Entity&lt;EditorState&gt;)`: The active editor tab's content
 <a href=#57 id=57 data-nosnippet>57</a>    /// - `None`: If the window is gone or the active tab is not an editor
-<a href=#58 id=58 data-nosnippet>58</a>    </span><span class="kw">fn </span>active_editor_content(<span class="kw-2">&amp;</span><span class="self">self</span>, cx: <span class="kw-2">&amp;</span>App) -&gt; <span class="prelude-ty">Option</span>&lt;Entity&lt;InputState&gt;&gt; {
+<a href=#58 id=58 data-nosnippet>58</a>    </span><span class="kw">fn </span>active_editor_content(<span class="kw-2">&amp;</span><span class="self">self</span>, cx: <span class="kw-2">&amp;</span>App) -&gt; <span class="prelude-ty">Option</span>&lt;Entity&lt;EditorState&gt;&gt; {
 <a href=#59 id=59 data-nosnippet>59</a>        <span class="kw">let </span>fulgur = <span class="self">self</span>.fulgur.upgrade()<span class="question-mark">?</span>;
 <a href=#60 id=60 data-nosnippet>60</a>        fulgur
 <a href=#61 id=61 data-nosnippet>61</a>            .read(cx)
@@ -370,7 +370,7 @@
 <a href=#370 id=370 data-nosnippet>370</a>        Window, WindowOptions, div,
 <a href=#371 id=371 data-nosnippet>371</a>    };
 <a href=#372 id=372 data-nosnippet>372</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#373 id=373 data-nosnippet>373</a>    </span><span class="kw">use </span>gpui_component::input::{InputState, Position};
+<a href=#373 id=373 data-nosnippet>373</a>    </span><span class="kw">use </span>gpui_component::input::{EditorState, Position};
 <a href=#374 id=374 data-nosnippet>374</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
 <a href=#375 id=375 data-nosnippet>375</a>    </span><span class="kw">use </span>parking_lot::Mutex;
 <a href=#376 id=376 data-nosnippet>376</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
@@ -484,7 +484,7 @@
 <a href=#484 id=484 data-nosnippet>484</a>    </span><span class="kw">fn </span>active_content_text(
 <a href=#485 id=485 data-nosnippet>485</a>        fulgur: <span class="kw-2">&amp;</span>Entity&lt;Fulgur&gt;,
 <a href=#486 id=486 data-nosnippet>486</a>        cx: <span class="kw-2">&amp;</span>App,
-<a href=#487 id=487 data-nosnippet>487</a>        read: <span class="kw">impl </span>FnOnce(<span class="kw-2">&amp;</span>InputState) -&gt; String,
+<a href=#487 id=487 data-nosnippet>487</a>        read: <span class="kw">impl </span>FnOnce(<span class="kw-2">&amp;</span>EditorState) -&gt; String,
 <a href=#488 id=488 data-nosnippet>488</a>    ) -&gt; String {
 <a href=#489 id=489 data-nosnippet>489</a>        read(
 <a href=#490 id=490 data-nosnippet>490</a>            fulgur
