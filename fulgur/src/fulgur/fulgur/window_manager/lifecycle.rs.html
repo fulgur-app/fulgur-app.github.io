@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/fulgur/window_manager/lifecycle.rs`."><title>lifecycle.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-17e0aaed.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="fulgur" data-themes="" data-resource-suffix="" data-rustdoc-version="1.97.1 (8bab26f4f 2026-07-14)" data-channel="1.97.1" data-search-js="search-fd9372ac.js" data-stringdex-js="stringdex-2da4960a.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../../static.files/storage-41dd4d93.js"></script><script defer src="../../../../static.files/src-script-813739b1.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-fcd733ba.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1><div class="sub-heading">fulgur/fulgur/window_manager/</div>lifecycle.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="kw">use </span><span class="kw">super</span>::WindowManager;
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/fulgur/window_manager/lifecycle.rs`."><title>lifecycle.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-1ed95124.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="fulgur" data-themes="" data-resource-suffix="" data-rustdoc-version="1.98.0 (88d9e12ae 2026-08-18)" data-channel="1.98.0" data-search-js="search-9944d736.js" data-stringdex-js="stringdex-2da4960a.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../../static.files/storage-41dd4d93.js"></script><script defer src="../../../../static.files/src-script-813739b1.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-417ebf0a.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1><div class="sub-heading">fulgur/fulgur/window_manager/</div>lifecycle.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="kw">use </span><span class="kw">super</span>::WindowManager;
 <a href=#2 id=2 data-nosnippet>2</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::Fulgur;
 <a href=#3 id=3 data-nosnippet>3</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::ui::dialogs::large_file_close::CloseContinuation;
 <a href=#4 id=4 data-nosnippet>4</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::ui::tabs::editor_tab::TabTransferData;
@@ -139,91 +139,89 @@
 <a href=#139 id=139 data-nosnippet>139</a>        async_cx
 <a href=#140 id=140 data-nosnippet>140</a>            .spawn(<span class="kw">async move </span>|cx| {
 <a href=#141 id=141 data-nosnippet>141</a>                <span class="kw">let </span>window_options = WindowOptions {
-<a href=#142 id=142 data-nosnippet>142</a>                    titlebar: <span class="prelude-val">Some</span>(gpui_component::TitleBar::title_bar_options()),
-<a href=#143 id=143 data-nosnippet>143</a>                    <span class="attr">#[cfg(target_os = <span class="string">"linux"</span>)]
-<a href=#144 id=144 data-nosnippet>144</a>                    </span>window_decorations: <span class="prelude-val">Some</span>(gpui::WindowDecorations::Client),
-<a href=#145 id=145 data-nosnippet>145</a>                    ..WindowOptions::default()
-<a href=#146 id=146 data-nosnippet>146</a>                };
-<a href=#147 id=147 data-nosnippet>147</a>                <span class="kw">let </span>window = cx.open_window(window_options, |window, cx| {
-<a href=#148 id=148 data-nosnippet>148</a>                    window.set_window_title(<span class="string">"Fulgur"</span>);
-<a href=#149 id=149 data-nosnippet>149</a>                    <span class="kw">let </span>window_id = window.window_handle().window_id();
-<a href=#150 id=150 data-nosnippet>150</a>                    <span class="kw">let </span>view = Fulgur::new(window, cx, window_id, usize::MAX); <span class="comment">// usize::MAX = new empty window
-<a href=#151 id=151 data-nosnippet>151</a>                    </span>cx.update_global::&lt;WindowManager, <span class="kw">_</span>&gt;(|manager, <span class="kw">_</span>| {
-<a href=#152 id=152 data-nosnippet>152</a>                        manager.register(window_id, view.downgrade());
-<a href=#153 id=153 data-nosnippet>153</a>                    });
-<a href=#154 id=154 data-nosnippet>154</a>                    <span class="comment">// Notify all windows so they update their titles to include the window name
-<a href=#155 id=155 data-nosnippet>155</a>                    </span><span class="kw">for </span>weak <span class="kw">in </span>cx.global::&lt;WindowManager&gt;().get_all_windows() {
-<a href=#156 id=156 data-nosnippet>156</a>                        <span class="kw">if let </span><span class="prelude-val">Some</span>(entity) = weak.upgrade() {
-<a href=#157 id=157 data-nosnippet>157</a>                            entity.update(cx, |<span class="kw">_</span>, cx| cx.notify());
-<a href=#158 id=158 data-nosnippet>158</a>                        }
-<a href=#159 id=159 data-nosnippet>159</a>                    }
-<a href=#160 id=160 data-nosnippet>160</a>                    <span class="kw">let </span>view_clone = view.clone();
-<a href=#161 id=161 data-nosnippet>161</a>                    window.on_window_should_close(cx, <span class="kw">move </span>|window, cx| {
-<a href=#162 id=162 data-nosnippet>162</a>                        view_clone.update(cx, |fulgur, cx| {
-<a href=#163 id=163 data-nosnippet>163</a>                            fulgur.on_window_close_requested(window, cx)
-<a href=#164 id=164 data-nosnippet>164</a>                        })
-<a href=#165 id=165 data-nosnippet>165</a>                    });
-<a href=#166 id=166 data-nosnippet>166</a>                    view.update(cx, |fulgur, cx| fulgur.focus_active_tab(window, cx));
-<a href=#167 id=167 data-nosnippet>167</a>                    cx.new(|cx| gpui_component::Root::new(view, window, cx))
-<a href=#168 id=168 data-nosnippet>168</a>                })<span class="question-mark">?</span>;
-<a href=#169 id=169 data-nosnippet>169</a>                window.update(cx, |<span class="kw">_</span>, window, <span class="kw">_</span>| {
-<a href=#170 id=170 data-nosnippet>170</a>                    window.activate_window();
-<a href=#171 id=171 data-nosnippet>171</a>                })<span class="question-mark">?</span>;
-<a href=#172 id=172 data-nosnippet>172</a>                <span class="prelude-val">Ok</span>::&lt;<span class="kw">_</span>, anyhow::Error&gt;(())
-<a href=#173 id=173 data-nosnippet>173</a>            })
-<a href=#174 id=174 data-nosnippet>174</a>            .detach();
-<a href=#175 id=175 data-nosnippet>175</a>    }
-<a href=#176 id=176 data-nosnippet>176</a>
-<a href=#177 id=177 data-nosnippet>177</a>    <span class="doccomment">/// Open a new Fulgur window and transfer a tab into it on the first render.
-<a href=#178 id=178 data-nosnippet>178</a>    ///
-<a href=#179 id=179 data-nosnippet>179</a>    /// Behaves like `open_new_window` but sets `pending_tab_transfer` on the new
-<a href=#180 id=180 data-nosnippet>180</a>    /// window entity before the first render cycle, so the tab lands in the new
-<a href=#181 id=181 data-nosnippet>181</a>    /// window as if it had been sent via the normal cross-window transfer path.
-<a href=#182 id=182 data-nosnippet>182</a>    ///
-<a href=#183 id=183 data-nosnippet>183</a>    /// ### Arguments
-<a href=#184 id=184 data-nosnippet>184</a>    /// - `data` - The serialized tab state to transfer
-<a href=#185 id=185 data-nosnippet>185</a>    /// - `cx` - The context for the application
-<a href=#186 id=186 data-nosnippet>186</a>    </span><span class="kw">pub fn </span>open_new_window_with_tab(<span class="kw-2">&amp;</span><span class="self">self</span>, data: TabTransferData, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
-<a href=#187 id=187 data-nosnippet>187</a>        <span class="kw">let </span>async_cx = cx.to_async();
-<a href=#188 id=188 data-nosnippet>188</a>        async_cx
-<a href=#189 id=189 data-nosnippet>189</a>            .spawn(<span class="kw">async move </span>|cx| {
-<a href=#190 id=190 data-nosnippet>190</a>                <span class="kw">let </span>window_options = WindowOptions {
-<a href=#191 id=191 data-nosnippet>191</a>                    titlebar: <span class="prelude-val">Some</span>(gpui_component::TitleBar::title_bar_options()),
-<a href=#192 id=192 data-nosnippet>192</a>                    <span class="attr">#[cfg(target_os = <span class="string">"linux"</span>)]
-<a href=#193 id=193 data-nosnippet>193</a>                    </span>window_decorations: <span class="prelude-val">Some</span>(gpui::WindowDecorations::Client),
-<a href=#194 id=194 data-nosnippet>194</a>                    ..WindowOptions::default()
-<a href=#195 id=195 data-nosnippet>195</a>                };
-<a href=#196 id=196 data-nosnippet>196</a>                <span class="kw">let </span>window = cx.open_window(window_options, <span class="kw">move </span>|window, cx| {
-<a href=#197 id=197 data-nosnippet>197</a>                    window.set_window_title(<span class="string">"Fulgur"</span>);
-<a href=#198 id=198 data-nosnippet>198</a>                    <span class="kw">let </span>window_id = window.window_handle().window_id();
-<a href=#199 id=199 data-nosnippet>199</a>                    <span class="kw">let </span>view = Fulgur::new(window, cx, window_id, usize::MAX - <span class="number">1</span>);
-<a href=#200 id=200 data-nosnippet>200</a>                    cx.update_global::&lt;WindowManager, <span class="kw">_</span>&gt;(|manager, <span class="kw">_</span>| {
-<a href=#201 id=201 data-nosnippet>201</a>                        manager.register(window_id, view.downgrade());
-<a href=#202 id=202 data-nosnippet>202</a>                    });
-<a href=#203 id=203 data-nosnippet>203</a>                    <span class="kw">for </span>weak <span class="kw">in </span>cx.global::&lt;WindowManager&gt;().get_all_windows() {
-<a href=#204 id=204 data-nosnippet>204</a>                        <span class="kw">if let </span><span class="prelude-val">Some</span>(entity) = weak.upgrade() {
-<a href=#205 id=205 data-nosnippet>205</a>                            entity.update(cx, |<span class="kw">_</span>, cx| cx.notify());
-<a href=#206 id=206 data-nosnippet>206</a>                        }
-<a href=#207 id=207 data-nosnippet>207</a>                    }
-<a href=#208 id=208 data-nosnippet>208</a>                    <span class="kw">let </span>view_clone = view.clone();
-<a href=#209 id=209 data-nosnippet>209</a>                    window.on_window_should_close(cx, <span class="kw">move </span>|window, cx| {
-<a href=#210 id=210 data-nosnippet>210</a>                        view_clone.update(cx, |fulgur, cx| {
-<a href=#211 id=211 data-nosnippet>211</a>                            fulgur.on_window_close_requested(window, cx)
-<a href=#212 id=212 data-nosnippet>212</a>                        })
-<a href=#213 id=213 data-nosnippet>213</a>                    });
-<a href=#214 id=214 data-nosnippet>214</a>                    view.update(cx, |fulgur, cx| {
-<a href=#215 id=215 data-nosnippet>215</a>                        fulgur.pending_tab_transfer = <span class="prelude-val">Some</span>(data);
-<a href=#216 id=216 data-nosnippet>216</a>                        cx.notify();
-<a href=#217 id=217 data-nosnippet>217</a>                    });
-<a href=#218 id=218 data-nosnippet>218</a>                    view.update(cx, |fulgur, cx| fulgur.focus_active_tab(window, cx));
-<a href=#219 id=219 data-nosnippet>219</a>                    cx.new(|cx| gpui_component::Root::new(view, window, cx))
-<a href=#220 id=220 data-nosnippet>220</a>                })<span class="question-mark">?</span>;
-<a href=#221 id=221 data-nosnippet>221</a>                window.update(cx, |<span class="kw">_</span>, window, <span class="kw">_</span>| {
-<a href=#222 id=222 data-nosnippet>222</a>                    window.activate_window();
-<a href=#223 id=223 data-nosnippet>223</a>                })<span class="question-mark">?</span>;
-<a href=#224 id=224 data-nosnippet>224</a>                <span class="prelude-val">Ok</span>::&lt;<span class="kw">_</span>, anyhow::Error&gt;(())
-<a href=#225 id=225 data-nosnippet>225</a>            })
-<a href=#226 id=226 data-nosnippet>226</a>            .detach();
-<a href=#227 id=227 data-nosnippet>227</a>    }
-<a href=#228 id=228 data-nosnippet>228</a>}
+<a href=#142 id=142 data-nosnippet>142</a>                    <span class="attr">#[cfg(target_os = <span class="string">"linux"</span>)]
+<a href=#143 id=143 data-nosnippet>143</a>                    </span>window_decorations: <span class="prelude-val">Some</span>(gpui::WindowDecorations::Client),
+<a href=#144 id=144 data-nosnippet>144</a>                    ..gpui_component::TitleBar::window_options()
+<a href=#145 id=145 data-nosnippet>145</a>                };
+<a href=#146 id=146 data-nosnippet>146</a>                <span class="kw">let </span>window = cx.open_window(window_options, |window, cx| {
+<a href=#147 id=147 data-nosnippet>147</a>                    window.set_window_title(<span class="string">"Fulgur"</span>);
+<a href=#148 id=148 data-nosnippet>148</a>                    <span class="kw">let </span>window_id = window.window_handle().window_id();
+<a href=#149 id=149 data-nosnippet>149</a>                    <span class="kw">let </span>view = Fulgur::new(window, cx, window_id, usize::MAX); <span class="comment">// usize::MAX = new empty window
+<a href=#150 id=150 data-nosnippet>150</a>                    </span>cx.update_global::&lt;WindowManager, <span class="kw">_</span>&gt;(|manager, <span class="kw">_</span>| {
+<a href=#151 id=151 data-nosnippet>151</a>                        manager.register(window_id, view.downgrade());
+<a href=#152 id=152 data-nosnippet>152</a>                    });
+<a href=#153 id=153 data-nosnippet>153</a>                    <span class="comment">// Notify all windows so they update their titles to include the window name
+<a href=#154 id=154 data-nosnippet>154</a>                    </span><span class="kw">for </span>weak <span class="kw">in </span>cx.global::&lt;WindowManager&gt;().get_all_windows() {
+<a href=#155 id=155 data-nosnippet>155</a>                        <span class="kw">if let </span><span class="prelude-val">Some</span>(entity) = weak.upgrade() {
+<a href=#156 id=156 data-nosnippet>156</a>                            entity.update(cx, |<span class="kw">_</span>, cx| cx.notify());
+<a href=#157 id=157 data-nosnippet>157</a>                        }
+<a href=#158 id=158 data-nosnippet>158</a>                    }
+<a href=#159 id=159 data-nosnippet>159</a>                    <span class="kw">let </span>view_clone = view.clone();
+<a href=#160 id=160 data-nosnippet>160</a>                    window.on_window_should_close(cx, <span class="kw">move </span>|window, cx| {
+<a href=#161 id=161 data-nosnippet>161</a>                        view_clone.update(cx, |fulgur, cx| {
+<a href=#162 id=162 data-nosnippet>162</a>                            fulgur.on_window_close_requested(window, cx)
+<a href=#163 id=163 data-nosnippet>163</a>                        })
+<a href=#164 id=164 data-nosnippet>164</a>                    });
+<a href=#165 id=165 data-nosnippet>165</a>                    view.update(cx, |fulgur, cx| fulgur.focus_active_tab(window, cx));
+<a href=#166 id=166 data-nosnippet>166</a>                    cx.new(|cx| gpui_component::Root::new(view, window, cx))
+<a href=#167 id=167 data-nosnippet>167</a>                })<span class="question-mark">?</span>;
+<a href=#168 id=168 data-nosnippet>168</a>                window.update(cx, |<span class="kw">_</span>, window, <span class="kw">_</span>| {
+<a href=#169 id=169 data-nosnippet>169</a>                    window.activate_window();
+<a href=#170 id=170 data-nosnippet>170</a>                })<span class="question-mark">?</span>;
+<a href=#171 id=171 data-nosnippet>171</a>                <span class="prelude-val">Ok</span>::&lt;<span class="kw">_</span>, anyhow::Error&gt;(())
+<a href=#172 id=172 data-nosnippet>172</a>            })
+<a href=#173 id=173 data-nosnippet>173</a>            .detach();
+<a href=#174 id=174 data-nosnippet>174</a>    }
+<a href=#175 id=175 data-nosnippet>175</a>
+<a href=#176 id=176 data-nosnippet>176</a>    <span class="doccomment">/// Open a new Fulgur window and transfer a tab into it on the first render.
+<a href=#177 id=177 data-nosnippet>177</a>    ///
+<a href=#178 id=178 data-nosnippet>178</a>    /// Behaves like `open_new_window` but sets `pending_tab_transfer` on the new
+<a href=#179 id=179 data-nosnippet>179</a>    /// window entity before the first render cycle, so the tab lands in the new
+<a href=#180 id=180 data-nosnippet>180</a>    /// window as if it had been sent via the normal cross-window transfer path.
+<a href=#181 id=181 data-nosnippet>181</a>    ///
+<a href=#182 id=182 data-nosnippet>182</a>    /// ### Arguments
+<a href=#183 id=183 data-nosnippet>183</a>    /// - `data` - The serialized tab state to transfer
+<a href=#184 id=184 data-nosnippet>184</a>    /// - `cx` - The context for the application
+<a href=#185 id=185 data-nosnippet>185</a>    </span><span class="kw">pub fn </span>open_new_window_with_tab(<span class="kw-2">&amp;</span><span class="self">self</span>, data: TabTransferData, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
+<a href=#186 id=186 data-nosnippet>186</a>        <span class="kw">let </span>async_cx = cx.to_async();
+<a href=#187 id=187 data-nosnippet>187</a>        async_cx
+<a href=#188 id=188 data-nosnippet>188</a>            .spawn(<span class="kw">async move </span>|cx| {
+<a href=#189 id=189 data-nosnippet>189</a>                <span class="kw">let </span>window_options = WindowOptions {
+<a href=#190 id=190 data-nosnippet>190</a>                    <span class="attr">#[cfg(target_os = <span class="string">"linux"</span>)]
+<a href=#191 id=191 data-nosnippet>191</a>                    </span>window_decorations: <span class="prelude-val">Some</span>(gpui::WindowDecorations::Client),
+<a href=#192 id=192 data-nosnippet>192</a>                    ..gpui_component::TitleBar::window_options()
+<a href=#193 id=193 data-nosnippet>193</a>                };
+<a href=#194 id=194 data-nosnippet>194</a>                <span class="kw">let </span>window = cx.open_window(window_options, <span class="kw">move </span>|window, cx| {
+<a href=#195 id=195 data-nosnippet>195</a>                    window.set_window_title(<span class="string">"Fulgur"</span>);
+<a href=#196 id=196 data-nosnippet>196</a>                    <span class="kw">let </span>window_id = window.window_handle().window_id();
+<a href=#197 id=197 data-nosnippet>197</a>                    <span class="kw">let </span>view = Fulgur::new(window, cx, window_id, usize::MAX - <span class="number">1</span>);
+<a href=#198 id=198 data-nosnippet>198</a>                    cx.update_global::&lt;WindowManager, <span class="kw">_</span>&gt;(|manager, <span class="kw">_</span>| {
+<a href=#199 id=199 data-nosnippet>199</a>                        manager.register(window_id, view.downgrade());
+<a href=#200 id=200 data-nosnippet>200</a>                    });
+<a href=#201 id=201 data-nosnippet>201</a>                    <span class="kw">for </span>weak <span class="kw">in </span>cx.global::&lt;WindowManager&gt;().get_all_windows() {
+<a href=#202 id=202 data-nosnippet>202</a>                        <span class="kw">if let </span><span class="prelude-val">Some</span>(entity) = weak.upgrade() {
+<a href=#203 id=203 data-nosnippet>203</a>                            entity.update(cx, |<span class="kw">_</span>, cx| cx.notify());
+<a href=#204 id=204 data-nosnippet>204</a>                        }
+<a href=#205 id=205 data-nosnippet>205</a>                    }
+<a href=#206 id=206 data-nosnippet>206</a>                    <span class="kw">let </span>view_clone = view.clone();
+<a href=#207 id=207 data-nosnippet>207</a>                    window.on_window_should_close(cx, <span class="kw">move </span>|window, cx| {
+<a href=#208 id=208 data-nosnippet>208</a>                        view_clone.update(cx, |fulgur, cx| {
+<a href=#209 id=209 data-nosnippet>209</a>                            fulgur.on_window_close_requested(window, cx)
+<a href=#210 id=210 data-nosnippet>210</a>                        })
+<a href=#211 id=211 data-nosnippet>211</a>                    });
+<a href=#212 id=212 data-nosnippet>212</a>                    view.update(cx, |fulgur, cx| {
+<a href=#213 id=213 data-nosnippet>213</a>                        fulgur.pending_tab_transfer = <span class="prelude-val">Some</span>(data);
+<a href=#214 id=214 data-nosnippet>214</a>                        cx.notify();
+<a href=#215 id=215 data-nosnippet>215</a>                    });
+<a href=#216 id=216 data-nosnippet>216</a>                    view.update(cx, |fulgur, cx| fulgur.focus_active_tab(window, cx));
+<a href=#217 id=217 data-nosnippet>217</a>                    cx.new(|cx| gpui_component::Root::new(view, window, cx))
+<a href=#218 id=218 data-nosnippet>218</a>                })<span class="question-mark">?</span>;
+<a href=#219 id=219 data-nosnippet>219</a>                window.update(cx, |<span class="kw">_</span>, window, <span class="kw">_</span>| {
+<a href=#220 id=220 data-nosnippet>220</a>                    window.activate_window();
+<a href=#221 id=221 data-nosnippet>221</a>                })<span class="question-mark">?</span>;
+<a href=#222 id=222 data-nosnippet>222</a>                <span class="prelude-val">Ok</span>::&lt;<span class="kw">_</span>, anyhow::Error&gt;(())
+<a href=#223 id=223 data-nosnippet>223</a>            })
+<a href=#224 id=224 data-nosnippet>224</a>            .detach();
+<a href=#225 id=225 data-nosnippet>225</a>    }
+<a href=#226 id=226 data-nosnippet>226</a>}
 </code></pre></div></section></main></body></html>
