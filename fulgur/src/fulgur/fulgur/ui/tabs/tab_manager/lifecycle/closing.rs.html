@@ -160,7 +160,7 @@
 <a href=#160 id=160 data-nosnippet>160</a>        window: <span class="kw-2">&amp;mut </span>Window,
 <a href=#161 id=161 data-nosnippet>161</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
 <a href=#162 id=162 data-nosnippet>162</a>    ) {
-<a href=#163 id=163 data-nosnippet>163</a>        <span class="kw">if </span>index &gt;= <span class="self">self</span>.tabs.len() - <span class="number">1 </span>{
+<a href=#163 id=163 data-nosnippet>163</a>        <span class="kw">if </span><span class="self">self</span>.tabs.is_empty() || index &gt;= <span class="self">self</span>.tabs.len() - <span class="number">1 </span>{
 <a href=#164 id=164 data-nosnippet>164</a>            <span class="kw">return</span>;
 <a href=#165 id=165 data-nosnippet>165</a>        }
 <a href=#166 id=166 data-nosnippet>166</a>        <span class="kw">let </span>keep_id = <span class="self">self</span>.tabs[index].read(cx).id();
