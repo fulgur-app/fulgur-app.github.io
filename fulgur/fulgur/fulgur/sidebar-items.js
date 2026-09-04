@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["files","languages","settings","shared_state","state","sync","utils","window_manager"],"struct":["Fulgur"]};
+window.SIDEBAR_ITEMS = {"enum":["WindowInit"],"mod":["files","languages","settings","shared_state","state","sync","utils","window_manager"],"struct":["Fulgur"]};
