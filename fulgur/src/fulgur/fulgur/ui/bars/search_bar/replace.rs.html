@@ -58,7 +58,7 @@
 <a href=#58 id=58 data-nosnippet>58</a>            new_text.push_str(<span class="kw-2">&amp;</span>replace_text);
 <a href=#59 id=59 data-nosnippet>59</a>            new_text.push_str(<span class="kw-2">&amp;</span>text[search_match.end..]);
 <a href=#60 id=60 data-nosnippet>60</a>            content_entity.update(cx, |content, cx| {
-<a href=#61 id=61 data-nosnippet>61</a>                content.set_value(<span class="kw-2">&amp;</span>new_text, window, cx);
+<a href=#61 id=61 data-nosnippet>61</a>                content.replace_all(<span class="kw-2">&amp;</span>new_text, window, cx);
 <a href=#62 id=62 data-nosnippet>62</a>            });
 <a href=#63 id=63 data-nosnippet>63</a>            <span class="self">self</span>.search_matches.clear();
 <a href=#64 id=64 data-nosnippet>64</a>            <span class="self">self</span>.perform_search(<span class="prelude-val">Some</span>(content_entity.clone()), window, cx);
@@ -102,7 +102,7 @@
 <a href=#102 id=102 data-nosnippet>102</a>                apply_replacements(<span class="kw-2">&amp;</span><span class="self">self</span>.search_matches, <span class="kw-2">&amp;</span>text, <span class="kw-2">&amp;</span>replace_text)
 <a href=#103 id=103 data-nosnippet>103</a>            };
 <a href=#104 id=104 data-nosnippet>104</a>            content_entity.update(cx, |content, cx| {
-<a href=#105 id=105 data-nosnippet>105</a>                content.set_value(<span class="kw-2">&amp;</span>new_text, window, cx);
+<a href=#105 id=105 data-nosnippet>105</a>                content.replace_all(<span class="kw-2">&amp;</span>new_text, window, cx);
 <a href=#106 id=106 data-nosnippet>106</a>            });
 <a href=#107 id=107 data-nosnippet>107</a>            <span class="self">self</span>.search_matches.clear();
 <a href=#108 id=108 data-nosnippet>108</a>            <span class="self">self</span>.current_match_index = <span class="prelude-val">None</span>;
