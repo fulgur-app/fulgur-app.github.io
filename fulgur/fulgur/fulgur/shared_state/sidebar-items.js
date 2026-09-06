@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["spawn_notification_consumer"],"struct":["SharedAppState","SyncState"],"type":["AppNotification","PendingDevicesResult"]};
+window.SIDEBAR_ITEMS = {"enum":["NotificationOrigin"],"fn":["spawn_notification_consumer"],"struct":["AppNotification","SharedAppState","SyncState"],"type":["PendingDevicesResult"]};
