@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["MarkdownLinkTarget"],"fn":["resolve_markdown_link"]};

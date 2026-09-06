@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["atomic_write","crypto_helper","http","logger","markdown_images","paths","retry","sanitize","updater","utilities","worker"]};
+window.SIDEBAR_ITEMS = {"mod":["atomic_write","crypto_helper","http","logger","markdown_images","markdown_links","paths","retry","sanitize","updater","utilities","worker"]};
