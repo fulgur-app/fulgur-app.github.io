@@ -288,23 +288,24 @@
 <a href=#288 id=288 data-nosnippet>288</a>        language_name
 <a href=#289 id=289 data-nosnippet>289</a>    };
 <a href=#290 id=290 data-nosnippet>290</a>    <span class="kw">let </span><span class="kw-2">mut </span>state = EditorState::new(window, cx)
-<a href=#291 id=291 data-nosnippet>291</a>        .language(language_name.to_string())
-<a href=#292 id=292 data-nosnippet>292</a>        .line_number(settings.show_line_numbers)
-<a href=#293 id=293 data-nosnippet>293</a>        .indent_guides(settings.show_indent_guides &amp;&amp; !large_file)
-<a href=#294 id=294 data-nosnippet>294</a>        .tab_size(TabSize {
-<a href=#295 id=295 data-nosnippet>295</a>            tab_size: settings.tab_size,
-<a href=#296 id=296 data-nosnippet>296</a>            hard_tabs: !settings.use_spaces,
-<a href=#297 id=297 data-nosnippet>297</a>        })
-<a href=#298 id=298 data-nosnippet>298</a>        .soft_wrap(settings.soft_wrap &amp;&amp; !large_file)
-<a href=#299 id=299 data-nosnippet>299</a>        .folding(!large_file)
-<a href=#300 id=300 data-nosnippet>300</a>        .show_whitespaces(settings.show_whitespaces &amp;&amp; !large_file)
-<a href=#301 id=301 data-nosnippet>301</a>        .default_value(content.unwrap_or_default());
-<a href=#302 id=302 data-nosnippet>302</a>
-<a href=#303 id=303 data-nosnippet>303</a>    <span class="kw">if </span>settings.highlight_colors &amp;&amp; !large_file {
-<a href=#304 id=304 data-nosnippet>304</a>        state.lsp_mut().document_color_provider =
-<a href=#305 id=305 data-nosnippet>305</a>            <span class="prelude-val">Some</span>(Rc::new(hex_color_provider::ColorHighlightProvider));
-<a href=#306 id=306 data-nosnippet>306</a>    }
-<a href=#307 id=307 data-nosnippet>307</a>
-<a href=#308 id=308 data-nosnippet>308</a>    state
-<a href=#309 id=309 data-nosnippet>309</a>}
+<a href=#291 id=291 data-nosnippet>291</a>        .searchable(<span class="bool-val">false</span>)
+<a href=#292 id=292 data-nosnippet>292</a>        .language(language_name.to_string())
+<a href=#293 id=293 data-nosnippet>293</a>        .line_number(settings.show_line_numbers)
+<a href=#294 id=294 data-nosnippet>294</a>        .indent_guides(settings.show_indent_guides &amp;&amp; !large_file)
+<a href=#295 id=295 data-nosnippet>295</a>        .tab_size(TabSize {
+<a href=#296 id=296 data-nosnippet>296</a>            tab_size: settings.tab_size,
+<a href=#297 id=297 data-nosnippet>297</a>            hard_tabs: !settings.use_spaces,
+<a href=#298 id=298 data-nosnippet>298</a>        })
+<a href=#299 id=299 data-nosnippet>299</a>        .soft_wrap(settings.soft_wrap &amp;&amp; !large_file)
+<a href=#300 id=300 data-nosnippet>300</a>        .folding(!large_file)
+<a href=#301 id=301 data-nosnippet>301</a>        .show_whitespaces(settings.show_whitespaces &amp;&amp; !large_file)
+<a href=#302 id=302 data-nosnippet>302</a>        .default_value(content.unwrap_or_default());
+<a href=#303 id=303 data-nosnippet>303</a>
+<a href=#304 id=304 data-nosnippet>304</a>    <span class="kw">if </span>settings.highlight_colors &amp;&amp; !large_file {
+<a href=#305 id=305 data-nosnippet>305</a>        state.lsp_mut().document_color_provider =
+<a href=#306 id=306 data-nosnippet>306</a>            <span class="prelude-val">Some</span>(Rc::new(hex_color_provider::ColorHighlightProvider));
+<a href=#307 id=307 data-nosnippet>307</a>    }
+<a href=#308 id=308 data-nosnippet>308</a>
+<a href=#309 id=309 data-nosnippet>309</a>    state
+<a href=#310 id=310 data-nosnippet>310</a>}
 </code></pre></div></section></main></body></html>
