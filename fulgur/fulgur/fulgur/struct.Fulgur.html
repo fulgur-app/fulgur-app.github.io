@@ -278,7 +278,7 @@ state update and re-render still happen even when saving fails.</p>
 <li><code>window</code>: The window containing the tabs</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-13" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/state/operations/load.rs.html#19-279">Source</a><a href="#impl-Fulgur-13" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.load_state" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/state/operations/load.rs.html#26-101">Source</a><h4 class="code-header">pub fn <a href="#method.load_state" class="fn">load_state</a>(
+</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-13" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/state/operations/load.rs.html#19-282">Source</a><a href="#impl-Fulgur-13" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.load_state" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/state/operations/load.rs.html#26-101">Source</a><h4 class="code-header">pub fn <a href="#method.load_state" class="fn">load_state</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
@@ -1307,7 +1307,7 @@ No-op when the operation would leave the tab in its current position.</p>
 <li><code>window</code>: The window context</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-49" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/transfer.rs.html#8-123">Source</a><a href="#impl-Fulgur-49" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.extract_tab_transfer_data" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/transfer.rs.html#18-46">Source</a><h4 class="code-header">pub fn <a href="#method.extract_tab_transfer_data" class="fn">extract_tab_transfer_data</a>(
+</div></details></div></details><details class="toggle implementors-toggle" open><summary><section id="impl-Fulgur-49" class="impl"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/transfer.rs.html#8-124">Source</a><a href="#impl-Fulgur-49" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Fulgur.html" title="struct fulgur::fulgur::Fulgur">Fulgur</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.extract_tab_transfer_data" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/transfer.rs.html#18-47">Source</a><h4 class="code-header">pub fn <a href="#method.extract_tab_transfer_data" class="fn">extract_tab_transfer_data</a>(
     &amp;self,
     tab_id: TabId,
     cx: &amp;App,
@@ -1322,7 +1322,7 @@ No-op when the operation would leave the tab in its current position.</p>
 <li><code>Some(TabTransferData)</code>: Snapshot of all transferable tab state</li>
 <li><code>None</code>: If <code>tab_id</code> does not refer to an existing editor tab</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_pending_tab_transfer" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/transfer.rs.html#57-79">Source</a><h4 class="code-header">pub fn <a href="#method.handle_pending_tab_transfer" class="fn">handle_pending_tab_transfer</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_pending_tab_transfer" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/transfer.rs.html#58-80">Source</a><h4 class="code-header">pub fn <a href="#method.handle_pending_tab_transfer" class="fn">handle_pending_tab_transfer</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
@@ -1335,7 +1335,7 @@ focuses the new tab, then persists state.</p>
 <li><code>window</code>: The target window context</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_pending_transfer_scroll" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/transfer.rs.html#91-101">Source</a><h4 class="code-header">pub fn <a href="#method.handle_pending_transfer_scroll" class="fn">handle_pending_transfer_scroll</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_pending_transfer_scroll" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/transfer.rs.html#92-102">Source</a><h4 class="code-header">pub fn <a href="#method.handle_pending_transfer_scroll" class="fn">handle_pending_transfer_scroll</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
@@ -1349,7 +1349,7 @@ and consumed here on the following render cycle.</p>
 <li><code>window</code>: The target window context</li>
 <li><code>cx</code>: The application context</li>
 </ul>
-</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_pending_tab_removal" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/transfer.rs.html#113-122">Source</a><h4 class="code-header">pub fn <a href="#method.handle_pending_tab_removal" class="fn">handle_pending_tab_removal</a>(
+</div></details><details class="toggle method-toggle" open><summary><section id="method.handle_pending_tab_removal" class="method"><a class="src rightside" href="../../src/fulgur/fulgur/ui/tabs/tab_manager/transfer.rs.html#114-123">Source</a><h4 class="code-header">pub fn <a href="#method.handle_pending_tab_removal" class="fn">handle_pending_tab_removal</a>(
     &amp;mut self,
     window: &amp;mut Window,
     cx: &amp;mut Context&lt;'_, Self&gt;,
