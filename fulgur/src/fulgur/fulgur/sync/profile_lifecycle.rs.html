@@ -6,7 +6,7 @@
 <a href=#6 id=6 data-nosnippet>6</a>    },
 <a href=#7 id=7 data-nosnippet>7</a>    utils::worker::dispose_off_thread,
 <a href=#8 id=8 data-nosnippet>8</a>};
-<a href=#9 id=9 data-nosnippet>9</a><span class="kw">use </span>gpui::Context;
+<a href=#9 id=9 data-nosnippet>9</a><span class="kw">use </span>gpui_kit::Context;
 <a href=#10 id=10 data-nosnippet>10</a>
 <a href=#11 id=11 data-nosnippet>11</a><span class="kw">impl </span>Fulgur {
 <a href=#12 id=12 data-nosnippet>12</a>    <span class="doccomment">/// Add a new server profile to the configuration.
@@ -165,7 +165,7 @@
 <a href=#165 id=165 data-nosnippet>165</a>        },
 <a href=#166 id=166 data-nosnippet>166</a>        window_manager::WindowManager,
 <a href=#167 id=167 data-nosnippet>167</a>    };
-<a href=#168 id=168 data-nosnippet>168</a>    <span class="kw">use </span>gpui::{AppContext, Entity, TestAppContext, VisualTestContext, WindowOptions};
+<a href=#168 id=168 data-nosnippet>168</a>    <span class="kw">use </span>gpui_kit::{AppContext, Entity, TestAppContext, VisualTestContext, WindowOptions};
 <a href=#169 id=169 data-nosnippet>169</a>    <span class="kw">use </span>parking_lot::Mutex;
 <a href=#170 id=170 data-nosnippet>170</a>    <span class="kw">use </span>std::{cell::RefCell, path::PathBuf, sync::Arc};
 <a href=#171 id=171 data-nosnippet>171</a>    <span class="kw">use </span>zeroize::Zeroizing;
@@ -173,7 +173,7 @@
 <a href=#173 id=173 data-nosnippet>173</a>    <span class="doccomment">/// Initialize globals and open a test window with a Root-mounted Fulgur.
 <a href=#174 id=174 data-nosnippet>174</a>    </span><span class="kw">fn </span>setup_fulgur(cx: <span class="kw-2">&amp;mut </span>TestAppContext) -&gt; (Entity&lt;Fulgur&gt;, VisualTestContext) {
 <a href=#175 id=175 data-nosnippet>175</a>        cx.update(|cx| {
-<a href=#176 id=176 data-nosnippet>176</a>            gpui_component::init(cx);
+<a href=#176 id=176 data-nosnippet>176</a>            gpui_kit::init(cx);
 <a href=#177 id=177 data-nosnippet>177</a>            <span class="kw">let </span><span class="kw-2">mut </span>settings = Settings::new();
 <a href=#178 id=178 data-nosnippet>178</a>            settings.editor_settings.watch_files = <span class="bool-val">false</span>;
 <a href=#179 id=179 data-nosnippet>179</a>            <span class="kw">let </span>pending_files: Arc&lt;Mutex&lt;Vec&lt;PathBuf&gt;&gt;&gt; = Arc::new(Mutex::new(Vec::new()));
@@ -187,7 +187,7 @@
 <a href=#187 id=187 data-nosnippet>187</a>                    <span class="kw">let </span>window_id = window.window_handle().window_id();
 <a href=#188 id=188 data-nosnippet>188</a>                    <span class="kw">let </span>fulgur = Fulgur::new(window, cx, window_id, WindowInit::Empty);
 <a href=#189 id=189 data-nosnippet>189</a>                    <span class="kw-2">*</span>fulgur_slot.borrow_mut() = <span class="prelude-val">Some</span>(fulgur.clone());
-<a href=#190 id=190 data-nosnippet>190</a>                    cx.new(|cx| gpui_component::Root::new(fulgur, window, cx))
+<a href=#190 id=190 data-nosnippet>190</a>                    cx.new(|cx| gpui_kit::component::Root::new(fulgur, window, cx))
 <a href=#191 id=191 data-nosnippet>191</a>                })
 <a href=#192 id=192 data-nosnippet>192</a>            })
 <a href=#193 id=193 data-nosnippet>193</a>            .expect(<span class="string">"failed to open test window"</span>);
@@ -199,7 +199,7 @@
 <a href=#199 id=199 data-nosnippet>199</a>        (fulgur, visual_cx)
 <a href=#200 id=200 data-nosnippet>200</a>    }
 <a href=#201 id=201 data-nosnippet>201</a>
-<a href=#202 id=202 data-nosnippet>202</a>    <span class="attr">#[gpui::test]
+<a href=#202 id=202 data-nosnippet>202</a>    <span class="attr">#[gpui_kit::test]
 <a href=#203 id=203 data-nosnippet>203</a>    </span><span class="kw">fn </span>test_add_profile_inserts_and_allocates_sse_slot(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#204 id=204 data-nosnippet>204</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#205 id=205 data-nosnippet>205</a>        visual_cx.update(|_window, cx| {
@@ -226,7 +226,7 @@
 <a href=#226 id=226 data-nosnippet>226</a>        });
 <a href=#227 id=227 data-nosnippet>227</a>    }
 <a href=#228 id=228 data-nosnippet>228</a>
-<a href=#229 id=229 data-nosnippet>229</a>    <span class="attr">#[gpui::test]
+<a href=#229 id=229 data-nosnippet>229</a>    <span class="attr">#[gpui_kit::test]
 <a href=#230 id=230 data-nosnippet>230</a>    </span><span class="kw">fn </span>test_add_profile_generates_keypair_for_active_profile(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#231 id=231 data-nosnippet>231</a>        <span class="comment">// Reproduces the user-reported "Missing encryption key" path: a
 <a href=#232 id=232 data-nosnippet>232</a>        // freshly added active profile must have its keypair generated as
@@ -263,7 +263,7 @@
 <a href=#263 id=263 data-nosnippet>263</a>        });
 <a href=#264 id=264 data-nosnippet>264</a>    }
 <a href=#265 id=265 data-nosnippet>265</a>
-<a href=#266 id=266 data-nosnippet>266</a>    <span class="attr">#[gpui::test]
+<a href=#266 id=266 data-nosnippet>266</a>    <span class="attr">#[gpui_kit::test]
 <a href=#267 id=267 data-nosnippet>267</a>    </span><span class="kw">fn </span>test_add_profile_skips_keypair_generation_for_inactive_profile(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#268 id=268 data-nosnippet>268</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#269 id=269 data-nosnippet>269</a>        visual_cx.update(|_window, cx| {
@@ -292,7 +292,7 @@
 <a href=#292 id=292 data-nosnippet>292</a>        });
 <a href=#293 id=293 data-nosnippet>293</a>    }
 <a href=#294 id=294 data-nosnippet>294</a>
-<a href=#295 id=295 data-nosnippet>295</a>    <span class="attr">#[gpui::test]
+<a href=#295 id=295 data-nosnippet>295</a>    <span class="attr">#[gpui_kit::test]
 <a href=#296 id=296 data-nosnippet>296</a>    </span><span class="kw">fn </span>test_update_profile_generates_keypair_when_activating(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#297 id=297 data-nosnippet>297</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#298 id=298 data-nosnippet>298</a>        visual_cx.update(|_window, cx| {
@@ -334,7 +334,7 @@
 <a href=#334 id=334 data-nosnippet>334</a>        });
 <a href=#335 id=335 data-nosnippet>335</a>    }
 <a href=#336 id=336 data-nosnippet>336</a>
-<a href=#337 id=337 data-nosnippet>337</a>    <span class="attr">#[gpui::test]
+<a href=#337 id=337 data-nosnippet>337</a>    <span class="attr">#[gpui_kit::test]
 <a href=#338 id=338 data-nosnippet>338</a>    </span><span class="kw">fn </span>test_update_profile_returns_false_for_unknown_id(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#339 id=339 data-nosnippet>339</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#340 id=340 data-nosnippet>340</a>        visual_cx.update(|_window, cx| {
@@ -351,7 +351,7 @@
 <a href=#351 id=351 data-nosnippet>351</a>        });
 <a href=#352 id=352 data-nosnippet>352</a>    }
 <a href=#353 id=353 data-nosnippet>353</a>
-<a href=#354 id=354 data-nosnippet>354</a>    <span class="attr">#[gpui::test]
+<a href=#354 id=354 data-nosnippet>354</a>    <span class="attr">#[gpui_kit::test]
 <a href=#355 id=355 data-nosnippet>355</a>    </span><span class="kw">fn </span>test_update_profile_mutates_existing_entry(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#356 id=356 data-nosnippet>356</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#357 id=357 data-nosnippet>357</a>        visual_cx.update(|_window, cx| {
@@ -382,7 +382,7 @@
 <a href=#382 id=382 data-nosnippet>382</a>        });
 <a href=#383 id=383 data-nosnippet>383</a>    }
 <a href=#384 id=384 data-nosnippet>384</a>
-<a href=#385 id=385 data-nosnippet>385</a>    <span class="attr">#[gpui::test]
+<a href=#385 id=385 data-nosnippet>385</a>    <span class="attr">#[gpui_kit::test]
 <a href=#386 id=386 data-nosnippet>386</a>    </span><span class="kw">fn </span>test_delete_profile_removes_settings_state_and_keychain(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#387 id=387 data-nosnippet>387</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#388 id=388 data-nosnippet>388</a>        visual_cx.update(|_window, cx| {
@@ -428,7 +428,7 @@
 <a href=#428 id=428 data-nosnippet>428</a>        });
 <a href=#429 id=429 data-nosnippet>429</a>    }
 <a href=#430 id=430 data-nosnippet>430</a>
-<a href=#431 id=431 data-nosnippet>431</a>    <span class="attr">#[gpui::test]
+<a href=#431 id=431 data-nosnippet>431</a>    <span class="attr">#[gpui_kit::test]
 <a href=#432 id=432 data-nosnippet>432</a>    </span><span class="kw">fn </span>test_delete_profile_returns_false_for_unknown_id(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#433 id=433 data-nosnippet>433</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#434 id=434 data-nosnippet>434</a>        visual_cx.update(|_window, cx| {

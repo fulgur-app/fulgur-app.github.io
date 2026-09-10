@@ -11,9 +11,9 @@
 <a href=#11 id=11 data-nosnippet>11</a><span class="kw">use </span>fulgur_common::api::shares::SharedFileResponse;
 <a href=#12 id=12 data-nosnippet>12</a><span class="kw">use </span>futures::StreamExt;
 <a href=#13 id=13 data-nosnippet>13</a><span class="kw">use </span>futures::channel::mpsc::{UnboundedReceiver, UnboundedSender, unbounded};
-<a href=#14 id=14 data-nosnippet>14</a><span class="kw">use </span>gpui::{App, AsyncApp, SharedString};
-<a href=#15 id=15 data-nosnippet>15</a><span class="kw">use </span>gpui_component::WindowExt;
-<a href=#16 id=16 data-nosnippet>16</a><span class="kw">use </span>gpui_component::notification::{Notification, NotificationDelivery, NotificationType};
+<a href=#14 id=14 data-nosnippet>14</a><span class="kw">use </span>gpui_kit::component::WindowExt;
+<a href=#15 id=15 data-nosnippet>15</a><span class="kw">use </span>gpui_kit::component::notification::{Notification, NotificationDelivery, NotificationType};
+<a href=#16 id=16 data-nosnippet>16</a><span class="kw">use </span>gpui_kit::{App, AsyncApp, SharedString};
 <a href=#17 id=17 data-nosnippet>17</a><span class="kw">use </span>parking_lot::{Mutex, RwLock};
 <a href=#18 id=18 data-nosnippet>18</a><span class="kw">use </span>std::collections::{HashMap, HashSet};
 <a href=#19 id=19 data-nosnippet>19</a><span class="kw">use </span>std::path::PathBuf;
@@ -226,7 +226,7 @@
 <a href=#226 id=226 data-nosnippet>226</a>    </span>notification_rx: Mutex&lt;<span class="prelude-ty">Option</span>&lt;UnboundedReceiver&lt;AppNotification&gt;&gt;&gt;,
 <a href=#227 id=227 data-nosnippet>227</a>}
 <a href=#228 id=228 data-nosnippet>228</a>
-<a href=#229 id=229 data-nosnippet>229</a><span class="kw">impl </span>gpui::Global <span class="kw">for </span>SharedAppState {}
+<a href=#229 id=229 data-nosnippet>229</a><span class="kw">impl </span>gpui_kit::Global <span class="kw">for </span>SharedAppState {}
 <a href=#230 id=230 data-nosnippet>230</a>
 <a href=#231 id=231 data-nosnippet>231</a><span class="kw">impl </span>SharedAppState {
 <a href=#232 id=232 data-nosnippet>232</a>    <span class="doccomment">/// Create a new shared app state by orchestrating the initialization of shared application state
@@ -558,7 +558,7 @@
 <a href=#558 id=558 data-nosnippet>558</a></span><span class="kw">mod </span>tests {
 <a href=#559 id=559 data-nosnippet>559</a>    <span class="kw">use super</span>::<span class="kw-2">*</span>;
 <a href=#560 id=560 data-nosnippet>560</a>    <span class="kw">use </span><span class="kw">crate</span>::fulgur::state::StateDb;
-<a href=#561 id=561 data-nosnippet>561</a>    <span class="kw">use </span>gpui::TestAppContext;
+<a href=#561 id=561 data-nosnippet>561</a>    <span class="kw">use </span>gpui_kit::TestAppContext;
 <a href=#562 id=562 data-nosnippet>562</a>
 <a href=#563 id=563 data-nosnippet>563</a>    <span class="doccomment">/// Install a `SharedAppState` whose `system_notifications` setting has the given value.
 <a href=#564 id=564 data-nosnippet>564</a>    ///
@@ -579,7 +579,7 @@
 <a href=#579 id=579 data-nosnippet>579</a>        });
 <a href=#580 id=580 data-nosnippet>580</a>    }
 <a href=#581 id=581 data-nosnippet>581</a>
-<a href=#582 id=582 data-nosnippet>582</a>    <span class="attr">#[gpui::test]
+<a href=#582 id=582 data-nosnippet>582</a>    <span class="attr">#[gpui_kit::test]
 <a href=#583 id=583 data-nosnippet>583</a>    </span><span class="kw">fn </span>test_background_notification_reaches_system_when_enabled(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#584 id=584 data-nosnippet>584</a>        set_up_shared_state(cx, <span class="bool-val">true</span>);
 <a href=#585 id=585 data-nosnippet>585</a>        <span class="kw">let </span>notification = AppNotification::background(NotificationType::Info, <span class="string">"share received"</span>);
@@ -587,7 +587,7 @@
 <a href=#587 id=587 data-nosnippet>587</a>        <span class="macro">assert_eq!</span>(delivery, NotificationDelivery::InAppAndSystem);
 <a href=#588 id=588 data-nosnippet>588</a>    }
 <a href=#589 id=589 data-nosnippet>589</a>
-<a href=#590 id=590 data-nosnippet>590</a>    <span class="attr">#[gpui::test]
+<a href=#590 id=590 data-nosnippet>590</a>    <span class="attr">#[gpui_kit::test]
 <a href=#591 id=591 data-nosnippet>591</a>    </span><span class="kw">fn </span>test_background_notification_stays_in_app_when_disabled(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#592 id=592 data-nosnippet>592</a>        set_up_shared_state(cx, <span class="bool-val">false</span>);
 <a href=#593 id=593 data-nosnippet>593</a>        <span class="kw">let </span>notification = AppNotification::background(NotificationType::Info, <span class="string">"share received"</span>);
@@ -595,7 +595,7 @@
 <a href=#595 id=595 data-nosnippet>595</a>        <span class="macro">assert_eq!</span>(delivery, NotificationDelivery::InApp);
 <a href=#596 id=596 data-nosnippet>596</a>    }
 <a href=#597 id=597 data-nosnippet>597</a>
-<a href=#598 id=598 data-nosnippet>598</a>    <span class="attr">#[gpui::test]
+<a href=#598 id=598 data-nosnippet>598</a>    <span class="attr">#[gpui_kit::test]
 <a href=#599 id=599 data-nosnippet>599</a>    </span><span class="kw">fn </span>test_foreground_notification_never_reaches_system(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#600 id=600 data-nosnippet>600</a>        set_up_shared_state(cx, <span class="bool-val">true</span>);
 <a href=#601 id=601 data-nosnippet>601</a>        <span class="kw">let </span>notification =
@@ -608,7 +608,7 @@
 <a href=#608 id=608 data-nosnippet>608</a>        </span>);
 <a href=#609 id=609 data-nosnippet>609</a>    }
 <a href=#610 id=610 data-nosnippet>610</a>
-<a href=#611 id=611 data-nosnippet>611</a>    <span class="attr">#[gpui::test]
+<a href=#611 id=611 data-nosnippet>611</a>    <span class="attr">#[gpui_kit::test]
 <a href=#612 id=612 data-nosnippet>612</a>    </span><span class="kw">fn </span>test_delivery_without_shared_state_stays_in_app(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#613 id=613 data-nosnippet>613</a>        <span class="kw">let </span>notification = AppNotification::background(NotificationType::Info, <span class="string">"early failure"</span>);
 <a href=#614 id=614 data-nosnippet>614</a>        <span class="kw">let </span>delivery = cx.update(|cx| notification_delivery(<span class="kw-2">&amp;</span>notification, cx));

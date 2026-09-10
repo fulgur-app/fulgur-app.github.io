@@ -7,8 +7,8 @@
 <a href=#7 id=7 data-nosnippet>7</a>
 <a href=#8 id=8 data-nosnippet>8</a><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>state::{TabBar, TabBarEvent};
 <a href=#9 id=9 data-nosnippet>9</a>
-<a href=#10 id=10 data-nosnippet>10</a><span class="kw">use </span>gpui::{Action, Hsla, Styled};
-<a href=#11 id=11 data-nosnippet>11</a><span class="kw">use </span>gpui_component::button::Button;
+<a href=#10 id=10 data-nosnippet>10</a><span class="kw">use </span>gpui_kit::component::button::Button;
+<a href=#11 id=11 data-nosnippet>11</a><span class="kw">use </span>gpui_kit::{Action, Hsla, Styled};
 <a href=#12 id=12 data-nosnippet>12</a>
 <a href=#13 id=13 data-nosnippet>13</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::ui::{
 <a href=#14 id=14 data-nosnippet>14</a>    components_utils::{TAB_BAR_BUTTON_SIZE, button_factory},
@@ -52,7 +52,7 @@
 <a href=#52 id=52 data-nosnippet>52</a>#[action(namespace = fulgur, no_json)]
 <a href=#53 id=53 data-nosnippet>53</a></span><span class="kw">pub struct </span>RenameTab(<span class="kw">pub </span>TabId);
 <a href=#54 id=54 data-nosnippet>54</a>
-<a href=#55 id=55 data-nosnippet>55</a><span class="macro">gpui::actions!</span>(fulgur, [CloseAllTabsAction, SendTabToWindowNoOp]);
+<a href=#55 id=55 data-nosnippet>55</a><span class="macro">gpui_kit::actions!</span>(fulgur, [CloseAllTabsAction, SendTabToWindowNoOp]);
 <a href=#56 id=56 data-nosnippet>56</a>
 <a href=#57 id=57 data-nosnippet>57</a><span class="doccomment">/// Create a tab bar button
 <a href=#58 id=58 data-nosnippet>58</a>///
@@ -80,7 +80,7 @@
 <a href=#80 id=80 data-nosnippet>80</a>///
 <a href=#81 id=81 data-nosnippet>81</a>/// This is a standalone helper function for the `GetTheme` action.
 <a href=#82 id=82 data-nosnippet>82</a></span><span class="kw">pub fn </span>open_theme_repository() {
-<a href=#83 id=83 data-nosnippet>83</a>    <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = open::that(<span class="string">"https://github.com/longbridge/gpui-component/tree/main/themes"</span>) {
+<a href=#83 id=83 data-nosnippet>83</a>    <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = open::that(<span class="string">"https://github.com/longbridge/gpui-kit/tree/main/themes"</span>) {
 <a href=#84 id=84 data-nosnippet>84</a>        <span class="macro">log::error!</span>(<span class="string">"Failed to open browser: {e}"</span>);
 <a href=#85 id=85 data-nosnippet>85</a>    }
 <a href=#86 id=86 data-nosnippet>86</a>}

@@ -4,13 +4,13 @@
 <a href=#4 id=4 data-nosnippet>4</a>    insert_button::InsertButton,
 <a href=#5 id=5 data-nosnippet>5</a>};
 <a href=#6 id=6 data-nosnippet>6</a>
-<a href=#7 id=7 data-nosnippet>7</a><span class="kw">use </span>gpui::{
-<a href=#8 id=8 data-nosnippet>8</a>    Anchor, Context, Div, Entity, InteractiveElement, IntoElement, ParentElement, Render,
-<a href=#9 id=9 data-nosnippet>9</a>    SharedString, StatefulInteractiveElement, Styled, Window, div,
+<a href=#7 id=7 data-nosnippet>7</a><span class="kw">use </span>gpui_kit::component::{
+<a href=#8 id=8 data-nosnippet>8</a>    ActiveTheme, h_flex,
+<a href=#9 id=9 data-nosnippet>9</a>    input::{Input, InputState},
 <a href=#10 id=10 data-nosnippet>10</a>};
-<a href=#11 id=11 data-nosnippet>11</a><span class="kw">use </span>gpui_component::{
-<a href=#12 id=12 data-nosnippet>12</a>    ActiveTheme, h_flex,
-<a href=#13 id=13 data-nosnippet>13</a>    input::{Input, InputState},
+<a href=#11 id=11 data-nosnippet>11</a><span class="kw">use </span>gpui_kit::{
+<a href=#12 id=12 data-nosnippet>12</a>    Anchor, Context, Div, Entity, InteractiveElement, IntoElement, ParentElement, Render,
+<a href=#13 id=13 data-nosnippet>13</a>    SharedString, StatefulInteractiveElement, Styled, Window, div,
 <a href=#14 id=14 data-nosnippet>14</a>};
 <a href=#15 id=15 data-nosnippet>15</a>
 <a href=#16 id=16 data-nosnippet>16</a><span class="kw">use </span><span class="kw">super</span>::<span class="kw">super</span>::search_bar::{search_bar_button_factory, search_bar_toggle_button_factory};
@@ -91,7 +91,7 @@
 <a href=#91 id=91 data-nosnippet>91</a>            .gap_2()
 <a href=#92 id=92 data-nosnippet>92</a>            .h(SEARCH_BAR_HEIGHT)
 <a href=#93 id=93 data-nosnippet>93</a>            .child(
-<a href=#94 id=94 data-nosnippet>94</a>                gpui_component::color_picker::ColorPicker::new(<span class="kw-2">&amp;</span><span class="self">self</span>.color_picker_state)
+<a href=#94 id=94 data-nosnippet>94</a>                gpui_kit::component::color_picker::ColorPicker::new(<span class="kw-2">&amp;</span><span class="self">self</span>.color_picker_state)
 <a href=#95 id=95 data-nosnippet>95</a>                    .anchor(Anchor::BottomLeft),
 <a href=#96 id=96 data-nosnippet>96</a>            )
 <a href=#97 id=97 data-nosnippet>97</a>    }
@@ -116,7 +116,7 @@
 <a href=#116 id=116 data-nosnippet>116</a>            .flex()
 <a href=#117 id=117 data-nosnippet>117</a>            .items_center()
 <a href=#118 id=118 data-nosnippet>118</a>            .flex_1()
-<a href=#119 id=119 data-nosnippet>119</a>            .min_w(gpui::px(<span class="number">330.0</span>))
+<a href=#119 id=119 data-nosnippet>119</a>            .min_w(gpui_kit::px(<span class="number">330.0</span>))
 <a href=#120 id=120 data-nosnippet>120</a>            .h(SEARCH_BAR_HEIGHT)
 <a href=#121 id=121 data-nosnippet>121</a>            .border_l_1()
 <a href=#122 id=122 data-nosnippet>122</a>            .border_color(cx.theme().border)
@@ -220,11 +220,11 @@
 <a href=#220 id=220 data-nosnippet>220</a>    <span class="kw">use </span><span class="kw">crate</span>::fulgur::{
 <a href=#221 id=221 data-nosnippet>221</a>        Fulgur, settings::Settings, shared_state::SharedAppState, window_manager::WindowManager,
 <a href=#222 id=222 data-nosnippet>222</a>    };
-<a href=#223 id=223 data-nosnippet>223</a>    <span class="kw">use </span>gpui::{
-<a href=#224 id=224 data-nosnippet>224</a>        AppContext, Context, Entity, IntoElement, Render, TestAppContext, VisualTestContext,
-<a href=#225 id=225 data-nosnippet>225</a>        Window, WindowOptions,
-<a href=#226 id=226 data-nosnippet>226</a>    };
-<a href=#227 id=227 data-nosnippet>227</a>    <span class="kw">use </span>gpui_component::input::Position;
+<a href=#223 id=223 data-nosnippet>223</a>    <span class="kw">use </span>gpui_kit::component::input::Position;
+<a href=#224 id=224 data-nosnippet>224</a>    <span class="kw">use </span>gpui_kit::{
+<a href=#225 id=225 data-nosnippet>225</a>        AppContext, Context, Entity, IntoElement, Render, TestAppContext, VisualTestContext,
+<a href=#226 id=226 data-nosnippet>226</a>        Window, WindowOptions,
+<a href=#227 id=227 data-nosnippet>227</a>    };
 <a href=#228 id=228 data-nosnippet>228</a>    <span class="kw">use </span>parking_lot::Mutex;
 <a href=#229 id=229 data-nosnippet>229</a>    <span class="kw">use </span>std::{cell::RefCell, path::PathBuf, sync::Arc};
 <a href=#230 id=230 data-nosnippet>230</a>
@@ -232,13 +232,13 @@
 <a href=#232 id=232 data-nosnippet>232</a>
 <a href=#233 id=233 data-nosnippet>233</a>    <span class="kw">impl </span>Render <span class="kw">for </span>EmptyView {
 <a href=#234 id=234 data-nosnippet>234</a>        <span class="kw">fn </span>render(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _window: <span class="kw-2">&amp;mut </span>Window, _cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) -&gt; <span class="kw">impl </span>IntoElement {
-<a href=#235 id=235 data-nosnippet>235</a>            gpui::div()
+<a href=#235 id=235 data-nosnippet>235</a>            gpui_kit::div()
 <a href=#236 id=236 data-nosnippet>236</a>        }
 <a href=#237 id=237 data-nosnippet>237</a>    }
 <a href=#238 id=238 data-nosnippet>238</a>
 <a href=#239 id=239 data-nosnippet>239</a>    <span class="kw">fn </span>setup_fulgur(cx: <span class="kw-2">&amp;mut </span>TestAppContext) -&gt; (Entity&lt;Fulgur&gt;, VisualTestContext) {
 <a href=#240 id=240 data-nosnippet>240</a>        cx.update(|cx| {
-<a href=#241 id=241 data-nosnippet>241</a>            gpui_component::init(cx);
+<a href=#241 id=241 data-nosnippet>241</a>            gpui_kit::init(cx);
 <a href=#242 id=242 data-nosnippet>242</a>            <span class="kw">let </span><span class="kw-2">mut </span>settings = Settings::new();
 <a href=#243 id=243 data-nosnippet>243</a>            settings.editor_settings.watch_files = <span class="bool-val">false</span>;
 <a href=#244 id=244 data-nosnippet>244</a>            <span class="kw">let </span>pending_files: Arc&lt;Mutex&lt;Vec&lt;PathBuf&gt;&gt;&gt; = Arc::new(Mutex::new(Vec::new()));
@@ -266,7 +266,7 @@
 <a href=#266 id=266 data-nosnippet>266</a>        (fulgur, visual_cx)
 <a href=#267 id=267 data-nosnippet>267</a>    }
 <a href=#268 id=268 data-nosnippet>268</a>
-<a href=#269 id=269 data-nosnippet>269</a>    <span class="attr">#[gpui::test]
+<a href=#269 id=269 data-nosnippet>269</a>    <span class="attr">#[gpui_kit::test]
 <a href=#270 id=270 data-nosnippet>270</a>    </span><span class="kw">fn </span>test_color_picker_bar_hidden_by_default(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#271 id=271 data-nosnippet>271</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#272 id=272 data-nosnippet>272</a>        visual_cx.update(|_window, cx| {
@@ -274,7 +274,7 @@
 <a href=#274 id=274 data-nosnippet>274</a>        });
 <a href=#275 id=275 data-nosnippet>275</a>    }
 <a href=#276 id=276 data-nosnippet>276</a>
-<a href=#277 id=277 data-nosnippet>277</a>    <span class="attr">#[gpui::test]
+<a href=#277 id=277 data-nosnippet>277</a>    <span class="attr">#[gpui_kit::test]
 <a href=#278 id=278 data-nosnippet>278</a>    </span><span class="kw">fn </span>test_toggle_color_picker_shows_bar(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#279 id=279 data-nosnippet>279</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#280 id=280 data-nosnippet>280</a>        visual_cx.update(|window, cx| {
@@ -285,7 +285,7 @@
 <a href=#285 id=285 data-nosnippet>285</a>        });
 <a href=#286 id=286 data-nosnippet>286</a>    }
 <a href=#287 id=287 data-nosnippet>287</a>
-<a href=#288 id=288 data-nosnippet>288</a>    <span class="attr">#[gpui::test]
+<a href=#288 id=288 data-nosnippet>288</a>    <span class="attr">#[gpui_kit::test]
 <a href=#289 id=289 data-nosnippet>289</a>    </span><span class="kw">fn </span>test_toggle_color_picker_twice_hides_bar(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#290 id=290 data-nosnippet>290</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#291 id=291 data-nosnippet>291</a>        visual_cx.update(|window, cx| {
@@ -301,7 +301,7 @@
 <a href=#301 id=301 data-nosnippet>301</a>        });
 <a href=#302 id=302 data-nosnippet>302</a>    }
 <a href=#303 id=303 data-nosnippet>303</a>
-<a href=#304 id=304 data-nosnippet>304</a>    <span class="attr">#[gpui::test]
+<a href=#304 id=304 data-nosnippet>304</a>    <span class="attr">#[gpui_kit::test]
 <a href=#305 id=305 data-nosnippet>305</a>    </span><span class="kw">fn </span>test_close_event_hides_bar(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#306 id=306 data-nosnippet>306</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#307 id=307 data-nosnippet>307</a>        <span class="kw">let </span>bar = visual_cx.update(|window, cx| {
@@ -319,7 +319,7 @@
 <a href=#319 id=319 data-nosnippet>319</a>        });
 <a href=#320 id=320 data-nosnippet>320</a>    }
 <a href=#321 id=321 data-nosnippet>321</a>
-<a href=#322 id=322 data-nosnippet>322</a>    <span class="attr">#[gpui::test]
+<a href=#322 id=322 data-nosnippet>322</a>    <span class="attr">#[gpui_kit::test]
 <a href=#323 id=323 data-nosnippet>323</a>    </span><span class="kw">fn </span>test_insert_color_value_inserts_at_cursor(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#324 id=324 data-nosnippet>324</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#325 id=325 data-nosnippet>325</a>        visual_cx.update(|window, cx| {
@@ -355,7 +355,7 @@
 <a href=#355 id=355 data-nosnippet>355</a>        });
 <a href=#356 id=356 data-nosnippet>356</a>    }
 <a href=#357 id=357 data-nosnippet>357</a>
-<a href=#358 id=358 data-nosnippet>358</a>    <span class="attr">#[gpui::test]
+<a href=#358 id=358 data-nosnippet>358</a>    <span class="attr">#[gpui_kit::test]
 <a href=#359 id=359 data-nosnippet>359</a>    </span><span class="kw">fn </span>test_insert_color_value_no_active_tab_does_not_panic(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#360 id=360 data-nosnippet>360</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#361 id=361 data-nosnippet>361</a>        visual_cx.update(|window, cx| {
@@ -369,7 +369,7 @@
 <a href=#369 id=369 data-nosnippet>369</a>        });
 <a href=#370 id=370 data-nosnippet>370</a>    }
 <a href=#371 id=371 data-nosnippet>371</a>
-<a href=#372 id=372 data-nosnippet>372</a>    <span class="attr">#[gpui::test]
+<a href=#372 id=372 data-nosnippet>372</a>    <span class="attr">#[gpui_kit::test]
 <a href=#373 id=373 data-nosnippet>373</a>    </span><span class="kw">fn </span>test_toggle_highlight_colors_event_flips_setting(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#374 id=374 data-nosnippet>374</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#375 id=375 data-nosnippet>375</a>        <span class="kw">let </span>(bar, initial) = visual_cx.update(|_window, cx| {

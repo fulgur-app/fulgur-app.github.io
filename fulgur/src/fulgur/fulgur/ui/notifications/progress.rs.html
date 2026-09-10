@@ -5,11 +5,11 @@
 <a href=#5 id=5 data-nosnippet>5</a><span class="kw">use </span>std::thread;
 <a href=#6 id=6 data-nosnippet>6</a><span class="kw">use </span>std::time::Duration;
 <a href=#7 id=7 data-nosnippet>7</a>
-<a href=#8 id=8 data-nosnippet>8</a><span class="kw">use </span>gpui::{
-<a href=#9 id=9 data-nosnippet>9</a>    App, ElementId, IntoElement, ParentElement, SharedString, Styled, WeakEntity, Window, div,
+<a href=#8 id=8 data-nosnippet>8</a><span class="kw">use </span>gpui_kit::component::{
+<a href=#9 id=9 data-nosnippet>9</a>    Sizable, WindowExt, button::Button, h_flex, notification::Notification, spinner::Spinner,
 <a href=#10 id=10 data-nosnippet>10</a>};
-<a href=#11 id=11 data-nosnippet>11</a><span class="kw">use </span>gpui_component::{
-<a href=#12 id=12 data-nosnippet>12</a>    Sizable, WindowExt, button::Button, h_flex, notification::Notification, spinner::Spinner,
+<a href=#11 id=11 data-nosnippet>11</a><span class="kw">use </span>gpui_kit::{
+<a href=#12 id=12 data-nosnippet>12</a>    App, ElementId, IntoElement, ParentElement, SharedString, Styled, WeakEntity, Window, div,
 <a href=#13 id=13 data-nosnippet>13</a>};
 <a href=#14 id=14 data-nosnippet>14</a>
 <a href=#15 id=15 data-nosnippet>15</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::ui::icons::CustomIcon;
@@ -141,58 +141,63 @@
 <a href=#141 id=141 data-nosnippet>141</a>                }
 <a href=#142 id=142 data-nosnippet>142</a>
 <a href=#143 id=143 data-nosnippet>143</a>                window.push_notification(note, cx);
-<a href=#144 id=144 data-nosnippet>144</a>                window.notifications(cx).last().map(gpui::Entity::downgrade)
-<a href=#145 id=145 data-nosnippet>145</a>            }) {
-<a href=#146 id=146 data-nosnippet>146</a>                <span class="prelude-val">Ok</span>(entity) =&gt; entity,
-<a href=#147 id=147 data-nosnippet>147</a>                <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span>,
-<a href=#148 id=148 data-nosnippet>148</a>            };
-<a href=#149 id=149 data-nosnippet>149</a>
-<a href=#150 id=150 data-nosnippet>150</a>            <span class="kw">loop </span>{
-<a href=#151 id=151 data-nosnippet>151</a>                async_cx
-<a href=#152 id=152 data-nosnippet>152</a>                    .background_executor()
-<a href=#153 id=153 data-nosnippet>153</a>                    .timer(PROGRESS_NOTIFICATION_POLL_INTERVAL)
-<a href=#154 id=154 data-nosnippet>154</a>                    .<span class="kw">await</span>;
-<a href=#155 id=155 data-nosnippet>155</a>                <span class="kw">if </span>completed_for_task.load(Ordering::Acquire) {
-<a href=#156 id=156 data-nosnippet>156</a>                    <span class="kw">let _ </span>= async_cx.update(|window, cx| {
-<a href=#157 id=157 data-nosnippet>157</a>                        <span class="kw">if let </span><span class="prelude-val">Some</span>(entity) = entity.as_ref().and_then(gpui::WeakEntity::upgrade) {
-<a href=#158 id=158 data-nosnippet>158</a>                            entity.update(cx, |note, cx| note.dismiss(window, cx));
-<a href=#159 id=159 data-nosnippet>159</a>                        }
-<a href=#160 id=160 data-nosnippet>160</a>                    });
-<a href=#161 id=161 data-nosnippet>161</a>                    <span class="kw">return</span>;
-<a href=#162 id=162 data-nosnippet>162</a>                }
-<a href=#163 id=163 data-nosnippet>163</a>            }
-<a href=#164 id=164 data-nosnippet>164</a>        })
-<a href=#165 id=165 data-nosnippet>165</a>        .detach();
-<a href=#166 id=166 data-nosnippet>166</a>
-<a href=#167 id=167 data-nosnippet>167</a>    ProgressNotification {
-<a href=#168 id=168 data-nosnippet>168</a>        completed,
-<a href=#169 id=169 data-nosnippet>169</a>        cancelled,
-<a href=#170 id=170 data-nosnippet>170</a>    }
-<a href=#171 id=171 data-nosnippet>171</a>}
-<a href=#172 id=172 data-nosnippet>172</a>
-<a href=#173 id=173 data-nosnippet>173</a><span class="doccomment">/// Run a blocking operation on a background thread behind a progress indicator.
-<a href=#174 id=174 data-nosnippet>174</a>///
-<a href=#175 id=175 data-nosnippet>175</a>/// ### Arguments
-<a href=#176 id=176 data-nosnippet>176</a>/// - `window`: Target window for the progress notification.
-<a href=#177 id=177 data-nosnippet>177</a>/// - `cx`: Application context.
-<a href=#178 id=178 data-nosnippet>178</a>/// - `label`: Description shown next to the spinner.
-<a href=#179 id=179 data-nosnippet>179</a>/// - `on_cancel`: Optional callback invoked once when the user clicks Cancel.
-<a href=#180 id=180 data-nosnippet>180</a>/// - `work`: The blocking operation, handed the cancel flag so it can discard
-<a href=#181 id=181 data-nosnippet>181</a>///   its outcome instead of publishing it after a cancellation.
-<a href=#182 id=182 data-nosnippet>182</a></span><span class="kw">pub fn </span>spawn_with_progress&lt;F&gt;(
-<a href=#183 id=183 data-nosnippet>183</a>    window: <span class="kw-2">&amp;mut </span>Window,
-<a href=#184 id=184 data-nosnippet>184</a>    cx: <span class="kw-2">&amp;mut </span>App,
-<a href=#185 id=185 data-nosnippet>185</a>    label: SharedString,
-<a href=#186 id=186 data-nosnippet>186</a>    on_cancel: <span class="prelude-ty">Option</span>&lt;CancelCallback&gt;,
-<a href=#187 id=187 data-nosnippet>187</a>    work: F,
-<a href=#188 id=188 data-nosnippet>188</a>) <span class="kw">where
-<a href=#189 id=189 data-nosnippet>189</a>    </span>F: FnOnce(<span class="kw-2">&amp;</span>AtomicBool) + Send + <span class="lifetime">'static</span>,
-<a href=#190 id=190 data-nosnippet>190</a>{
-<a href=#191 id=191 data-nosnippet>191</a>    <span class="kw">let </span>progress = start_progress(window, cx, label, on_cancel);
-<a href=#192 id=192 data-nosnippet>192</a>    thread::spawn(<span class="kw">move </span>|| {
-<a href=#193 id=193 data-nosnippet>193</a>        <span class="kw">let </span>cancel_flag = progress.cancel_flag();
-<a href=#194 id=194 data-nosnippet>194</a>        work(<span class="kw-2">&amp;</span>cancel_flag);
-<a href=#195 id=195 data-nosnippet>195</a>        drop(progress);
-<a href=#196 id=196 data-nosnippet>196</a>    });
-<a href=#197 id=197 data-nosnippet>197</a>}
+<a href=#144 id=144 data-nosnippet>144</a>                window
+<a href=#145 id=145 data-nosnippet>145</a>                    .notifications(cx)
+<a href=#146 id=146 data-nosnippet>146</a>                    .last()
+<a href=#147 id=147 data-nosnippet>147</a>                    .map(gpui_kit::Entity::downgrade)
+<a href=#148 id=148 data-nosnippet>148</a>            }) {
+<a href=#149 id=149 data-nosnippet>149</a>                <span class="prelude-val">Ok</span>(entity) =&gt; entity,
+<a href=#150 id=150 data-nosnippet>150</a>                <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span>,
+<a href=#151 id=151 data-nosnippet>151</a>            };
+<a href=#152 id=152 data-nosnippet>152</a>
+<a href=#153 id=153 data-nosnippet>153</a>            <span class="kw">loop </span>{
+<a href=#154 id=154 data-nosnippet>154</a>                async_cx
+<a href=#155 id=155 data-nosnippet>155</a>                    .background_executor()
+<a href=#156 id=156 data-nosnippet>156</a>                    .timer(PROGRESS_NOTIFICATION_POLL_INTERVAL)
+<a href=#157 id=157 data-nosnippet>157</a>                    .<span class="kw">await</span>;
+<a href=#158 id=158 data-nosnippet>158</a>                <span class="kw">if </span>completed_for_task.load(Ordering::Acquire) {
+<a href=#159 id=159 data-nosnippet>159</a>                    <span class="kw">let _ </span>= async_cx.update(|window, cx| {
+<a href=#160 id=160 data-nosnippet>160</a>                        <span class="kw">if let </span><span class="prelude-val">Some</span>(entity) =
+<a href=#161 id=161 data-nosnippet>161</a>                            entity.as_ref().and_then(gpui_kit::WeakEntity::upgrade)
+<a href=#162 id=162 data-nosnippet>162</a>                        {
+<a href=#163 id=163 data-nosnippet>163</a>                            entity.update(cx, |note, cx| note.dismiss(window, cx));
+<a href=#164 id=164 data-nosnippet>164</a>                        }
+<a href=#165 id=165 data-nosnippet>165</a>                    });
+<a href=#166 id=166 data-nosnippet>166</a>                    <span class="kw">return</span>;
+<a href=#167 id=167 data-nosnippet>167</a>                }
+<a href=#168 id=168 data-nosnippet>168</a>            }
+<a href=#169 id=169 data-nosnippet>169</a>        })
+<a href=#170 id=170 data-nosnippet>170</a>        .detach();
+<a href=#171 id=171 data-nosnippet>171</a>
+<a href=#172 id=172 data-nosnippet>172</a>    ProgressNotification {
+<a href=#173 id=173 data-nosnippet>173</a>        completed,
+<a href=#174 id=174 data-nosnippet>174</a>        cancelled,
+<a href=#175 id=175 data-nosnippet>175</a>    }
+<a href=#176 id=176 data-nosnippet>176</a>}
+<a href=#177 id=177 data-nosnippet>177</a>
+<a href=#178 id=178 data-nosnippet>178</a><span class="doccomment">/// Run a blocking operation on a background thread behind a progress indicator.
+<a href=#179 id=179 data-nosnippet>179</a>///
+<a href=#180 id=180 data-nosnippet>180</a>/// ### Arguments
+<a href=#181 id=181 data-nosnippet>181</a>/// - `window`: Target window for the progress notification.
+<a href=#182 id=182 data-nosnippet>182</a>/// - `cx`: Application context.
+<a href=#183 id=183 data-nosnippet>183</a>/// - `label`: Description shown next to the spinner.
+<a href=#184 id=184 data-nosnippet>184</a>/// - `on_cancel`: Optional callback invoked once when the user clicks Cancel.
+<a href=#185 id=185 data-nosnippet>185</a>/// - `work`: The blocking operation, handed the cancel flag so it can discard
+<a href=#186 id=186 data-nosnippet>186</a>///   its outcome instead of publishing it after a cancellation.
+<a href=#187 id=187 data-nosnippet>187</a></span><span class="kw">pub fn </span>spawn_with_progress&lt;F&gt;(
+<a href=#188 id=188 data-nosnippet>188</a>    window: <span class="kw-2">&amp;mut </span>Window,
+<a href=#189 id=189 data-nosnippet>189</a>    cx: <span class="kw-2">&amp;mut </span>App,
+<a href=#190 id=190 data-nosnippet>190</a>    label: SharedString,
+<a href=#191 id=191 data-nosnippet>191</a>    on_cancel: <span class="prelude-ty">Option</span>&lt;CancelCallback&gt;,
+<a href=#192 id=192 data-nosnippet>192</a>    work: F,
+<a href=#193 id=193 data-nosnippet>193</a>) <span class="kw">where
+<a href=#194 id=194 data-nosnippet>194</a>    </span>F: FnOnce(<span class="kw-2">&amp;</span>AtomicBool) + Send + <span class="lifetime">'static</span>,
+<a href=#195 id=195 data-nosnippet>195</a>{
+<a href=#196 id=196 data-nosnippet>196</a>    <span class="kw">let </span>progress = start_progress(window, cx, label, on_cancel);
+<a href=#197 id=197 data-nosnippet>197</a>    thread::spawn(<span class="kw">move </span>|| {
+<a href=#198 id=198 data-nosnippet>198</a>        <span class="kw">let </span>cancel_flag = progress.cancel_flag();
+<a href=#199 id=199 data-nosnippet>199</a>        work(<span class="kw-2">&amp;</span>cancel_flag);
+<a href=#200 id=200 data-nosnippet>200</a>        drop(progress);
+<a href=#201 id=201 data-nosnippet>201</a>    });
+<a href=#202 id=202 data-nosnippet>202</a>}
 </code></pre></div></section></main></body></html>

@@ -12,7 +12,7 @@
 <a href=#12 id=12 data-nosnippet>12</a>    /// - `Some(usize)`: The index of the tab if found
 <a href=#13 id=13 data-nosnippet>13</a>    /// - `None`: If the tab was not found
 <a href=#14 id=14 data-nosnippet>14</a>    </span><span class="attr">#[must_use]
-<a href=#15 id=15 data-nosnippet>15</a>    </span><span class="kw">pub fn </span>find_tab_by_path(<span class="kw-2">&amp;</span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>PathBuf, cx: <span class="kw-2">&amp;</span>gpui::App) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
+<a href=#15 id=15 data-nosnippet>15</a>    </span><span class="kw">pub fn </span>find_tab_by_path(<span class="kw-2">&amp;</span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>PathBuf, cx: <span class="kw-2">&amp;</span>gpui_kit::App) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
 <a href=#16 id=16 data-nosnippet>16</a>        <span class="self">self</span>.tabs.iter().position(|tab| {
 <a href=#17 id=17 data-nosnippet>17</a>            <span class="kw">if let </span>Tab::Editor(editor_tab) = tab.read(cx) {
 <a href=#18 id=18 data-nosnippet>18</a>                editor_tab.file_path().is_some_and(|p| p == path)
@@ -32,7 +32,7 @@
 <a href=#32 id=32 data-nosnippet>32</a>    /// - `Some(usize)`: The index of the matching remote tab.
 <a href=#33 id=33 data-nosnippet>33</a>    /// - `None`: If no tab matches this remote location.
 <a href=#34 id=34 data-nosnippet>34</a>    </span><span class="attr">#[must_use]
-<a href=#35 id=35 data-nosnippet>35</a>    </span><span class="kw">pub fn </span>find_tab_by_remote_spec(<span class="kw-2">&amp;</span><span class="self">self</span>, spec: <span class="kw-2">&amp;</span>RemoteSpec, cx: <span class="kw-2">&amp;</span>gpui::App) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
+<a href=#35 id=35 data-nosnippet>35</a>    </span><span class="kw">pub fn </span>find_tab_by_remote_spec(<span class="kw-2">&amp;</span><span class="self">self</span>, spec: <span class="kw-2">&amp;</span>RemoteSpec, cx: <span class="kw-2">&amp;</span>gpui_kit::App) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
 <a href=#36 id=36 data-nosnippet>36</a>        <span class="self">self</span>.tabs.iter().position(|tab| {
 <a href=#37 id=37 data-nosnippet>37</a>            <span class="kw">if let </span>Tab::Editor(editor_tab) = tab.read(cx)
 <a href=#38 id=38 data-nosnippet>38</a>                &amp;&amp; <span class="kw">let </span>TabLocation::Remote(existing_spec) = <span class="kw-2">&amp;</span>editor_tab.location
@@ -58,12 +58,12 @@
 <a href=#58 id=58 data-nosnippet>58</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
 <a href=#59 id=59 data-nosnippet>59</a>    </span><span class="kw">use </span><span class="kw">crate</span>::fulgur::files::file_operations::test_helpers::{setup_fulgur, temp_test_path};
 <a href=#60 id=60 data-nosnippet>60</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#61 id=61 data-nosnippet>61</a>    </span><span class="kw">use </span>gpui::TestAppContext;
+<a href=#61 id=61 data-nosnippet>61</a>    </span><span class="kw">use </span>gpui_kit::TestAppContext;
 <a href=#62 id=62 data-nosnippet>62</a>
 <a href=#63 id=63 data-nosnippet>63</a>    <span class="comment">// ========== find_tab_by_path tests ==========
 <a href=#64 id=64 data-nosnippet>64</a>
 <a href=#65 id=65 data-nosnippet>65</a>    </span><span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#66 id=66 data-nosnippet>66</a>    #[gpui::test]
+<a href=#66 id=66 data-nosnippet>66</a>    #[gpui_kit::test]
 <a href=#67 id=67 data-nosnippet>67</a>    </span><span class="kw">fn </span>test_find_tab_by_path_returns_index_for_existing_tab(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#68 id=68 data-nosnippet>68</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#69 id=69 data-nosnippet>69</a>        <span class="kw">let </span>path = temp_test_path(<span class="string">"fulgur_find_tab_test.txt"</span>);
@@ -88,7 +88,7 @@
 <a href=#88 id=88 data-nosnippet>88</a>    }
 <a href=#89 id=89 data-nosnippet>89</a>
 <a href=#90 id=90 data-nosnippet>90</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#91 id=91 data-nosnippet>91</a>    #[gpui::test]
+<a href=#91 id=91 data-nosnippet>91</a>    #[gpui_kit::test]
 <a href=#92 id=92 data-nosnippet>92</a>    </span><span class="kw">fn </span>test_find_tab_by_path_returns_none_for_unknown_path(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#93 id=93 data-nosnippet>93</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#94 id=94 data-nosnippet>94</a>
@@ -101,7 +101,7 @@
 <a href=#101 id=101 data-nosnippet>101</a>    }
 <a href=#102 id=102 data-nosnippet>102</a>
 <a href=#103 id=103 data-nosnippet>103</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#104 id=104 data-nosnippet>104</a>    #[gpui::test]
+<a href=#104 id=104 data-nosnippet>104</a>    #[gpui_kit::test]
 <a href=#105 id=105 data-nosnippet>105</a>    </span><span class="kw">fn </span>test_find_tab_by_path_ignores_settings_tabs(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#106 id=106 data-nosnippet>106</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#107 id=107 data-nosnippet>107</a>
@@ -117,7 +117,7 @@
 <a href=#117 id=117 data-nosnippet>117</a>    }
 <a href=#118 id=118 data-nosnippet>118</a>
 <a href=#119 id=119 data-nosnippet>119</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#120 id=120 data-nosnippet>120</a>    #[gpui::test]
+<a href=#120 id=120 data-nosnippet>120</a>    #[gpui_kit::test]
 <a href=#121 id=121 data-nosnippet>121</a>    </span><span class="kw">fn </span>test_find_tab_by_remote_spec_returns_index_for_existing_remote_tab(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#122 id=122 data-nosnippet>122</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#123 id=123 data-nosnippet>123</a>        <span class="kw">let </span>spec = RemoteSpec {
@@ -148,7 +148,7 @@
 <a href=#148 id=148 data-nosnippet>148</a>    }
 <a href=#149 id=149 data-nosnippet>149</a>
 <a href=#150 id=150 data-nosnippet>150</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#151 id=151 data-nosnippet>151</a>    #[gpui::test]
+<a href=#151 id=151 data-nosnippet>151</a>    #[gpui_kit::test]
 <a href=#152 id=152 data-nosnippet>152</a>    </span><span class="kw">fn </span>test_find_tab_by_remote_spec_returns_none_for_unknown_remote_spec(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#153 id=153 data-nosnippet>153</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#154 id=154 data-nosnippet>154</a>        <span class="kw">let </span>spec = RemoteSpec {

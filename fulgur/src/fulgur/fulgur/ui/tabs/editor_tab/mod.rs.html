@@ -12,9 +12,9 @@
 <a href=#12 id=12 data-nosnippet>12</a><span class="kw">pub use </span>location::TabLocation;
 <a href=#13 id=13 data-nosnippet>13</a><span class="kw">pub use </span>navigation::{Jump, extract_line_number};
 <a href=#14 id=14 data-nosnippet>14</a>
-<a href=#15 id=15 data-nosnippet>15</a><span class="kw">use </span>gpui::{App, AppContext, Context, Entity, SharedString, Window};
-<a href=#16 id=16 data-nosnippet>16</a><span class="kw">use </span>gpui_component::input::{EditorState, InputState, Rope, TabSize};
-<a href=#17 id=17 data-nosnippet>17</a><span class="kw">use </span>gpui_component::table::TableState;
+<a href=#15 id=15 data-nosnippet>15</a><span class="kw">use </span>gpui_kit::component::input::{EditorState, InputState, Rope, TabSize};
+<a href=#16 id=16 data-nosnippet>16</a><span class="kw">use </span>gpui_kit::component::table::TableState;
+<a href=#17 id=17 data-nosnippet>17</a><span class="kw">use </span>gpui_kit::{App, AppContext, Context, Entity, SharedString, Window};
 <a href=#18 id=18 data-nosnippet>18</a><span class="kw">use </span>std::path::PathBuf;
 <a href=#19 id=19 data-nosnippet>19</a><span class="kw">use </span>std::rc::Rc;
 <a href=#20 id=20 data-nosnippet>20</a><span class="kw">use </span>std::time::SystemTime;
@@ -93,7 +93,7 @@
 <a href=#93 id=93 data-nosnippet>93</a>    <span class="doccomment">/// Subscription to the content entity keeping `modified` current. Owned by
 <a href=#94 id=94 data-nosnippet>94</a>    /// the tab entity, attached by `Tab::attach_content_subscription`, and
 <a href=#95 id=95 data-nosnippet>95</a>    /// replaced whenever the content entity is swapped.
-<a href=#96 id=96 data-nosnippet>96</a>    </span><span class="kw">pub</span>(<span class="kw">crate</span>) content_subscription: <span class="prelude-ty">Option</span>&lt;gpui::Subscription&gt;,
+<a href=#96 id=96 data-nosnippet>96</a>    </span><span class="kw">pub</span>(<span class="kw">crate</span>) content_subscription: <span class="prelude-ty">Option</span>&lt;gpui_kit::Subscription&gt;,
 <a href=#97 id=97 data-nosnippet>97</a>}
 <a href=#98 id=98 data-nosnippet>98</a>
 <a href=#99 id=99 data-nosnippet>99</a><span class="doccomment">/// All state required to transfer an editor tab between windows
@@ -114,7 +114,7 @@
 <a href=#114 id=114 data-nosnippet>114</a>    <span class="kw">pub </span>show_markdown_preview: bool,
 <a href=#115 id=115 data-nosnippet>115</a>    <span class="kw">pub </span>file_size_bytes: <span class="prelude-ty">Option</span>&lt;u64&gt;,
 <a href=#116 id=116 data-nosnippet>116</a>    <span class="kw">pub </span>file_last_modified: <span class="prelude-ty">Option</span>&lt;SystemTime&gt;,
-<a href=#117 id=117 data-nosnippet>117</a>    <span class="kw">pub </span>cursor_position: gpui_component::input::Position,
+<a href=#117 id=117 data-nosnippet>117</a>    <span class="kw">pub </span>cursor_position: gpui_kit::component::input::Position,
 <a href=#118 id=118 data-nosnippet>118</a>    <span class="kw">pub </span>csv_view_mode: CsvViewMode,
 <a href=#119 id=119 data-nosnippet>119</a>    <span class="kw">pub </span>csv_delimiter: u8,
 <a href=#120 id=120 data-nosnippet>120</a>    <span class="kw">pub </span>color_tag: <span class="prelude-ty">Option</span>&lt;ColorTag&gt;,

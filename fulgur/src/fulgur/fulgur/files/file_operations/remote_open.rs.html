@@ -31,8 +31,8 @@
 <a href=#31 id=31 data-nosnippet>31</a>    /// - `spec`: The parsed remote file specification
 <a href=#32 id=32 data-nosnippet>32</a>    </span><span class="kw">pub fn </span>do_open_remote_file(
 <a href=#33 id=33 data-nosnippet>33</a>        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-<a href=#34 id=34 data-nosnippet>34</a>        window: <span class="kw-2">&amp;mut </span>gpui::Window,
-<a href=#35 id=35 data-nosnippet>35</a>        cx: <span class="kw-2">&amp;mut </span>gpui::Context&lt;<span class="self">Self</span>&gt;,
+<a href=#34 id=34 data-nosnippet>34</a>        window: <span class="kw-2">&amp;mut </span>gpui_kit::Window,
+<a href=#35 id=35 data-nosnippet>35</a>        cx: <span class="kw-2">&amp;mut </span>gpui_kit::Context&lt;<span class="self">Self</span>&gt;,
 <a href=#36 id=36 data-nosnippet>36</a>        spec: RemoteSpec,
 <a href=#37 id=37 data-nosnippet>37</a>    ) {
 <a href=#38 id=38 data-nosnippet>38</a>        <span class="kw">if let </span><span class="prelude-val">Some</span>(tab_index) = <span class="self">self</span>.find_tab_by_remote_spec(<span class="kw-2">&amp;</span>spec, cx) {
@@ -54,8 +54,8 @@
 <a href=#54 id=54 data-nosnippet>54</a>    /// - `target_tab_id`: Existing tab to refresh, or `None` to open in a new tab
 <a href=#55 id=55 data-nosnippet>55</a>    </span><span class="kw">fn </span>open_remote_file_with_target(
 <a href=#56 id=56 data-nosnippet>56</a>        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-<a href=#57 id=57 data-nosnippet>57</a>        window: <span class="kw-2">&amp;mut </span>gpui::Window,
-<a href=#58 id=58 data-nosnippet>58</a>        cx: <span class="kw-2">&amp;mut </span>gpui::Context&lt;<span class="self">Self</span>&gt;,
+<a href=#57 id=57 data-nosnippet>57</a>        window: <span class="kw-2">&amp;mut </span>gpui_kit::Window,
+<a href=#58 id=58 data-nosnippet>58</a>        cx: <span class="kw-2">&amp;mut </span>gpui_kit::Context&lt;<span class="self">Self</span>&gt;,
 <a href=#59 id=59 data-nosnippet>59</a>        <span class="kw-2">mut </span>spec: RemoteSpec,
 <a href=#60 id=60 data-nosnippet>60</a>        target_tab_id: <span class="prelude-ty">Option</span>&lt;TabId&gt;,
 <a href=#61 id=61 data-nosnippet>61</a>    ) {
@@ -152,8 +152,8 @@
 <a href=#152 id=152 data-nosnippet>152</a>    /// - `spec`: Remote location spec for the tab
 <a href=#153 id=153 data-nosnippet>153</a>    </span><span class="kw">pub fn </span>ensure_remote_tab_loaded(
 <a href=#154 id=154 data-nosnippet>154</a>        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-<a href=#155 id=155 data-nosnippet>155</a>        window: <span class="kw-2">&amp;mut </span>gpui::Window,
-<a href=#156 id=156 data-nosnippet>156</a>        cx: <span class="kw-2">&amp;mut </span>gpui::Context&lt;<span class="self">Self</span>&gt;,
+<a href=#155 id=155 data-nosnippet>155</a>        window: <span class="kw-2">&amp;mut </span>gpui_kit::Window,
+<a href=#156 id=156 data-nosnippet>156</a>        cx: <span class="kw-2">&amp;mut </span>gpui_kit::Context&lt;<span class="self">Self</span>&gt;,
 <a href=#157 id=157 data-nosnippet>157</a>        tab_id: TabId,
 <a href=#158 id=158 data-nosnippet>158</a>        spec: RemoteSpec,
 <a href=#159 id=159 data-nosnippet>159</a>    ) {
@@ -253,8 +253,8 @@
 <a href=#253 id=253 data-nosnippet>253</a>    /// - `params`: All data required to run the remote open operation
 <a href=#254 id=254 data-nosnippet>254</a>    </span><span class="kw">fn </span>spawn_ssh_open_task(
 <a href=#255 id=255 data-nosnippet>255</a>        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-<a href=#256 id=256 data-nosnippet>256</a>        window: <span class="kw-2">&amp;mut </span>gpui::Window,
-<a href=#257 id=257 data-nosnippet>257</a>        cx: <span class="kw-2">&amp;mut </span>gpui::Context&lt;<span class="self">Self</span>&gt;,
+<a href=#256 id=256 data-nosnippet>256</a>        window: <span class="kw-2">&amp;mut </span>gpui_kit::Window,
+<a href=#257 id=257 data-nosnippet>257</a>        cx: <span class="kw-2">&amp;mut </span>gpui_kit::Context&lt;<span class="self">Self</span>&gt;,
 <a href=#258 id=258 data-nosnippet>258</a>        params: RemoteOpenTaskParams,
 <a href=#259 id=259 data-nosnippet>259</a>    ) {
 <a href=#260 id=260 data-nosnippet>260</a>        <span class="kw">let </span>RemoteOpenTaskParams {

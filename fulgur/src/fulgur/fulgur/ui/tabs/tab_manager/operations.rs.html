@@ -3,7 +3,7 @@
 <a href=#3 id=3 data-nosnippet>3</a>    tab::{Tab, TabId},
 <a href=#4 id=4 data-nosnippet>4</a>    ui::components_utils::MAX_TAB_NAME_LENGTH,
 <a href=#5 id=5 data-nosnippet>5</a>};
-<a href=#6 id=6 data-nosnippet>6</a><span class="kw">use </span>gpui::{Context, Window};
+<a href=#6 id=6 data-nosnippet>6</a><span class="kw">use </span>gpui_kit::{Context, Window};
 <a href=#7 id=7 data-nosnippet>7</a>
 <a href=#8 id=8 data-nosnippet>8</a><span class="kw">impl </span>Fulgur {
 <a href=#9 id=9 data-nosnippet>9</a>    <span class="doccomment">/// Rename a tab identified by its stable identifier
@@ -57,7 +57,7 @@
 <a href=#57 id=57 data-nosnippet>57</a>            })
 <a href=#58 id=58 data-nosnippet>58</a>            .cloned()
 <a href=#59 id=59 data-nosnippet>59</a>            .collect();
-<a href=#60 id=60 data-nosnippet>60</a>        <span class="kw">let </span>title = gpui::SharedString::from(<span class="macro">format!</span>(<span class="string">"Preview - {new_name}"</span>));
+<a href=#60 id=60 data-nosnippet>60</a>        <span class="kw">let </span>title = gpui_kit::SharedString::from(<span class="macro">format!</span>(<span class="string">"Preview - {new_name}"</span>));
 <a href=#61 id=61 data-nosnippet>61</a>        <span class="kw">for </span>preview <span class="kw">in </span>previews {
 <a href=#62 id=62 data-nosnippet>62</a>            preview.update(cx, |tab, cx| {
 <a href=#63 id=63 data-nosnippet>63</a>                <span class="kw">if let </span>Tab::MarkdownPreview(preview_tab) = tab {

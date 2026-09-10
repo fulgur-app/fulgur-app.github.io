@@ -19,8 +19,8 @@
 <a href=#19 id=19 data-nosnippet>19</a>
 <a href=#20 id=20 data-nosnippet>20</a><span class="kw">pub use </span>tail::{log_toggle_available, opens_as_log_by_default};
 <a href=#21 id=21 data-nosnippet>21</a>
-<a href=#22 id=22 data-nosnippet>22</a><span class="kw">use </span>gpui::{Context, Entity, Window};
-<a href=#23 id=23 data-nosnippet>23</a><span class="kw">use </span>gpui_component::input::EditorState;
+<a href=#22 id=22 data-nosnippet>22</a><span class="kw">use </span>gpui_kit::component::input::EditorState;
+<a href=#23 id=23 data-nosnippet>23</a><span class="kw">use </span>gpui_kit::{Context, Entity, Window};
 <a href=#24 id=24 data-nosnippet>24</a>
 <a href=#25 id=25 data-nosnippet>25</a><span class="kw">use </span><span class="self">self</span>::input::{append_log_to_bottom, write_log_to_bottom};
 <a href=#26 id=26 data-nosnippet>26</a><span class="kw">use </span><span class="self">self</span>::tail::trim_to_last_lines;
@@ -71,7 +71,7 @@
 <a href=#71 id=71 data-nosnippet>71</a>    </span><span class="kw">fn </span>editor_tab&lt;<span class="lifetime">'a</span>&gt;(
 <a href=#72 id=72 data-nosnippet>72</a>        <span class="kw-2">&amp;</span><span class="self">self</span>,
 <a href=#73 id=73 data-nosnippet>73</a>        tab_id: TabId,
-<a href=#74 id=74 data-nosnippet>74</a>        cx: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>gpui::App,
+<a href=#74 id=74 data-nosnippet>74</a>        cx: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>gpui_kit::App,
 <a href=#75 id=75 data-nosnippet>75</a>    ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw">crate</span>::fulgur::editor_tab::EditorTab&gt; {
 <a href=#76 id=76 data-nosnippet>76</a>        <span class="self">self</span>.tabs.iter().find_map(|tab| {
 <a href=#77 id=77 data-nosnippet>77</a>            tab.read(cx)

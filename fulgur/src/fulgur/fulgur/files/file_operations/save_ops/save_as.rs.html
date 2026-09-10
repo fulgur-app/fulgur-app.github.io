@@ -8,7 +8,7 @@
 <a href=#8 id=8 data-nosnippet>8</a>    ui::components_utils::UNTITLED,
 <a href=#9 id=9 data-nosnippet>9</a>    utils::atomic_write::atomic_write_file,
 <a href=#10 id=10 data-nosnippet>10</a>};
-<a href=#11 id=11 data-nosnippet>11</a><span class="kw">use </span>gpui::{Context, Window};
+<a href=#11 id=11 data-nosnippet>11</a><span class="kw">use </span>gpui_kit::{Context, Window};
 <a href=#12 id=12 data-nosnippet>12</a><span class="kw">use </span>std::path::{Path, PathBuf};
 <a href=#13 id=13 data-nosnippet>13</a>
 <a href=#14 id=14 data-nosnippet>14</a><span class="kw">impl </span>Fulgur {
@@ -220,12 +220,12 @@
 <a href=#220 id=220 data-nosnippet>220</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
 <a href=#221 id=221 data-nosnippet>221</a>    </span><span class="kw">use </span><span class="kw">crate</span>::fulgur::{editor_tab::TabLocation, tab::Tab};
 <a href=#222 id=222 data-nosnippet>222</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#223 id=223 data-nosnippet>223</a>    </span><span class="kw">use </span>gpui::TestAppContext;
+<a href=#223 id=223 data-nosnippet>223</a>    </span><span class="kw">use </span>gpui_kit::TestAppContext;
 <a href=#224 id=224 data-nosnippet>224</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
 <a href=#225 id=225 data-nosnippet>225</a>    </span><span class="kw">use </span>tempfile::TempDir;
 <a href=#226 id=226 data-nosnippet>226</a>
 <a href=#227 id=227 data-nosnippet>227</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#228 id=228 data-nosnippet>228</a>    #[gpui::test]
+<a href=#228 id=228 data-nosnippet>228</a>    #[gpui_kit::test]
 <a href=#229 id=229 data-nosnippet>229</a>    </span><span class="kw">fn </span>test_finalize_save_as_targets_tab_by_id(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#230 id=230 data-nosnippet>230</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#231 id=231 data-nosnippet>231</a>        <span class="kw">let </span>dir = TempDir::new().expect(<span class="string">"failed to create temp dir"</span>);

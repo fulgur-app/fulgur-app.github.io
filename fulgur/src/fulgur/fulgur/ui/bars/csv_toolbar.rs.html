@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/fulgur/ui/bars/csv_toolbar.rs`."><title>csv_toolbar.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-1ed95124.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="fulgur" data-themes="" data-resource-suffix="" data-rustdoc-version="1.98.1 (48a229cea 2026-09-01)" data-channel="1.98.1" data-search-js="search-9944d736.js" data-stringdex-js="stringdex-2da4960a.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../../../static.files/storage-41dd4d93.js"></script><script defer src="../../../../../static.files/src-script-813739b1.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-417ebf0a.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1><div class="sub-heading">fulgur/fulgur/ui/bars/</div>csv_toolbar.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="doccomment">//! The bottom toolbar shown for CSV tabs in table view, rendered as its own entity.
 <a href=#2 id=2 data-nosnippet>2</a>
-<a href=#3 id=3 data-nosnippet>3</a></span><span class="kw">use </span>gpui::{
-<a href=#4 id=4 data-nosnippet>4</a>    App, Context, Entity, IntoElement, ParentElement, Render, SharedString, Styled, WeakEntity,
-<a href=#5 id=5 data-nosnippet>5</a>    Window, div,
-<a href=#6 id=6 data-nosnippet>6</a>};
-<a href=#7 id=7 data-nosnippet>7</a><span class="kw">use </span>gpui_component::{
-<a href=#8 id=8 data-nosnippet>8</a>    ActiveTheme, WindowExt, h_flex, notification::NotificationType, table::TableState,
+<a href=#3 id=3 data-nosnippet>3</a></span><span class="kw">use </span>gpui_kit::component::{
+<a href=#4 id=4 data-nosnippet>4</a>    ActiveTheme, WindowExt, h_flex, notification::NotificationType, table::TableState,
+<a href=#5 id=5 data-nosnippet>5</a>};
+<a href=#6 id=6 data-nosnippet>6</a><span class="kw">use </span>gpui_kit::{
+<a href=#7 id=7 data-nosnippet>7</a>    App, Context, Entity, IntoElement, ParentElement, Render, SharedString, Styled, WeakEntity,
+<a href=#8 id=8 data-nosnippet>8</a>    Window, div,
 <a href=#9 id=9 data-nosnippet>9</a>};
 <a href=#10 id=10 data-nosnippet>10</a>
 <a href=#11 id=11 data-nosnippet>11</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::Fulgur;
@@ -83,7 +83,7 @@
 <a href=#83 id=83 data-nosnippet>83</a>    ///
 <a href=#84 id=84 data-nosnippet>84</a>    /// ### Returns
 <a href=#85 id=85 data-nosnippet>85</a>    /// - `bool`: True if the active tab is a CSV tab in table view
-<a href=#86 id=86 data-nosnippet>86</a>    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>csv_toolbar_visible(<span class="kw-2">&amp;</span><span class="self">self</span>, cx: <span class="kw-2">&amp;</span>gpui::App) -&gt; bool {
+<a href=#86 id=86 data-nosnippet>86</a>    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>csv_toolbar_visible(<span class="kw-2">&amp;</span><span class="self">self</span>, cx: <span class="kw-2">&amp;</span>gpui_kit::App) -&gt; bool {
 <a href=#87 id=87 data-nosnippet>87</a>        <span class="self">self</span>.get_active_editor_tab(cx).is_some_and(|editor| {
 <a href=#88 id=88 data-nosnippet>88</a>            editor.language == SupportedLanguage::Csv &amp;&amp; editor.csv_view_mode == CsvViewMode::Table
 <a href=#89 id=89 data-nosnippet>89</a>        })
@@ -238,9 +238,9 @@
 <a href=#238 id=238 data-nosnippet>238</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
 <a href=#239 id=239 data-nosnippet>239</a>    </span><span class="kw">use </span>core::prelude::v1::test;
 <a href=#240 id=240 data-nosnippet>240</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#241 id=241 data-nosnippet>241</a>    </span><span class="kw">use </span>gpui::{AppContext, Entity, TestAppContext, VisualTestContext, WindowOptions};
+<a href=#241 id=241 data-nosnippet>241</a>    </span><span class="kw">use </span>gpui_kit::component::Root;
 <a href=#242 id=242 data-nosnippet>242</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#243 id=243 data-nosnippet>243</a>    </span><span class="kw">use </span>gpui_component::Root;
+<a href=#243 id=243 data-nosnippet>243</a>    </span><span class="kw">use </span>gpui_kit::{AppContext, Entity, TestAppContext, VisualTestContext, WindowOptions};
 <a href=#244 id=244 data-nosnippet>244</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
 <a href=#245 id=245 data-nosnippet>245</a>    </span><span class="kw">use </span>parking_lot::Mutex;
 <a href=#246 id=246 data-nosnippet>246</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
@@ -249,7 +249,7 @@
 <a href=#249 id=249 data-nosnippet>249</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
 <a href=#250 id=250 data-nosnippet>250</a>    </span><span class="kw">fn </span>setup_fulgur(cx: <span class="kw-2">&amp;mut </span>TestAppContext) -&gt; (Entity&lt;Fulgur&gt;, VisualTestContext) {
 <a href=#251 id=251 data-nosnippet>251</a>        cx.update(|cx| {
-<a href=#252 id=252 data-nosnippet>252</a>            gpui_component::init(cx);
+<a href=#252 id=252 data-nosnippet>252</a>            gpui_kit::init(cx);
 <a href=#253 id=253 data-nosnippet>253</a>            <span class="kw">let </span><span class="kw-2">mut </span>settings = Settings::new();
 <a href=#254 id=254 data-nosnippet>254</a>            settings.editor_settings.watch_files = <span class="bool-val">false</span>;
 <a href=#255 id=255 data-nosnippet>255</a>            <span class="kw">let </span>pending_files: Arc&lt;Mutex&lt;Vec&lt;PathBuf&gt;&gt;&gt; = Arc::new(Mutex::new(Vec::new()));
@@ -302,7 +302,7 @@
 <a href=#302 id=302 data-nosnippet>302</a>    }
 <a href=#303 id=303 data-nosnippet>303</a>
 <a href=#304 id=304 data-nosnippet>304</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#305 id=305 data-nosnippet>305</a>    #[gpui::test]
+<a href=#305 id=305 data-nosnippet>305</a>    #[gpui_kit::test]
 <a href=#306 id=306 data-nosnippet>306</a>    </span><span class="kw">fn </span>test_csv_toolbar_visible_only_in_table_view(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#307 id=307 data-nosnippet>307</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#308 id=308 data-nosnippet>308</a>
@@ -330,7 +330,7 @@
 <a href=#330 id=330 data-nosnippet>330</a>    }
 <a href=#331 id=331 data-nosnippet>331</a>
 <a href=#332 id=332 data-nosnippet>332</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#333 id=333 data-nosnippet>333</a>    #[gpui::test]
+<a href=#333 id=333 data-nosnippet>333</a>    #[gpui_kit::test]
 <a href=#334 id=334 data-nosnippet>334</a>    </span><span class="kw">fn </span>test_edit_active_table_inserts_row_through_toolbar(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#335 id=335 data-nosnippet>335</a>        <span class="kw">let </span>(fulgur, toolbar, <span class="kw-2">mut </span>visual_cx) = setup_csv_toolbar(cx);
 <a href=#336 id=336 data-nosnippet>336</a>
@@ -356,7 +356,7 @@
 <a href=#356 id=356 data-nosnippet>356</a>    </span><span class="kw">fn </span>active_csv_table(
 <a href=#357 id=357 data-nosnippet>357</a>        fulgur: <span class="kw-2">&amp;</span>Entity&lt;Fulgur&gt;,
 <a href=#358 id=358 data-nosnippet>358</a>        visual_cx: <span class="kw-2">&amp;mut </span>VisualTestContext,
-<a href=#359 id=359 data-nosnippet>359</a>    ) -&gt; Entity&lt;gpui_component::table::TableState&lt;CsvTableDelegate&gt;&gt; {
+<a href=#359 id=359 data-nosnippet>359</a>    ) -&gt; Entity&lt;gpui_kit::component::table::TableState&lt;CsvTableDelegate&gt;&gt; {
 <a href=#360 id=360 data-nosnippet>360</a>        visual_cx.update(|_window, cx| {
 <a href=#361 id=361 data-nosnippet>361</a>            fulgur
 <a href=#362 id=362 data-nosnippet>362</a>                .read(cx)
@@ -384,7 +384,7 @@
 <a href=#384 id=384 data-nosnippet>384</a>    }
 <a href=#385 id=385 data-nosnippet>385</a>
 <a href=#386 id=386 data-nosnippet>386</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#387 id=387 data-nosnippet>387</a>    #[gpui::test]
+<a href=#387 id=387 data-nosnippet>387</a>    #[gpui_kit::test]
 <a href=#388 id=388 data-nosnippet>388</a>    </span><span class="kw">fn </span>test_edit_active_table_inserts_column_at_selected_cell(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#389 id=389 data-nosnippet>389</a>        <span class="kw">let </span>(fulgur, toolbar, <span class="kw-2">mut </span>visual_cx) = setup_csv_toolbar(cx);
 <a href=#390 id=390 data-nosnippet>390</a>        <span class="kw">let </span>table = active_csv_table(<span class="kw-2">&amp;</span>fulgur, <span class="kw-2">&amp;mut </span>visual_cx);
@@ -406,7 +406,7 @@
 <a href=#406 id=406 data-nosnippet>406</a>    }
 <a href=#407 id=407 data-nosnippet>407</a>
 <a href=#408 id=408 data-nosnippet>408</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#409 id=409 data-nosnippet>409</a>    #[gpui::test]
+<a href=#409 id=409 data-nosnippet>409</a>    #[gpui_kit::test]
 <a href=#410 id=410 data-nosnippet>410</a>    </span><span class="kw">fn </span>test_column_ops_follow_column_header_selection(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#411 id=411 data-nosnippet>411</a>        <span class="kw">let </span>(fulgur, toolbar, <span class="kw-2">mut </span>visual_cx) = setup_csv_toolbar(cx);
 <a href=#412 id=412 data-nosnippet>412</a>        <span class="kw">let </span>table = active_csv_table(<span class="kw-2">&amp;</span>fulgur, <span class="kw-2">&amp;mut </span>visual_cx);
@@ -436,7 +436,7 @@
 <a href=#436 id=436 data-nosnippet>436</a>    }
 <a href=#437 id=437 data-nosnippet>437</a>
 <a href=#438 id=438 data-nosnippet>438</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#439 id=439 data-nosnippet>439</a>    #[gpui::test]
+<a href=#439 id=439 data-nosnippet>439</a>    #[gpui_kit::test]
 <a href=#440 id=440 data-nosnippet>440</a>    </span><span class="kw">fn </span>test_table_survives_its_own_commits(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#441 id=441 data-nosnippet>441</a>        <span class="kw">let </span>(fulgur, toolbar, <span class="kw-2">mut </span>visual_cx) = setup_csv_toolbar(cx);
 <a href=#442 id=442 data-nosnippet>442</a>        <span class="kw">let </span>table_before = active_csv_table(<span class="kw-2">&amp;</span>fulgur, <span class="kw-2">&amp;mut </span>visual_cx);

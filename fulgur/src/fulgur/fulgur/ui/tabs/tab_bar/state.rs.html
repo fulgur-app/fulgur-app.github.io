@@ -4,7 +4,7 @@
 <a href=#4 id=4 data-nosnippet>4</a>    ui::tabs::editor_tab::TabLocation,
 <a href=#5 id=5 data-nosnippet>5</a>    ui::tabs::tab_drag::DraggedTab,
 <a href=#6 id=6 data-nosnippet>6</a>};
-<a href=#7 id=7 data-nosnippet>7</a><span class="kw">use </span>gpui::{Context, Entity, EventEmitter, ScrollHandle, WeakEntity, Window};
+<a href=#7 id=7 data-nosnippet>7</a><span class="kw">use </span>gpui_kit::{Context, Entity, EventEmitter, ScrollHandle, WeakEntity, Window};
 <a href=#8 id=8 data-nosnippet>8</a><span class="kw">use </span>std::collections::HashMap;
 <a href=#9 id=9 data-nosnippet>9</a>
 <a href=#10 id=10 data-nosnippet>10</a><span class="doccomment">/// The tab bar at the top of the window, rendered as its own entity
@@ -112,8 +112,8 @@
 <a href=#112 id=112 data-nosnippet>112</a>    /// ### Returns
 <a href=#113 id=113 data-nosnippet>113</a>    /// - `HashMap&lt;String, usize&gt;`: Map of filename to number of open tabs with that filename
 <a href=#114 id=114 data-nosnippet>114</a>    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>build_tab_filename_counts(
-<a href=#115 id=115 data-nosnippet>115</a>        tabs: <span class="kw-2">&amp;</span>[gpui::Entity&lt;Tab&gt;],
-<a href=#116 id=116 data-nosnippet>116</a>        cx: <span class="kw-2">&amp;</span>gpui::App,
+<a href=#115 id=115 data-nosnippet>115</a>        tabs: <span class="kw-2">&amp;</span>[gpui_kit::Entity&lt;Tab&gt;],
+<a href=#116 id=116 data-nosnippet>116</a>        cx: <span class="kw-2">&amp;</span>gpui_kit::App,
 <a href=#117 id=117 data-nosnippet>117</a>    ) -&gt; HashMap&lt;String, usize&gt; {
 <a href=#118 id=118 data-nosnippet>118</a>        <span class="kw">let </span><span class="kw-2">mut </span>filename_counts = HashMap::new();
 <a href=#119 id=119 data-nosnippet>119</a>        <span class="kw">for </span>tab <span class="kw">in </span>tabs {
@@ -211,7 +211,7 @@
 <a href=#211 id=211 data-nosnippet>211</a>    /// ### Arguments
 <a href=#212 id=212 data-nosnippet>212</a>    /// - `tab_id`: The tab to scroll into view on the next tab bar render
 <a href=#213 id=213 data-nosnippet>213</a>    /// - `cx`: The application context
-<a href=#214 id=214 data-nosnippet>214</a>    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>request_tab_scroll(<span class="kw-2">&amp;</span><span class="self">self</span>, tab_id: TabId, cx: <span class="kw-2">&amp;mut </span>gpui::App) {
+<a href=#214 id=214 data-nosnippet>214</a>    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>request_tab_scroll(<span class="kw-2">&amp;</span><span class="self">self</span>, tab_id: TabId, cx: <span class="kw-2">&amp;mut </span>gpui_kit::App) {
 <a href=#215 id=215 data-nosnippet>215</a>        <span class="self">self</span>.tab_bar.update(cx, |bar, cx| {
 <a href=#216 id=216 data-nosnippet>216</a>            bar.request_scroll_to(tab_id, cx);
 <a href=#217 id=217 data-nosnippet>217</a>        });

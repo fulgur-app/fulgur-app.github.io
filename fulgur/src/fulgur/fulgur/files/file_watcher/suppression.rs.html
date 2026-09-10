@@ -68,11 +68,11 @@
 <a href=#68 id=68 data-nosnippet>68</a>    <span class="kw">use </span><span class="kw">crate</span>::fulgur::editor_tab::TabLocation;
 <a href=#69 id=69 data-nosnippet>69</a>    <span class="kw">use </span><span class="kw">crate</span>::fulgur::files::file_watcher::FileWatchEvent;
 <a href=#70 id=70 data-nosnippet>70</a>    <span class="kw">use </span><span class="kw">crate</span>::fulgur::files::file_watcher::test_helpers::setup_fulgur;
-<a href=#71 id=71 data-nosnippet>71</a>    <span class="kw">use </span>gpui::TestAppContext;
+<a href=#71 id=71 data-nosnippet>71</a>    <span class="kw">use </span>gpui_kit::TestAppContext;
 <a href=#72 id=72 data-nosnippet>72</a>    <span class="kw">use </span>std::time::Instant;
 <a href=#73 id=73 data-nosnippet>73</a>    <span class="kw">use </span>tempfile::TempDir;
 <a href=#74 id=74 data-nosnippet>74</a>
-<a href=#75 id=75 data-nosnippet>75</a>    <span class="attr">#[gpui::test]
+<a href=#75 id=75 data-nosnippet>75</a>    <span class="attr">#[gpui_kit::test]
 <a href=#76 id=76 data-nosnippet>76</a>    </span><span class="kw">fn </span>test_handle_file_watch_event_modified_is_debounced(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#77 id=77 data-nosnippet>77</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#78 id=78 data-nosnippet>78</a>        <span class="kw">let </span>dir = TempDir::new().expect(<span class="string">"failed to create temp dir"</span>);
@@ -109,7 +109,7 @@
 <a href=#109 id=109 data-nosnippet>109</a>        });
 <a href=#110 id=110 data-nosnippet>110</a>    }
 <a href=#111 id=111 data-nosnippet>111</a>
-<a href=#112 id=112 data-nosnippet>112</a>    <span class="attr">#[gpui::test]
+<a href=#112 id=112 data-nosnippet>112</a>    <span class="attr">#[gpui_kit::test]
 <a href=#113 id=113 data-nosnippet>113</a>    </span><span class="kw">fn </span>test_handle_file_watch_event_deleted_is_suppressed_after_self_save(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#114 id=114 data-nosnippet>114</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#115 id=115 data-nosnippet>115</a>        <span class="kw">let </span>dir = TempDir::new().expect(<span class="string">"failed to create temp dir"</span>);

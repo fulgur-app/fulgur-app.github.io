@@ -4,10 +4,10 @@
 <a href=#4 id=4 data-nosnippet>4</a>    ui::icons::CustomIcon,
 <a href=#5 id=5 data-nosnippet>5</a>};
 <a href=#6 id=6 data-nosnippet>6</a>
-<a href=#7 id=7 data-nosnippet>7</a><span class="kw">use </span>gpui::{
-<a href=#8 id=8 data-nosnippet>8</a>    App, Context, Entity, Hsla, IntoElement, ParentElement, Render, Styled, WeakEntity, Window, div,
-<a href=#9 id=9 data-nosnippet>9</a>};
-<a href=#10 id=10 data-nosnippet>10</a><span class="kw">use </span>gpui_component::{ActiveTheme, button::Button, h_flex, input::EditorState};
+<a href=#7 id=7 data-nosnippet>7</a><span class="kw">use </span>gpui_kit::component::{ActiveTheme, button::Button, h_flex, input::EditorState};
+<a href=#8 id=8 data-nosnippet>8</a><span class="kw">use </span>gpui_kit::{
+<a href=#9 id=9 data-nosnippet>9</a>    App, Context, Entity, Hsla, IntoElement, ParentElement, Render, Styled, WeakEntity, Window, div,
+<a href=#10 id=10 data-nosnippet>10</a>};
 <a href=#11 id=11 data-nosnippet>11</a>
 <a href=#12 id=12 data-nosnippet>12</a><span class="doccomment">/// Create a markdown bar button
 <a href=#13 id=13 data-nosnippet>13</a>///
@@ -96,7 +96,7 @@
 <a href=#96 id=96 data-nosnippet>96</a>    ///
 <a href=#97 id=97 data-nosnippet>97</a>    /// ### Returns
 <a href=#98 id=98 data-nosnippet>98</a>    /// - `bool`: True if the active tab is markdown and its toolbar is enabled
-<a href=#99 id=99 data-nosnippet>99</a>    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>markdown_toolbar_visible(<span class="kw-2">&amp;</span><span class="self">self</span>, cx: <span class="kw-2">&amp;</span>gpui::App) -&gt; bool {
+<a href=#99 id=99 data-nosnippet>99</a>    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>markdown_toolbar_visible(<span class="kw-2">&amp;</span><span class="self">self</span>, cx: <span class="kw-2">&amp;</span>gpui_kit::App) -&gt; bool {
 <a href=#100 id=100 data-nosnippet>100</a>        <span class="self">self</span>.is_markdown(cx)
 <a href=#101 id=101 data-nosnippet>101</a>            &amp;&amp; <span class="self">self
 <a href=#102 id=102 data-nosnippet>102</a>                </span>.get_active_editor_tab(cx)
@@ -366,18 +366,18 @@
 <a href=#366 id=366 data-nosnippet>366</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
 <a href=#367 id=367 data-nosnippet>367</a>    </span><span class="kw">use </span>core::prelude::v1::test;
 <a href=#368 id=368 data-nosnippet>368</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#369 id=369 data-nosnippet>369</a>    </span><span class="kw">use </span>gpui::{
-<a href=#370 id=370 data-nosnippet>370</a>        App, AppContext, Context, Entity, IntoElement, Render, TestAppContext, VisualTestContext,
-<a href=#371 id=371 data-nosnippet>371</a>        Window, WindowOptions, div,
-<a href=#372 id=372 data-nosnippet>372</a>    };
-<a href=#373 id=373 data-nosnippet>373</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#374 id=374 data-nosnippet>374</a>    </span><span class="kw">use </span>gpui_component::input::{EditorState, Position};
+<a href=#369 id=369 data-nosnippet>369</a>    </span><span class="kw">use </span>gpui_kit::component::input::{EditorState, Position};
+<a href=#370 id=370 data-nosnippet>370</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
+<a href=#371 id=371 data-nosnippet>371</a>    </span><span class="kw">use </span>gpui_kit::{
+<a href=#372 id=372 data-nosnippet>372</a>        App, AppContext, Context, Entity, IntoElement, Render, TestAppContext, VisualTestContext,
+<a href=#373 id=373 data-nosnippet>373</a>        Window, WindowOptions, div,
+<a href=#374 id=374 data-nosnippet>374</a>    };
 <a href=#375 id=375 data-nosnippet>375</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
 <a href=#376 id=376 data-nosnippet>376</a>    </span><span class="kw">use </span>parking_lot::Mutex;
 <a href=#377 id=377 data-nosnippet>377</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
 <a href=#378 id=378 data-nosnippet>378</a>    </span><span class="kw">use </span>std::{cell::RefCell, ops::Range, path::PathBuf, sync::Arc};
 <a href=#379 id=379 data-nosnippet>379</a>
-<a href=#380 id=380 data-nosnippet>380</a>    <span class="doccomment">/// Window root that avoids `gpui_component::Root`, whose macOS accessibility hook panics on
+<a href=#380 id=380 data-nosnippet>380</a>    <span class="doccomment">/// Window root that avoids `gpui_kit::component::Root`, whose macOS accessibility hook panics on
 <a href=#381 id=381 data-nosnippet>381</a>    /// gpui's `TestWindow`. The toolbar reads the active editor through its `WeakEntity&lt;Fulgur&gt;`
 <a href=#382 id=382 data-nosnippet>382</a>    /// and needs nothing that `Root` provides, so these tests can run on every platform.
 <a href=#383 id=383 data-nosnippet>383</a>    </span><span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
@@ -393,7 +393,7 @@
 <a href=#393 id=393 data-nosnippet>393</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
 <a href=#394 id=394 data-nosnippet>394</a>    </span><span class="kw">fn </span>setup_fulgur(cx: <span class="kw-2">&amp;mut </span>TestAppContext) -&gt; (Entity&lt;Fulgur&gt;, VisualTestContext) {
 <a href=#395 id=395 data-nosnippet>395</a>        cx.update(|cx| {
-<a href=#396 id=396 data-nosnippet>396</a>            gpui_component::init(cx);
+<a href=#396 id=396 data-nosnippet>396</a>            gpui_kit::init(cx);
 <a href=#397 id=397 data-nosnippet>397</a>            <span class="kw">let </span><span class="kw-2">mut </span>settings = Settings::new();
 <a href=#398 id=398 data-nosnippet>398</a>            settings.editor_settings.watch_files = <span class="bool-val">false</span>;
 <a href=#399 id=399 data-nosnippet>399</a>            <span class="kw">let </span>pending_files: Arc&lt;Mutex&lt;Vec&lt;PathBuf&gt;&gt;&gt; = Arc::new(Mutex::new(Vec::new()));
@@ -498,7 +498,7 @@
 <a href=#498 id=498 data-nosnippet>498</a>    }
 <a href=#499 id=499 data-nosnippet>499</a>
 <a href=#500 id=500 data-nosnippet>500</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#501 id=501 data-nosnippet>501</a>    #[gpui::test]
+<a href=#501 id=501 data-nosnippet>501</a>    #[gpui_kit::test]
 <a href=#502 id=502 data-nosnippet>502</a>    </span><span class="kw">fn </span>test_insert_or_surround_wraps_selected_text(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#503 id=503 data-nosnippet>503</a>        <span class="kw">let </span>(selected, text) = bold_byte_selection(cx, <span class="string">"hello"</span>, <span class="number">0</span>..<span class="number">5</span>);
 <a href=#504 id=504 data-nosnippet>504</a>
@@ -511,7 +511,7 @@
 <a href=#511 id=511 data-nosnippet>511</a>    /// slicing the rope with the UTF-16 range used to wrap an earlier stretch of the document:
 <a href=#512 id=512 data-nosnippet>512</a>    /// here it produced `héllo ** worl**` because bytes `6..11` spell `" worl"`.
 <a href=#513 id=513 data-nosnippet>513</a>    </span><span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#514 id=514 data-nosnippet>514</a>    #[gpui::test]
+<a href=#514 id=514 data-nosnippet>514</a>    #[gpui_kit::test]
 <a href=#515 id=515 data-nosnippet>515</a>    </span><span class="kw">fn </span>test_insert_or_surround_wraps_selection_after_accented_character(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#516 id=516 data-nosnippet>516</a>        <span class="kw">let </span>(selected, text) = bold_byte_selection(cx, <span class="string">"héllo world"</span>, <span class="number">7</span>..<span class="number">12</span>);
 <a href=#517 id=517 data-nosnippet>517</a>
@@ -524,7 +524,7 @@
 <a href=#524 id=524 data-nosnippet>524</a>    /// emoji rather than merely early. A fix counting characters rather than code units would
 <a href=#525 id=525 data-nosnippet>525</a>    /// still fail here.
 <a href=#526 id=526 data-nosnippet>526</a>    </span><span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#527 id=527 data-nosnippet>527</a>    #[gpui::test]
+<a href=#527 id=527 data-nosnippet>527</a>    #[gpui_kit::test]
 <a href=#528 id=528 data-nosnippet>528</a>    </span><span class="kw">fn </span>test_insert_or_surround_wraps_selection_after_emoji(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#529 id=529 data-nosnippet>529</a>        <span class="kw">let </span>(selected, text) = bold_byte_selection(cx, <span class="string">"🚀 launch"</span>, <span class="number">5</span>..<span class="number">11</span>);
 <a href=#530 id=530 data-nosnippet>530</a>
@@ -534,7 +534,7 @@
 <a href=#534 id=534 data-nosnippet>534</a>
 <a href=#535 id=535 data-nosnippet>535</a>    <span class="doccomment">/// The selection itself may hold multi-byte characters without being truncated
 <a href=#536 id=536 data-nosnippet>536</a>    </span><span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#537 id=537 data-nosnippet>537</a>    #[gpui::test]
+<a href=#537 id=537 data-nosnippet>537</a>    #[gpui_kit::test]
 <a href=#538 id=538 data-nosnippet>538</a>    </span><span class="kw">fn </span>test_insert_or_surround_wraps_multibyte_selection(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#539 id=539 data-nosnippet>539</a>        <span class="kw">let </span>(selected, text) = bold_byte_selection(cx, <span class="string">"dis élève ok"</span>, <span class="number">4</span>..<span class="number">11</span>);
 <a href=#540 id=540 data-nosnippet>540</a>
@@ -543,7 +543,7 @@
 <a href=#543 id=543 data-nosnippet>543</a>    }
 <a href=#544 id=544 data-nosnippet>544</a>
 <a href=#545 id=545 data-nosnippet>545</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#546 id=546 data-nosnippet>546</a>    #[gpui::test]
+<a href=#546 id=546 data-nosnippet>546</a>    #[gpui_kit::test]
 <a href=#547 id=547 data-nosnippet>547</a>    </span><span class="kw">fn </span>test_insert_or_surround_inserts_at_cursor_when_no_selection(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#548 id=548 data-nosnippet>548</a>        <span class="kw">let </span>(fulgur, toolbar, <span class="kw-2">mut </span>visual_cx) = setup_toolbar(cx);
 <a href=#549 id=549 data-nosnippet>549</a>

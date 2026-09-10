@@ -5,13 +5,13 @@
 <a href=#5 id=5 data-nosnippet>5</a>    Fulgur, settings::ServerProfile, sync::synchronization::SynchronizationStatus,
 <a href=#6 id=6 data-nosnippet>6</a>    ui::icons::CustomIcon,
 <a href=#7 id=7 data-nosnippet>7</a>};
-<a href=#8 id=8 data-nosnippet>8</a><span class="kw">use </span>gpui::{
-<a href=#9 id=9 data-nosnippet>9</a>    App, Entity, FontWeight, InteractiveElement, IntoElement, ParentElement, Role, SharedString,
-<a href=#10 id=10 data-nosnippet>10</a>    StatefulInteractiveElement, Styled, Window, div,
+<a href=#8 id=8 data-nosnippet>8</a><span class="kw">use </span>gpui_kit::component::{
+<a href=#9 id=9 data-nosnippet>9</a>    ActiveTheme, Icon, Sizable, WindowExt, button::Button, h_flex, label::Label,
+<a href=#10 id=10 data-nosnippet>10</a>    notification::NotificationType, setting::SettingItem, switch::Switch, tooltip::Tooltip, v_flex,
 <a href=#11 id=11 data-nosnippet>11</a>};
-<a href=#12 id=12 data-nosnippet>12</a><span class="kw">use </span>gpui_component::{
-<a href=#13 id=13 data-nosnippet>13</a>    ActiveTheme, Icon, Sizable, WindowExt, button::Button, h_flex, label::Label,
-<a href=#14 id=14 data-nosnippet>14</a>    notification::NotificationType, setting::SettingItem, switch::Switch, tooltip::Tooltip, v_flex,
+<a href=#12 id=12 data-nosnippet>12</a><span class="kw">use </span>gpui_kit::{
+<a href=#13 id=13 data-nosnippet>13</a>    App, Entity, FontWeight, InteractiveElement, IntoElement, ParentElement, Role, SharedString,
+<a href=#14 id=14 data-nosnippet>14</a>    StatefulInteractiveElement, Styled, Window, div,
 <a href=#15 id=15 data-nosnippet>15</a>};
 <a href=#16 id=16 data-nosnippet>16</a>
 <a href=#17 id=17 data-nosnippet>17</a><span class="doccomment">/// Render the list of configured profiles as a table-like element.
@@ -90,12 +90,12 @@
 <a href=#90 id=90 data-nosnippet>90</a>        .font_weight(FontWeight::SEMIBOLD)
 <a href=#91 id=91 data-nosnippet>91</a>        .text_color(cx.theme().muted_foreground)
 <a href=#92 id=92 data-nosnippet>92</a>        .child(div().flex_1().child(<span class="string">"Name"</span>))
-<a href=#93 id=93 data-nosnippet>93</a>        .child(div().w(gpui::px(<span class="number">90.0</span>)).child(<span class="string">"Version"</span>))
+<a href=#93 id=93 data-nosnippet>93</a>        .child(div().w(gpui_kit::px(<span class="number">90.0</span>)).child(<span class="string">"Version"</span>))
 <a href=#94 id=94 data-nosnippet>94</a>        .child(div().flex_1().child(<span class="string">"URL"</span>))
-<a href=#95 id=95 data-nosnippet>95</a>        .child(div().w(gpui::px(<span class="number">20.0</span>)).child(<span class="string">""</span>))
-<a href=#96 id=96 data-nosnippet>96</a>        .child(div().w(gpui::px(<span class="number">125.0</span>)).child(<span class="string">"Status"</span>).pr_4())
-<a href=#97 id=97 data-nosnippet>97</a>        .child(div().w(gpui::px(<span class="number">60.0</span>)).child(<span class="string">"Activate"</span>))
-<a href=#98 id=98 data-nosnippet>98</a>        .child(div().w(gpui::px(<span class="number">80.0</span>)).child(<span class="string">""</span>))
+<a href=#95 id=95 data-nosnippet>95</a>        .child(div().w(gpui_kit::px(<span class="number">20.0</span>)).child(<span class="string">""</span>))
+<a href=#96 id=96 data-nosnippet>96</a>        .child(div().w(gpui_kit::px(<span class="number">125.0</span>)).child(<span class="string">"Status"</span>).pr_4())
+<a href=#97 id=97 data-nosnippet>97</a>        .child(div().w(gpui_kit::px(<span class="number">60.0</span>)).child(<span class="string">"Activate"</span>))
+<a href=#98 id=98 data-nosnippet>98</a>        .child(div().w(gpui_kit::px(<span class="number">80.0</span>)).child(<span class="string">""</span>))
 <a href=#99 id=99 data-nosnippet>99</a>}
 <a href=#100 id=100 data-nosnippet>100</a>
 <a href=#101 id=101 data-nosnippet>101</a><span class="doccomment">/// Render a single profile row in the profiles table.
@@ -129,7 +129,7 @@
 <a href=#129 id=129 data-nosnippet>129</a>            .cursor_pointer()
 <a href=#130 id=130 data-nosnippet>130</a>            .child(
 <a href=#131 id=131 data-nosnippet>131</a>                Icon::new(CustomIcon::TriangleAlert)
-<a href=#132 id=132 data-nosnippet>132</a>                    .with_size(gpui::px(<span class="number">18.0</span>))
+<a href=#132 id=132 data-nosnippet>132</a>                    .with_size(gpui_kit::px(<span class="number">18.0</span>))
 <a href=#133 id=133 data-nosnippet>133</a>                    .text_color(cx.theme().warning),
 <a href=#134 id=134 data-nosnippet>134</a>            )
 <a href=#135 id=135 data-nosnippet>135</a>            .tooltip(<span class="kw">move </span>|window, cx| Tooltip::new(tooltip.clone()).build(window, cx))
@@ -162,7 +162,7 @@
 <a href=#162 id=162 data-nosnippet>162</a>        )
 <a href=#163 id=163 data-nosnippet>163</a>        .child(
 <a href=#164 id=164 data-nosnippet>164</a>            div()
-<a href=#165 id=165 data-nosnippet>165</a>                .w(gpui::px(<span class="number">90.0</span>))
+<a href=#165 id=165 data-nosnippet>165</a>                .w(gpui_kit::px(<span class="number">90.0</span>))
 <a href=#166 id=166 data-nosnippet>166</a>                .text_sm()
 <a href=#167 id=167 data-nosnippet>167</a>                .text_color(cx.theme().muted_foreground)
 <a href=#168 id=168 data-nosnippet>168</a>                .child(version_label),
@@ -176,32 +176,32 @@
 <a href=#176 id=176 data-nosnippet>176</a>        )
 <a href=#177 id=177 data-nosnippet>177</a>        .child(
 <a href=#178 id=178 data-nosnippet>178</a>            div()
-<a href=#179 id=179 data-nosnippet>179</a>                .w(gpui::px(<span class="number">20.0</span>))
+<a href=#179 id=179 data-nosnippet>179</a>                .w(gpui_kit::px(<span class="number">20.0</span>))
 <a href=#180 id=180 data-nosnippet>180</a>                .flex()
 <a href=#181 id=181 data-nosnippet>181</a>                .items_center()
 <a href=#182 id=182 data-nosnippet>182</a>                .justify_center()
 <a href=#183 id=183 data-nosnippet>183</a>                .children(update_warning),
 <a href=#184 id=184 data-nosnippet>184</a>        )
-<a href=#185 id=185 data-nosnippet>185</a>        .child(div().w(gpui::px(<span class="number">125.0</span>)).child(pill).pr_4())
+<a href=#185 id=185 data-nosnippet>185</a>        .child(div().w(gpui_kit::px(<span class="number">125.0</span>)).child(pill).pr_4())
 <a href=#186 id=186 data-nosnippet>186</a>        .child(
-<a href=#187 id=187 data-nosnippet>187</a>            div()
-<a href=#188 id=188 data-nosnippet>188</a>                .w(gpui::px(<span class="number">60.0</span>))
-<a href=#189 id=189 data-nosnippet>189</a>                .child(Switch::new(activate_id).checked(is_active).on_click(
-<a href=#190 id=190 data-nosnippet>190</a>                    <span class="kw">move </span>|val: <span class="kw-2">&amp;</span>bool, window, cx| {
-<a href=#191 id=191 data-nosnippet>191</a>                        <span class="kw">let </span>id = profile_id_for_activate.clone();
-<a href=#192 id=192 data-nosnippet>192</a>                        handle_profile_active_toggle(
-<a href=#193 id=193 data-nosnippet>193</a>                            <span class="kw-2">&amp;</span>entity_for_activate,
-<a href=#194 id=194 data-nosnippet>194</a>                            <span class="kw-2">&amp;</span>id,
-<a href=#195 id=195 data-nosnippet>195</a>                            <span class="kw-2">&amp;</span>profile_name_for_activate,
-<a href=#196 id=196 data-nosnippet>196</a>                            <span class="kw-2">*</span>val,
-<a href=#197 id=197 data-nosnippet>197</a>                            window,
-<a href=#198 id=198 data-nosnippet>198</a>                            cx,
-<a href=#199 id=199 data-nosnippet>199</a>                        );
-<a href=#200 id=200 data-nosnippet>200</a>                    },
-<a href=#201 id=201 data-nosnippet>201</a>                )),
+<a href=#187 id=187 data-nosnippet>187</a>            div().w(gpui_kit::px(<span class="number">60.0</span>)).child(
+<a href=#188 id=188 data-nosnippet>188</a>                Switch::new(activate_id).checked(is_active).on_click(
+<a href=#189 id=189 data-nosnippet>189</a>                    <span class="kw">move </span>|val: <span class="kw-2">&amp;</span>bool, window, cx| {
+<a href=#190 id=190 data-nosnippet>190</a>                        <span class="kw">let </span>id = profile_id_for_activate.clone();
+<a href=#191 id=191 data-nosnippet>191</a>                        handle_profile_active_toggle(
+<a href=#192 id=192 data-nosnippet>192</a>                            <span class="kw-2">&amp;</span>entity_for_activate,
+<a href=#193 id=193 data-nosnippet>193</a>                            <span class="kw-2">&amp;</span>id,
+<a href=#194 id=194 data-nosnippet>194</a>                            <span class="kw-2">&amp;</span>profile_name_for_activate,
+<a href=#195 id=195 data-nosnippet>195</a>                            <span class="kw-2">*</span>val,
+<a href=#196 id=196 data-nosnippet>196</a>                            window,
+<a href=#197 id=197 data-nosnippet>197</a>                            cx,
+<a href=#198 id=198 data-nosnippet>198</a>                        );
+<a href=#199 id=199 data-nosnippet>199</a>                    },
+<a href=#200 id=200 data-nosnippet>200</a>                ),
+<a href=#201 id=201 data-nosnippet>201</a>            ),
 <a href=#202 id=202 data-nosnippet>202</a>        )
 <a href=#203 id=203 data-nosnippet>203</a>        .child(
-<a href=#204 id=204 data-nosnippet>204</a>            div().w(gpui::px(<span class="number">80.0</span>)).child(
+<a href=#204 id=204 data-nosnippet>204</a>            div().w(gpui_kit::px(<span class="number">80.0</span>)).child(
 <a href=#205 id=205 data-nosnippet>205</a>                Button::new(edit_id)
 <a href=#206 id=206 data-nosnippet>206</a>                    .child(<span class="string">"Edit"</span>)
 <a href=#207 id=207 data-nosnippet>207</a>                    .small()
@@ -286,8 +286,8 @@
 <a href=#286 id=286 data-nosnippet>286</a>/// - `status`: The profile's status enum value.
 <a href=#287 id=287 data-nosnippet>287</a>///
 <a href=#288 id=288 data-nosnippet>288</a>/// ### Returns
-<a href=#289 id=289 data-nosnippet>289</a>/// - `(gpui::Hsla, gpui::Hsla)`: Background and foreground colors.
-<a href=#290 id=290 data-nosnippet>290</a></span><span class="kw">fn </span>pill_colors(status: SynchronizationStatus, cx: <span class="kw-2">&amp;</span>App) -&gt; (gpui::Hsla, gpui::Hsla) {
+<a href=#289 id=289 data-nosnippet>289</a>/// - `(gpui_kit::Hsla, gpui_kit::Hsla)`: Background and foreground colors.
+<a href=#290 id=290 data-nosnippet>290</a></span><span class="kw">fn </span>pill_colors(status: SynchronizationStatus, cx: <span class="kw-2">&amp;</span>App) -&gt; (gpui_kit::Hsla, gpui_kit::Hsla) {
 <a href=#291 id=291 data-nosnippet>291</a>    <span class="kw">let </span>theme = cx.theme();
 <a href=#292 id=292 data-nosnippet>292</a>    <span class="kw">match </span>status {
 <a href=#293 id=293 data-nosnippet>293</a>        SynchronizationStatus::Connected =&gt; (theme.success, theme.success),

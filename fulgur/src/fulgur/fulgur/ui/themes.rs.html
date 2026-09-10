@@ -1,8 +1,8 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/fulgur/ui/themes.rs`."><title>themes.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-1ed95124.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="fulgur" data-themes="" data-resource-suffix="" data-rustdoc-version="1.98.1 (48a229cea 2026-09-01)" data-channel="1.98.1" data-search-js="search-9944d736.js" data-stringdex-js="stringdex-2da4960a.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../../static.files/storage-41dd4d93.js"></script><script defer src="../../../../static.files/src-script-813739b1.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-417ebf0a.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1><div class="sub-heading">fulgur/fulgur/ui/</div>themes.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::settings::{Settings, Themes};
 <a href=#2 id=2 data-nosnippet>2</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::shared_state::SharedAppState;
 <a href=#3 id=3 data-nosnippet>3</a>
-<a href=#4 id=4 data-nosnippet>4</a><span class="kw">use </span>gpui::{Action, App, BorrowAppContext};
-<a href=#5 id=5 data-nosnippet>5</a><span class="kw">use </span>gpui_component::{Theme, ThemeConfig, ThemeMode, ThemeRegistry};
+<a href=#4 id=4 data-nosnippet>4</a><span class="kw">use </span>gpui_kit::component::{Theme, ThemeConfig, ThemeMode, ThemeRegistry};
+<a href=#5 id=5 data-nosnippet>5</a><span class="kw">use </span>gpui_kit::{Action, App, BorrowAppContext};
 <a href=#6 id=6 data-nosnippet>6</a><span class="kw">use </span>rust_embed::RustEmbed;
 <a href=#7 id=7 data-nosnippet>7</a><span class="kw">use </span>std::fs;
 <a href=#8 id=8 data-nosnippet>8</a><span class="kw">use </span>std::path::PathBuf;
@@ -193,11 +193,11 @@
 <a href=#193 id=193 data-nosnippet>193</a>    <span class="kw">use </span><span class="kw">crate</span>::fulgur::{
 <a href=#194 id=194 data-nosnippet>194</a>        Fulgur, settings::Settings, shared_state::SharedAppState, window_manager::WindowManager,
 <a href=#195 id=195 data-nosnippet>195</a>    };
-<a href=#196 id=196 data-nosnippet>196</a>    <span class="kw">use </span>gpui::{
-<a href=#197 id=197 data-nosnippet>197</a>        AppContext, BorrowAppContext, Entity, SharedString, TestAppContext, WindowId, WindowOptions,
-<a href=#198 id=198 data-nosnippet>198</a>    };
-<a href=#199 id=199 data-nosnippet>199</a>    <span class="kw">use </span>gpui_component::ActiveTheme;
-<a href=#200 id=200 data-nosnippet>200</a>    <span class="kw">use </span>gpui_component::ThemeRegistry;
+<a href=#196 id=196 data-nosnippet>196</a>    <span class="kw">use </span>gpui_kit::component::ActiveTheme;
+<a href=#197 id=197 data-nosnippet>197</a>    <span class="kw">use </span>gpui_kit::component::ThemeRegistry;
+<a href=#198 id=198 data-nosnippet>198</a>    <span class="kw">use </span>gpui_kit::{
+<a href=#199 id=199 data-nosnippet>199</a>        AppContext, BorrowAppContext, Entity, SharedString, TestAppContext, WindowId, WindowOptions,
+<a href=#200 id=200 data-nosnippet>200</a>    };
 <a href=#201 id=201 data-nosnippet>201</a>    <span class="kw">use </span>parking_lot::Mutex;
 <a href=#202 id=202 data-nosnippet>202</a>    <span class="kw">use </span>std::{
 <a href=#203 id=203 data-nosnippet>203</a>        cell::RefCell,
@@ -243,7 +243,7 @@
 <a href=#243 id=243 data-nosnippet>243</a>    /// - `cx`: The GPUI test context to initialize.
 <a href=#244 id=244 data-nosnippet>244</a>    </span><span class="kw">fn </span>setup_test_globals(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#245 id=245 data-nosnippet>245</a>        cx.update(|cx| {
-<a href=#246 id=246 data-nosnippet>246</a>            gpui_component::init(cx);
+<a href=#246 id=246 data-nosnippet>246</a>            gpui_kit::init(cx);
 <a href=#247 id=247 data-nosnippet>247</a>            <span class="kw">let </span><span class="kw-2">mut </span>settings = Settings::new();
 <a href=#248 id=248 data-nosnippet>248</a>            settings.editor_settings.watch_files = <span class="bool-val">false</span>;
 <a href=#249 id=249 data-nosnippet>249</a>            <span class="kw">let </span>pending_files: Arc&lt;Mutex&lt;Vec&lt;PathBuf&gt;&gt;&gt; = Arc::new(Mutex::new(Vec::new()));
@@ -268,7 +268,7 @@
 <a href=#268 id=268 data-nosnippet>268</a>                <span class="kw">let </span>fulgur = Fulgur::new(window, cx, window_id, WindowInit::Empty);
 <a href=#269 id=269 data-nosnippet>269</a>                <span class="kw-2">*</span>window_id_slot.borrow_mut() = <span class="prelude-val">Some</span>(window_id);
 <a href=#270 id=270 data-nosnippet>270</a>                <span class="kw-2">*</span>fulgur_slot.borrow_mut() = <span class="prelude-val">Some</span>(fulgur.clone());
-<a href=#271 id=271 data-nosnippet>271</a>                cx.new(|cx| gpui_component::Root::new(fulgur, window, cx))
+<a href=#271 id=271 data-nosnippet>271</a>                cx.new(|cx| gpui_kit::component::Root::new(fulgur, window, cx))
 <a href=#272 id=272 data-nosnippet>272</a>            })
 <a href=#273 id=273 data-nosnippet>273</a>            .expect(<span class="string">"failed to open test window"</span>);
 <a href=#274 id=274 data-nosnippet>274</a>        });
@@ -282,7 +282,7 @@
 <a href=#282 id=282 data-nosnippet>282</a>        )
 <a href=#283 id=283 data-nosnippet>283</a>    }
 <a href=#284 id=284 data-nosnippet>284</a>
-<a href=#285 id=285 data-nosnippet>285</a>    <span class="attr">#[gpui::test]
+<a href=#285 id=285 data-nosnippet>285</a>    <span class="attr">#[gpui_kit::test]
 <a href=#286 id=286 data-nosnippet>286</a>    </span><span class="kw">fn </span>test_init_runs_watch_load_callback_and_applies_selected_theme(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#287 id=287 data-nosnippet>287</a>        setup_test_globals(cx);
 <a href=#288 id=288 data-nosnippet>288</a>        <span class="kw">let </span>selected_theme: SharedString = <span class="string">"Catppuccin Latte"</span>.into();
@@ -316,7 +316,7 @@
 <a href=#316 id=316 data-nosnippet>316</a>        });
 <a href=#317 id=317 data-nosnippet>317</a>    }
 <a href=#318 id=318 data-nosnippet>318</a>
-<a href=#319 id=319 data-nosnippet>319</a>    <span class="attr">#[gpui::test]
+<a href=#319 id=319 data-nosnippet>319</a>    <span class="attr">#[gpui_kit::test]
 <a href=#320 id=320 data-nosnippet>320</a>    </span><span class="kw">fn </span>test_reload_themes_and_update_refreshes_shared_theme_state(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#321 id=321 data-nosnippet>321</a>        setup_test_globals(cx);
 <a href=#322 id=322 data-nosnippet>322</a>        <span class="kw">let </span>(<span class="kw">_</span>, fulgur) = open_window_with_fulgur(cx);

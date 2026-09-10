@@ -1,10 +1,10 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/fulgur/ui/sheets/select_language.rs`."><title>select_language.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-1ed95124.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="fulgur" data-themes="" data-resource-suffix="" data-rustdoc-version="1.98.1 (48a229cea 2026-09-01)" data-channel="1.98.1" data-search-js="search-9944d736.js" data-stringdex-js="stringdex-2da4960a.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../../../static.files/storage-41dd4d93.js"></script><script defer src="../../../../../static.files/src-script-813739b1.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-417ebf0a.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1><div class="sub-heading">fulgur/fulgur/ui/sheets/</div>select_language.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="kw">use </span>gpui::prelude::FluentBuilder;
-<a href=#2 id=2 data-nosnippet>2</a><span class="kw">use </span>gpui::{
-<a href=#3 id=3 data-nosnippet>3</a>    App, Context, Div, Element, Entity, InteractiveElement, ParentElement,
-<a href=#4 id=4 data-nosnippet>4</a>    StatefulInteractiveElement, Styled, Window, div, px,
-<a href=#5 id=5 data-nosnippet>5</a>};
-<a href=#6 id=6 data-nosnippet>6</a><span class="kw">use </span>gpui_component::{
-<a href=#7 id=7 data-nosnippet>7</a>    ActiveTheme, Placement, WindowExt, h_flex, scroll::ScrollableElement, v_flex,
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/fulgur/ui/sheets/select_language.rs`."><title>select_language.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-1ed95124.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="fulgur" data-themes="" data-resource-suffix="" data-rustdoc-version="1.98.1 (48a229cea 2026-09-01)" data-channel="1.98.1" data-search-js="search-9944d736.js" data-stringdex-js="stringdex-2da4960a.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../../../static.files/storage-41dd4d93.js"></script><script defer src="../../../../../static.files/src-script-813739b1.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-417ebf0a.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1><div class="sub-heading">fulgur/fulgur/ui/sheets/</div>select_language.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="kw">use </span>gpui_kit::component::{
+<a href=#2 id=2 data-nosnippet>2</a>    ActiveTheme, Placement, WindowExt, h_flex, scroll::ScrollableElement, v_flex,
+<a href=#3 id=3 data-nosnippet>3</a>};
+<a href=#4 id=4 data-nosnippet>4</a><span class="kw">use </span>gpui_kit::prelude::FluentBuilder;
+<a href=#5 id=5 data-nosnippet>5</a><span class="kw">use </span>gpui_kit::{
+<a href=#6 id=6 data-nosnippet>6</a>    App, Context, Div, Element, Entity, InteractiveElement, ParentElement,
+<a href=#7 id=7 data-nosnippet>7</a>    StatefulInteractiveElement, Styled, Window, div, px,
 <a href=#8 id=8 data-nosnippet>8</a>};
 <a href=#9 id=9 data-nosnippet>9</a>
 <a href=#10 id=10 data-nosnippet>10</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::{
@@ -105,7 +105,7 @@
 <a href=#105 id=105 data-nosnippet>105</a>    /// ### Returns:
 <a href=#106 id=106 data-nosnippet>106</a>    /// - `Some(SupportedLanguage)`: Active editor tab language, or `Plain` for non-editor tabs.
 <a href=#107 id=107 data-nosnippet>107</a>    /// - `None`: If there is no active tab.
-<a href=#108 id=108 data-nosnippet>108</a>    </span><span class="kw">fn </span>current_sheet_language(<span class="kw-2">&amp;</span><span class="self">self</span>, cx: <span class="kw-2">&amp;</span>gpui::App) -&gt; <span class="prelude-ty">Option</span>&lt;SupportedLanguage&gt; {
+<a href=#108 id=108 data-nosnippet>108</a>    </span><span class="kw">fn </span>current_sheet_language(<span class="kw-2">&amp;</span><span class="self">self</span>, cx: <span class="kw-2">&amp;</span>gpui_kit::App) -&gt; <span class="prelude-ty">Option</span>&lt;SupportedLanguage&gt; {
 <a href=#109 id=109 data-nosnippet>109</a>        <span class="self">self</span>.active_tab(cx).map(|tab| {
 <a href=#110 id=110 data-nosnippet>110</a>            tab.as_editor()
 <a href=#111 id=111 data-nosnippet>111</a>                .map_or(SupportedLanguage::Plain, |editor_tab| editor_tab.language)
@@ -160,7 +160,7 @@
 <a href=#160 id=160 data-nosnippet>160</a>    };
 <a href=#161 id=161 data-nosnippet>161</a>    <span class="kw">use </span>core::prelude::v1::test;
 <a href=#162 id=162 data-nosnippet>162</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#163 id=163 data-nosnippet>163</a>    </span><span class="kw">use </span>gpui::{AppContext, Entity, TestAppContext, VisualTestContext, WindowOptions};
+<a href=#163 id=163 data-nosnippet>163</a>    </span><span class="kw">use </span>gpui_kit::{AppContext, Entity, TestAppContext, VisualTestContext, WindowOptions};
 <a href=#164 id=164 data-nosnippet>164</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
 <a href=#165 id=165 data-nosnippet>165</a>    </span><span class="kw">use </span>parking_lot::Mutex;
 <a href=#166 id=166 data-nosnippet>166</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
@@ -181,7 +181,7 @@
 <a href=#181 id=181 data-nosnippet>181</a>
 <a href=#182 id=182 data-nosnippet>182</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
 <a href=#183 id=183 data-nosnippet>183</a>    </span><span class="kw">fn </span>setup_fulgur(cx: <span class="kw-2">&amp;mut </span>TestAppContext) -&gt; (Entity&lt;Fulgur&gt;, VisualTestContext) {
-<a href=#184 id=184 data-nosnippet>184</a>        cx.update(gpui_component::init);
+<a href=#184 id=184 data-nosnippet>184</a>        cx.update(gpui_kit::init);
 <a href=#185 id=185 data-nosnippet>185</a>        cx.update(|cx| {
 <a href=#186 id=186 data-nosnippet>186</a>            cx.set_global(SharedAppState::new(
 <a href=#187 id=187 data-nosnippet>187</a>                Settings::new(),
@@ -200,7 +200,7 @@
 <a href=#200 id=200 data-nosnippet>200</a>                    <span class="kw">let </span>window_id = window.window_handle().window_id();
 <a href=#201 id=201 data-nosnippet>201</a>                    <span class="kw">let </span>fulgur = Fulgur::new(window, cx, window_id, WindowInit::Empty);
 <a href=#202 id=202 data-nosnippet>202</a>                    <span class="kw-2">*</span>slot.borrow_mut() = <span class="prelude-val">Some</span>(fulgur.clone());
-<a href=#203 id=203 data-nosnippet>203</a>                    cx.new(|cx| gpui_component::Root::new(fulgur, window, cx))
+<a href=#203 id=203 data-nosnippet>203</a>                    cx.new(|cx| gpui_kit::component::Root::new(fulgur, window, cx))
 <a href=#204 id=204 data-nosnippet>204</a>                })
 <a href=#205 id=205 data-nosnippet>205</a>            })
 <a href=#206 id=206 data-nosnippet>206</a>            .expect(<span class="string">"failed to open test window"</span>);
@@ -213,7 +213,7 @@
 <a href=#213 id=213 data-nosnippet>213</a>    }
 <a href=#214 id=214 data-nosnippet>214</a>
 <a href=#215 id=215 data-nosnippet>215</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#216 id=216 data-nosnippet>216</a>    #[gpui::test]
+<a href=#216 id=216 data-nosnippet>216</a>    #[gpui_kit::test]
 <a href=#217 id=217 data-nosnippet>217</a>    </span><span class="kw">fn </span>test_current_sheet_language_reflects_active_editor_language(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#218 id=218 data-nosnippet>218</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#219 id=219 data-nosnippet>219</a>
@@ -231,7 +231,7 @@
 <a href=#231 id=231 data-nosnippet>231</a>    }
 <a href=#232 id=232 data-nosnippet>232</a>
 <a href=#233 id=233 data-nosnippet>233</a>    <span class="attr">#[cfg(feature = <span class="string">"gpui-test-support"</span>)]
-<a href=#234 id=234 data-nosnippet>234</a>    #[gpui::test]
+<a href=#234 id=234 data-nosnippet>234</a>    #[gpui_kit::test]
 <a href=#235 id=235 data-nosnippet>235</a>    </span><span class="kw">fn </span>test_switch_active_tab_language_is_noop_without_active_tab(cx: <span class="kw-2">&amp;mut </span>TestAppContext) {
 <a href=#236 id=236 data-nosnippet>236</a>        <span class="kw">let </span>(fulgur, <span class="kw-2">mut </span>visual_cx) = setup_fulgur(cx);
 <a href=#237 id=237 data-nosnippet>237</a>

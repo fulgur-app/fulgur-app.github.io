@@ -6,7 +6,7 @@
 <a href=#6 id=6 data-nosnippet>6</a><span class="kw">use </span>std::sync::atomic::{AtomicBool, Ordering};
 <a href=#7 id=7 data-nosnippet>7</a><span class="kw">use </span>std::time::Duration;
 <a href=#8 id=8 data-nosnippet>8</a>
-<a href=#9 id=9 data-nosnippet>9</a><span class="kw">use </span>gpui::{Context, Window};
+<a href=#9 id=9 data-nosnippet>9</a><span class="kw">use </span>gpui_kit::{Context, Window};
 <a href=#10 id=10 data-nosnippet>10</a>
 <a href=#11 id=11 data-nosnippet>11</a><span class="kw">use </span><span class="kw">super</span>::LogDisplayUpdate;
 <a href=#12 id=12 data-nosnippet>12</a><span class="kw">use </span><span class="kw">super</span>::tail::read_new_log_bytes;
@@ -91,7 +91,7 @@
 <a href=#91 id=91 data-nosnippet>91</a>    /// ### Returns
 <a href=#92 id=92 data-nosnippet>92</a>    /// - `Some(u64)`: The byte offset when the tab is still in log view
 <a href=#93 id=93 data-nosnippet>93</a>    /// - `None`: When the tab is gone or no longer in log view (poll should stop)
-<a href=#94 id=94 data-nosnippet>94</a>    </span><span class="kw">fn </span>log_tail_offset(<span class="kw-2">&amp;</span><span class="self">self</span>, tab_id: TabId, cx: <span class="kw-2">&amp;</span>gpui::App) -&gt; <span class="prelude-ty">Option</span>&lt;u64&gt; {
+<a href=#94 id=94 data-nosnippet>94</a>    </span><span class="kw">fn </span>log_tail_offset(<span class="kw-2">&amp;</span><span class="self">self</span>, tab_id: TabId, cx: <span class="kw-2">&amp;</span>gpui_kit::App) -&gt; <span class="prelude-ty">Option</span>&lt;u64&gt; {
 <a href=#95 id=95 data-nosnippet>95</a>        <span class="kw">let </span>editor = <span class="self">self</span>.editor_tab(tab_id, cx)<span class="question-mark">?</span>;
 <a href=#96 id=96 data-nosnippet>96</a>        <span class="kw">if </span>!editor.log_view {
 <a href=#97 id=97 data-nosnippet>97</a>            <span class="kw">return </span><span class="prelude-val">None</span>;
@@ -208,7 +208,7 @@
 <a href=#208 id=208 data-nosnippet>208</a>    /// - `tab_id`: The tab to update
 <a href=#209 id=209 data-nosnippet>209</a>    /// - `follow`: The new follow state
 <a href=#210 id=210 data-nosnippet>210</a>    /// - `cx`: The application context
-<a href=#211 id=211 data-nosnippet>211</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>set_log_follow(<span class="kw-2">&amp;mut </span><span class="self">self</span>, tab_id: TabId, follow: bool, cx: <span class="kw-2">&amp;mut </span>gpui::App) {
+<a href=#211 id=211 data-nosnippet>211</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>set_log_follow(<span class="kw-2">&amp;mut </span><span class="self">self</span>, tab_id: TabId, follow: bool, cx: <span class="kw-2">&amp;mut </span>gpui_kit::App) {
 <a href=#212 id=212 data-nosnippet>212</a>        <span class="self">self</span>.update_editor_tab(tab_id, cx, |editor, <span class="kw">_</span>| {
 <a href=#213 id=213 data-nosnippet>213</a>            editor.log_follow = follow;
 <a href=#214 id=214 data-nosnippet>214</a>        });

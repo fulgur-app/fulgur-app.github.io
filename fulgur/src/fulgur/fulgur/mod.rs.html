@@ -16,8 +16,8 @@
 <a href=#16 id=16 data-nosnippet>16</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::files::{
 <a href=#17 id=17 data-nosnippet>17</a>    file_operations::PendingRemoteOpenOutcome, file_watcher::FileWatchState,
 <a href=#18 id=18 data-nosnippet>18</a>};
-<a href=#19 id=19 data-nosnippet>19</a><span class="kw">use </span>gpui::{Entity, FocusHandle, Pixels, Point, Subscription, WindowId};
-<a href=#20 id=20 data-nosnippet>20</a><span class="kw">use </span>gpui_component::{input::InputState, menu::PopupMenu};
+<a href=#19 id=19 data-nosnippet>19</a><span class="kw">use </span>gpui_kit::component::{input::InputState, menu::PopupMenu};
+<a href=#20 id=20 data-nosnippet>20</a><span class="kw">use </span>gpui_kit::{Entity, FocusHandle, Pixels, Point, Subscription, WindowId};
 <a href=#21 id=21 data-nosnippet>21</a><span class="kw">use </span>settings::Settings;
 <a href=#22 id=22 data-nosnippet>22</a><span class="kw">use </span>std::{
 <a href=#23 id=23 data-nosnippet>23</a>    collections::HashMap, collections::HashSet, path::PathBuf, sync::Arc, sync::atomic::AtomicBool,
@@ -77,7 +77,7 @@
 <a href=#77 id=77 data-nosnippet>77</a>    </span>editor_context_menu: <span class="prelude-ty">Option</span>&lt;(Point&lt;Pixels&gt;, Entity&lt;PopupMenu&gt;)&gt;, <span class="comment">// Custom right-click context menu for the editor and markdown preview
 <a href=#78 id=78 data-nosnippet>78</a>    </span>editor_context_menu_subscription: <span class="prelude-ty">Option</span>&lt;Subscription&gt;, <span class="comment">// Subscription to clear editor_context_menu on dismiss
 <a href=#79 id=79 data-nosnippet>79</a>    </span>markdown_preview_focus: FocusHandle, <span class="comment">// Stable dispatch target for the markdown preview context menu (Copy / Select All)
-<a href=#80 id=80 data-nosnippet>80</a>    </span>markdown_panel_view_state: <span class="prelude-ty">Option</span>&lt;Entity&lt;gpui_component::text::TextViewState&gt;&gt;, <span class="comment">// Owned text view state backing the inline markdown preview panel, created lazily on render
+<a href=#80 id=80 data-nosnippet>80</a>    </span>markdown_panel_view_state: <span class="prelude-ty">Option</span>&lt;Entity&lt;gpui_kit::component::text::TextViewState&gt;&gt;, <span class="comment">// Owned text view state backing the inline markdown preview panel, created lazily on render
 <a href=#81 id=81 data-nosnippet>81</a>    </span>markdown_preview_pending_copy: <span class="prelude-ty">Option</span>&lt;String&gt;, <span class="comment">// Preview selection captured at right-click time, before the menu's own click clears it, consumed by the Copy action
 <a href=#82 id=82 data-nosnippet>82</a>    </span>status_bar: Entity&lt;StatusBar&gt;, <span class="comment">// The status bar view at the bottom of the window
 <a href=#83 id=83 data-nosnippet>83</a>    </span>_status_bar_subscription: Subscription, <span class="comment">// Routes StatusBarEvent from the status bar to window-level handlers
@@ -87,7 +87,7 @@
 <a href=#87 id=87 data-nosnippet>87</a>    </span>_command_palette_subscription: Subscription, <span class="comment">// Routes CommandPaletteEvent from the palette to window-level handlers
 <a href=#88 id=88 data-nosnippet>88</a>    </span><span class="kw">pub </span>pending_tab_transfer: <span class="prelude-ty">Option</span>&lt;editor_tab::TabTransferData&gt;, <span class="comment">// Incoming tab state from another window, processed on next render
 <a href=#89 id=89 data-nosnippet>89</a>    </span>pending_tab_removal: <span class="prelude-ty">Option</span>&lt;TabId&gt;, <span class="comment">// Tab ID to remove after it has been sent to another window
-<a href=#90 id=90 data-nosnippet>90</a>    </span>pending_transfer_scroll: <span class="prelude-ty">Option</span>&lt;gpui_component::input::Position&gt;, <span class="comment">// Deferred scroll-to-cursor after tab transfer (needs one render cycle for layout)
+<a href=#90 id=90 data-nosnippet>90</a>    </span>pending_transfer_scroll: <span class="prelude-ty">Option</span>&lt;gpui_kit::component::input::Position&gt;, <span class="comment">// Deferred scroll-to-cursor after tab transfer (needs one render cycle for layout)
 <a href=#91 id=91 data-nosnippet>91</a>    </span>pending_remote_open: Arc&lt;parking_lot::Mutex&lt;Vec&lt;PendingRemoteOpenOutcome&gt;&gt;&gt;, <span class="comment">// Queue for SSH background threads to deliver loaded remote files
 <a href=#92 id=92 data-nosnippet>92</a>    </span>next_remote_request_id: u64, <span class="comment">// Monotonic identifier for remote open/save operations targeting existing tabs
 <a href=#93 id=93 data-nosnippet>93</a>    </span>latest_remote_open_request_by_tab: HashMap&lt;TabId, u64&gt;, <span class="comment">// Latest remote-open request id expected per tab id
