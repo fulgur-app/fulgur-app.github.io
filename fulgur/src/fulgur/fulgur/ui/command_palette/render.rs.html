@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/fulgur/ui/command_palette/render.rs`."><title>render.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-1ed95124.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="fulgur" data-themes="" data-resource-suffix="" data-rustdoc-version="1.98.1 (48a229cea 2026-09-01)" data-channel="1.98.1" data-search-js="search-9944d736.js" data-stringdex-js="stringdex-2da4960a.js" data-settings-js="settings-170eb4bf.js" ><script src="../../../../../static.files/storage-41dd4d93.js"></script><script defer src="../../../../../static.files/src-script-813739b1.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-417ebf0a.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-f7c3ffd8.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1><div class="sub-heading">fulgur/fulgur/ui/command_palette/</div>render.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="doccomment">//! Rendering of the command palette dialog.
 <a href=#2 id=2 data-nosnippet>2</a>
-<a href=#3 id=3 data-nosnippet>3</a></span><span class="kw">use super</span>::{CommandPalette, PaletteCommand, PaletteGroup};
-<a href=#4 id=4 data-nosnippet>4</a><span class="kw">use </span><span class="kw">crate</span>::fulgur::ui::menus::KEY_CONTEXT_FULGUR;
+<a href=#3 id=3 data-nosnippet>3</a></span><span class="kw">use </span><span class="kw">super</span>::commands::KeybindingHint;
+<a href=#4 id=4 data-nosnippet>4</a><span class="kw">use super</span>::{CommandPalette, PaletteCommand, PaletteGroup};
 <a href=#5 id=5 data-nosnippet>5</a><span class="kw">use </span>gpui_kit::component::{
 <a href=#6 id=6 data-nosnippet>6</a>    ActiveTheme, Icon, WindowExt,
 <a href=#7 id=7 data-nosnippet>7</a>    command::{Command, CommandGroup, CommandItem},
@@ -9,7 +9,7 @@
 <a href=#9 id=9 data-nosnippet>9</a>    kbd::Kbd,
 <a href=#10 id=10 data-nosnippet>10</a>};
 <a href=#11 id=11 data-nosnippet>11</a><span class="kw">use </span>gpui_kit::{
-<a href=#12 id=12 data-nosnippet>12</a>    Action, App, Context, Focusable, IntoElement, ParentElement, Styled, Window,
+<a href=#12 id=12 data-nosnippet>12</a>    App, Context, Focusable, IntoElement, ParentElement, Styled, Window,
 <a href=#13 id=13 data-nosnippet>13</a>    prelude::FluentBuilder <span class="kw">as _</span>, px,
 <a href=#14 id=14 data-nosnippet>14</a>};
 <a href=#15 id=15 data-nosnippet>15</a><span class="kw">use </span>std::{cell::Cell, rc::Rc};
@@ -111,12 +111,12 @@
 <a href=#111 id=111 data-nosnippet>111</a>/// ### Returns
 <a href=#112 id=112 data-nosnippet>112</a>/// - `CommandItem`: The row, searchable on its label and keywords
 <a href=#113 id=113 data-nosnippet>113</a></span><span class="kw">fn </span>build_item(command: PaletteCommand) -&gt; CommandItem {
-<a href=#114 id=114 data-nosnippet>114</a>    <span class="kw">let </span>hint_action = command.keybinding_hint_action();
+<a href=#114 id=114 data-nosnippet>114</a>    <span class="kw">let </span>hint = command.keybinding_hint();
 <a href=#115 id=115 data-nosnippet>115</a>    CommandItem::new()
 <a href=#116 id=116 data-nosnippet>116</a>        .label(command.label())
 <a href=#117 id=117 data-nosnippet>117</a>        .keywords(command.keywords().iter().copied())
 <a href=#118 id=118 data-nosnippet>118</a>        .child(<span class="kw">move </span>|window: <span class="kw-2">&amp;mut </span>Window, cx: <span class="kw-2">&amp;mut </span>App| {
-<a href=#119 id=119 data-nosnippet>119</a>            render_row(command, hint_action.as_deref(), window, cx)
+<a href=#119 id=119 data-nosnippet>119</a>            render_row(command, hint.as_ref(), window, cx)
 <a href=#120 id=120 data-nosnippet>120</a>        })
 <a href=#121 id=121 data-nosnippet>121</a>}
 <a href=#122 id=122 data-nosnippet>122</a>
@@ -124,7 +124,7 @@
 <a href=#124 id=124 data-nosnippet>124</a>///
 <a href=#125 id=125 data-nosnippet>125</a>/// ### Arguments
 <a href=#126 id=126 data-nosnippet>126</a>/// - `command`: The command the row stands for
-<a href=#127 id=127 data-nosnippet>127</a>/// - `action`: The action whose keybinding is displayed, when the command has one
+<a href=#127 id=127 data-nosnippet>127</a>/// - `hint`: The keybinding hint to display, when the command has one
 <a href=#128 id=128 data-nosnippet>128</a>/// - `window`: The window the keybinding is resolved against
 <a href=#129 id=129 data-nosnippet>129</a>/// - `cx`: The application context
 <a href=#130 id=130 data-nosnippet>130</a>///
@@ -132,12 +132,12 @@
 <a href=#132 id=132 data-nosnippet>132</a>/// - `impl IntoElement`: The row element
 <a href=#133 id=133 data-nosnippet>133</a></span><span class="kw">fn </span>render_row(
 <a href=#134 id=134 data-nosnippet>134</a>    command: PaletteCommand,
-<a href=#135 id=135 data-nosnippet>135</a>    action: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">dyn </span>Action&gt;,
+<a href=#135 id=135 data-nosnippet>135</a>    hint: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>KeybindingHint&gt;,
 <a href=#136 id=136 data-nosnippet>136</a>    window: <span class="kw-2">&amp;</span>Window,
 <a href=#137 id=137 data-nosnippet>137</a>    cx: <span class="kw-2">&amp;</span>App,
 <a href=#138 id=138 data-nosnippet>138</a>) -&gt; <span class="kw">impl </span>IntoElement + <span class="kw">use</span>&lt;&gt; {
-<a href=#139 id=139 data-nosnippet>139</a>    <span class="kw">let </span>binding =
-<a href=#140 id=140 data-nosnippet>140</a>        action.and_then(|action| Kbd::binding_for_action(action, <span class="prelude-val">Some</span>(KEY_CONTEXT_FULGUR), window));
+<a href=#139 id=139 data-nosnippet>139</a>    <span class="kw">let </span>binding = hint
+<a href=#140 id=140 data-nosnippet>140</a>        .and_then(|hint| Kbd::binding_for_action(hint.action.as_ref(), <span class="prelude-val">Some</span>(hint.context), window));
 <a href=#141 id=141 data-nosnippet>141</a>
 <a href=#142 id=142 data-nosnippet>142</a>    h_flex()
 <a href=#143 id=143 data-nosnippet>143</a>        .w_full()
