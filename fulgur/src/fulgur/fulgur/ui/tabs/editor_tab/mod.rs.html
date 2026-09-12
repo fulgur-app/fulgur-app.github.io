@@ -303,15 +303,17 @@
 <a href=#303 id=303 data-nosnippet>303</a>            hard_tabs: !settings.use_spaces,
 <a href=#304 id=304 data-nosnippet>304</a>        })
 <a href=#305 id=305 data-nosnippet>305</a>        .soft_wrap(settings.soft_wrap &amp;&amp; !large_file)
-<a href=#306 id=306 data-nosnippet>306</a>        .folding(!large_file)
-<a href=#307 id=307 data-nosnippet>307</a>        .show_whitespaces(settings.show_whitespaces &amp;&amp; !large_file)
-<a href=#308 id=308 data-nosnippet>308</a>        .default_value(content.unwrap_or_default());
-<a href=#309 id=309 data-nosnippet>309</a>
-<a href=#310 id=310 data-nosnippet>310</a>    <span class="kw">if </span>settings.highlight_colors &amp;&amp; !large_file {
-<a href=#311 id=311 data-nosnippet>311</a>        state.lsp_mut().document_color_provider =
-<a href=#312 id=312 data-nosnippet>312</a>            <span class="prelude-val">Some</span>(Rc::new(hex_color_provider::ColorHighlightProvider));
-<a href=#313 id=313 data-nosnippet>313</a>    }
-<a href=#314 id=314 data-nosnippet>314</a>
-<a href=#315 id=315 data-nosnippet>315</a>    state
-<a href=#316 id=316 data-nosnippet>316</a>}
+<a href=#306 id=306 data-nosnippet>306</a>        .auto_close(settings.auto_close_pairs)
+<a href=#307 id=307 data-nosnippet>307</a>        .smart_indent(settings.smart_indent)
+<a href=#308 id=308 data-nosnippet>308</a>        .folding(!large_file)
+<a href=#309 id=309 data-nosnippet>309</a>        .show_whitespaces(settings.show_whitespaces &amp;&amp; !large_file)
+<a href=#310 id=310 data-nosnippet>310</a>        .default_value(content.unwrap_or_default());
+<a href=#311 id=311 data-nosnippet>311</a>
+<a href=#312 id=312 data-nosnippet>312</a>    <span class="kw">if </span>settings.highlight_colors &amp;&amp; !large_file {
+<a href=#313 id=313 data-nosnippet>313</a>        state.lsp_mut().document_color_provider =
+<a href=#314 id=314 data-nosnippet>314</a>            <span class="prelude-val">Some</span>(Rc::new(hex_color_provider::ColorHighlightProvider));
+<a href=#315 id=315 data-nosnippet>315</a>    }
+<a href=#316 id=316 data-nosnippet>316</a>
+<a href=#317 id=317 data-nosnippet>317</a>    state
+<a href=#318 id=318 data-nosnippet>318</a>}
 </code></pre></div></section></main></body></html>

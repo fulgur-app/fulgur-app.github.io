@@ -255,42 +255,43 @@
 <a href=#255 id=255 data-nosnippet>255</a>    </span><span class="kw">pub fn </span>init(cx: <span class="kw-2">&amp;mut </span>App, settings: <span class="kw-2">&amp;mut </span>Settings) {
 <a href=#256 id=256 data-nosnippet>256</a>        <span class="kw">let </span>recent_files = settings.get_recent_files();
 <a href=#257 id=257 data-nosnippet>257</a>        languages::supported_languages::register_external_languages();
-<a href=#258 id=258 data-nosnippet>258</a>        themes::init(settings, cx, <span class="kw">move </span>|cx| {
-<a href=#259 id=259 data-nosnippet>259</a>            cx.bind_keys(build_default_key_bindings());
-<a href=#260 id=260 data-nosnippet>260</a>            <span class="kw">let </span>menus = build_menus(<span class="kw-2">&amp;</span>recent_files, <span class="prelude-val">None</span>);
-<a href=#261 id=261 data-nosnippet>261</a>            cx.set_menus(menus);
-<a href=#262 id=262 data-nosnippet>262</a>            <span class="attr">#[cfg(not(target_os = <span class="string">"macos"</span>))]
-<a href=#263 id=263 data-nosnippet>263</a>            </span><span class="kw">if let </span><span class="prelude-val">Some</span>(owned_menus) = cx.get_menus() {
-<a href=#264 id=264 data-nosnippet>264</a>                gpui_kit::component::GlobalState::global_mut(cx).set_app_menus(owned_menus);
-<a href=#265 id=265 data-nosnippet>265</a>            }
-<a href=#266 id=266 data-nosnippet>266</a>        });
-<a href=#267 id=267 data-nosnippet>267</a>    }
-<a href=#268 id=268 data-nosnippet>268</a>
-<a href=#269 id=269 data-nosnippet>269</a>    <span class="doccomment">/// Set the title of the title bar.
-<a href=#270 id=270 data-nosnippet>270</a>    ///
-<a href=#271 id=271 data-nosnippet>271</a>    /// Looks up the current window name from the global `WindowManager` and passes it to
-<a href=#272 id=272 data-nosnippet>272</a>    /// `CustomTitleBar::set_title` so the suffix is automatically included when multiple
-<a href=#273 id=273 data-nosnippet>273</a>    /// windows are open. Returns early without touching the title bar entity when the
-<a href=#274 id=274 data-nosnippet>274</a>    /// displayed title already matches, since this runs on every render.
-<a href=#275 id=275 data-nosnippet>275</a>    ///
-<a href=#276 id=276 data-nosnippet>276</a>    /// ### Arguments
-<a href=#277 id=277 data-nosnippet>277</a>    /// - `title`: The title to set (if None, the default title is used)
-<a href=#278 id=278 data-nosnippet>278</a>    /// - `cx`: The application context
-<a href=#279 id=279 data-nosnippet>279</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>set_title(<span class="kw-2">&amp;</span><span class="self">self</span>, title: <span class="prelude-ty">Option</span>&lt;SharedString&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
-<a href=#280 id=280 data-nosnippet>280</a>        <span class="kw">let </span>window_name = cx
-<a href=#281 id=281 data-nosnippet>281</a>            .global::&lt;window_manager::WindowManager&gt;()
-<a href=#282 id=282 data-nosnippet>282</a>            .get_window_name(<span class="self">self</span>.window_id);
-<a href=#283 id=283 data-nosnippet>283</a>        <span class="kw">if </span><span class="self">self
-<a href=#284 id=284 data-nosnippet>284</a>            </span>.title_bar
-<a href=#285 id=285 data-nosnippet>285</a>            .read(cx)
-<a href=#286 id=286 data-nosnippet>286</a>            .title_matches(title.as_deref(), window_name)
-<a href=#287 id=287 data-nosnippet>287</a>        {
-<a href=#288 id=288 data-nosnippet>288</a>            <span class="kw">return</span>;
-<a href=#289 id=289 data-nosnippet>289</a>        }
-<a href=#290 id=290 data-nosnippet>290</a>        <span class="kw">let </span>window_name = window_name.map(std::string::ToString::to_string);
-<a href=#291 id=291 data-nosnippet>291</a>        <span class="self">self</span>.title_bar.update(cx, |this, _cx| {
-<a href=#292 id=292 data-nosnippet>292</a>            this.set_title(title, window_name.as_deref());
-<a href=#293 id=293 data-nosnippet>293</a>        });
-<a href=#294 id=294 data-nosnippet>294</a>    }
-<a href=#295 id=295 data-nosnippet>295</a>}
+<a href=#258 id=258 data-nosnippet>258</a>        languages::language_configs::register_language_configs(cx);
+<a href=#259 id=259 data-nosnippet>259</a>        themes::init(settings, cx, <span class="kw">move </span>|cx| {
+<a href=#260 id=260 data-nosnippet>260</a>            cx.bind_keys(build_default_key_bindings());
+<a href=#261 id=261 data-nosnippet>261</a>            <span class="kw">let </span>menus = build_menus(<span class="kw-2">&amp;</span>recent_files, <span class="prelude-val">None</span>);
+<a href=#262 id=262 data-nosnippet>262</a>            cx.set_menus(menus);
+<a href=#263 id=263 data-nosnippet>263</a>            <span class="attr">#[cfg(not(target_os = <span class="string">"macos"</span>))]
+<a href=#264 id=264 data-nosnippet>264</a>            </span><span class="kw">if let </span><span class="prelude-val">Some</span>(owned_menus) = cx.get_menus() {
+<a href=#265 id=265 data-nosnippet>265</a>                gpui_kit::component::GlobalState::global_mut(cx).set_app_menus(owned_menus);
+<a href=#266 id=266 data-nosnippet>266</a>            }
+<a href=#267 id=267 data-nosnippet>267</a>        });
+<a href=#268 id=268 data-nosnippet>268</a>    }
+<a href=#269 id=269 data-nosnippet>269</a>
+<a href=#270 id=270 data-nosnippet>270</a>    <span class="doccomment">/// Set the title of the title bar.
+<a href=#271 id=271 data-nosnippet>271</a>    ///
+<a href=#272 id=272 data-nosnippet>272</a>    /// Looks up the current window name from the global `WindowManager` and passes it to
+<a href=#273 id=273 data-nosnippet>273</a>    /// `CustomTitleBar::set_title` so the suffix is automatically included when multiple
+<a href=#274 id=274 data-nosnippet>274</a>    /// windows are open. Returns early without touching the title bar entity when the
+<a href=#275 id=275 data-nosnippet>275</a>    /// displayed title already matches, since this runs on every render.
+<a href=#276 id=276 data-nosnippet>276</a>    ///
+<a href=#277 id=277 data-nosnippet>277</a>    /// ### Arguments
+<a href=#278 id=278 data-nosnippet>278</a>    /// - `title`: The title to set (if None, the default title is used)
+<a href=#279 id=279 data-nosnippet>279</a>    /// - `cx`: The application context
+<a href=#280 id=280 data-nosnippet>280</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>set_title(<span class="kw-2">&amp;</span><span class="self">self</span>, title: <span class="prelude-ty">Option</span>&lt;SharedString&gt;, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;) {
+<a href=#281 id=281 data-nosnippet>281</a>        <span class="kw">let </span>window_name = cx
+<a href=#282 id=282 data-nosnippet>282</a>            .global::&lt;window_manager::WindowManager&gt;()
+<a href=#283 id=283 data-nosnippet>283</a>            .get_window_name(<span class="self">self</span>.window_id);
+<a href=#284 id=284 data-nosnippet>284</a>        <span class="kw">if </span><span class="self">self
+<a href=#285 id=285 data-nosnippet>285</a>            </span>.title_bar
+<a href=#286 id=286 data-nosnippet>286</a>            .read(cx)
+<a href=#287 id=287 data-nosnippet>287</a>            .title_matches(title.as_deref(), window_name)
+<a href=#288 id=288 data-nosnippet>288</a>        {
+<a href=#289 id=289 data-nosnippet>289</a>            <span class="kw">return</span>;
+<a href=#290 id=290 data-nosnippet>290</a>        }
+<a href=#291 id=291 data-nosnippet>291</a>        <span class="kw">let </span>window_name = window_name.map(std::string::ToString::to_string);
+<a href=#292 id=292 data-nosnippet>292</a>        <span class="self">self</span>.title_bar.update(cx, |this, _cx| {
+<a href=#293 id=293 data-nosnippet>293</a>            this.set_title(title, window_name.as_deref());
+<a href=#294 id=294 data-nosnippet>294</a>        });
+<a href=#295 id=295 data-nosnippet>295</a>    }
+<a href=#296 id=296 data-nosnippet>296</a>}
 </code></pre></div></section></main></body></html>

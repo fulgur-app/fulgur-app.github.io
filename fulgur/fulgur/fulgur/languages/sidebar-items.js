@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["supported_languages"]};
+window.SIDEBAR_ITEMS = {"mod":["language_configs","supported_languages"]};
