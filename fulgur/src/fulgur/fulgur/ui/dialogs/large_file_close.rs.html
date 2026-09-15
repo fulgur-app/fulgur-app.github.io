@@ -273,7 +273,7 @@
 <a href=#273 id=273 data-nosnippet>273</a>    /// ### Returns
 <a href=#274 id=274 data-nosnippet>274</a>    /// - `Ok(())`: The file was written and the tab marked as saved
 <a href=#275 id=275 data-nosnippet>275</a>    /// - `Err(anyhow::Error)`: The file could not be written
-<a href=#276 id=276 data-nosnippet>276</a>    </span><span class="kw">fn </span>save_local_tab_blocking(
+<a href=#276 id=276 data-nosnippet>276</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>save_local_tab_blocking(
 <a href=#277 id=277 data-nosnippet>277</a>        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
 <a href=#278 id=278 data-nosnippet>278</a>        tab_id: TabId,
 <a href=#279 id=279 data-nosnippet>279</a>        cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="self">Self</span>&gt;,
@@ -331,7 +331,7 @@
 <a href=#331 id=331 data-nosnippet>331</a>    ///
 <a href=#332 id=332 data-nosnippet>332</a>    /// ### Returns
 <a href=#333 id=333 data-nosnippet>333</a>    /// - `String`: The file name, or the tab title when there is no path
-<a href=#334 id=334 data-nosnippet>334</a>    </span><span class="kw">fn </span>tab_filename(<span class="kw-2">&amp;</span><span class="self">self</span>, tab_id: TabId, cx: <span class="kw-2">&amp;</span>gpui_kit::App) -&gt; String {
+<a href=#334 id=334 data-nosnippet>334</a>    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>tab_filename(<span class="kw-2">&amp;</span><span class="self">self</span>, tab_id: TabId, cx: <span class="kw-2">&amp;</span>gpui_kit::App) -&gt; String {
 <a href=#335 id=335 data-nosnippet>335</a>        <span class="self">self</span>.tab_entity_of(tab_id, cx)
 <a href=#336 id=336 data-nosnippet>336</a>            .and_then(|tab| {
 <a href=#337 id=337 data-nosnippet>337</a>                <span class="kw">let </span>tab = tab.read(cx);
